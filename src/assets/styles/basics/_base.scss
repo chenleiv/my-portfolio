@@ -1,0 +1,41 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color: $clr5;
+  line-height: 1.8;
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  // background-size: 400px;
+  color: $clr1;
+  font-family: 'Courier';
+
+  // font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  //   // font-weight: 600;
+  margin: 0 auto;
+}
+
+// h1 {
+//   // font-size: rem(60px);
+// }
+
+// img {
+//     width: 5%;
+// }
+
+// p {
+//   margin: 0 0 1rem;
+//   max-width: 60ch;
+// }

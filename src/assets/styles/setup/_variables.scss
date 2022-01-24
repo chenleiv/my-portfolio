@@ -1,0 +1,20 @@
+// COLOR PALETTE
+$clr1: rgb(53, 50, 50); // intro and email sign up background
+$clr2: hsla(0, 0%, 9%, 0.948); //footer background
+$clr3: hsla(219, 35%, 92%, 0.974); //main background
+$clr4: hsla(219, 30%, 18%, 0.892); //testimonials background
+$clr5: hsl(255, 29%, 97%);
+$clr6: hsl(240, 20%, 96%);
+
+// LAYOUT
+$layoutPadding: 400px;
+$headerLayoutPadding: 60px;
+
+// LAYOUT BREAKPOINTS
+$break-narrow: 375px; //mobile
+$break-normal: 960px;
+$break-wide: 1080px; // desktop
+
+$padded-break-narrow: $break-narrow + $layoutPadding;
+$padded-break-normal: $break-normal + $layoutPadding;
+$padded-break-wide: $break-wide + $layoutPadding;

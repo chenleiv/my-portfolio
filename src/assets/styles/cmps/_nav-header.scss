@@ -1,0 +1,35 @@
+.main-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  font-size: rem(20px);
+  background-size: cover;
+  background-position: center;
+  text-transform: capitalize;
+
+  a {
+    color: $clr2;
+    margin: 15px;
+    list-style: none;
+    text-decoration: none;
+    cursor: pointer;
+    &:hover {
+      color: #5f2784;
+      font-weight: 800;
+      cursor: pointer;
+    }
+  }
+  // & > :last-child {
+  //   margin-left: 15px;
+  // }
+}
+
+@media screen and (min-width: 1080px) {
+  .main-nav {
+    font-size: rem(24px);
+    a {
+      margin: 20px;
+    }
+  }
+}
