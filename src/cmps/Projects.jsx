@@ -32,7 +32,7 @@ export const Projects = () => {
               </a>
             </button>
             <button>
-              <a href='https://github.com/chenleiv/trellor.git' target='_blank'>
+              <a href='https://github.com/chenleiv/trellor' target='_blank'>
                 Source Code
               </a>
             </button>
@@ -118,7 +118,7 @@ export const Projects = () => {
               </a>
             </button>
             <button>
-              <a href='https://github.com/chenleiv/Meme-Generator.git' target='_blank'>
+              <a href='https://github.com/chenleiv/Meme-Generator' target='_blank'>
                 Source Code
               </a>
             </button>
