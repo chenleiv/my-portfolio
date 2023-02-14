@@ -3,19 +3,19 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  padding: 60px 20px 80px;
+  padding: 60px 20px;
   color: $clr5;
   background: $clr4;
 
   cursor: pointer;
 }
 
-@media screen and (max-width: 980px) {
+@media screen and (max-width: 600px) {
   .skill-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-    padding: 40px 30px 60px;
+    padding: 40px 30px;
   }
 }

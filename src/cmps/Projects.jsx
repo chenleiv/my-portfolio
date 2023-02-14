@@ -27,31 +27,14 @@ const Projects = () => {
       </h1>
 
       <div className='container'>
-        <ul className='carousel__thumbnails'>
-          {labels.map(({ id, src }) => {
-            return (
-              <li key={id}>
-                <label
-                  onClick={() => {
-                    setCurrentIndex(id);
-                  }}
-                >
-                  <img src={src} alt='project' />
-                </label>
-              </li>
-            );
-          })}
-        </ul>
-
-        {/* start carousel */}
         <div className='carousel'>
           <div className='carousel-wrapper'>
-            {currentIndex > 0 && (
-              <button onClick={prev} className='left-arrow'>
-                &lt;
-              </button>
-            )}
             <div className='carousel-content-wrapper'>
+              {currentIndex > 0 && (
+                <button className='btn-arrow-left' onClick={prev}>
+                  <div className='arrow-left'></div>
+                </button>
+              )}
               <div
                 className='carousel-content'
                 style={{ transform: `translateX(-${currentIndex * 100}%)` }}
@@ -100,14 +83,28 @@ const Projects = () => {
                 </ul>
               </div>
               {currentIndex < length - 1 && (
-                <button onClick={next} className='right-arrow'>
-                  &gt;
+                <button className='btn-arrow-right' onClick={next}>
+                  <div className='arrow-right'></div>
                 </button>
               )}
             </div>
           </div>
 
-          {/* end carousel */}
+          <ul className='carousel__thumbnails'>
+            {labels.map(({ id, src }) => {
+              return (
+                <li key={id}>
+                  <label
+                    onClick={() => {
+                      setCurrentIndex(id);
+                    }}
+                  >
+                    <img src={src} alt='project' />
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
         </div>
       </div>
     </section>

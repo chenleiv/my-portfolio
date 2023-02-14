@@ -14,8 +14,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: 95%;
     border-radius: 20px;
   }
 
@@ -37,15 +37,15 @@ section {
   .container {
     max-width: 1044px;
     margin: 0 auto;
-    padding: 22px 20px 42px 20px;
+    padding: 22px;
   }
   .carousel__thumbnails {
     list-style: none;
     padding: 0;
     margin: 0;
     display: flex;
-
-    margin: 0 -10px;
+    justify-content: space-around;
+    padding: 30px 10px 10px;
 
     .carousel__slides + & {
       margin-top: 20px;
@@ -54,7 +54,6 @@ section {
     li {
       flex: 1 1 auto;
       max-width: calc((100% / 6) - 20px);
-      margin: 0 10px;
       transition: all 300ms ease-in-out;
     }
 
@@ -74,19 +73,11 @@ section {
     }
   }
 
-  // img {
-  //   display: block;
-  //   width: 100%;
-  //   height: 100%;
-  //   object-fit: cover;
-  // }
-
   .carousel__slides {
     position: relative;
     z-index: 1;
     padding: 0;
     margin: 0;
-    // overflow: hidden;
     white-space: nowrap;
     box-sizing: border-box;
     display: flex;
@@ -107,8 +98,10 @@ section {
     figure {
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: center;
       text-align: center;
+      gap: 10px;
+      margin: 0;
     }
 
     div {
@@ -153,25 +146,116 @@ section {
     flex-grow: 1;
   }
 
-  .left-arrow,
-  .right-arrow {
+  .btn-arrow-left {
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    cursor: pointer;
     position: absolute;
-    z-index: 1;
     top: 50%;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 24px;
-    background-color: white;
-    border: 1px solid #ddd;
+    left: 0;
+    padding: 0;
+    z-index: 1;
+
+    .arrow-left {
+      transform: rotate(-135deg);
+      width: 3vmin;
+      height: 3vmin;
+
+      &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-width: 0.8vmin 0.8vmin 0 0;
+        border-style: solid;
+        border-color: #000000;
+        transition: 0.2s ease;
+        display: block;
+        transform-origin: 100% 0;
+      }
+
+      &:after {
+        content: "";
+        float: left;
+        position: relative;
+        top: -100%;
+        width: 100%;
+        height: 100%;
+        border-width: 0 0.8vmin 0 0;
+        border-style: solid;
+        border-color: #000000;
+        transform-origin: 100% 0;
+        transition: 0.2s ease;
+      }
+
+      &:hover::after {
+        transform: rotate(45deg);
+        border-color: rgb(47, 46, 45);
+        height: 120%;
+      }
+
+      &:hover::before {
+        border-color: rgb(29, 29, 28);
+        transform: scale(0.8);
+      }
+    }
   }
 
-  .left-arrow {
-    left: 24px;
-  }
+  .btn-arrow-right {
+    background: none;
+    border: none;
+    box-sizing: border-box;
+    position: absolute;
+    cursor: pointer;
+    top: 50%;
+    right: 0;
+    padding: 0;
 
-  .right-arrow {
-    right: 24px;
+    .arrow-right {
+      transform: rotate(45deg);
+      width: 3vmin;
+      height: 3vmin;
+
+      &::before {
+        content: "";
+        width: 100%;
+        height: 100%;
+        border-width: 0.8vmin 0.8vmin 0 0;
+        border-style: solid;
+        border-color: #000000;
+        transition: 0.2s ease;
+        display: block;
+        transform-origin: 100% 0;
+      }
+
+      &:after {
+        content: "";
+        float: left;
+        position: relative;
+        top: -100%;
+        width: 100%;
+        height: 100%;
+        border-width: 0 0.8vmin 0 0;
+        border-style: solid;
+        border-color: #000000;
+        transform-origin: 100% 0;
+        transition: 0.2s ease;
+      }
+
+      &:hover::after {
+        transform: rotate(45deg);
+        border-color: rgb(29, 29, 28);
+        height: 120%;
+      }
+
+      &:hover::before {
+        border-color: rgb(29, 29, 28);
+        transform: scale(0.8);
+      }
+      button {
+        padding: 80px;
+      }
+    }
   }
 
   figcaption {
@@ -230,17 +314,11 @@ section {
       margin: 30px 20px;
     }
 
-    .left-arrow,
-    .right-arrow {
-      width: 38px;
-      height: 38px;
+    .btn-arrow-left {
+      top: 25%;
     }
-    .left-arrow {
-      left: -10;
-    }
-
-    .right-arrow {
-      right: -5;
+    .btn-arrow-right {
+      top: 25%;
     }
   }
 }

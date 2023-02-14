@@ -61,3 +61,9 @@ footer.main-footer {
     }
   }
 }
+
+@media screen and (max-width: 600px) {
+  .main-footer-container {
+    flex-direction: column;
+  }
+}
