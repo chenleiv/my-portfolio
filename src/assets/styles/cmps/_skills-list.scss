@@ -1,0 +1,21 @@
+.skill-container {
+  font-size: rem(34px);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 60px 20px 80px;
+  color: $clr5;
+  background: $clr4;
+
+  cursor: pointer;
+}
+
+@media screen and (max-width: 980px) {
+  .skill-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 40px 30px 60px;
+  }
+}

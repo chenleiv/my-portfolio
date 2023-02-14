@@ -1,0 +1,17 @@
+// SETUP
+@import "setup/variables";
+@import "setup/mixins";
+@import "setup/functions";
+
+// BASICS
+@import "basics/helpers";
+@import "basics/base";
+@import "basics/layout";
+
+// COMPONENTS
+@import "cmps/main-header";
+@import "cmps/skills-list";
+@import "cmps/projects";
+@import "cmps/about";
+@import "cmps/footer";
+@import "cmps/sub-header";
