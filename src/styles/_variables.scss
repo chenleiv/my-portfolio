@@ -1,0 +1,52 @@
+:root {
+    // Modern color scheme 2024
+    --primary-color: #a22a2a; //#00ADB5
+    --secondary-color: #393E46; //#393E46
+    --accent-color: #1c2135; //#00ADB5
+    --background-color: #f6f6f6; //#222831
+    --surface-color: #f1f0f0;
+    --text-primary: #f6f6f6; //#EEEEEE
+    --text-secondary: #6C7A89; //#EEEEEE
+    
+    // Glass effect
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    
+    // Gradient colors
+    --gradient-start: #8e949d; //#8e949d
+    --gradient-middle: #8e949d; //#222831
+    --gradient-end: #8e949d; //#222831
+    
+    // Spacing
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 32px;
+    --spacing-lg: 64px;
+    --spacing-xl: 128px;
+  
+    // Typography
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    
+    // Transitions
+    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    // Border Radius
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+    --radius-full: 9999px;
+
+    // Shadows
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    
+    // Glow effects
+    --glow-primary: 0 0 20px rgba(99, 102, 241, 0.5);
+    --glow-accent: 0 0 20px rgba(236, 72, 153, 0.5);
+}
