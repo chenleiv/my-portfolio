@@ -1,18 +1,8 @@
 import { FC, useState, useRef, useEffect } from 'react';
 import '../styles/components.scss';
 import { motion } from 'framer-motion';
-import { FaFileMedicalAlt, FaGithub, FaLinkedin, FaMailBulk, FaEnvelope } from 'react-icons/fa';
+import {  FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 
-interface SocialLink {
-  url: string;
-  icon: string;
-}
-
-// const socialLinks: SocialLink[] = [
-//   { url: 'https://github.com/ChenLeiv', icon: 'fab fa-github' },  
-//   { url: 'https://www.linkedin.com/in/chen-leiv-9533a1178/', icon: 'fab fa-linkedin' },
-//   { url: 'https://www.facebook.com/profile.php?id=100015211870278', icon: 'fab fa-facebook' },
-// ];
 
 const Footer: FC = () => {
   const [showEmailOptions, setShowEmailOptions] = useState(false);

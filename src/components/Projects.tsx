@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FaExternalLinkAlt, FaGithub, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import socialImg from '../assets/img/social.png';
-import memoryImg from '../assets/img/memory.png';
-import bitcoinImg from '../assets/img/bitcoin.png';
-import spaceImg from '../assets/img/space1.png';
-import memeImg from '../assets/img/meme.png';
-import trellor1 from '../assets/img/trellor1.png';
+import socialImg from '/assets/img/social.png';
+import memoryImg from '/assets/img/memory.png';
+import bitcoinImg from '/assets/img/bitcoin.png';
+import spaceImg from '/assets/img/space1.png';
+import memeImg from '/assets/img/meme.png';
+import trellor1 from '/assets/img/trellor1.png'; 
 import { useState } from 'react';
 
 interface Project {

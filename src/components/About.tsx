@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import chenImg from '../assets/img/chen.png';
+import chenImage from '/assets/img/chen.png';
+
+
+
 const About = () => {
   const [ref, inView] = useInView({
     threshold: 0.2,
@@ -51,7 +54,7 @@ Always eager to learn, create, and innovate!
             animate={inView ? { scale: 1 } : {}}
             transition={{ delay: 0.6 }}
           > 
-             <img src={chenImg}  alt="Profile" className='rounded-full' />
+             <img src={chenImage}  alt="Profile" className='rounded-full' />
           </motion.div>
         </motion.div>
       </div>

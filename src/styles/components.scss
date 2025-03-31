@@ -114,23 +114,22 @@ font-size: 40px;
   border-radius: var(--radius-full);
   font-weight: 600;
   text-decoration: none;
-  transition: var(--transition-normal);
   border: none;
   width: max-content;
   cursor: pointer;
   
   &:hover {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-lg);
   }
 
   svg {
     margin-left: 8px;
-    transition: var(--transition-fast);
+    transition: var(--transition-normal);
   }
 
   &:hover svg {
-    transform: translateX(4px);
+    transform: translateX(2px);
   }
 }
 
@@ -206,12 +205,13 @@ font-size: 40px;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
+  color: var(--text-primary);
  
     a{
-      color: var(--secondary-color);
       text-decoration: none;
       font-size: 16px;
       font-weight: 500;
+
       
       &:hover {
         color: var(--primary-color);
@@ -253,8 +253,6 @@ font-size: 40px;
 .project-card {
   min-width: 300px;
   scroll-snap-align: start;
-  background: var(--glass-bg);
-  backdrop-filter: blur(12px);
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   display: flex;
@@ -262,6 +260,7 @@ font-size: 40px;
   justify-content: center;
   align-items: center;
   gap: var(--spacing-md);
+  background: var(--surface-color);
 
 
   .project-info{
@@ -454,6 +453,9 @@ font-size: 40px;
   .project-card {
     animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
+    background: var(--surface-color);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-lg);
   }
 }
 
@@ -544,6 +546,13 @@ font-size: 40px;
   overflow: hidden;
   z-index: 10;
   animation: fadeIn 0.2s ease-out;
+
+  &:hover{
+    a{
+      color: var(--text-primary);
+    }
+  }
+ 
 }
 
 .dropdown-item {
@@ -553,6 +562,7 @@ font-size: 40px;
   text-decoration: none;
   transition: var(--transition-fast);
   
+
   &:hover {
     background: var(--glass-bg);
   }
@@ -598,5 +608,10 @@ font-size: 40px;
     justify-content: center;
     align-items: center;
     
+    svg {
+      margin-right: 14px;
+    }
+
+   
   }
 }
