@@ -23,11 +23,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  justify-content: space-evenly;
-  padding: 80px 0;
+  // padding: 80px 0;
 
  
-    @include mixins.responsive-padding;
+    // @include mixins.responsive-padding;
     
 
   &::before {
@@ -56,7 +55,6 @@
 }
 
 .sub-section {
-
   position: relative;
   width: 100%;
   display: flex;
@@ -64,8 +62,14 @@
   align-items: center;
   justify-content: center;
   gap: 20px;
-  @include mixins.responsive-padding;
+  padding: 40px ;
 
+  h2{
+    margin: 0;
+  };
+
+
+  // @include mixins.responsive-padding;
 }
 
 
@@ -96,6 +100,10 @@ font-size: 40px;
   &.text-xl {
     font-size: 24px;
   }
+
+  p{
+    margin: 0;
+  }
 }
 
 .grid-container {
@@ -124,7 +132,6 @@ font-size: 40px;
   }
 
   svg {
-    margin-left: 8px;
     transition: var(--transition-normal);
   }
 
@@ -202,22 +209,37 @@ font-size: 40px;
 
 .footer-section{
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
   color: var(--text-primary);
+ 
+  .footer-icons{
+    display: flex;
  
     a{
       text-decoration: none;
       font-size: 16px;
       font-weight: 500;
 
+      svg{
+        width: 30px;
+        height: 30px;
+      }
       
       &:hover {
         color: var(--primary-color);
       }
+  }
     }
-    
+
+    .resume-button{
+      button{
+        padding: 20px 36px;
+        font-size: 14px;
+      }
+    }
 }
 
 .about-card {
@@ -420,7 +442,6 @@ font-size: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-md) 0;
   gap: var(--spacing-lg);
 }
 
@@ -524,10 +545,17 @@ font-size: 40px;
 
 .email-container {
   position: relative;
+
   button{
     background: transparent;
     border: none; 
     cursor: pointer;
+
+      svg{
+        width: 30px;
+        height: 30px;
+      }
+
     &:hover {
       color: var(--primary-color);
     }
@@ -610,6 +638,7 @@ font-size: 40px;
     
     svg {
       margin-right: 14px;
+    
     }
 
    

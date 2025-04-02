@@ -62,7 +62,7 @@ const Projects = () => {
       variants={containerVariants}
     >
       <div className="container flex flex-col">
-        <motion.h2 className="heading" variants={itemVariants}>
+        <motion.h2 className="heading"  variants={itemVariants}>
           Projects
         </motion.h2>
 
@@ -139,15 +139,6 @@ const projects: Project[] = [
   },
   {
     label: 1,
-    header: "Social App",
-    sub_header: "FaceBook look alike app.",
-    img: socialImg,
-    skill: ["React", "RestApi", "SASS"],
-    web: "https://chenleiv.github.io/social-app/",
-    github: "https://github.com/chenleiv/social-app/tree/main",
-  },
-  {
-    label: 2,
     header: "Memory Game",
     sub_header: "Classic memory game.",
     img: memoryImg,
@@ -156,7 +147,25 @@ const projects: Project[] = [
     github: "https://github.com/chenleiv/the-memory-game",
   },
   {
+    label: 2,
+    header: "Meme Generator",
+    sub_header: "Make your own meme.",
+    img: memeImg,
+    skill: ["Vanilla JS", "CSS"],
+    web: "https://chenleiv.github.io/Meme-Generator/",
+    github: "https://github.com/chenleiv/Meme-Generator",
+  },
+  {
     label: 3,
+    header: "Social App",
+    sub_header: "FaceBook look alike app.",
+    img: socialImg,
+    skill: ["React", "RestApi", "SASS"],
+    web: "https://chenleiv.github.io/social-app/",
+    github: "https://github.com/chenleiv/social-app/tree/main",
+  },
+  {
+    label: 4,
     header: "Bitcoin",
     sub_header: "Bitcoin transfer.",
     img: bitcoinImg,
@@ -165,21 +174,13 @@ const projects: Project[] = [
     github: "https://github.com/chenleiv/bitcoin-app-react/tree/master",
   },
   {
-    label: 4,
-    header: "SpaceX App",
+    label: 5,
+    header: "SpaceY App",
     sub_header: "Landing info.",
     img: spaceImg,
     skill: ["React", "RestApi", "Redux", "SASS"],
-    web: "https://chenleiv.github.io/space-x-react/#/",
+    web: "https://chenleiv.github.io/space-y-react/#/",
     github: "https://github.com/chenleiv/space-x-react/tree/master",
   },
-  {
-    label: 5,
-    header: "Meme Generator",
-    sub_header: "Make your own meme.",
-    img: memeImg,
-    skill: ["Vanilla JS", "CSS"],
-    web: "https://chenleiv.github.io/Meme-Generator/",
-    github: "https://github.com/chenleiv/Meme-Generator",
-  },
+
 ];

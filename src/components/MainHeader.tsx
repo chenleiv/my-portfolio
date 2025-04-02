@@ -47,7 +47,16 @@ const itemVariants = {
   visible: {
     scale: 0.91,
     opacity: 1,
+    transition: {
+      duration: 0.3
+    }
   },
+  hover: {
+    scale: 1.1,
+    transition: {
+      duration: 0.1,
+    }
+  }
 };
 
 const itemVariantsTitle = {
@@ -100,18 +109,22 @@ const itemVariantsTitle = {
       animate={inView ? "visible" : "hidden"}
       variants={itemVariantsTitle}
     >
-      {/* <div className="container gap-4 flex flex-wrap justify-center"> */}
         <motion.div 
           className="container gap-4 flex flex-wrap justify-center"
           variants={containerVariants}
         >
           {skills.map((skill, index) => (
-            <motion.div key={index} className="skill-tag" variants={itemVariants}>
+            <motion.div 
+              key={index} 
+              className="skill-tag" 
+              variants={itemVariants}
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.1 }}
+            >
               {skill.name}
             </motion.div>
           ))}
         </motion.div>
-      {/* </div> */}
     </motion.section>
     </motion.header>
   );

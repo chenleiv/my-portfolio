@@ -38,6 +38,7 @@ const Footer: FC = () => {
       className='sub-section border-top'
     >
       <div className="footer-section">
+        <div className='footer-icons'>
         <motion.a
           href="https://github.com/ChenLeiv" 
           target="_blank"
@@ -87,11 +88,12 @@ const Footer: FC = () => {
             </div>
           )}
         </div>
-      </div>
-      <div>
+        </div>
+      <div className='resume-button'>
         <button onClick={saveFile} className='button'>
           Download resume
         </button>
+      </div>
       </div>
     </motion.footer>
   );
