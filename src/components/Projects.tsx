@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaExternalLinkAlt, FaGithub, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
 import socialImg from '/assets/img/social.png';
 import memoryImg from '/assets/img/memory.png';
 import bitcoinImg from '/assets/img/bitcoin.png';
 import spaceImg from '/assets/img/space1.png';
 import memeImg from '/assets/img/meme.png';
-import trellor1 from '/assets/img/trellor1.png'; 
-import { useState } from 'react';
+import trellor1 from '/assets/img/trellor1.png';
 
 interface Project {
   label: number;
@@ -19,9 +18,7 @@ interface Project {
   github: string;
 }
 
-
 const Projects = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [ref, inView] = useInView({
     threshold: 0.1,
     triggerOnce: true,
@@ -45,79 +42,51 @@ const Projects = () => {
     },
   };
 
-  const nextProject = () => {
-    setCurrentIndex((prev) => (prev + 1) % projects.length);
-  };
-
-  const prevProject = () => {
-    setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
-  };
-
   return (
     <motion.section
+      id="projects"
       ref={ref}
-      className="sub-section"
+      className="projects-section"
       initial="hidden"
       animate={inView ? "visible" : "hidden"}
       variants={containerVariants}
     >
-      <div className="container flex flex-col">
-        <motion.h2 className="heading"  variants={itemVariants}>
+      <div className="projects-container">
+        <motion.h2 className="projects-title" variants={itemVariants}>
           Projects
         </motion.h2>
 
-        <div className="carousel-container">
-          <button className="carousel-button prev" onClick={prevProject}>
-            <FaChevronLeft />
-          </button>
-          
-          <motion.div 
-            className="carousel-content"
-            initial={{ opacity: 0, x: 50, scale: 0.95 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            exit={{ opacity: 0, x: -50, scale: 0.95 }}
-            transition={{ 
-              duration: 0.6,
-              ease: [0.4, 0, 0.2, 1]
-            }}
-            key={currentIndex}
-          >
-            <div className="project-card">
-              <img src={projects[currentIndex].img} alt={projects[currentIndex].header} />
-              <div className="project-info">
-                <h2>{projects[currentIndex].header}</h2>
-                <p>{projects[currentIndex].sub_header}</p>
-              </div>
-                <div className="skills">
-                {projects[currentIndex].skill.map((skill, index) => (
-                  <span key={index} className="skill-tag">{skill}</span>
-                ))}
-              </div>
-              <div className="actions">
-                <a href={projects[currentIndex].web} target="_blank" rel="noopener noreferrer" className="button">
-                  <FaExternalLinkAlt size={16} /> Live Demo
-                </a>
-                <a href={projects[currentIndex].github} target="_blank" rel="noopener noreferrer" className="button">
-                  <FaGithub size={16} /> Source
-                </a>
-              </div>
-            </div>
-          </motion.div>
-
-          <button className="carousel-button next" onClick={nextProject}>
-            <FaChevronRight />
-          </button>
-        </div>
-
-        <div className="carousel-thumbnails">
+        <div className="projects-grid">
           {projects.map((project, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`carousel-thumbnail ${index === currentIndex ? 'active' : ''}`}
-              onClick={() => setCurrentIndex(index)}
+              className="project-card"
+              variants={itemVariants}
+              whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
             >
-              <img src={project.img} alt={project.header} />
-            </div>
+              <div className="project-image-container">
+                <img src={project.img} alt={project.header} className="project-image" />
+                <div className="project-overlay">
+                  <div className="project-actions">
+                    <a href={project.web} target="_blank" rel="noopener noreferrer" className="project-button">
+                      <FaExternalLinkAlt size={16} /> Live Demo
+                    </a>
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-button">
+                      <FaGithub size={16} /> Source
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div className="project-info">
+                <h2 className="project-title">{project.header}</h2>
+                <p className="project-description">{project.sub_header}</p>
+                <div className="project-skills">
+                  {project.skill.map((skill, skillIndex) => (
+                    <span key={skillIndex} className="skill-tag">{skill}</span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>

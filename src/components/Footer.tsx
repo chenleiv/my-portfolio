@@ -1,10 +1,8 @@
-import { FC, useState, useRef, useEffect } from 'react';
-import '../styles/components.scss';
 import { motion } from 'framer-motion';
-import {  FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
+import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
+import { useState, useRef, useEffect } from 'react';
 
-
-const Footer: FC = () => {
+const Footer = () => {
   const [showEmailOptions, setShowEmailOptions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -21,79 +19,98 @@ const Footer: FC = () => {
     };
   }, []);
 
-  const saveFile = () => {
+  const handleDownloadCV = () => {
+    // Create a direct link to the PDF file with the base URL
+    const pdfUrl = `${window.location.origin}/my-portfolio/assets/files/ChenLeiv-CV.pdf`;
+    
+    // Then try to trigger download
     const link = document.createElement('a');
-    link.href = '/assets/files/ChenLeiv-CV.pdf';
-    link.download = 'ChenLeiv-cv.pdf';
+    link.href = pdfUrl;
+    link.download = 'ChenLeiv-CV.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
+  const emailOptions = [
+    {
+      name: 'Gmail',
+      url: 'https://mail.google.com/mail/?view=cm&fs=1&to=chenleiv@gmail.com',
+      icon: 'G'
+    },
+    {
+      name: 'Outlook',
+      url: 'https://outlook.live.com/mail/0/deeplink/compose?to=chenleiv@gmail.com',
+      icon: 'O'
+    }
+  ];
+
   return (
     <motion.footer
+      id="contact"
+      className="footer-section"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className='sub-section border-top'
     >
-      <div className="footer-section">
-        <div className='footer-icons'>
-        <motion.a
-          href="https://github.com/ChenLeiv" 
-          target="_blank"
-          className="nav-link"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <FaGithub size={24} />
-        </motion.a>
-        <motion.a
-          href="https://www.linkedin.com/in/chen-leiv-9533a1178/"
-          target="_blank"
-          className="nav-link"
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <FaLinkedin size={24} />
-        </motion.a>
-        <div className="email-container" ref={dropdownRef}>
-          <motion.button
-            className="nav-link"
-            onClick={() => setShowEmailOptions(!showEmailOptions)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FaEnvelope size={24} />
-          </motion.button>
-          
-          {showEmailOptions && (
-            <div className="email-dropdown">
-              <a
-                href="https://mail.google.com/mail/?view=cm&fs=1&to=chenleiv1@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="dropdown-item"
+        <div className="footer-bottom">
+      <div className="footer-container">
+        <h2 className="footer-title">Get in Touch</h2>
+        
+        <div className="footer-icons">
+          <a href="https://github.com/chenleiv" target="_blank" rel="noopener noreferrer" className="footer-link">
+            <FaGithub size={24} />
+          </a>
+          <a href="https://linkedin.com/in/chenleiv" target="_blank" rel="noopener noreferrer" className="footer-link">
+            <FaLinkedin size={24} />
+          </a>
+          <div className="email-container" ref={dropdownRef}>
+            <motion.button
+              className="footer-link"
+              onClick={() => setShowEmailOptions(!showEmailOptions)}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <FaEnvelope size={24} />
+            </motion.button>
+            
+            {showEmailOptions && (
+              <motion.div 
+                className="email-dropdown"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.2 }}
               >
-                Gmail
-              </a>
-              <a
-                href="https://outlook.live.com/mail/0/deeplink/compose?to=chenleiv1@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="dropdown-item"
-              >
-                Outlook
-              </a>
-            </div>
-          )}
+                {emailOptions.map((option) => (
+                  <a
+                    key={option.name}
+                    href={option.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="email-option"
+                  >
+                    <span className="email-icon">{option.icon}</span>
+                    {option.name}
+                  </a>
+                ))}
+              </motion.div>
+            )}
+          </div>
         </div>
+
+        <motion.button
+          className="cv-button"
+          onClick={handleDownloadCV}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FaDownload size={20} />
+          Download CV
+        </motion.button>
+
+      
         </div>
-      <div className='resume-button'>
-        <button onClick={saveFile} className='button'>
-          Download resume
-        </button>
-      </div>
       </div>
     </motion.footer>
   );

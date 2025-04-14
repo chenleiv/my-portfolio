@@ -2,15 +2,14 @@ import MainHeader from './components/MainHeader';
 import Projects from './components/Projects';
 import Footer from './components/Footer';
 import MouseFollow from './components/MouseFollow';
-import About from './components/About';
 
 function App() {
   return (
-    <div className="min-h-screen bg-[var(--background-color)] text-[var(--text-primary)]">
+    <div className="container">
       <MouseFollow />
       <section className="mt-4 mb-4">
         <MainHeader />
-        <About />
+        {/* <About /> */}
       </section>
       
       <section>

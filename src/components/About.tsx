@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import chenImage from '/assets/img/chen.jpeg';
+import chenImage from '/assets/img/chen-bucky.jpeg';
 
 const About = () => {
   const [ref, inView] = useInView({
@@ -10,22 +10,23 @@ const About = () => {
 
   return (
     <motion.section
+      id="about"
       ref={ref}
-      className="sub-section"
+      className="about-section"
       initial={{ opacity: 0 }}
       animate={inView ? { opacity: 1 } : {}}
       transition={{ duration: 0.8 }}
     >
-      <div className="container px-4 sm:px-6 lg:px-8">
+      <div className="about-container">
         <motion.div
-          className="flex flex-col md:flex-row gap-8 justify-center items-center"
+          className="about-content"
           initial={{ y: 50 }}
           animate={inView ? { y: 0 } : {}}
           transition={{ delay: 0.4 }}
         >
-          <div className="about-card w-full md:w-1/2">
+          <div className="about-card">
             <motion.h2
-              className="text-2xl md:text-3xl font-bold mb-4"
+              className="about-title"
               initial={{ x: -50 }}
               animate={inView ? { x: 0 } : {}}
               transition={{ delay: 0.2 }}
@@ -33,7 +34,7 @@ const About = () => {
               About Me
             </motion.h2>
             <motion.p
-              className="text-base md:text-lg leading-relaxed"
+              className="about-text"
               initial={{ x: -50 }}
               animate={inView ? { x: 0 } : {}}
               transition={{ delay: 0.2 }}
@@ -45,7 +46,7 @@ const About = () => {
           </div>
           
           <motion.div
-            className="relative w-full md:w-1/2 flex justify-center"
+            className="about-image-container"
             initial={{ scale: 0.8 }}
             animate={inView ? { scale: 1 } : {}}
             transition={{ delay: 0.6 }}
@@ -53,7 +54,7 @@ const About = () => {
             <img 
               src={chenImage}  
               alt="Profile" 
-              className="rounded-full-lg w-64 h-64 md:w-80 md:h-80 object-cover" 
+              className="profile-image"
             />
           </motion.div>
         </motion.div>
