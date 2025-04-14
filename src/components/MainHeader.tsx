@@ -4,15 +4,8 @@ import { useState, useEffect, useRef } from 'react';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import About from './About';
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
-};
+import { FaSpinner } from 'react-icons/fa';
+
 
 const itemVariants = {
   hidden: { scale: 0.8, opacity: 0 },
@@ -49,45 +42,56 @@ interface DraggableSkillProps {
   skill: Skill;
   index: number;
   moveSkill: (dragIndex: number, hoverIndex: number) => void;
+  onRemove?: () => void;
+  isAvailable?: boolean;
 }
 
-const DraggableSkill = ({ skill, index, moveSkill }: DraggableSkillProps) => {
+const DraggableSkill = ({ skill, index, moveSkill, onRemove, isAvailable }: DraggableSkillProps) => {
   const ref = useRef<HTMLDivElement>(null);
   const [isDraggingState, setIsDraggingState] = useState(false);
 
   const [{ isDragging }, drag] = useDrag({
     type: 'SKILL',
-    item: { index },
+    item: { index, skill, isAvailable },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-    end: () => {
+    end: (item, monitor) => {
       setIsDraggingState(false);
+      if (!monitor.didDrop()) {
+        return;
+      }
     },
   });
 
   const [, drop] = useDrop({
     accept: 'SKILL',
-    hover(item: { index: number }, monitor) {
+    drop: (item: { index: number; skill: Skill; isAvailable: boolean }) => {
+      if (isAvailable !== item.isAvailable) {
+        moveSkill(item.index, index);
+      }
+    },
+    hover(item: { index: number; skill: Skill; isAvailable: boolean }, monitor) {
       if (!ref.current) return;
+      if (isAvailable === item.isAvailable) {
+        const dragIndex = item.index;
+        const hoverIndex = index;
 
-      const dragIndex = item.index;
-      const hoverIndex = index;
+        if (dragIndex === hoverIndex) return;
 
-      if (dragIndex === hoverIndex) return;
+        const hoverBoundingRect = ref.current.getBoundingClientRect();
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        const clientOffset = monitor.getClientOffset();
+        if (!clientOffset) return;
 
-      const hoverBoundingRect = ref.current.getBoundingClientRect();
-      const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
-      const clientOffset = monitor.getClientOffset();
-      if (!clientOffset) return;
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-      const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+        if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
 
-      if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return;
-      if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return;
-
-      moveSkill(dragIndex, hoverIndex);
-      item.index = hoverIndex;
+        moveSkill(dragIndex, hoverIndex);
+        item.index = hoverIndex;
+      }
     },
   });
 
@@ -102,30 +106,37 @@ const DraggableSkill = ({ skill, index, moveSkill }: DraggableSkillProps) => {
   return (
     <motion.div
       ref={ref}
-      className="skill-tag"
+      className={`skill-tag ${isAvailable ? 'available' : 'selected'}`}
       variants={itemVariants}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
       style={{
-        opacity: isDraggingState ? 0.8 : 1,
-        background: isDraggingState ? 'rgb(231, 216, 216)' : 'transparent',
-        boxShadow: isDraggingState ? '0 4px 8px rgba(250, 250, 250, 0.2)' : '0 2px 4px rgba(75, 75, 75, 0.7)',
-        border: isDraggingState ? '1px solid #ccc' : 'none',
+        opacity: isDraggingState ? 0.5 : 1,
         cursor: 'move',
-        transition: 'all 0.2s ease',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-
+        position: 'relative',
       }}
     >
       {skill.name}
+      {!isAvailable && onRemove && (
+        <button
+          className="remove-skill"
+          onClick={(e) => {
+            e.stopPropagation();
+            onRemove();
+          }}
+        >
+          ×
+        </button>
+      )}
     </motion.div>
   );
 };
 
 const SkillsContainer = () => {
-  const [skills, setSkills] = useState<Skill[]>([
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [searchMessage, setSearchMessage] = useState<string | null>(null);
+  const [availableSkills, setAvailableSkills] = useState<Skill[]>([
     { id: '1', icon: 'react', name: 'React' },
     { id: '2', icon: 'typescript', name: 'TypeScript' },
     { id: '3', icon: 'angular', name: 'Angular' },
@@ -142,36 +153,134 @@ const SkillsContainer = () => {
     { id: '14', icon: 'mongodb', name: 'MongoDB' },
   ]);
 
-  const moveSkill = (dragIndex: number, hoverIndex: number) => {
-    const dragSkill = skills[dragIndex];
-    const newSkills = [...skills];
-    newSkills.splice(dragIndex, 1);
-    newSkills.splice(hoverIndex, 0, dragSkill);
-    setSkills(newSkills);
+  const addSkill = (skill: Skill) => {
+    if (!skills.find(s => s.id === skill.id)) {
+      setSkills([...skills, skill]);
+      // Remove from available skills
+      setAvailableSkills(availableSkills.filter(s => s.id !== skill.id));
+    }
+  };
+
+  const removeSkill = (skillId: string) => {
+    const skillToRemove = skills.find(s => s.id === skillId);
+    if (skillToRemove) {
+      setSkills(skills.filter(skill => skill.id !== skillId));
+      // Add back to available skills
+      setAvailableSkills([...availableSkills, skillToRemove]);
+    }
+  };
+
+  const clearSkills = () => {
+    // Add all skills back to available
+    setAvailableSkills([...availableSkills, ...skills]);
+    setSkills([]);
+    // Clear the search message
+    setSearchMessage(null);
+  };
+
+  const searchMatches = async () => {
+    setIsSearching(true);
+    setSearchMessage(null);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    // Show message in UI
+    setSearchMessage('Found a match!');
+    
+    // Scroll to about section
+    const aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      const headerOffset = 80;
+      const elementPosition = aboutSection.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+    
+    setIsSearching(false);
   };
 
   return (
-    <motion.div
-      className="skills-container"
-      variants={containerVariants}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 30px))',
-        gridTemplateRows: 'repeat(auto-fill, minmax(50px, 100px))',
-        textAlign: 'center',
-        gap: '10px',
-        width: '100%',
-      }}
-    >
-      {skills.map((skill, index) => (
-        <DraggableSkill
-          key={skill.id}
-          skill={skill}
-          index={index}
-          moveSkill={moveSkill}
-        />
-      ))}
-    </motion.div>
+    <div className="skills-section">
+      <div className="available-skills">
+        <h3>Skills</h3>
+        <div className="skills-list">
+          {availableSkills.map((skill) => (
+            <motion.div
+              key={skill.id}
+              className="skill-tag available"
+              variants={itemVariants}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => addSkill(skill)}
+            >
+              {skill.name}
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      <div className="selected-skills">
+      <h3>Desired Skills</h3>
+      <div className="skills-list">
+          {skills.map((skill) => (
+            <motion.div
+              key={skill.id}
+              className="skill-tag selected"
+              variants={itemVariants}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {skill.name}
+              <button
+                className="remove-skill"
+                onClick={() => removeSkill(skill.id)}
+              >
+                ×
+              </button>
+            </motion.div>
+          ))}
+        </div>
+        
+          <div className="skills-actions">
+            <button 
+              className="clear-button"
+              onClick={clearSkills}
+              disabled={skills.length === 0}
+            >
+              Clear All
+            </button>
+            <button 
+              className="search-button"
+              onClick={searchMatches}
+              disabled={skills.length === 0 || isSearching}
+            >
+              {isSearching ? (
+                <>
+                  <FaSpinner className="spinner" />
+                  Searching...
+                </>
+              ) : (
+                'Search Matches'
+              )}
+            </button>
+          {/* </div> */}
+        </div>
+        {searchMessage && (
+          <motion.div 
+            className="search-message"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            {searchMessage}
+          </motion.div>
+        )}
+
+      </div>
+    </div>
   );
 };
 
@@ -294,7 +403,7 @@ const MainHeader = () => {
           </DndProvider>
         </motion.section>
 
-      <About />
+        <About />
       </motion.header>
     </>
   );
