@@ -31,7 +31,7 @@
   .heading {
     font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 700;
-    background: linear-gradient(45deg, var(--primary-color), #b3b8cd);
+    background: linear-gradient(45deg, var(--text-primary), #c3c7d5);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: 1rem;
@@ -62,7 +62,6 @@
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
     gap: 2rem;
-    padding: 1rem;
   }
 }
 
@@ -79,10 +78,6 @@
     transform: translateY(-10px);
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
     border-color: var(--primary-color);
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
   }
 }
 
@@ -128,14 +123,14 @@
   gap: 1rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   .footer-link {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 50px;
+    width: 54px;
+    height: 52px;
     border-radius: 50%;
     background: var(--glass-bg);
     color: var(--text-primary);
@@ -146,7 +141,7 @@
     &:hover {
       background: var(--primary-color);
       color: white;
-      transform: translateY(-5px);
+      transform: translateY(-1px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
   }
@@ -154,44 +149,54 @@
 
 .email-container {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   .email-dropdown {
     position: absolute;
-    top: 75%;
-    left: -70%;
+    bottom: calc(100% + 0.8rem);
     transform: translateX(-50%);
-    margin-top: 1rem;
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
     border-radius: 1rem;
-    padding: 0.5rem;
+    padding: 0.75rem;
     border: 1px solid var(--glass-border);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     z-index: 1000;
     min-width: 150px;
-    // display: flex;
+    display: flex;
     flex-direction: column;
     gap: 0.5rem;
 
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      transform: translateX(-50%);
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid var(--glass-border);
+    }
+
     @media (max-width: 768px) {
-      position: fixed;
-      top: 46%;
-      left: 55%;
-      transform: translate(-50%, -50%);
-      max-width: 300px;
-      margin-top: 0;
+      bottom: calc(100% + 0.8rem);
+      transform: translateX(-50%);
+      width: auto;
+      min-width: 150px;
     }
   }
 
   .email-option {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     color: var(--text-primary);
     transition: all 0.3s ease;
     text-decoration: none;
+    background: transparent;
 
     &:hover {
       background: var(--primary-color);
