@@ -56,7 +56,7 @@ const SkillsContainer = () => {
         }
         return prev + 10;
       });
-    }, 200);
+    }, 100);
 
     // Simulate search completion
     setTimeout(() => {
@@ -67,9 +67,11 @@ const SkillsContainer = () => {
       // Scroll to header and about section
       const headerSection = document.getElementById('about');
       if (headerSection) {
-        headerSection.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => {
+          headerSection.scrollIntoView({ behavior: 'smooth' });
+        }, 1000); // 1.5 second delay
       }
-    }, 2000);
+    }, 1000);
   };
 
   return (

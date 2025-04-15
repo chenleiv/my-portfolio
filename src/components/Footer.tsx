@@ -3,10 +3,7 @@ import { useEffect } from 'react';
 
 const Footer = () => {
   useEffect(() => {
-    // Set smooth scroll behavior for the entire document
     document.documentElement.style.scrollBehavior = 'smooth';
-    
-    // Cleanup function to reset scroll behavior
     return () => {
       document.documentElement.style.scrollBehavior = 'auto';
     };
