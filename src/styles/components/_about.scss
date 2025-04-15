@@ -21,6 +21,29 @@
   }
 }
 
+.main-header {
+  background-color: var(--background-color);
+  padding: var(--spacing-lg);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-family: var(--font-sans);
+
+  .header-container {
+    text-align: center;
+  }
+
+  .heading {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+
+  .subtitle {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+  }
+}
+
 .about-container {
   max-width: 1200px;
   width: 100%;
@@ -73,11 +96,42 @@
 }
 
 .about-image-container {
-  flex: 1;
   min-width: 300px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .contact-info-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cv-button {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    background: linear-gradient(45deg, #1c2135, #393e46);
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 4rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+
+    transform: translate(-50px, 20px);
+    margin: 0;
+
+    &:hover {
+      transform: translate(-50px, 20px);
+    }
+  }
 }
 
 .profile-image {
@@ -113,6 +167,27 @@
   border-radius: var(--radius-sm);
   border: 1px solid var(--glass-border);
   backdrop-filter: blur(5px);
+
+  .footer-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    cursor: pointer;
+
+    &:hover {
+      background: linear-gradient(45deg, #1c2135, #393e46);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+  }
 }
 
 .contact-info {

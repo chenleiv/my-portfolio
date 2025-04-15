@@ -137,10 +137,7 @@ const SkillsContainer = () => {
 const MainHeader = () => {
   const [activeSection, setActiveSection] = useState('home');
   const headerOffset = 80;
-  const [ref, inView] = useInView({
-    threshold: 0.6,
-    triggerOnce: true,
-  });
+
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -157,7 +154,7 @@ const MainHeader = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'projects', 'contact'];
+      const sections = ['about', 'projects'];
       const scrollPosition = window.scrollY + headerOffset;
 
       for (const section of sections) {
@@ -186,7 +183,7 @@ const MainHeader = () => {
       >
         <div className="nav-container">
           <div className="nav-links">
-            {['home', 'about', 'projects', 'contact'].map((section) => (
+            {['about', 'projects'].map((section) => (
               <motion.button
                 key={section}
                 className={`nav-link ${activeSection === section ? 'active' : ''}`}
@@ -205,37 +202,8 @@ const MainHeader = () => {
         <SkillsContainer />
       </div>
 
-      <div id="header-section">
-        <motion.header
-          id="home"
-          className="main-header"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          <div className="header-container">
-            <motion.h1
-              className="heading"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.2, duration: 0.8 }}
-            >
-              Chen Leiv
-            </motion.h1>
-            
-            <motion.p
-              className="subtitle"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              Frontend Developer
-            </motion.p>
-          </div>
-        </motion.header>
-
         <About />
-      </div>
+      
     </>
   );
 };

@@ -56,8 +56,36 @@ const About = () => {
 
  
   return (
+    <>
+    <motion.header
+          id="about"
+          className="main-header"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+        <div className="header-container">
+            <motion.h1
+              className="heading"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+            >
+              Chen Leiv
+            </motion.h1>
+            
+            <motion.p
+              className="subtitle"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              Frontend Developer
+            </motion.p>
+          </div>
+        </motion.header>
+
     <motion.section
-      id="about"
       ref={ref}
       className="about-section"
       initial={{ opacity: 0 }}
@@ -98,6 +126,7 @@ const About = () => {
             animate={inView ? { scale: 1 } : {}}
             transition={{ delay: 0.6 }}
           > 
+          <motion.div className="contact-info-container">
             <img 
               src={chenImage}  
               alt="Profile" 
@@ -122,7 +151,6 @@ const About = () => {
             <motion.button
               className="footer-link"
               onClick={() => setShowEmailOptions(!showEmailOptions)}
-              whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
               <FaEnvelope size={24} />
@@ -150,18 +178,27 @@ const About = () => {
                 ))}
               </motion.div>
             )}
-          </div>
-    
-              </div>
-              
-            </motion.footer>
             
+          </div>
+              </div>
+            </motion.footer>
+
           </motion.div>
-          
+            <motion.button
+          className="cv-button"
+          onClick={handleDownloadCV}
+          whileTap={{ scale: 0.95 }}
+        >
+          <FaDownload size={20} />        
+          Download CV
+        </motion.button>
         </motion.div>
+          </motion.div>
+
         
       </div>
     </motion.section>
+    </>
   );
 };
 
