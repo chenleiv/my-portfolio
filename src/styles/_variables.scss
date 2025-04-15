@@ -1,32 +1,41 @@
 :root {
-    // Modern color scheme 2024
-    --primary-color: #a22a2a;
-    --secondary-color: #393E46;
-    --accent-color: #1c2135;
-    --background-color: #f6f6f6;
-    --surface-color: #f1f0f0;
-    --text-primary: #6C7A89;
-    --text-secondary: #8e949d;
-    
-    // Glass effect
-    --glass-bg: rgba(99, 102, 241, 0.5);
-    --glass-border: rgba(236, 72, 153, 0.5);
-    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    
-    // Gradient colors
-    --gradient-start: #1c2135;
-    --gradient-middle: #393E46;
-    --gradient-end: #a22a2a;
-    
-    // Spacing
-    --spacing-xs: 8px;
-    --spacing-sm: 16px;
-    --spacing-md: 32px;
-    --spacing-lg: 64px;
-    --spacing-xl: 128px;
-  
-    // Typography
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
- 
+  // VS Code Dark Theme color scheme
+  --primary-color: #569cd6;
+  --secondary-color: #9cdcfe;
+  --accent-color: #dcdcaa;
+  --background-color: #1e1e1e;
+  --surface-color: #252526;
+  --text-primary: #d4d4d4;
+  --text-secondary: #858585;
+
+  // Glass effect
+  --glass-bg: rgba(37, 37, 38, 0.8);
+  --glass-border: rgba(86, 156, 214, 0.2);
+  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+
+  // Gradient colors
+  --gradient-start: #569cd6;
+  --gradient-middle: #9cdcfe;
+  --gradient-end: #dcdcaa;
+
+  // Spacing
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 32px;
+  --spacing-lg: 64px;
+  --spacing-xl: 128px;
+
+  // Typography
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  // Transitions
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  // Border radius
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
 }

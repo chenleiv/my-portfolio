@@ -55,7 +55,6 @@ const Footer = () => {
     >
         <div className="footer-bottom">
       <div className="footer-container">
-        <h2 className="footer-title">Get in Touch</h2>
         
         <div className="footer-icons">
           <a href="https://github.com/chenleiv" target="_blank" rel="noopener noreferrer" className="footer-link">
