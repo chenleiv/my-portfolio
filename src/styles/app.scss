@@ -1,0 +1,32 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+
+  &__main {
+    flex-grow: 1;
+    width: 100%;
+  }
+
+  &__section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-lg);
+    position: relative;
+    width: 100%;
+
+    @media (max-width: 576px) {
+      padding: var(--spacing-sm);
+    }
+  }
+
+  &__footer {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+}

@@ -1,6 +1,5 @@
 /* Skills Container Styles */
 .skills-section {
-  padding: var(--spacing-lg) 0;
   max-width: 42rem;
   margin: 0 auto;
   text-align: center;
@@ -9,7 +8,7 @@
   h2 {
     font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
     color: var(--text-primary);
   }
 
@@ -146,10 +145,6 @@
 
 /* Navbar Styles */
 .main-nav {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
   background: var(--glass-bg);
@@ -174,12 +169,16 @@
 }
 
 .mobile-menu-toggle {
-  display: block;
+  display: none;
   background: none;
   border: none;
   cursor: pointer;
   padding: 0.5rem;
   z-index: 101;
+
+  @media (max-width: 768px) {
+    display: block;
+  }
 
   .hamburger {
     display: block;
@@ -248,22 +247,15 @@
   }
 
   @media (min-width: 769px) {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 300px;
-    height: 100vh;
-    background: var(--glass-bg);
-    flex-direction: column;
-    justify-content: center;
-    gap: 2rem;
-    transition: right 0.3s ease;
-    padding: 2rem;
-    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
-
-    &.open {
-      right: 0;
-    }
+    position: static;
+    width: auto;
+    height: auto;
+    background: transparent;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    padding: 0;
+    box-shadow: none;
   }
 }
 
@@ -312,14 +304,29 @@
   }
 
   @media (min-width: 769px) {
-    font-size: 1.1rem;
-    padding: 0.75rem;
-    width: 100%;
-    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    width: auto;
+    text-align: left;
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 1rem;
+      right: 1rem;
+      height: 2px;
+      background: var(--primary-color);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+    }
 
     &.active::after {
-      left: 25%;
-      right: 25%;
+      transform: scaleX(1);
     }
   }
 }

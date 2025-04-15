@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useRef, useState } from 'react';
-import { FaEnvelope, FaGithub, FaDownload, FaLinkedin, FaGoogle, FaMicrosoft } from 'react-icons/fa';
+import { FaEnvelope, FaGithub, FaLinkedin, FaGoogle, FaMicrosoft, FaFileDownload } from 'react-icons/fa';
 import chenImage from '/assets/img/chen-bucky.jpeg';
 
 const About = () => {
@@ -125,10 +125,18 @@ const About = () => {
                   transition={{ delay: 0.8 }}
                 >
                   <div className="contact-info">
+                  <motion.button
+                      className="footer-link"
+                      onClick={handleDownloadCV}
+                      whileTap={{ scale: 0.9 }}
+                      title="Download CV"
+                    >
+                      <FaFileDownload size={24} />
+                    </motion.button>
                     <a href="https://github.com/chenleiv" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
                       <FaGithub size={24} />
                     </a>
-                    <a href="https://linkedin.com/in/chenleiv" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
+                    <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
                       <FaLinkedin size={24} />
                     </a>
 
@@ -169,15 +177,6 @@ const About = () => {
                   </div>
                 </motion.footer>
               </motion.div>
-
-              <motion.button
-                className="cv-button"
-                onClick={handleDownloadCV}
-                whileTap={{ scale: 0.95 }}
-              >
-                <FaDownload size={20} />
-                Download CV
-              </motion.button>
             </motion.div>
           </motion.div>
         </div>

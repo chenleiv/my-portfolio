@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useMemo } from 'react';
-import About from './About';
 
 const defaultSkills: string[] = [
   'TypeScript',
@@ -179,38 +178,6 @@ const MainHeader = () => {
 
   return (
     <>
-      <motion.nav
-        className="main-nav"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div className="nav-container">
-          <div className="nav-brand">
-            <span>{'<.'}</span>
-          </div>
-          <button 
-            className="mobile-menu-toggle"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`} />
-          </button>
-          <div className={`nav-links ${isMobileMenuOpen ? 'open' : ''}`}>
-            {['about', 'projects'].map((section) => (
-              <motion.button
-                key={section}
-                className={`nav-link ${activeSection === section ? 'active' : ''}`}
-                onClick={() => scrollToSection(section)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
-              </motion.button>
-            ))}
-          </div>
-        </div>
-      </motion.nav>
       <motion.div
         className="skills-section"
         id="skills-section"

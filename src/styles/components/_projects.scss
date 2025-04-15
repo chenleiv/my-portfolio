@@ -1,5 +1,5 @@
 .projects-section {
-  padding: 4rem 2rem;
+  padding: 1rem 2rem;
 }
 
 .projects-container {
@@ -11,7 +11,7 @@
   text-align: center;
   margin-bottom: 3rem;
   font-size: 2.5rem;
-  color: #333;
+  color: linear-gradient(45deg, var(--text-primary), #c3c7d5);
 }
 
 .projects-grid {
@@ -124,12 +124,12 @@
 .project-title {
   margin: 0 0 0.5rem;
   font-size: 1.5rem;
-  color: #333;
+  color: linear-gradient(45deg, var(--text-primary), #c3c7d5);
 }
 
 .project-description {
   margin: 0 0 1rem;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 1rem;
   line-height: 1.5;
   flex-grow: 1;

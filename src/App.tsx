@@ -3,23 +3,31 @@ import Projects from './components/Projects';
 import Footer from './components/Footer';
 import MouseFollow from './components/MouseFollow';
 import About from './components/About';
+import Navigation from './components/Navigation';
+import './styles/app.scss';
 
 function App() {
   return (
-    <div>
+    <div className="app">
       <MouseFollow />
-      <section className="mt-4 mb-4">
-        <MainHeader />
-      </section>
-      
-      <section>
-        <About />
-ß          <Projects />
+      <Navigation />
+      <main className="app__main">
+        <section id="home" className="app__section">
+          <MainHeader />
         </section>
+        
+        <section id="about" className="app__section">
+          <About />
+        </section>
+        
+        <section id="projects" className="app__section">
+          <Projects />
+        </section>
+      </main>
       
-      <section>
+      <footer className="app__footer">
         <Footer />
-      </section>
+      </footer>
     </div>
   );
 }
