@@ -23,7 +23,7 @@ const Footer = () => {
 
   return (
     <motion.footer
-      id="contact"
+      id="footer"
       className="footer-section"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -33,11 +33,11 @@ const Footer = () => {
           <a href="#about" role="button" className="footer-link" onClick={handleClick}> 
             About
           </a>
-          <a href="#skills" role="button" className="footer-link" onClick={handleClick}> 
-            Skills
-          </a>
           <a href="#projects" role="button" className="footer-link" onClick={handleClick}> 
            Projects
+          </a>
+          <a href="#skills" role="button" className="footer-link" onClick={handleClick}> 
+            Skills
           </a>
       </div>
     </motion.footer>

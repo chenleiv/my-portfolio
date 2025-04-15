@@ -44,9 +44,17 @@ const About = () => {
   }, []);
 
   return (
-    <>
-      <motion.header
-          id="about"
+   
+      <motion.section
+        id="about"
+        ref={ref}
+        className="about-section"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.8 }}
+      >
+
+<motion.header
         className="main-header"
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
@@ -71,14 +79,6 @@ const About = () => {
           </motion.p>
         </div>
       </motion.header>
-
-      <motion.section
-        ref={ref}
-        className="about-section"
-        initial={{ opacity: 0 }}
-        animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.8 }}
-      >
         <div className="about-container">
 
           <motion.div
@@ -182,7 +182,7 @@ const About = () => {
           </motion.div>
         </div>
       </motion.section>
-    </>
+
   );
 };
 

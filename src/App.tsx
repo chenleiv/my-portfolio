@@ -2,6 +2,7 @@ import MainHeader from './components/MainHeader';
 import Projects from './components/Projects';
 import Footer from './components/Footer';
 import MouseFollow from './components/MouseFollow';
+import About from './components/About';
 
 function App() {
   return (
@@ -12,8 +13,9 @@ function App() {
       </section>
       
       <section>
-        <Projects />
-      </section>
+        <About />
+ß          <Projects />
+        </section>
       
       <section>
         <Footer />

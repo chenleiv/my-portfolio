@@ -1,10 +1,11 @@
 .about-section {
   min-height: 100vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 8rem 2rem;
-  background: linear-gradient(135deg, #1c2135 0%, #16213e 100%);
+  padding: 0 2rem;
+  background: transparent;
   position: relative;
   overflow: hidden;
 
@@ -24,7 +25,6 @@
 .main-header {
   background-color: var(--background-color);
   padding: var(--spacing-lg);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-family: var(--font-sans);
 
   .header-container {
@@ -68,7 +68,7 @@
   border-radius: 2rem;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  // box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   transition: all 0.4s ease;
 
   &:hover {

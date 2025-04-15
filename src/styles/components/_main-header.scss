@@ -51,6 +51,10 @@
     }
   }
 
+  .skills-section-container {
+    margin-top: 60px;
+  }
+
   .search-container {
     margin: var(--spacing-lg) 0;
     display: flex;
@@ -140,65 +144,127 @@
   }
 }
 
-/* Main Header Styles */
-.main-header {
-  background-color: var(--background-color);
-  padding: var(--spacing-lg);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-family: var(--font-sans);
-
-  .header-container {
-    text-align: center;
-  }
-
-  .heading {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--text-primary);
-  }
-
-  .subtitle {
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-  }
-}
-
 /* Navbar Styles */
 .main-nav {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   backdrop-filter: blur(10px);
-  border-radius: var(--radius-md);
-  padding: 0.5rem;
+  background: var(--glass-bg);
   box-shadow: var(--glass-shadow);
+  transition: all 0.3s ease;
 }
 
 .nav-container {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.mobile-menu-toggle {
+  display: block;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 101;
+
+  .hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    position: relative;
+    transition: all 0.3s ease;
+
+    &::before,
+    &::after {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 2px;
+      background: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+
+    &::before {
+      top: -8px;
+    }
+
+    &::after {
+      bottom: -8px;
+    }
+
+    &.open {
+      background: transparent;
+
+      &::before {
+        transform: rotate(45deg);
+        top: 0;
+      }
+
+      &::after {
+        transform: rotate(-45deg);
+        bottom: 0;
+      }
+    }
+  }
 }
 
 .nav-links {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+  gap: 1.5rem;
+  align-items: center;
 
-.nav-buttons {
-  padding: 0.5rem 1rem;
-  border-radius: var(--radius-sm);
-  color: var(--text-primary);
-  text-decoration: none;
-  font-family: var(--font-mono);
-  transition: var(--transition-fast);
-  text-align: left;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: var(--glass-bg);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    transition: right 0.3s ease;
+    padding: 2rem;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+
+    &.open {
+      right: 0;
+    }
+  }
+
+  @media (min-width: 769px) {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100vh;
+    background: var(--glass-bg);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    transition: right 0.3s ease;
+    padding: 2rem;
+    box-shadow: -4px 0 16px rgba(0, 0, 0, 0.2);
+
+    &.open {
+      right: 0;
+    }
+  }
 }
 
 .nav-link {
@@ -212,14 +278,48 @@
   background: transparent;
   border: none;
   cursor: pointer;
+  font-size: 0.9rem;
+  position: relative;
 
   &:hover {
-    background: var(--surface-color);
     color: var(--primary-color);
   }
 
   &.active {
-    background: var(--surface-color);
     color: var(--primary-color);
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: 1rem;
+      right: 1rem;
+      height: 2px;
+      background: var(--primary-color);
+    }
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    width: 100%;
+    text-align: center;
+
+    &.active::after {
+      left: 25%;
+      right: 25%;
+    }
+  }
+
+  @media (min-width: 769px) {
+    font-size: 1.1rem;
+    padding: 0.75rem;
+    width: 100%;
+    text-align: center;
+
+    &.active::after {
+      left: 25%;
+      right: 25%;
+    }
   }
 }

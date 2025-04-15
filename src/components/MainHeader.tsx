@@ -74,8 +74,8 @@ const SkillsContainer = () => {
   };
 
   return (
-    <div className="skills-section" id="skills">
-      <h2>Select Your Skills</h2>
+    <div className="skills-section-container" id="skills">
+      <h2>Select Desired Skills</h2>
       <div className="skills-list">
         {availableSkills.map((skill) => (
           <motion.button
@@ -139,8 +139,8 @@ const SkillsContainer = () => {
 
 const MainHeader = () => {
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const headerOffset = 80;
-
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -152,6 +152,7 @@ const MainHeader = () => {
         top: offsetPosition,
         behavior: 'smooth'
       });
+      setIsMobileMenuOpen(false);
     }
   };
 
@@ -180,25 +181,34 @@ const MainHeader = () => {
     <>
       <motion.nav
         className="main-nav"
-        initial={{ x: -100 }}
-        animate={{ x: 0 }}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div>
-          {['about', 'projects'].map((section) => (
-            <motion.button
-              key={section}
-              className="nav-link"
-              style={{
-                background: activeSection === section ? 'var(--surface-color)' : 'transparent',
-              }}
-              onClick={() => scrollToSection(section)}
-              whileHover={{ scale: 1.05, backgroundColor: 'var(--surface-color)', color: 'var(--primary-color)' }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {section.charAt(0).toUpperCase() + section.slice(1)}
-            </motion.button>
-          ))}
+        <div className="nav-container">
+          <div className="nav-brand">
+            <span>{'<.'}</span>
+          </div>
+          <button 
+            className="mobile-menu-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            <span className={`hamburger ${isMobileMenuOpen ? 'open' : ''}`} />
+          </button>
+          <div className={`nav-links ${isMobileMenuOpen ? 'open' : ''}`}>
+            {['about', 'projects'].map((section) => (
+              <motion.button
+                key={section}
+                className={`nav-link ${activeSection === section ? 'active' : ''}`}
+                onClick={() => scrollToSection(section)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {section.charAt(0).toUpperCase() + section.slice(1)}
+              </motion.button>
+            ))}
+          </div>
         </div>
       </motion.nav>
       <motion.div
@@ -209,8 +219,7 @@ const MainHeader = () => {
         transition={{ duration: 0.5 }}
       >
         <SkillsContainer />
-      </motion.div>  
-        <About />
+     </motion.div>  
     </>
   );
 };
