@@ -55,7 +55,7 @@
 .about-content {
   display: flex;
   align-items: center;
-  gap: 4rem;
+  gap: 2rem;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -64,7 +64,7 @@
   flex: 1;
   min-width: 300px;
   background: rgba(255, 255, 255, 0.05);
-  padding: 3rem;
+  padding: 1.5rem;
   border-radius: 2rem;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -81,7 +81,7 @@
 .about-title {
   font-size: 2.5rem;
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   background: linear-gradient(45deg, #1c2135, #393e46);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -220,6 +220,78 @@
   .email-dropdown {
     position: absolute;
     top: 90%;
-    left: -100px;
+    left: 10%;
+    min-width: 80px;
+    transform: translateX(-50%);
+    margin-top: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 1rem;
+    padding: 0.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+  }
+
+  .email-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+    color: var(--text-primary);
+
+    &:hover {
+      width: 100%;
+      background: var(--surface-color);
+      color: var(--primary-color);
+
+      .email-tooltip {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+
+  .email-tooltip {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface-color);
+    color: var(--text-primary);
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.75rem;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: var(--transition-fast);
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: var(--glass-shadow);
+    border: 1px solid var(--glass-border);
+  }
+}
+
+@media (max-width: 768px) {
+  .about-content {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-title {
+    font-size: 2rem;
+  }
+
+  .about-text {
+    font-size: 1rem;
+  }
+
+  .cv-button {
+    width: 100%;
+    justify-content: center;
   }
 }

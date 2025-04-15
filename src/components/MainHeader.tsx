@@ -1,19 +1,22 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
 import { useState, useEffect, useMemo } from 'react';
 import About from './About';
 
 const defaultSkills: string[] = [
-  'React',
   'TypeScript',
+  'React',
+  'Angular',
+  'JavaScript',
   'Git',
-  'CSS',
+  'SASS',
   'HTML',
-  'Tailwind',
-  'Framer Motion',
   'Vite',
-  'Figma',
-  'Node.js'
+  'Node.js',
+  'Next.js',
+  'Express',
+  'MongoDB',
+  'Docker',
+  'SQL',
 ];
 
 const SkillsContainer = () => {
@@ -63,7 +66,7 @@ const SkillsContainer = () => {
       setIsMatch(true);
       
       // Scroll to header and about section
-      const headerSection = document.getElementById('header-section');
+      const headerSection = document.getElementById('about');
       if (headerSection) {
         headerSection.scrollIntoView({ behavior: 'smooth' });
       }
@@ -71,7 +74,7 @@ const SkillsContainer = () => {
   };
 
   return (
-    <div className="skills-section">
+    <div className="skills-section" id="skills">
       <h2>Select Your Skills</h2>
       <div className="skills-list">
         {availableSkills.map((skill) => (
@@ -177,33 +180,37 @@ const MainHeader = () => {
     <>
       <motion.nav
         className="main-nav"
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
+        initial={{ x: -100 }}
+        animate={{ x: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="nav-container">
-          <div className="nav-links">
-            {['about', 'projects'].map((section) => (
-              <motion.button
-                key={section}
-                className={`nav-link ${activeSection === section ? 'active' : ''}`}
-                onClick={() => scrollToSection(section)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {section.charAt(0).toUpperCase() + section.slice(1)}
-              </motion.button>
-            ))}
-          </div>
+        <div>
+          {['about', 'projects'].map((section) => (
+            <motion.button
+              key={section}
+              className="nav-link"
+              style={{
+                background: activeSection === section ? 'var(--surface-color)' : 'transparent',
+              }}
+              onClick={() => scrollToSection(section)}
+              whileHover={{ scale: 1.05, backgroundColor: 'var(--surface-color)', color: 'var(--primary-color)' }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {section.charAt(0).toUpperCase() + section.slice(1)}
+            </motion.button>
+          ))}
         </div>
       </motion.nav>
-
-      <div id="skills-section">
+      <motion.div
+        className="skills-section"
+        id="skills-section"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
         <SkillsContainer />
-      </div>
-
+      </motion.div>  
         <About />
-      
     </>
   );
 };

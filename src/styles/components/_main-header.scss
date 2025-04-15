@@ -1,6 +1,6 @@
 /* Skills Container Styles */
 .skills-section {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
   max-width: 42rem;
   margin: 0 auto;
   text-align: center;
@@ -167,45 +167,59 @@
 /* Navbar Styles */
 .main-nav {
   position: fixed;
-  top: 0;
-  width: 100%;
-  background-color: var(--background-color);
-  padding: var(--spacing-sm) 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 10;
+  top: 1rem;
+  left: 1rem;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border-radius: var(--radius-md);
+  padding: 0.5rem;
+  box-shadow: var(--glass-shadow);
+}
 
-  .nav-container {
-    display: flex;
-    justify-content: center;
+.nav-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.nav-buttons {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  transition: var(--transition-fast);
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-link {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  transition: var(--transition-fast);
+  text-align: left;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--surface-color);
+    color: var(--primary-color);
   }
 
-  .nav-links {
-    display: flex;
-    gap: var(--spacing-md);
-  }
-
-  .nav-link {
-    padding: var(--spacing-xs) var(--spacing-md);
-    border-radius: 30px;
-    background-color: transparent;
-    color: var(--text-primary);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-
-    &.active {
-      background-color: var(--primary-color);
-      color: white;
-    }
-
-    &:hover {
-      background-color: lighten(#a22a2a, 40%);
-      color: var(--primary-color);
-    }
-
-    &:focus {
-      outline: none;
-      border: 2px solid var(--primary-color);
-    }
+  &.active {
+    background: var(--surface-color);
+    color: var(--primary-color);
   }
 }

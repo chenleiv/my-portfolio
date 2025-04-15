@@ -68,10 +68,10 @@ const Projects = () => {
                 <img src={project.img} alt={project.header} className="project-image" />
                 <div className="project-overlay">
                   <div className="project-actions">
-                    <a href={project.web} target="_blank" rel="noopener noreferrer" className="project-button">
+                    <a href={project.web} target="_blank" role="button" rel="noopener noreferrer" className="project-button">
                       <FaExternalLinkAlt size={16} /> Live Demo
                     </a>
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="project-button">
+                    <a href={project.github} target="_blank" role="button" rel="noopener noreferrer" className="project-button">
                       <FaGithub size={16} /> Source
                     </a>
                   </div>

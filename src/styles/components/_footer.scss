@@ -6,4 +6,12 @@
   background: linear-gradient(135deg, #1c2135 0%, #16213e 100%);
   position: relative;
   overflow: hidden;
+
+  .footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-decoration: none;
+  }
 }
