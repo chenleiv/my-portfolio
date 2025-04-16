@@ -4,6 +4,8 @@
 @use "components/_about";
 @use "components/_footer";
 @use "components/_navigation";
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
 
 .mouse-follow {
   position: fixed;
@@ -21,4 +23,115 @@
   opacity: 0.8;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease-out;
+}
+
+
+.interactive-console {
+  font-family: 'Fira Code', monospace;
+  font-size: 1.1rem;
+  background-color: #1e1e1e;
+  color: #dcdcdc;
+  max-width: 800px;
+  margin: 40px auto;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.console-header {
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #00ffae8a;
+  padding: 14px 20px;
+  font-weight: bold;
+  font-size: 14px;
+  border-bottom: 1px solid #333;
+}
+
+.console-history {
+  padding: 20px;
+  min-height: 200px;
+  white-space: pre-wrap;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.console-line {
+  color: #9cdcfe;
+}
+
+.console-input-line {
+  display: flex;
+  align-items: center;
+  background-color: #1e1e1e;
+  padding: 16px 20px;
+  border-top: 1px solid #333;
+}
+
+.prompt {
+  color: #00ffae;
+  margin-right: 8px;
+}
+
+.console-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #dcdcdc;
+  font-size: 1.1rem;
+  font-family: 'Fira Code', monospace;
+}
+
+.autocomplete-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 20px 10px;
+  background-color: #1e1e1e;
+  border-top: 1px solid #333;
+  border-radius: 0 0 12px 12px;
+}
+
+.autocomplete-item {
+  padding: 6px 0;
+  color: #dcdcaa;
+  cursor: pointer;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9rem;
+}
+
+.autocomplete-item:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.console-line .console-comment {
+  color: #6a9955;
+  font-style: italic;
+}
+.console-line .console-input-line {
+  color: #00ffae;
+}
+.console-line .console-keyword {
+  color: #c586c0;
+}
+.console-line .console-string {
+  color: #ce9178;
+}
+.console-line .console-method {
+  color: #569cd6;
+}
+
+/* Add to your global CSS */
+.highlight {
+  animation: glowHighlight 0.5s ease-in-out;
+  outline: 3px solid var(--primary-color);
+  outline-offset: 5px;
+  border-radius: 10px;
+}
+
+@keyframes glowHighlight {
+  0% { outline-color: rgba(255, 255, 255, 0); }
+  50% { outline-color: var(--primary-color); }
+  100% { outline-color: rgba(255, 255, 255, 0); }
 }

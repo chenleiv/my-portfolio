@@ -21,34 +21,54 @@ const defaultSkills: string[] = [
 
 const SkillsContainer = () => {
   const availableSkills = useMemo(() => [...defaultSkills], []);
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [mustHaveSkills, setMustHaveSkills] = useState<string[]>([]);
   const [isMatch, setIsMatch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
   const [searchProgress, setSearchProgress] = useState(0);
+  const [draggedSkill, setDraggedSkill] = useState<string | null>(null);
+  const [mustHaveInput, setMustHaveInput] = useState('');
 
-  const handleSkillClick = (skill: string) => {
-    if (selectedSkills.includes(skill)) {
-      setSelectedSkills(selectedSkills.filter((s) => s !== skill));
-    } else {
-      setSelectedSkills([...selectedSkills, skill]);
+  const handleDragStart = (skill: string) => {
+    setDraggedSkill(skill);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedSkill(null);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    if (!draggedSkill) return;
+
+    if (!mustHaveSkills.includes(draggedSkill)) {
+      setMustHaveSkills([...mustHaveSkills, draggedSkill]);
+      setMustHaveInput(prev => prev ? `${prev}, ${draggedSkill}` : draggedSkill);
     }
   };
 
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMustHaveInput(e.target.value);
+  };
+
   const handleClearSearch = () => {
-    setSelectedSkills([]);
+    setMustHaveSkills([]);
+    setMustHaveInput('');
     setIsMatch(false);
     setIsSearching(false);
     setSearchProgress(0);
   };
 
   const handleSearch = () => {
-    if (selectedSkills.length === 0) return;
+    if (mustHaveSkills.length === 0) return;
     
     setIsSearching(true);
     setSearchProgress(0);
     setIsMatch(false);
 
-    // Simulate search progress
     const progressInterval = setInterval(() => {
       setSearchProgress(prev => {
         if (prev >= 100) {
@@ -59,19 +79,16 @@ const SkillsContainer = () => {
       });
     }, 100);
 
-    // Simulate search completion
     setTimeout(() => {
       clearInterval(progressInterval);
       setIsSearching(false);
       setIsMatch(true);
       
-      // Add a fade-out effect before scrolling
       const matchMessage = document.querySelector('.match-message');
       if (matchMessage) {
         matchMessage.classList.add('fade-out');
       }
 
-      // Scroll to header and about section with a longer delay
       const headerSection = document.getElementById('about');
       if (headerSection) {
         setTimeout(() => {
@@ -84,20 +101,49 @@ const SkillsContainer = () => {
     }, 1000); 
   };
 
+  const handleSkillClick = (skill: string) => {
+    if (!mustHaveSkills.includes(skill)) {
+      setMustHaveSkills([...mustHaveSkills, skill]);
+      setMustHaveInput(prev => prev ? `${prev}, ${skill}` : skill);
+    }
+  };
+
   return (
     <div className="skills-section-container" id="skills">
-      <h2>Select MUST TO HAVE Skills</h2>
+     <h2>What skills should your ideal candidate have?</h2>
       <div className="skills-list">
         {availableSkills.map((skill) => (
-          <motion.button
+          <motion.div
             key={skill}
-            whileTap={{ scale: 0.95 }}
+            draggable
+            onDragStart={() => handleDragStart(skill)}
+            onDragEnd={handleDragEnd}
             onClick={() => handleSkillClick(skill)}
-            className={`skill-button ${selectedSkills.includes(skill) ? 'selected' : 'unselected'}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className={`skill-item ${mustHaveSkills.includes(skill) ? 'selected' : ''}`}
+            style={{ cursor: 'pointer' }}
           >
             {skill}
-          </motion.button>
+          </motion.div>
         ))}
+      </div>
+
+      <div className="skills-inputs-container">
+        <div 
+          className="skills-input-container must-have"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          <p>Drag to input👇</p>
+          <input
+            type="text"
+            value={mustHaveInput}
+            placeholder="* required"
+            onChange={handleInputChange}
+            className="skills-input"
+          />
+        </div>
       </div>
 
       <div className="search-container">
@@ -105,11 +151,11 @@ const SkillsContainer = () => {
           <button 
             className="search-button"
             onClick={handleSearch}
-            disabled={selectedSkills.length === 0 || isSearching}
+            disabled={mustHaveSkills.length === 0 || isSearching}
           >
             {isSearching ? 'Searching...' : 'Search Matches'}
           </button>
-          {(selectedSkills.length > 0 || isMatch) && (
+          {(mustHaveSkills.length > 0 || isMatch) && (
             <button 
               className="clear-button"
               onClick={handleClearSearch}
@@ -140,7 +186,7 @@ const SkillsContainer = () => {
             exit={{ opacity: 0 }}
             className="match-message"
           >
-           Perfect match detected 🧬
+           Perfect match detected 🤖
           </motion.div>
         )}
       </AnimatePresence>
@@ -150,22 +196,7 @@ const SkillsContainer = () => {
 
 const MainHeader = () => {
   const [activeSection, setActiveSection] = useState('home');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const headerOffset = 80;
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const elementPosition = element.offsetTop;
-      const offsetPosition = elementPosition - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-      setIsMobileMenuOpen(false);
-    }
-  };
 
   useEffect(() => {
     const handleScroll = () => {

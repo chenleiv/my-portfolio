@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { useEffect, useRef, useState } from 'react';
-import { FaEnvelope, FaGithub, FaLinkedin, FaGoogle, FaMicrosoft, FaFileDownload } from 'react-icons/fa';
+import { FaEnvelope, FaGithub, FaLinkedin, FaGoogle, FaMicrosoft, FaFileDownload, FaMobileAlt } from 'react-icons/fa';
 import chenImage from '/assets/img/chen-bucky.jpeg';
-
+import { InteractiveConsole } from './AboutMeConsole';
 const About = () => {
   const [showEmailOptions, setShowEmailOptions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -87,25 +87,9 @@ const About = () => {
             animate={inView ? { y: 0 } : {}}
             transition={{ delay: 0.4 }}
           >
-            <div className="about-card">
-              <motion.h2
-                className="about-title"
-                initial={{ x: -50 }}
-                animate={inView ? { x: 0 } : {}}
-                transition={{ delay: 0.2 }}
-              >
-                About Me
-              </motion.h2>
-              <motion.p
-                className="about-text"
-                initial={{ x: -50 }}
-                animate={inView ? { x: 0 } : {}}
-                transition={{ delay: 0.2 }}
-              >
-                I'm a passionate Frontend Developer with 3 years of hands-on experience in modern web technologies,
-                building scalable and high-performance applications. A fast learner, creative problem solver and a strong team player.
-                Always eager to learn, create, and innovate.
-              </motion.p>
+            <div>
+            <InteractiveConsole />
+              
             </div>
 
             <motion.div
@@ -117,14 +101,20 @@ const About = () => {
               <motion.div className="contact-info-container">
                 <img src={chenImage} alt="Profile" className="profile-image" />
 
-                <motion.footer
+                <motion.footer id="contact"
                   className="about-footer"
                   initial={{ opacity: 0 }}
                   animate={inView ? { opacity: 1 } : {}}
                   transition={{ delay: 0.8 }}
                 >
                   <div className="contact-info">
-                  <motion.button
+                  
+                
+                    <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
+                      <FaLinkedin size={24} />
+                    </a>
+
+                    <motion.button
                       className="footer-link"
                       onClick={handleDownloadCV}
                       whileTap={{ scale: 0.9 }}
@@ -135,8 +125,8 @@ const About = () => {
                     <a href="https://github.com/chenleiv" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
                       <FaGithub size={24} />
                     </a>
-                    <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
-                      <FaLinkedin size={24} />
+                    <a href="tel:+972526656101" role="button" className="footer-link" title="Call me">
+                      <FaMobileAlt size={24} />
                     </a>
 
                     <div className="email-container" ref={dropdownRef}>
