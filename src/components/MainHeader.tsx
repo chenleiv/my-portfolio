@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useState, useEffect, useMemo } from 'react';
+import { useFocus } from '../utils/FocusContext';
 
 const defaultSkills: string[] = [
   'TypeScript',
@@ -28,6 +29,13 @@ const SkillsContainer = () => {
   const [draggedSkill, setDraggedSkill] = useState<string | null>(null);
   const [mustHaveInput, setMustHaveInput] = useState('');
 
+  const { focusConsoleInput } = useFocus();
+
+  const handleStartClick = () => {
+    focusConsoleInput();
+  };
+
+  
   const handleDragStart = (skill: string) => {
     setDraggedSkill(skill);
   };
@@ -150,7 +158,10 @@ const SkillsContainer = () => {
         <div className="button-group">
           <button 
             className="search-button"
-            onClick={handleSearch}
+            onClick={() => {
+              handleSearch();
+              handleStartClick();
+            }}
             disabled={mustHaveSkills.length === 0 || isSearching}
           >
             {isSearching ? 'Searching...' : 'Search Matches'}
@@ -195,7 +206,7 @@ const SkillsContainer = () => {
 };
 
 const MainHeader = () => {
-  const [activeSection, setActiveSection] = useState('home');
+  const [, setActiveSection] = useState('home');
   const headerOffset = 80;
 
   useEffect(() => {

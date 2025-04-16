@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useFocus } from '../utils/FocusContext';
 
 const COMMANDS = [
   'help();',
@@ -24,6 +25,14 @@ export const InteractiveConsole = () => {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  const { setConsoleInputRef } = useFocus();
+  
+  useEffect(() => {
+    setConsoleInputRef(inputRef.current);
+  }, [setConsoleInputRef]);
+  
 
   const handleCommand = (cmd: string) => {
     let output = '';
@@ -54,9 +63,7 @@ export const InteractiveConsole = () => {
     setHistory((prev) => [...prev, `> ${cmd}`, output]);
     setCommandHistory((prev) => [...prev, cmd]);
     setHistoryIndex(-1);
-  };
-
-  
+  };  
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -147,11 +154,11 @@ export const InteractiveConsole = () => {
       <form onSubmit={handleSubmit} className="console-input-line">
         <span className="prompt"></span>
         <input
+        ref={inputRef}
           type="text"
           value={input}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          autoFocus
           className="console-input"
           placeholder="Type a command..."
         />

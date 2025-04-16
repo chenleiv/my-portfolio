@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import '../styles/components/_navigation.scss';
+import { useFocus } from '../utils/FocusContext';
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -43,6 +44,12 @@ const Navigation = () => {
     setTimeout(() => setIsScrolling(false), 1000);
   };
 
+  const { focusConsoleInput } = useFocus();
+
+  const handleStartClick = () => {
+    focusConsoleInput();
+  };
+  
   return (
     <nav className="nav">
       <div className="container">
@@ -58,7 +65,10 @@ const Navigation = () => {
           <li className="nav-item">
             <button
               className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
-              onClick={() => scrollToSection('about')}
+              onClick={() => {
+                scrollToSection('about');
+                handleStartClick();
+              }}
             >
               About
             </button>
