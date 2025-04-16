@@ -5,26 +5,29 @@ const MouseFollow = () => {
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Update cursor position
-      setPosition({ x: e.clientX, y: e.clientY });
-      
-      // Update CSS variables for gradient effects (as percentage)
-      const x = (e.clientX / window.innerWidth) * 100;
-      const y = (e.clientY / window.innerHeight) * 100;
-      document.documentElement.style.setProperty('--mouse-x', `${x}%`);
-      document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+      requestAnimationFrame(() => {
+        setPosition({
+          x: e.clientX,
+          y: e.clientY
+        });
+      });
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   return (
-    <div
+    <div 
       className="mouse-follow"
       style={{
-        transform: `translate(${position.x - 10}px, ${position.y - 10}px)`,
-      }}
+        '--mouse-x': `${position.x}px`,
+        '--mouse-y': `${position.y}px`,
+        transform: `translate(-50%, -50%) translate(${position.x}px, ${position.y}px)`
+      } as React.CSSProperties}
     />
   );
 };

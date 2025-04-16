@@ -6,16 +6,17 @@ const defaultSkills: string[] = [
   'React',
   'Angular',
   'JavaScript',
-  'Git',
   'SASS',
   'HTML',
-  'Vite',
+  'Regex',
+  'REST API',
+  'Jest',
+  'Webpack',
+  'Git',
   'Node.js',
-  'Next.js',
-  'Express',
   'MongoDB',
   'Docker',
-  'SQL',
+  'MySQL',
 ];
 
 const SkillsContainer = () => {
@@ -64,19 +65,28 @@ const SkillsContainer = () => {
       setIsSearching(false);
       setIsMatch(true);
       
-      // Scroll to header and about section
+      // Add a fade-out effect before scrolling
+      const matchMessage = document.querySelector('.match-message');
+      if (matchMessage) {
+        matchMessage.classList.add('fade-out');
+      }
+
+      // Scroll to header and about section with a longer delay
       const headerSection = document.getElementById('about');
       if (headerSection) {
         setTimeout(() => {
-          headerSection.scrollIntoView({ behavior: 'smooth' });
-        }, 1000); // 1.5 second delay
+          headerSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }, 500); 
       }
-    }, 1000);
+    }, 1000); 
   };
 
   return (
     <div className="skills-section-container" id="skills">
-      <h2>Select Desired Skills</h2>
+      <h2>Select MUST TO HAVE Skills</h2>
       <div className="skills-list">
         {availableSkills.map((skill) => (
           <motion.button
@@ -130,7 +140,7 @@ const SkillsContainer = () => {
             exit={{ opacity: 0 }}
             className="match-message"
           >
-            Perfect match! 🎯
+           Perfect match detected 🧬
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,14 +1,11 @@
 .navigation {
   z-index: 1000;
   width: 100%;
-  // background: var(--glass-bg);
   backdrop-filter: blur(10px);
-  // border-bottom: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
 
   &__container {
     max-width: 1200px;
-    margin: 0 auto;
     padding: var(--spacing-sm);
     display: flex;
     align-items: center;

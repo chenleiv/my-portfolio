@@ -56,7 +56,7 @@
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
   align-items: center;
-  padding: 1rem;
+  padding: 0.5rem;
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
@@ -67,11 +67,17 @@
 .about-card {
   background: var(--glass-bg);
   padding: 1.5rem;
-  border-radius: 2rem;
+  border-radius: 1rem;
   backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   transition: all 0.4s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
 
   &:hover {
     transform: translateY(-10px);

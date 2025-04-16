@@ -102,10 +102,9 @@ const About = () => {
                 animate={inView ? { x: 0 } : {}}
                 transition={{ delay: 0.2 }}
               >
-                I'm a passionate Frontend Developer with three years of hands-on experience in modern web technologies,
-                building scalable, high-performance applications using TypeScript. A fast learner and problem solver, I hold
-                a B.A. in Social Sciences and am a graduate of a coding bootcamp, bringing both analytical thinking and
-                technical expertise to my work. Always eager to learn, create, and innovate!
+                I'm a passionate Frontend Developer with 3 years of hands-on experience in modern web technologies,
+                building scalable and high-performance applications. A fast learner, creative problem solver and a strong team player.
+                Always eager to learn, create, and innovate.
               </motion.p>
             </div>
 

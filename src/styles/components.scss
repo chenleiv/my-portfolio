@@ -4,24 +4,24 @@
 @use "components/_projects";
 @use "components/_about";
 @use "components/_footer";
+@use "components/navigation";
 
 .mouse-follow {
   position: fixed;
-  width: 100px;
-  height: 100px;
-  background: radial-gradient(
-    circle at var(--mouse-x, 10%) var(--mouse-y, 10%),
-    var(--gradient-start) 0%,
-    var(--gradient-middle) 20%,
-    var(--gradient-end) 10%,
-    transparent 10%
-  );
-  opacity: 0.05;
-  border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  mix-blend-mode: screen;
-  transition: transform 0.1s ease;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(
+    circle at center,
+    rgb(184, 173, 173),  0%,
+    rgb(204, 192, 192), 20%,
+    transparent 60%
+  );
+  border-radius: 50%;
+  opacity: 0.8;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
 }
 
 .skills-container {
@@ -197,62 +197,49 @@
 }
 
 .skill-item {
-  background: var(--glass-bg);
-  padding: 1rem;
-  border-radius: var(--radius-sm);
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: grab;
-  transition: var(--transition-fast);
-  border: 1px solid var(--glass-border);
-  font-weight: 500;
-  color: var(--text-primary);
-  position: relative;
-  backdrop-filter: blur(5px);
-  font-family: var(--font-mono);
-
-  &:hover {
-    background: var(--surface-color);
-    border-color: var(--primary-color);
-    z-index: 2;
-  }
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  cursor: move;
+  transition: transform 0.3s ease;
 
   &:active {
-    cursor: grabbing;
     transform: scale(0.98);
-    z-index: 3;
   }
 
   &.dragging {
     opacity: 0.7;
-    background: var(--glass-bg);
-    border: 1px dashed var(--primary-color);
-    z-index: 3;
   }
 
   &.drag-over {
-    border: 1px dashed var(--accent-color);
-    background: var(--surface-color);
+    background: rgba(255, 255, 255, 0.2);
   }
 }
 
-@media (min-width: 768px) {
-  .md\:flex-row {
+// Responsive classes
+.md\:flex-row {
+  @media (min-width: 768px) {
     flex-direction: row;
   }
+}
 
-  .md\:grid-cols-2 {
+.md\:grid-cols-2 {
+  @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
+}
 
-  .md\:grid-cols-3 {
+.md\:grid-cols-3 {
+  @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (min-width: 1024px) {
-  .lg\:grid-cols-4 {
+.lg\:grid-cols-4 {
+  @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
   }
 }
