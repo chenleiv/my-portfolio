@@ -100,6 +100,7 @@ const SkillsContainer = () => {
       const headerSection = document.getElementById('about');
       if (headerSection) {
         setTimeout(() => {
+          handleStartClick();
           headerSection.scrollIntoView({ 
             behavior: 'smooth',
             block: 'start'
@@ -160,7 +161,6 @@ const SkillsContainer = () => {
             className="search-button"
             onClick={() => {
               handleSearch();
-              handleStartClick();
             }}
             disabled={mustHaveSkills.length === 0 || isSearching}
           >
