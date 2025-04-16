@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import '../styles/components/navigation.scss';
+import '../styles/components/_navigation.scss';
 
 const Navigation = () => {
   const [activeSection, setActiveSection] = useState('home');
@@ -44,28 +44,28 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="navigation">
-      <div className="navigation__container">
+    <nav className="nav">
+      <div className="container">
         <button 
-          className="navigation__toggle"
+          className="menu-toggle"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
           aria-label="Toggle menu"
         >
-          <span className={`navigation__toggle-icon ${isMenuOpen ? 'open' : ''}`}></span>
+          <span className={`toggle-icon ${isMenuOpen ? 'open' : ''}`}></span>
         </button>
         
-        <ul className={`navigation__list ${isMenuOpen ? 'open' : ''}`}>
-          <li className="navigation__item">
+        <ul className={`nav-list ${isMenuOpen ? 'open' : ''}`}>
+          <li className="nav-item">
             <button
-              className={`navigation__link ${activeSection === 'about' ? 'active' : ''}`}
+              className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
               onClick={() => scrollToSection('about')}
             >
               About
             </button>
           </li>
-          <li className="navigation__item">
+          <li className="nav-item">
             <button
-              className={`navigation__link ${activeSection === 'projects' ? 'active' : ''}`}
+              className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}
               onClick={() => scrollToSection('projects')}
             >
               Projects

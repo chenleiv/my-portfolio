@@ -1,10 +1,10 @@
-.navigation {
+.nav {
   z-index: 1000;
   width: 100%;
   backdrop-filter: blur(10px);
   box-shadow: var(--glass-shadow);
 
-  &__container {
+  .container {
     max-width: 1200px;
     padding: var(--spacing-sm);
     display: flex;
@@ -16,7 +16,7 @@
     }
   }
 
-  &__toggle {
+  .menu-toggle {
     display: none;
     background: none;
     border: none;
@@ -28,50 +28,50 @@
     @media (max-width: 576px) {
       display: block;
     }
-  }
 
-  &__toggle-icon {
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--text-primary);
-    position: relative;
-    transition: all var(--transition-fast);
-
-    &::before,
-    &::after {
-      content: "";
-      position: absolute;
+    .toggle-icon {
+      display: block;
       width: 24px;
       height: 2px;
       background: var(--text-primary);
+      position: relative;
       transition: all var(--transition-fast);
-    }
 
-    &::before {
-      top: -8px;
-    }
-
-    &::after {
-      bottom: -8px;
-    }
-
-    &.open {
-      background: transparent;
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 2px;
+        background: var(--text-primary);
+        transition: all var(--transition-fast);
+      }
 
       &::before {
-        transform: rotate(45deg);
-        top: 0;
+        top: -8px;
       }
 
       &::after {
-        transform: rotate(-45deg);
-        bottom: 0;
+        bottom: -8px;
+      }
+
+      &.open {
+        background: transparent;
+
+        &::before {
+          transform: rotate(45deg);
+          top: 0;
+        }
+
+        &::after {
+          transform: rotate(-45deg);
+          bottom: 0;
+        }
       }
     }
   }
 
-  &__list {
+  .nav-list {
     display: flex;
     gap: var(--spacing-md);
     list-style: none;
@@ -102,7 +102,7 @@
     }
   }
 
-  &__item {
+  .nav-item {
     position: relative;
 
     @media (max-width: 576px) {
@@ -110,7 +110,7 @@
     }
   }
 
-  &__link {
+  .nav-link {
     background: none;
     border: none;
     color: var(--text-primary);
@@ -161,14 +161,14 @@
 
 // Responsive styles
 @media (max-width: 768px) {
-  .navigation {
+  .nav {
     padding: var(--spacing-xs);
 
-    &__list {
+    .nav-list {
       gap: var(--spacing-sm);
     }
 
-    &__link {
+    .nav-link {
       font-size: 0.9rem;
       padding: var(--spacing-xs);
     }
