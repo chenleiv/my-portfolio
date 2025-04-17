@@ -144,7 +144,10 @@ const SkillsContainer = () => {
           onDrop={handleDrop}
           onDragOver={handleDragOver}
         >
-          <p>Drag to input👇</p>
+          <p>
+            <span className="mobile-text">Click to choose 👆</span>
+            <span className="desktop-text">Drag to input 👇</span>
+          </p>
           <input
             type="text"
             value={mustHaveInput}

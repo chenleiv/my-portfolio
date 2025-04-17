@@ -93,6 +93,7 @@ const About = () => {
             </div>
 
             <motion.div
+              id="contact"
               className="about-image-container"
               initial={{ scale: 0.8 }}
               animate={inView ? { scale: 1 } : {}}
@@ -101,15 +102,13 @@ const About = () => {
               <motion.div className="contact-info-container">
                 <img src={chenImage} alt="Profile" className="profile-image" />
 
-                <motion.footer id="contact"
+                <motion.footer 
                   className="about-footer"
                   initial={{ opacity: 0 }}
                   animate={inView ? { opacity: 1 } : {}}
                   transition={{ delay: 0.8 }}
                 >
-                  <div className="contact-info">
-                  
-                
+                  <div className="contact-info" id="info">
                     <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
                       <FaLinkedin size={24} />
                     </a>

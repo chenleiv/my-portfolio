@@ -400,10 +400,24 @@
 
     p {
       margin: 0 0 15px 0;
-    color: #fff;
-    font-size: 1rem;
-    padding-left: 10px;
-    text-align: center;
+      color: #fff;
+      font-size: 1rem;
+      padding-left: 10px;
+      text-align: center;
+
+      .desktop-text {
+        display: none;
+        @media (min-width: 769px) {
+          display: inline;
+        }
+      }
+
+      .mobile-text {
+        display: inline;
+        @media (min-width: 769px) {
+          display: none;
+        }
+      }
     }
 
     &.must-have {

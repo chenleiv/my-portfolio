@@ -49,11 +49,17 @@ export const InteractiveConsole = () => {
         output = '👉 Scrolling to #projects...';
         scrollToSection('projects');
         break;
-        case 'contact();':
+      case 'contact();':
+        if (isMobile()) {
+          output = '📬 Scrolling to contact section...';
+          scrollToSection('contact');
+          highlightSection('info');
+        } else {
           output = '📬 Highlighting contact section...';
-          highlightSection('contact');
-          break;
-        case 'clear();':
+          highlightSection('info');
+        }
+        break;
+      case 'clear();':
         setHistory([...initialLines]);
         return;
       default:
@@ -68,6 +74,10 @@ export const InteractiveConsole = () => {
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const isMobile = () => {
+    return window.innerWidth <= 768;
   };
 
   const highlightSection = (id: string) => {
