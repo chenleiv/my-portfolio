@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { FaEnvelope, FaGithub, FaLinkedin, FaGoogle, FaMicrosoft, FaFileDownload, FaMobileAlt } from 'react-icons/fa';
 import chenImage from '/assets/img/chen-bucky.jpeg';
 import { InteractiveConsole } from './InteractiveConsole';
+
 const About = () => {
   const [showEmailOptions, setShowEmailOptions] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
