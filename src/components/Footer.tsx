@@ -5,7 +5,7 @@ const Footer = () => {
 
   const openSkillMatcher = () => {
     document.getElementById("skills")?.scrollIntoView({ behavior: 'smooth' });
-    (window as any).openSkillMatcher?.();
+    window.openSkillMatcher?.();
   };
 
   useEffect(() => {

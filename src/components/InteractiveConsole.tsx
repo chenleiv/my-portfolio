@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useFocus } from "../utils/FocusContext";
+import { useFocus } from "../utils/useFocus";
 import { PALETTE_ITEMS, normalizeCommand, toDisplayCommand, type PaletteItem } from "./consoleCommands";
 import { ConsoleLineView } from "./ConsoleLineView";
 import { ConsoleLine } from "./consoleTypes";
@@ -198,7 +198,7 @@ export const InteractiveConsole = () => {
 
       case "recruiterMode": {
         pushHistory([{ ...echo }, { id: uid(), type: "system", text: "🧩 Recruiter mode opened — pick a few skills." }], raw);
-        (window as any).openSkillMatcher?.();
+        window.openSkillMatcher?.();
         break;
       }
 

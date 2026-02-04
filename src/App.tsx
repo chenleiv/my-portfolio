@@ -1,4 +1,4 @@
-import MainHeader from './components/SkillsContainer';
+import MainHeader from './components/skillsContainer';
 import Projects from './components/Projects';
 import Footer from './components/Footer';
 import About from './components/About';

@@ -193,13 +193,13 @@
 .console-title {
   text-align: center;
   font-size: 1.3rem;
-  color: var(--text-septenary);
+  color: var(--color-primary);
   margin-bottom: 6px;
 }
 
 .console-desc {
   color: var(--text-quaternary);
-  padding-left: 60px;
+  padding: 0 60px;
   line-height: 1.35;
 }
 
