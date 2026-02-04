@@ -199,14 +199,20 @@
 
 .console-desc {
   color: var(--text-quaternary);
+  padding-left: 60px;
   line-height: 1.35;
+}
+
+.console-input-lineText {
+  color: var(--text-septenary);
+  margin-top: 12px;
 }
 
 /* ✅ Red box fix: center skills line */
 .console-skills {
   display: block;
   text-align: center;
-  margin: 12px 0 18px;
+  margin: 6px 0;
   padding: 6px 0;
   opacity: 0.9;
   font-size: 0.95rem;
@@ -215,7 +221,7 @@
 
 /* Commands section (optional styling hooks) */
 .console-commands-title {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--secondary-color);
 }
 
@@ -242,7 +248,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px;
+  padding: 14px 12px;
 }
 
 .console-input {
