@@ -1,0 +1,411 @@
+/* =========================
+   WRAPPER
+========================= */
+.skills-root {
+  font-family: var(--font-sans);
+  position: relative;
+}
+
+/* =========================
+   FLOATING BUTTON
+========================= */
+.skills-fab {
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  padding: 22px 26px;
+  z-index: 999;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(10px);
+
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.11);
+  }
+}
+
+/* =========================
+   MODAL OVERLAY
+========================= */
+.skills-modalOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  background: rgba(0, 0, 0, 0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 6vh 16px;
+
+  /* overlay itself shouldn't scroll on desktop */
+  overflow: hidden;
+}
+
+/* =========================
+   MODAL
+========================= */
+.skills-modal {
+  width: min(1040px, 98vw);
+  border-radius: 22px;
+
+  background: linear-gradient(180deg,
+      rgba(28, 34, 44, 0.98),
+      rgba(16, 18, 24, 0.98));
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 30px 120px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  display: flex;
+  flex-direction: column;
+
+  /* desktop: no scroll, everything fits */
+  overflow: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+.skills-modal__header {
+  padding: 18px 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.skills-modal__title {
+  font-size: 1.22rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.96);
+  letter-spacing: 0.2px;
+}
+
+.skills-modal__sub {
+  margin-top: 6px;
+  font-size: 1rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 60ch;
+}
+
+.skills-modal__close {
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.92);
+
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.12);
+  }
+}
+
+/* =========================
+   CONTENT LAYOUT
+========================= */
+.skills-modal__content {
+  padding: 18px 22px 22px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 18px;
+}
+
+/* =========================
+   SECTION (cards)
+========================= */
+.skills-modal__section {
+  padding: 16px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  /* keeps consistent height so right side can center */
+  min-height: 420px;
+}
+
+.skills-modal__sectionTitle {
+  font-size: 1rem;
+  font-weight: 850;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* =========================
+   GROUPED SKILLS (left column)
+========================= */
+.skills-group {
+  &:not(:first-child) {
+    margin-top: 14px;
+  }
+}
+
+.skills-group__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.skills-group__title {
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+}
+
+.skills-group__sub {
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.85rem;
+}
+
+.skills-group__pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* (keep for backward-compat, but no scroll here) */
+.skills-modal__pool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* =========================
+   CHIPS
+========================= */
+.skills-modal__chip {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-weight: 650;
+  border-radius: 999px;
+  white-space: nowrap;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.96);
+
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+
+  &.is-picked {
+    opacity: 0.45;
+  }
+}
+
+.skills-modal__selectedChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skills-modal__selectedChip {
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  font-weight: 650;
+  border-radius: 999px;
+  white-space: nowrap;
+
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.96);
+
+  cursor: pointer;
+
+  span {
+    margin-left: 8px;
+    opacity: 0.85;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+  }
+}
+
+.skills-modal__empty {
+  margin-top: 6px;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* =========================
+   RIGHT COLUMN: RESULT CENTER + ACTIONS BOTTOM
+========================= */
+.skills-resultArea {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+}
+
+.skills-hint {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+.skills-actionsBottom {
+  margin-top: auto;
+  display: grid;
+  gap: 10px;
+}
+
+/* Run match button */
+.skills-runMatch {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 14px;
+
+  background: linear-gradient(180deg, #6ea8ff, #4f86e6);
+  border: none;
+
+  color: #fff;
+  font-weight: 950;
+  font-size: 0.95rem;
+
+  cursor: pointer;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.skills-clearAll {
+  background: transparent;
+  border: none;
+
+  color: rgba(255, 255, 255, 0.72);
+  font-weight: 900;
+  cursor: pointer;
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* =========================
+   MATCH CARD
+========================= */
+.match-card {
+  width: 100%;
+  max-width: 340px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 16px;
+  border-radius: 18px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.match-card__title {
+  font-size: 0.95rem;
+  font-weight: 850;
+  color: rgba(255, 255, 255, 0.82);
+  text-align: center;
+}
+
+.match-card__name {
+  margin-top: 6px;
+  font-size: 1.25rem;
+  font-weight: 950;
+  color: rgba(255, 255, 255, 0.98);
+  text-align: center;
+}
+
+.match-card__cta {
+  margin-top: 14px;
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 950;
+
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.24);
+  }
+}
+
+/* =========================
+   MOBILE – SCROLL ENABLED (ONLY MOBILE)
+========================= */
+@media (max-width: 820px) {
+  .skills-modalOverlay {
+    padding: 5vh 12px;
+    overflow-y: auto;
+  }
+
+  .skills-modal {
+    width: min(980px, 98vw);
+    max-height: 92vh;
+
+    /* ✅ on mobile the modal itself scrolls */
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .skills-modal__content {
+    grid-template-columns: 1fr;
+    /* don't block modal scrolling */
+  }
+
+  .skills-modal__section {
+    min-height: auto;
+  }
+
+  .skills-fab {
+    right: 18px;
+    bottom: 18px;
+    top: auto;
+    padding: 12px 14px;
+  }
+
+
+  .skills-modal__chip {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .skills-modal__selectedChip {
+    padding: 6px;
+    font-size: 0.7rem;
+  }
+}

@@ -2,6 +2,12 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 
 const Footer = () => {
+
+  const openSkillMatcher = () => {
+    document.getElementById("skills")?.scrollIntoView({ behavior: 'smooth' });
+    (window as any).openSkillMatcher?.();
+  };
+
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
@@ -26,16 +32,16 @@ const Footer = () => {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
-        <div className="footer-bottom">
-          <a href="#about" role="button" className="footer-link" onClick={handleClick}> 
-            About
-          </a>
-          <a href="#projects" role="button" className="footer-link" onClick={handleClick}> 
-           Projects
-          </a>
-          <a href="#skills" role="button" className="footer-link" onClick={handleClick}> 
-            Skills
-          </a>
+      <div className="footer-bottom">
+        <a href="#about" role="button" className="footer-link" onClick={handleClick}>
+          About
+        </a>
+        <a href="#projects" role="button" className="footer-link" onClick={handleClick}>
+          Projects
+        </a>
+        <a href="#skills" role="button" className="footer-link" onClick={openSkillMatcher}>
+          Skills
+        </a>
       </div>
     </motion.footer>
   );

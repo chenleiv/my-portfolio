@@ -11,11 +11,11 @@
   }
 
   &__section {
-    min-height: 100vh;
+    // min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-md) 0;
+    // padding: var(--spacing-md) 0;
     position: relative;
     width: 100%;
 
@@ -29,4 +29,46 @@
     z-index: 1;
     width: 100%;
   }
+}
+
+/* =========================
+   GLOBAL SCROLLBAR
+========================= */
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.22) rgba(255, 255, 255, 0.06);
+}
+
+/* WebKit (Chrome/Safari/Edge) */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  /* גם ל-horizontal scroll */
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 999px;
+  margin: 10px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg,
+      rgba(120, 170, 255, 0.45),
+      rgba(255, 255, 255, 0.18));
+  border-radius: 999px;
+  border: 2px solid rgba(16, 18, 24, 0.55);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg,
+      rgba(120, 170, 255, 0.65),
+      rgba(255, 255, 255, 0.25));
+}
+
+/* אופציונלי: למנוע "קפיצות" כשScrollbar מופיע/נעלם */
+html {
+  scrollbar-gutter: stable;
 }

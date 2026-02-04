@@ -1,12 +1,11 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { FaExternalLinkAlt, FaGithub } from 'react-icons/fa';
-import socialImg from '/assets/img/social.png';
 import memoryImg from '/assets/img/memory.png';
-import bitcoinImg from '/assets/img/bitcoin.png';
-import spaceImg from '/assets/img/space1.png';
 import memeImg from '/assets/img/meme.png';
 import trellor1 from '/assets/img/trellor1.png';
+import aiWorkerSpaceImg from '/assets/img/knowledge.png';
+import portfolioImg from '/assets/img/portfolio.png';
 
 interface Project {
   label: number;
@@ -98,7 +97,25 @@ export default Projects;
 
 const projects: Project[] = [
   {
-    label: 0,
+    label: 1,
+    header: "AI WorkrSpace",
+    sub_header: "Manage your knowledge base with AI.",
+    img: aiWorkerSpaceImg,
+    skill: ["React", "TypeScript", "RestApi", "python", "cloudflare"],
+    web: "https://ai-knowledge-workspace.pages.dev/",
+    github: "https://github.com/chenleiv/ai-worker-space",
+  },
+  {
+    label: 2,
+    header: "Protfolio",
+    sub_header: "My protfolio website.",
+    img: portfolioImg,
+    skill: ["React", "Vite", "TypeScript", "SASS"],
+    web: "https://chenleiv.github.io/my-portfolio/",
+    github: "https://github.com/chenleiv/my-portfolio",
+  },
+  {
+    label: 3,
     header: "Trllor",
     sub_header: "Trello based app.",
     img: trellor1,
@@ -107,7 +124,7 @@ const projects: Project[] = [
     github: "https://github.com/chenleiv/trellor",
   },
   {
-    label: 1,
+    label: 4,
     header: "Memory Game",
     sub_header: "Classic memory game.",
     img: memoryImg,
@@ -116,7 +133,7 @@ const projects: Project[] = [
     github: "https://github.com/chenleiv/the-memory-game",
   },
   {
-    label: 2,
+    label: 5,
     header: "Meme Generator",
     sub_header: "Make your own meme.",
     img: memeImg,
@@ -124,32 +141,4 @@ const projects: Project[] = [
     web: "https://chenleiv.github.io/Meme-Generator/",
     github: "https://github.com/chenleiv/Meme-Generator",
   },
-  {
-    label: 3,
-    header: "Social App",
-    sub_header: "FaceBook look alike app.",
-    img: socialImg,
-    skill: ["React", "RestApi", "SASS"],
-    web: "https://chenleiv.github.io/social-app/",
-    github: "https://github.com/chenleiv/social-app/tree/main",
-  },
-  {
-    label: 4,
-    header: "Bitcoin",
-    sub_header: "Bitcoin transfer.",
-    img: bitcoinImg,
-    skill: ["React", "Redux", "SASS"],
-    web: "https://chenleiv.github.io/bitcoin-app-react/#/",
-    github: "https://github.com/chenleiv/bitcoin-app-react/tree/master",
-  },
-  {
-    label: 5,
-    header: "SpaceY App",
-    sub_header: "Landing info.",
-    img: spaceImg,
-    skill: ["React", "RestApi", "Redux", "SASS"],
-    web: "https://chenleiv.github.io/space-y-react/#/",
-    github: "https://github.com/chenleiv/space-x-react/tree/master",
-  },
-
 ];

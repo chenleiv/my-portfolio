@@ -1,126 +1,10 @@
 @use "variables" as variables;
-@use "components/_main-header";
 @use "components/_projects";
-@use "components/_about";
+@use "components/_skills";
+@use "components/_console";
 @use "components/_footer";
 @use "components/_navigation";
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
-
-
-.mouse-follow {
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  width: 20px;
-  height: 20px;
-  background: radial-gradient(
-    circle at center,
-    rgb(184, 173, 173),  0%,
-    rgb(204, 192, 192), 20%,
-    transparent 60%
-  );
-  border-radius: 50%;
-  opacity: 0.8;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease-out;
-}
-
-
-.interactive-console {
-  font-family: 'Fira Code', monospace;
-  font-size: 1.1rem;
-  background-color: #1e1e1e;
-  color: #dcdcdc;
-  max-width: 800px;
-  margin: 40px auto;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
-  overflow: hidden;
-}
-
-.console-header {
-  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  color: #00ffae8a;
-  padding: 14px 20px;
-  font-weight: bold;
-  font-size: 14px;
-  border-bottom: 1px solid #333;
-}
-
-.console-history {
-  padding: 20px;
-  min-height: 200px;
-  white-space: pre-wrap;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.console-line {
-  color: #9cdcfe;
-}
-
-.console-input-line {
-  display: flex;
-  align-items: center;
-  background-color: #1e1e1e;
-  padding: 16px 20px;
-  border-top: 1px solid #333;
-}
-
-.prompt {
-  color: #00ffae;
-  margin-right: 8px;
-}
-
-.console-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  outline: none;
-  color: #dcdcdc;
-  font-size: 1.1rem;
-  font-family: 'Fira Code', monospace;
-}
-
-.autocomplete-list {
-  list-style: none;
-  margin: 0;
-  padding: 0 20px 10px;
-  background-color: #1e1e1e;
-  border-top: 1px solid #333;
-  border-radius: 0 0 12px 12px;
-}
-
-.autocomplete-item {
-  padding: 6px 0;
-  color: #dcdcaa;
-  cursor: pointer;
-  font-family: 'Fira Code', monospace;
-  font-size: 0.9rem;
-}
-
-.autocomplete-item:hover {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.console-line .console-comment {
-  color: #6a9955;
-  font-style: italic;
-}
-.console-line .console-input-line {
-  color: #00ffae;
-}
-.console-line .console-keyword {
-  color: #c586c0;
-}
-.console-line .console-string {
-  color: #ce9178;
-}
-.console-line .console-method {
-  color: #569cd6;
-}
 
 /* Add to your global CSS */
 .highlight {
@@ -131,7 +15,264 @@
 }
 
 @keyframes glowHighlight {
-  0% { outline-color: rgba(255, 255, 255, 0); }
-  50% { outline-color: var(--primary-color); }
-  100% { outline-color: rgba(255, 255, 255, 0); }
+  0% {
+    outline-color: rgba(255, 255, 255, 0);
+  }
+
+  50% {
+    outline-color: var(--primary-color);
+  }
+
+  100% {
+    outline-color: rgba(255, 255, 255, 0);
+  }
 }
+
+// .interactive-console {
+//   font-family: 'Fira Code', monospace;
+//   font-size: 1.1rem;
+//   background-color: #1e1e1e;
+//   color: #dcdcdc;
+//   // max-width: 850px;
+//   // margin: 40px auto;
+//   border-radius: 12px;
+//   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+//   overflow: hidden;
+// }
+
+// .console-header {
+//   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+//   color: #00ffae8a;
+//   padding: 14px 20px;
+//   font-weight: bold;
+//   font-size: 14px;
+//   border-bottom: 1px solid #333;
+// }
+
+// .console-history {
+//   padding: 0 20px 14px 20px;
+//   min-height: 200px;
+//   white-space: pre-wrap;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 6px;
+// }
+
+// .console-line {
+//   color: #9cdcfe;
+// }
+
+// .console-input-line {
+//   display: flex;
+//   align-items: center;
+//   background-color: #1e1e1e;
+//   padding: 16px 20px;
+//   border-top: 1px solid #333;
+// }
+
+// .prompt {
+//   color: #00ffae;
+//   margin-right: 8px;
+// }
+
+// .console-input {
+//   flex: 1;
+//   background: transparent;
+//   border: none;
+//   outline: none;
+//   color: #dcdcdc;
+//   font-size: 1.1rem;
+//   font-family: 'Fira Code', monospace;
+// }
+
+// .console-input-wrap {
+//   display: flex;
+//   align-items: center;
+//   gap: 10px;
+//   width: 100%;
+// }
+
+// .palette-button {
+//   flex: 0 0 auto;
+//   padding: 8px 10px;
+//   border-radius: 10px;
+//   border: 1px solid rgba(255, 255, 255, 0.12);
+//   background: rgba(255, 255, 255, 0.04);
+//   color: rgba(255, 255, 255, 0.9);
+//   cursor: pointer;
+// }
+
+// .palette-button:active {
+//   transform: translateY(1px);
+// }
+
+// // .palette-overlay {
+// //   position: fixed;
+// //   inset: 0;
+// //   background: rgba(0, 0, 0, 0.55);
+// //   display: flex;
+// //   align-items: flex-start;
+// //   justify-content: center;
+// //   padding-top: 10vh;
+// //   z-index: 9999;
+// // }
+
+// .palette {
+//   // width: min(640px, 92vw);
+//   border-radius: 14px;
+//   background: #0b0f14;
+//   border: 1px solid rgba(255, 255, 255, 0.08);
+//   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+//   overflow: hidden;
+// }
+
+// .palette-header {
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 12px 14px;
+//   font-size: 12px;
+//   color: rgba(255, 255, 255, 0.75);
+//   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+// }
+
+// .palette-hint {
+//   opacity: 0.75;
+// }
+
+// .palette-input {
+//   width: 100%;
+//   padding: 12px 14px;
+//   background: transparent;
+//   border: none;
+//   outline: none;
+//   color: white;
+//   font-size: 14px;
+// }
+
+// .palette-list {
+//   list-style: none;
+//   margin: 0;
+//   padding: 6px;
+//   max-height: 320px;
+//   overflow: auto;
+// }
+
+// .palette-item {
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 10px 10px;
+//   border-radius: 10px;
+//   cursor: pointer;
+//   color: rgba(255, 255, 255, 0.88);
+// }
+
+// .palette-item.active {
+//   background: rgba(255, 255, 255, 0.08);
+// }
+
+// .palette-item-cmd {
+//   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+//   color: rgba(255, 255, 255, 0.6);
+// }
+
+// .palette-empty {
+//   padding: 10px;
+//   color: rgba(255, 255, 255, 0.6);
+// }
+
+// .autocomplete-item.active {
+//   background: rgba(255, 255, 255, 0.08);
+// }
+
+// .autocomplete-list {
+//   list-style: none;
+//   margin: 0;
+//   padding: 0 20px 10px;
+//   background-color: #1e1e1e;
+//   border-top: 1px solid #333;
+//   border-radius: 0 0 12px 12px;
+// }
+
+// .autocomplete-item {
+//   padding: 6px 0;
+//   color: #dcdcaa;
+//   cursor: pointer;
+//   font-family: 'Fira Code', monospace;
+//   font-size: 0.9rem;
+// }
+
+// .autocomplete-item:hover {
+//   color: #ffffff;
+//   background-color: rgba(255, 255, 255, 0.05);
+// }
+
+// .console-line .console-comment {
+//   color: #6a9955;
+//   font-style: italic;
+// }
+
+// .console-line .console-input-line {
+//   color: #00ffae;
+// }
+
+// .console-line .console-keyword {
+//   color: #c586c0;
+// }
+
+// .console-line .console-string {
+//   color: #ce9178;
+// }
+
+// .console-line .console-skills {
+//   color: #dcdcdc;
+// }
+
+// .console-line .console-method {
+//   color: #569cd6;
+// }
+
+// .console-line .console-name {
+//   font-weight: bold;
+//   color: #dcdcdc;
+//   font-size: 1.2rem;
+//   color: #dcdcdc;
+// }
+
+// .console-line .console-title {
+//   font-weight: bold;
+//   color: #dcdcdc;
+//   font-size: 1rem;
+//   color: #dcdcdc;
+// }
+
+// .console-line .console-name,
+// .console-title {
+//   text-align: center;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   height: 0px;
+
+// }
+
+// /* Add to your global CSS */
+// .highlight {
+//   animation: glowHighlight 0.5s ease-in-out;
+//   outline: 3px solid var(--primary-color);
+//   outline-offset: 5px;
+//   border-radius: 10px;
+// }
+
+// @keyframes glowHighlight {
+//   0% {
+//     outline-color: rgba(255, 255, 255, 0);
+//   }
+
+//   50% {
+//     outline-color: var(--primary-color);
+//   }
+
+//   100% {
+//     outline-color: rgba(255, 255, 255, 0);
+//   }
+// }
