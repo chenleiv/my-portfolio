@@ -19,8 +19,8 @@ export const PALETTE_ITEMS: PaletteItem[] = [
   { id: "contact", label: "Contact", keywords: ["contact", "email", "info"] },
   {
     id: "recruiterMode",
-    label: "Recruiter mode",
-    keywords: ["mode", "recruiter mode", "skills", "ideal", "hire", "talent"],
+    label: "Recruitermode",
+    keywords: ["mode", "recruiterMode", "skills", "ideal", "hire", "talent"],
   },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
 ];

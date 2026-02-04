@@ -33,6 +33,6 @@ export const ABOUT_LINES: ConsoleLine[] = [
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
   { id: "c1", type: "cmd", text: "showProjects()" },
   { id: "c2", type: "cmd", text: "contact()" },
-  { id: "c3", type: "cmd", text: "recruiter mode()" },
+  { id: "c3", type: "cmd", text: "recruiterMode()" },
   { id: "c4", type: "cmd", text: "clear()" },
 ];
