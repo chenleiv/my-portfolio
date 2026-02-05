@@ -183,7 +183,6 @@
 
 /* HERO (name/title) */
 .console-name {
-  text-align: center;
   font-size: 1.8rem;
   letter-spacing: 0.12em;
   font-weight: 600;
@@ -191,14 +190,14 @@
 }
 
 .console-title {
-  text-align: center;
   font-size: 1.3rem;
-  color: var(--color-primary);
+  color: var(--gradient-start);
   margin-bottom: 6px;
 }
 
 .console-desc {
   color: var(--text-quaternary);
+  padding-right: 60px;
   line-height: 1.35;
 }
 
@@ -210,7 +209,6 @@
 /* ✅ Red box fix: center skills line */
 .console-skills {
   display: block;
-  text-align: center;
   margin: 6px 0;
   padding: 6px 0;
   opacity: 0.9;
@@ -221,7 +219,7 @@
 /* Commands section (optional styling hooks) */
 .console-commands-title {
   margin-top: 12px;
-  color: var(--secondary-color);
+  color: var(--text-senary);
 }
 
 .console-cmd {

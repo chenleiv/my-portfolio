@@ -1,8 +1,4 @@
-export type CanonicalCommand =
-  | "showProjects"
-  | "contact"
-  | "clear"
-  | "recruiterMode";
+export type CanonicalCommand = "showProjects" | "contact" | "clear" | "skills";
 
 export type PaletteItem = {
   id: CanonicalCommand;
@@ -18,8 +14,8 @@ export const PALETTE_ITEMS: PaletteItem[] = [
   },
   { id: "contact", label: "Contact", keywords: ["contact", "email", "info"] },
   {
-    id: "recruiterMode",
-    label: "Recruitermode",
+    id: "skills",
+    label: "skills",
     keywords: ["mode", "recruiterMode", "skills", "ideal", "hire", "talent"],
   },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
@@ -44,12 +40,13 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
     case "clear":
       return "clear";
 
-    // recruiterMode variations
+    // skills variations
     case "recruitermode":
     case "recruiter":
     case "match":
     case "skills":
-      return "recruiterMode";
+    case "skills()":
+      return "skills";
 
     default:
       return null;

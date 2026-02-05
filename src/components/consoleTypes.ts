@@ -22,7 +22,7 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "d1",
     type: "desc",
-    text: "Turns complex requirements into elegant frontend systems, focused on intuitive and scalable interfaces, bringing adaptability, ownership, and a strong teamwork mindset.",
+    text: "3+ years of experience building scalable, high-performance web applications using modern frontend frameworks. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
   },
   {
     id: "s1",
@@ -33,6 +33,6 @@ export const ABOUT_LINES: ConsoleLine[] = [
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
   { id: "c1", type: "cmd", text: "showProjects()" },
   { id: "c2", type: "cmd", text: "contact()" },
-  { id: "c3", type: "cmd", text: "recruiterMode()" },
+  { id: "c3", type: "cmd", text: "skills()" },
   { id: "c4", type: "cmd", text: "clear()" },
 ];

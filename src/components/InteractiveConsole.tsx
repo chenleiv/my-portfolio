@@ -2,30 +2,15 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useFocus } from "../utils/useFocus";
 import { PALETTE_ITEMS, normalizeCommand, toDisplayCommand, type PaletteItem } from "./consoleCommands";
 import { ConsoleLineView } from "./ConsoleLineView";
-import { ConsoleLine } from "./consoleTypes";
+import { ConsoleLine, ABOUT_LINES } from "./consoleTypes";
 
-const ABOUT_LINES: ConsoleLine[] = [
-  { id: "h1", type: "heroName", text: "CHEN LEIV" },
-  { id: "h2", type: "heroTitle", text: "Frontend Developer" },
-  { id: "s1", type: "skills", text: "React • Angular • TypeScript • SCSS • Node.js" },
-  {
-    id: "d1", type: "desc", text: "Turns complex requirements into elegant frontend systems, focused on intuitive and scalable interfaces, bringing adaptability, ownership, and a strong teamwork mindset.",
-  },
-  { id: "c0", type: "commandsTitle", text: "# Available commands:" },
-  { id: "c1", type: "cmd", text: "showProjects()" },
-  { id: "c2", type: "cmd", text: "contact()" },
-  { id: "c3", type: "cmd", text: "recruiterMode()" },
-  { id: "c4", type: "cmd", text: "clear()" },
-];
-
-const uid = () => `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-
+const uid = () => crypto.randomUUID();
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
 export const InteractiveConsole = () => {
   const initialLines = useMemo(() => ABOUT_LINES, []);
-
   const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
+
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [suggestionIndex, setSuggestionIndex] = useState(-1);
@@ -166,7 +151,7 @@ export const InteractiveConsole = () => {
           {
             id: uid(),
             type: "error",
-            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / recruiterMode / clear`,
+            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / skills / clear`,
           },
         ],
         raw
@@ -196,7 +181,7 @@ export const InteractiveConsole = () => {
         break;
       }
 
-      case "recruiterMode": {
+      case "skills": {
         pushHistory([{ ...echo }, { id: uid(), type: "system", text: "🧩 Recruiter mode opened — pick a few skills." }], raw);
         window.openSkillMatcher?.();
         break;

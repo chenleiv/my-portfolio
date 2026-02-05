@@ -483,10 +483,11 @@
 
   .skills-fab {
     right: 18px;
-    bottom: 18px;
+    bottom: 16px;
     top: auto;
-    padding: 12px 14px;
+    padding: 14px 18px;
     font-size: 1rem;
+    background: var(--background-color);
   }
 
   .skills-groups-container {
@@ -505,7 +506,7 @@
 
 
   .match-link {
-    width: 140px;
+    width: 170px;
   }
 
   .match-message__text {
@@ -522,5 +523,9 @@
 
   .skills-modal__header {
     padding: 55px 22px 16px;
+  }
+
+  .console-line .console-desc {
+    padding-right: 10px;
   }
 }

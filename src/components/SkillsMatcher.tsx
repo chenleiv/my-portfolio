@@ -19,10 +19,11 @@ const SKILL_GROUPS: SkillGroup[] = [
             "JavaScript",
             "SASS",
             "HTML",
-            "Regex",
             "REST API",
             "Git",
+            "Jira",
             "Node.js",
+            "Nx",
         ],
     },
     {
@@ -32,10 +33,11 @@ const SKILL_GROUPS: SkillGroup[] = [
             "Curiosity",
             "Quick learning",
             "Detail-oriented",
-            "Communication",
             "Ownership",
             "Problem solving",
             "Team player",
+            "Time management",
+
         ],
     },
 ];
@@ -43,9 +45,7 @@ const SKILL_GROUPS: SkillGroup[] = [
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
 type Props = {
-    /** where to scroll when clicking "View profile" (defaults to "home") */
     scrollTargetId?: string;
-    /** optional: keep backwards compat for console commands */
     exposeGlobalOpener?: boolean;
 };
 
@@ -86,13 +86,13 @@ export default function SkillsMatcher({
         return () => clearTimers();
     }, []);
 
-    // Optional: expose opener for console commands
     useEffect(() => {
         if (!exposeGlobalOpener) return;
 
-        (window as any).openSkillMatcher = openModal;
+        window.openSkillMatcher = openModal;
+
         return () => {
-            delete (window as any).openSkillMatcher;
+            delete window.openSkillMatcher;
         };
     }, [exposeGlobalOpener]);
 
@@ -209,8 +209,8 @@ export default function SkillsMatcher({
                                     </div>
                                     <div className="skills-modal__sub">
                                         {isMobile()
-                                            ? "Tap skills to add them."
-                                            : "Click or drag to input to add skills."}
+                                            ? "Tap skills to add them"
+                                            : "Click or drag to input to add skills"}
                                     </div>
                                 </div>
 
@@ -335,7 +335,7 @@ export default function SkillsMatcher({
                                                             transition={{ duration: 0.9, ease: "easeOut" }}
                                                         />
 
-                                                        <span className="match-message__text">Perfect match detected 🤖 → </span>
+                                                        <span className="match-message__text">Found the perfect match → </span>
 
                                                         <motion.button
                                                             type="button"

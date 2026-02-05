@@ -13,8 +13,10 @@ interface Project {
   sub_header: string;
   img: string;
   skill: string[];
-  web: string;
+  web?: string;
   github: string;
+  hideWeb?: boolean;
+  hideGithub?: boolean;
 }
 
 const Projects = () => {
@@ -67,12 +69,29 @@ const Projects = () => {
                 <img src={project.img} alt={project.header} className="project-image" />
                 <div className="project-overlay">
                   <div className="project-actions">
-                    <a href={project.web} target="_blank" role="button" rel="noopener noreferrer" className="project-button">
-                      <FaExternalLinkAlt size={16} /> Live Demo
-                    </a>
-                    <a href={project.github} target="_blank" role="button" rel="noopener noreferrer" className="project-button">
-                      <FaGithub size={16} /> Source
-                    </a>
+                    {!project.hideWeb && project.web && (
+                      <a
+                        href={project.web}
+                        target="_blank"
+                        role="button"
+                        rel="noopener noreferrer"
+                        className="project-button"
+                      >
+                        <FaExternalLinkAlt size={16} /> Live Demo
+                      </a>
+                    )}
+
+                    {!project.hideGithub && (
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        role="button"
+                        rel="noopener noreferrer"
+                        className="project-button"
+                      >
+                        <FaGithub size={16} /> Source
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -107,12 +126,12 @@ const projects: Project[] = [
   },
   {
     label: 2,
-    header: "Protfolio",
-    sub_header: "My protfolio website.",
+    header: "Portfolio",
+    sub_header: "My portfolio website.",
     img: portfolioImg,
     skill: ["React", "Vite", "TypeScript", "SASS"],
-    web: "https://chenleiv.github.io/my-portfolio/",
     github: "https://github.com/chenleiv/my-portfolio",
+    hideWeb: true,
   },
   {
     label: 3,
