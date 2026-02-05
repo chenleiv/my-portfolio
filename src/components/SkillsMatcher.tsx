@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useFocus } from "../../utils/useFocus";
+import { useFocus } from "../utils/useFocus";
 
 type SkillGroup = {
     id: "technical" | "other";
@@ -131,11 +131,8 @@ export default function SkillsMatcher({
         setSearchProgress(0);
 
         progressIntervalRef.current = window.setInterval(() => {
-            setSearchProgress((prev) => {
-                if (prev >= 100) return 100;
-                return prev + 10;
-            });
-        }, 100);
+            setSearchProgress((prev) => Math.min(prev + 4, 100));
+        }, 60);
 
         searchTimeoutRef.current = window.setTimeout(() => {
             clearTimers();
@@ -229,36 +226,39 @@ export default function SkillsMatcher({
 
                             <div className="skills-modal__content">
                                 <div className="skills-section-container" id="skills">
-                                    {skillGroups.map((group) => (
-                                        <div key={group.id} className="skills-group">
-                                            <h3 className="skills-group__title">{group.title}</h3>
 
-                                            <div className="skills-list">
-                                                {group.skills.map((skill) => {
-                                                    const selected = selectedSkills.includes(skill);
+                                    <div className="skills-groups-container">
+                                        {skillGroups.map((group) => (
 
-                                                    return (
-                                                        <motion.div
-                                                            key={skill}
-                                                            draggable={canDrag && !selected}
-                                                            onDragStart={() => setDraggedSkill(skill)}
-                                                            onDragEnd={() => setDraggedSkill(null)}
-                                                            onClick={() => addSkill(skill)}
-                                                            whileHover={{ scale: 1.05 }}
-                                                            whileTap={{ scale: 0.95 }}
-                                                            className={`skill-item ${selected ? "selected" : ""}`}
-                                                            style={{ cursor: "pointer" }}
-                                                            aria-pressed={selected}
-                                                            role="button"
-                                                        >
-                                                            {skill}
-                                                        </motion.div>
-                                                    );
-                                                })}
+                                            <div key={group.id} className="skills-group">
+                                                <h3 className="skills-group__title">{group.title}</h3>
+
+                                                <div className="skills-list">
+                                                    {group.skills.map((skill) => {
+                                                        const selected = selectedSkills.includes(skill);
+
+                                                        return (
+                                                            <motion.div
+                                                                key={skill}
+                                                                draggable={canDrag && !selected}
+                                                                onDragStart={() => setDraggedSkill(skill)}
+                                                                onDragEnd={() => setDraggedSkill(null)}
+                                                                onClick={() => addSkill(skill)}
+                                                                whileHover={{ scale: 1.05 }}
+                                                                whileTap={{ scale: 0.95 }}
+                                                                className={`skill-item ${selected ? "selected" : ""}`}
+                                                                style={{ cursor: "pointer" }}
+                                                                aria-pressed={selected}
+                                                                role="button"
+                                                            >
+                                                                {skill}
+                                                            </motion.div>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
-                                    ))}
-
+                                        ))}
+                                    </div>
                                     <div className="skills-inputs-container">
                                         <div
                                             className="skills-input-container"
@@ -299,43 +299,65 @@ export default function SkillsMatcher({
                                             )}
                                         </div>
 
-
-
-
-
-                                        <AnimatePresence>
-                                            <motion.div
-                                                key="match"
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                exit={{ opacity: 0 }}
-                                                className="match-message"
-                                            >
-
-                                                <div>
-                                                    {isSearching && (
+                                        <div className="search-slot" aria-live="polite">
+                                            <AnimatePresence mode="wait">
+                                                {isSearching ? (
+                                                    <motion.div
+                                                        key="progress"
+                                                        className="search-slot__item"
+                                                        initial={{ opacity: 0, y: 6 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        exit={{ opacity: 0, y: -6 }}
+                                                        transition={{ duration: 0.18, ease: "easeOut" }}
+                                                    >
                                                         <div className="search-progress" aria-label="Search progress">
-                                                            <div className="progress-bar" style={{ width: `${searchProgress}%` }} />
-                                                            <span className="progress-text">{searchProgress}%</span>
+                                                            <div className="search-progress__track">
+                                                                <div
+                                                                    className="search-progress__bar"
+                                                                    style={{ width: `${searchProgress}%` }}
+                                                                />
+                                                            </div>
                                                         </div>
-                                                    )}
-                                                </div>
-                                                {!isSearching && isMatch && (
-                                                    <div className="match-message">
-                                                        <div>Perfect match detected 🤖</div>
+                                                    </motion.div>
+                                                ) : isMatch ? (
+                                                    <motion.div
+                                                        key="match"
+                                                        className="search-slot__item match-message"
+                                                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                        exit={{ opacity: 0, y: -8, scale: 0.98 }}
+                                                        transition={{ duration: 0.22, ease: "easeOut" }}
+                                                    >
+                                                        <motion.span
+                                                            className="match-message__glow"
+                                                            initial={{ opacity: 0, scale: 0.85 }}
+                                                            animate={{ opacity: [0, 1, 0], scale: [0.85, 1.15, 1.25] }}
+                                                            transition={{ duration: 0.9, ease: "easeOut" }}
+                                                        />
 
-                                                        <button
+                                                        <span className="match-message__text">Perfect match detected 🤖 → </span>
+
+                                                        <motion.button
                                                             type="button"
                                                             className="match-link"
                                                             onClick={goToProfile}
+                                                            whileHover={{ y: -1 }}
+                                                            whileTap={{ scale: 0.98 }}
                                                         >
-                                                            View profile →
-                                                        </button>
-
-                                                    </div>
+                                                            View profile
+                                                        </motion.button>
+                                                    </motion.div>
+                                                ) : (
+                                                    <motion.div
+                                                        key="empty"
+                                                        className="search-slot__item"
+                                                        initial={{ opacity: 0 }}
+                                                        animate={{ opacity: 1 }}
+                                                        exit={{ opacity: 0 }}
+                                                    />
                                                 )}
-                                            </motion.div>
-                                        </AnimatePresence>
+                                            </AnimatePresence>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

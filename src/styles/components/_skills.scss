@@ -1,15 +1,11 @@
-/* =========================
-   THEME OVERRIDES (local to this component)
-========================= */
 .skills-root {
   font-family: var(--font-sans);
 
-  /* soft “blush” like the screenshot */
   --skills-ink: rgba(255, 255, 255, 0.92);
   --skills-ink-muted: rgba(255, 255, 255, 0.72);
 
   --skills-panel: rgba(17, 17, 18, 0.88);
-  --skills-panel-2: rgba(24, 24, 26, 0.78);
+  --skills-panel-2: rgba(24, 24, 26, 0.96);
   --skills-border: rgba(255, 255, 255, 0.10);
 
   --skills-chip-bg: rgba(255, 255, 255, 0.08);
@@ -25,14 +21,12 @@
   --skills-cta-text: #ffffff;
 }
 
-/* =========================
-   FAB (keep if you want)
-========================= */
+
 .skills-fab {
   position: fixed;
   right: 18px;
   top: 18px;
-  padding: 16px 18px;
+  padding: 22px 28px;
   z-index: 999;
   border-radius: 999px;
 
@@ -42,7 +36,7 @@
 
   color: var(--skills-ink);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 1.5rem;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast);
 
@@ -60,7 +54,6 @@
   inset: 0;
   z-index: 9999;
 
-  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(3px);
 
   display: flex;
@@ -75,7 +68,7 @@
   width: min(980px, 98vw);
   border-radius: 28px;
 
-  background: linear-gradient(180deg, var(--skills-panel-2), var(--skills-panel));
+  background: var(--skills-panel-2);
   border: 1px solid var(--skills-border);
   box-shadow: 0 34px 140px rgba(0, 0, 0, 0.72), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
@@ -86,7 +79,7 @@
 
 .skills-modal__header {
   position: relative;
-  padding: 24px 22px 16px;
+  padding: 24px 22px 10px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 
   display: grid;
@@ -95,8 +88,8 @@
 }
 
 .skills-modal__title {
-  font-size: clamp(1.8rem, 3.2vw, 2.35rem);
-  font-weight: 900;
+  font-size: clamp(1.8rem, 3.2vw, 2rem);
+  font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--skills-ink);
   margin: 0;
@@ -104,7 +97,7 @@
 
 .skills-modal__sub {
   margin-top: 10px;
-  font-size: 1rem;
+  font-size: 1.5rem;
   line-height: 1.55;
   color: var(--skills-ink-muted);
   max-width: 66ch;
@@ -163,7 +156,6 @@
 
 .skills-group__title {
   display: none;
-  /* screenshot doesn’t show group titles */
 }
 
 /* =========================
@@ -187,7 +179,7 @@
   letter-spacing: 0.01em;
 
   color: var(--skills-ink);
-  background: linear-gradient(180deg, var(--skills-chip-bg), var(--skills-chip-bg-2));
+  // background: linear-gradient(180deg, var(--skills-chip-bg), var(--skills-chip-bg-2));
   border: 1px solid var(--skills-chip-border);
 
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.25);
@@ -285,6 +277,10 @@
   font-weight: 700;
 }
 
+.skills-groups-container {
+  overflow: hidden;
+}
+
 /* =========================
    SEARCH CTA AREA
 ========================= */
@@ -355,6 +351,49 @@
       cursor: not-allowed;
     }
   }
+
+  .search-slot {
+    width: 100%;
+    max-width: 420px;
+
+    /* ✅ reserve space מראש (אין קפיצה) */
+    height: 52px;
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-slot__item {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.search-progress {
+  width: 100%;
+  max-width: 360px;
+}
+
+.search-progress__track {
+  height: 10px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.search-progress__bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(231, 183, 183, 0.55), rgba(231, 183, 183, 1));
+  transition: width 0.18s ease;
 }
 
 /* =========================
@@ -362,32 +401,58 @@
 ========================= */
 
 .match-message {
-  height: 20px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.05rem;
-  font-weight: 800;
-  margin: 10px 0 0;
-  text-align: center;
+  position: relative;
 
-  display: flex;
-  gap: 10px;
-  justify-items: center;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 14px;
+
+  padding: 10px 14px;
+  border-radius: 14px;
+
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.05rem;
+  font-weight: 800;
+
+  overflow: hidden;
+}
+
+.match-message__text {
+  position: relative;
+  z-index: 1;
+}
+
+.match-message__glow {
+  position: absolute;
+  inset: -30px;
+  border-radius: 999px;
+  z-index: 0;
+
+  background: radial-gradient(closest-side,
+      rgba(231, 183, 183, 0.35),
+      rgba(231, 183, 183, 0.0) 70%);
+
+  pointer-events: none;
 }
 
 .match-link {
-  background: transparent;
-  border: none;
-  cursor: pointer;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px 14px;
+  border-radius: 999px;
 
-  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.9);
   font-weight: 800;
-  font-size: 1rem;
-  text-decoration: underline;
+  font-size: 0.95rem;
+  text-decoration: none;
+
+  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
 
   &:hover {
-    filter: brightness(1.08);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.18);
   }
 }
 
@@ -424,7 +489,38 @@
     font-size: 1rem;
   }
 
+  .skills-groups-container {
+    height: 240px;
+    overflow: scroll;
+    padding-right: 10px;
+  }
+
   .search-container .search-button {
     min-width: 100%;
+  }
+
+  .search-slot {
+    height: 66px;
+  }
+
+
+  .match-link {
+    width: 140px;
+  }
+
+  .match-message__text {
+    text-align: center;
+  }
+
+  .skills-modal__close {
+    right: 10px;
+    top: 10px;
+    border: transparent;
+    background: transparent;
+    font-size: 18px;
+  }
+
+  .skills-modal__header {
+    padding: 55px 22px 16px;
   }
 }

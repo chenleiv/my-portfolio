@@ -199,7 +199,6 @@
 
 .console-desc {
   color: var(--text-quaternary);
-  padding: 0 60px;
   line-height: 1.35;
 }
 
@@ -563,14 +562,6 @@
   }
 }
 
-/* =========================
-   MOBILE TWEAK
-========================= */
-@media (max-width: 768px) {
-  .interactive-console {
-    height: 520px;
-  }
-}
 
 /* =========================
    ANIMATION
@@ -582,5 +573,15 @@
 
   100% {
     background-position: 100% 100%;
+  }
+}
+
+/* =========================
+   MOBILE TWEAK
+========================= */
+@media (max-width: 820px) {
+
+  .interactive-console {
+    height: 520px;
   }
 }

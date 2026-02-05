@@ -2,7 +2,7 @@
 import Projects from './components/Projects';
 import Footer from './components/Footer';
 import About from './components/About';
-import SkillsMatcher from './components/SkillsMatcher/SkillsMatcher';
+import SkillsMatcher from './components/SkillsMatcher';
 
 function App() {
   return (
