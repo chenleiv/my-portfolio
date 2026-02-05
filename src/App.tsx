@@ -1,15 +1,15 @@
-import MainHeader from './components/skillsContainer';
+
 import Projects from './components/Projects';
 import Footer from './components/Footer';
 import About from './components/About';
-import './styles/app.scss';
+import SkillsMatcher from './components/SkillsMatcher/SkillsMatcher';
 
 function App() {
   return (
     <div className="app">
       <main className="app__main">
         <section id="about" className="app__section">
-          <MainHeader />
+          <SkillsMatcher scrollTargetId="about" />
           <About />
         </section>
 
