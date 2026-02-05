@@ -9,11 +9,6 @@ import {
 import { ConsoleLineView } from "./ConsoleLineView";
 import { type ConsoleLine, ABOUT_LINES } from "./consoleTypes";
 
-/**
- * Better ID:
- * - Primary: crypto.randomUUID() (modern, collision-resistant)
- * - Fallback: crypto.getRandomValues + timestamp (still very safe for UI keys)
- */
 const uid = (): string => {
   const c = globalThis.crypto as Crypto & {
     randomUUID?: () => string;
@@ -65,7 +60,8 @@ export const InteractiveConsole = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const paletteInputRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
-
+  const lastActiveElementRef = useRef<HTMLElement | null>(null);
+  const paletteRef = useRef<HTMLDivElement>(null);
   // auto-scroll policy: only if user is “sticky” (near bottom)
   const stickyRef = useRef<boolean>(true);
 
@@ -121,9 +117,12 @@ export const InteractiveConsole = () => {
   // Cmd/Ctrl+K palette toggle
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
+      lastActiveElementRef.current = document.activeElement as HTMLElement | null;
       const isToggle = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
       if (isToggle) {
         e.preventDefault();
+        lastActiveElementRef.current = document.activeElement as HTMLElement | null;
+
         setIsPaletteOpen((prev) => {
           const next = !prev;
           if (next) {
@@ -338,6 +337,36 @@ export const InteractiveConsole = () => {
     resetAutocomplete();
   };
 
+  const trapFocus = (
+    e: React.KeyboardEvent,
+    container: HTMLDivElement | null
+  ) => {
+    if (e.key !== "Tab" || !container) return;
+
+    const focusable = container.querySelectorAll<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    const active = document.activeElement;
+
+    // Tab forward on last -> jump to first
+    if (!e.shiftKey && active === last) {
+      e.preventDefault();
+      first?.focus();
+    }
+
+    // Shift+Tab on first -> jump to last
+    if (e.shiftKey && active === first) {
+      e.preventDefault();
+      last?.focus();
+    }
+  };
+
   const setFromHistoryIndex = (newIndex: number) => {
     const idx = commandHistory.length - 1 - newIndex;
     const cmd = getAt(commandHistory, idx);
@@ -415,18 +444,18 @@ export const InteractiveConsole = () => {
     }
   };
 
+
   const openPalette = () => {
+    lastActiveElementRef.current = document.activeElement as HTMLElement | null;
     setIsPaletteOpen(true);
-    setPaletteQuery("");
-    setActiveIndex(0);
-    window.setTimeout(() => paletteInputRef.current?.focus(), 0);
+    setTimeout(() => paletteInputRef.current?.focus(), 0);
   };
 
   const closePalette = () => {
     setIsPaletteOpen(false);
     setPaletteQuery("");
     setActiveIndex(0);
-    inputRef.current?.focus();
+    setTimeout(() => lastActiveElementRef.current?.focus(), 0);
   };
 
   const runPaletteItem = (item: PaletteItem) => {
@@ -531,10 +560,13 @@ export const InteractiveConsole = () => {
         <div className="palette-overlay" onClick={closePalette} role="presentation">
           <div
             className="palette"
-            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+            ref={paletteRef}
+            onKeyDown={(e) => trapFocus(e, paletteRef.current)}
             role="dialog"
             aria-modal="true"
             aria-label="Command palette"
+            tabIndex={-1}
           >
             <div className="palette-header">
               <span>Command Palette</span>

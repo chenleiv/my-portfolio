@@ -1,46 +1,14 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import {
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+    type DragEvent,
+    type MouseEvent,
+} from "react";
 import { useFocus } from "../utils/useFocus";
-
-type SkillGroup = {
-    id: "technical" | "other";
-    title: string;
-    skills: string[];
-};
-
-const SKILL_GROUPS: SkillGroup[] = [
-    {
-        id: "technical",
-        title: "Technical skills",
-        skills: [
-            "TypeScript",
-            "React",
-            "Angular",
-            "JavaScript",
-            "SASS",
-            "HTML",
-            "REST API",
-            "Git",
-            "Jira",
-            "Node.js",
-            "Nx",
-        ],
-    },
-    {
-        id: "other",
-        title: "Other skills",
-        skills: [
-            "Curiosity",
-            "Quick learning",
-            "Detail-oriented",
-            "Ownership",
-            "Problem solving",
-            "Team player",
-            "Time management",
-
-        ],
-    },
-];
+import { SKILL_GROUPS, SkillGroup } from "./data/skills";
 
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
@@ -49,27 +17,51 @@ type Props = {
     exposeGlobalOpener?: boolean;
 };
 
+const trapFocus = (e: React.KeyboardEvent, container: HTMLDivElement | null) => {
+    if (e.key !== "Tab" || !container) return;
+
+    const focusable = container.querySelectorAll<HTMLElement>(
+        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+
+    if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first?.focus();
+    }
+
+    if (e.shiftKey && active === first) {
+        e.preventDefault();
+        last?.focus();
+    }
+};
+
 export default function SkillsMatcher({
     scrollTargetId = "home",
     exposeGlobalOpener = true,
 }: Props) {
     const skillGroups = useMemo(() => SKILL_GROUPS, []);
     const { focusConsoleInput } = useFocus();
+    const shouldReduceMotion = useReducedMotion();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [searchProgress, setSearchProgress] = useState(0);
     const [isMatch, setIsMatch] = useState(false);
-
     const [draggedSkill, setDraggedSkill] = useState<string | null>(null);
 
     const progressIntervalRef = useRef<number | null>(null);
     const searchTimeoutRef = useRef<number | null>(null);
 
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    // Focus management
+    const modalRef = useRef<HTMLDivElement>(null);
+    const lastActiveElementRef = useRef<HTMLElement | null>(null);
 
     const clearTimers = () => {
         if (progressIntervalRef.current !== null) {
@@ -86,6 +78,21 @@ export default function SkillsMatcher({
         return () => clearTimers();
     }, []);
 
+    const openModal = () => {
+        lastActiveElementRef.current = document.activeElement as HTMLElement | null;
+        setIsModalOpen(true);
+
+        // focus modal container so Tab trap works immediately
+        window.setTimeout(() => modalRef.current?.focus(), 0);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+
+        // restore focus to opener
+        window.setTimeout(() => lastActiveElementRef.current?.focus(), 0);
+    };
+
     useEffect(() => {
         if (!exposeGlobalOpener) return;
 
@@ -100,12 +107,12 @@ export default function SkillsMatcher({
     useEffect(() => {
         if (!isModalOpen) return;
 
-        const onKeyDown = (e: KeyboardEvent) => {
+        window.addEventListener("keydown", (e: KeyboardEvent) => {
             if (e.key === "Escape") closeModal();
-        };
-
-        window.addEventListener("keydown", onKeyDown);
-        return () => window.removeEventListener("keydown", onKeyDown);
+        });
+        return () => window.removeEventListener("keydown", (e: KeyboardEvent) => {
+            if (e.key === "Escape") closeModal();
+        });
     }, [isModalOpen]);
 
     const inputValue = useMemo(() => selectedSkills.join(", "), [selectedSkills]);
@@ -151,10 +158,8 @@ export default function SkillsMatcher({
     };
 
     const goToProfile = () => {
-        // close modal, scroll to top/main, focus console
         closeModal();
 
-        // Try: provided target id -> console -> about -> top
         const target =
             document.getElementById(scrollTargetId) ??
             document.getElementById("console") ??
@@ -166,7 +171,6 @@ export default function SkillsMatcher({
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
 
-        // Focus your console input (existing behavior)
         window.setTimeout(() => {
             focusConsoleInput();
         }, 250);
@@ -184,23 +188,34 @@ export default function SkillsMatcher({
                 Recruiter mode
             </button>
 
-            <div>
+            <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
                         className="skills-modalOverlay"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
+                        {...(!shouldReduceMotion && {
+                            transition: { duration: 0.18, ease: "easeOut" },
+                        })}
                         onMouseDown={(e: MouseEvent<HTMLDivElement>) => {
                             if (e.target === e.currentTarget) closeModal();
                         }}
                     >
                         <motion.div
                             className="skills-modal"
-                            initial={{ opacity: 0, y: 18, scale: 0.98 }}
+                            ref={modalRef}
+                            tabIndex={-1}
+                            onKeyDown={(e) => trapFocus(e, modalRef.current)}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="Recruiter mode"
+                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 18, scale: shouldReduceMotion ? 1 : 0.98 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 18, scale: 0.98 }}
-                            transition={{ duration: 0.18, ease: "easeOut" }}
+                            exit={{ opacity: 0, y: shouldReduceMotion ? 0 : 18, scale: shouldReduceMotion ? 1 : 0.98 }}
+                            {...(!shouldReduceMotion && {
+                                transition: { duration: 0.18, ease: "easeOut" },
+                            })}
                         >
                             <div className="skills-modal__header">
                                 <div>
@@ -226,44 +241,49 @@ export default function SkillsMatcher({
 
                             <div className="skills-modal__content">
                                 <div className="skills-section-container" id="skills">
-
                                     <div className="skills-groups-container">
-                                        {skillGroups.map((group) => (
-
+                                        {skillGroups.map((group: SkillGroup) => (
                                             <div key={group.id} className="skills-group">
                                                 <h3 className="skills-group__title">{group.title}</h3>
 
                                                 <div className="skills-list">
-                                                    {group.skills.map((skill) => {
+                                                    {group.skills.map((skill: string) => {
                                                         const selected = selectedSkills.includes(skill);
 
                                                         return (
-                                                            <motion.div
+                                                            <motion.button
                                                                 key={skill}
+                                                                type="button"
                                                                 draggable={canDrag && !selected}
                                                                 onDragStart={() => setDraggedSkill(skill)}
                                                                 onDragEnd={() => setDraggedSkill(null)}
                                                                 onClick={() => addSkill(skill)}
-                                                                whileHover={{ scale: 1.05 }}
-                                                                whileTap={{ scale: 0.95 }}
                                                                 className={`skill-item ${selected ? "selected" : ""}`}
-                                                                style={{ cursor: "pointer" }}
                                                                 aria-pressed={selected}
-                                                                role="button"
+                                                                style={{ cursor: "pointer" }}
+                                                                {...(!shouldReduceMotion && {
+                                                                    whileHover: { scale: 1.05 },
+                                                                    whileTap: { scale: 0.95 },
+                                                                })}
                                                             >
                                                                 {skill}
-                                                            </motion.div>
+                                                            </motion.button>
                                                         );
                                                     })}
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
+
                                     <div className="skills-inputs-container">
                                         <div
                                             className="skills-input-container"
                                             onDrop={canDrag ? handleDropToInput : undefined}
-                                            onDragOver={canDrag ? (e: DragEvent<HTMLDivElement>) => e.preventDefault() : undefined}
+                                            onDragOver={
+                                                canDrag
+                                                    ? (e: DragEvent<HTMLDivElement>) => e.preventDefault()
+                                                    : undefined
+                                            }
                                         >
                                             <input
                                                 type="text"
@@ -305,10 +325,12 @@ export default function SkillsMatcher({
                                                     <motion.div
                                                         key="progress"
                                                         className="search-slot__item"
-                                                        initial={{ opacity: 0, y: 6 }}
+                                                        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 6 }}
                                                         animate={{ opacity: 1, y: 0 }}
-                                                        exit={{ opacity: 0, y: -6 }}
-                                                        transition={{ duration: 0.18, ease: "easeOut" }}
+                                                        exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -6 }}
+                                                        {...(!shouldReduceMotion && {
+                                                            transition: { duration: 0.18, ease: "easeOut" },
+                                                        })}
                                                     >
                                                         <div className="search-progress" aria-label="Search progress">
                                                             <div className="search-progress__track">
@@ -323,16 +345,24 @@ export default function SkillsMatcher({
                                                     <motion.div
                                                         key="match"
                                                         className="search-slot__item match-message"
-                                                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                                                        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 8, scale: shouldReduceMotion ? 1 : 0.98 }}
                                                         animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                        exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                                                        transition={{ duration: 0.22, ease: "easeOut" }}
+                                                        exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -8, scale: shouldReduceMotion ? 1 : 0.98 }}
+                                                        {...(!shouldReduceMotion && {
+                                                            transition: { duration: 0.22, ease: "easeOut" },
+                                                        })}
                                                     >
                                                         <motion.span
                                                             className="match-message__glow"
-                                                            initial={{ opacity: 0, scale: 0.85 }}
-                                                            animate={{ opacity: [0, 1, 0], scale: [0.85, 1.15, 1.25] }}
-                                                            transition={{ duration: 0.9, ease: "easeOut" }}
+                                                            initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.85 }}
+                                                            animate={
+                                                                shouldReduceMotion
+                                                                    ? { opacity: 0 }
+                                                                    : { opacity: [0, 1, 0], scale: [0.85, 1.15, 1.25] }
+                                                            }
+                                                            {...(!shouldReduceMotion && {
+                                                                transition: { duration: 0.9, ease: "easeOut" },
+                                                            })}
                                                         />
 
                                                         <span className="match-message__text">Found the perfect match → </span>
@@ -341,8 +371,10 @@ export default function SkillsMatcher({
                                                             type="button"
                                                             className="match-link"
                                                             onClick={goToProfile}
-                                                            whileHover={{ y: -1 }}
-                                                            whileTap={{ scale: 0.98 }}
+                                                            {...(!shouldReduceMotion && {
+                                                                whileHover: { y: -1 },
+                                                                whileTap: { scale: 0.98 },
+                                                            })}
                                                         >
                                                             View profile
                                                         </motion.button>
@@ -364,7 +396,7 @@ export default function SkillsMatcher({
                         </motion.div>
                     </motion.div>
                 )}
-            </div>
+            </AnimatePresence>
         </div>
     );
 }

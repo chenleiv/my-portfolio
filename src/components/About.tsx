@@ -75,7 +75,8 @@ const About = () => {
             transition={{ delay: 0.6 }}
           >
             <motion.div className="contact-info-container">
-              <img src={chenImage} alt="Profile" className="profile-image" />
+              <img src={chenImage} alt="Profile" className="profile-image" loading="lazy" width={640}
+                height={360} />
 
               <motion.footer
                 className="about-footer"
@@ -84,7 +85,7 @@ const About = () => {
                 transition={{ delay: 0.8 }}
               >
                 <div className="contact-info" id="info">
-                  <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
+                  <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" target="_blank" rel="noopener noreferrer" className="footer-link" aria-label="LinkedIn">
                     <FaLinkedin size={24} />
                   </a>
 
@@ -96,10 +97,10 @@ const About = () => {
                   >
                     <FaFileDownload size={24} />
                   </motion.button>
-                  <a href="https://github.com/chenleiv" role="button" target="_blank" rel="noopener noreferrer" className="footer-link">
+                  <a href="https://github.com/chenleiv" target="_blank" rel="noopener noreferrer" className="footer-link" aria-label="GitHub">
                     <FaGithub size={24} />
                   </a>
-                  <a href="tel:+972526656101" role="button" className="footer-link" title="Call me">
+                  <a href="tel:+972526656101" className="footer-link" title="Call me" target="_blank" rel="noopener noreferrer" aria-label="Call me">
                     <FaMobileAlt size={24} />
                   </a>
 
@@ -122,13 +123,13 @@ const About = () => {
                       >
                         {emailOptions.map((option) => (
                           <a
-                            role="button"
                             key={option.name}
                             href={option.url}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="email-option"
                             title={`Open in ${option.name}`}
+                            aria-label={`Open in ${option.name}`}
                           >
                             <span className="email-icon">{option.icon}</span>
                             <span className="email-tooltip">{option.name}</span>

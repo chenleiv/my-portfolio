@@ -33,13 +33,13 @@ const Footer = () => {
       transition={{ duration: 0.8 }}
     >
       <div className="footer-bottom">
-        <a href="#about" role="button" className="footer-link" onClick={handleClick}>
+        <a href="#about" className="footer-link" onClick={handleClick} aria-label="About" target="_blank" rel="noopener noreferrer">
           About
         </a>
-        <a href="#projects" role="button" className="footer-link" onClick={handleClick}>
+        <a href="#projects" className="footer-link" onClick={handleClick} aria-label="Projects" target="_blank" rel="noopener noreferrer">
           Projects
         </a>
-        <a href="#skills" role="button" className="footer-link" onClick={openSkillMatcher}>
+        <a href="#skills" className="footer-link" onClick={openSkillMatcher} aria-label="Skills" target="_blank" rel="noopener noreferrer">
           Skills
         </a>
       </div>

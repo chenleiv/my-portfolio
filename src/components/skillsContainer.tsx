@@ -1,41 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, type DragEvent, type MouseEvent } from "react";
 import { useFocus } from "../utils/useFocus";
-
-type SkillGroup = {
-  id: "technical" | "other";
-  title: string;
-  subtitle?: string;
-  skills: string[];
-};
-
-const SKILL_GROUPS: SkillGroup[] = [
-  {
-    id: "technical",
-    title: "Technical",
-    skills: ["TypeScript", "React", "Angular", "JavaScript", "HTML", "SASS", "Regex", "REST API", "Git", "Node.js", "Nx"
-    ],
-  },
-
-  {
-    id: "other",
-    title: "Other skills",
-    skills: [
-      "Curiosity",
-      "Quick learning",
-      "Detail-oriented",
-      "Communication",
-      "Ownership",
-      "Problem solving",
-      "Team player",
-      "Leadership",
-    ],
-  },
-];
+import { SKILL_GROUPS } from './data/skills';
 
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 
-const SkillsContainer = () => {
+export default function SkillsContainer() {
   const [selected, setSelected] = useState<string[]>([]);
   const [isMatch, setIsMatch] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -291,5 +261,3 @@ const SkillsContainer = () => {
     </div>
   );
 };
-
-export default SkillsContainer;
