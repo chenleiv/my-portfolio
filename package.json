@@ -1,6 +1,6 @@
 {
   "name": "my-portfolio",
-  "homepage": "http://chenleiv.github.io/my-portfolio",
+  "homepage": "https://chenleiv.github.io/my-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "framer-motion": "^12.6.2",
