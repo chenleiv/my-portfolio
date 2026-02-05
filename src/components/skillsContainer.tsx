@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type DragEvent, type MouseEvent } from "react";
 import { useFocus } from "../utils/useFocus";
 
 type SkillGroup = {
@@ -122,7 +122,7 @@ const SkillsContainer = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onMouseDown={(e) => {
+            onMouseDown={(e: MouseEvent<HTMLDivElement>) => {
               if (e.target === e.currentTarget) closeModal();
             }}
           >
@@ -200,7 +200,7 @@ const SkillsContainer = () => {
                 <div
                   className="skills-modal__section skills-modal__section--right"
                   onDrop={!isMobile() ? handleDropToSelected : undefined}
-                  onDragOver={!isMobile() ? (e) => e.preventDefault() : undefined}
+                  onDragOver={!isMobile() ? (e: DragEvent<HTMLDivElement>) => e.preventDefault() : undefined}
                 >
                   <div className="skills-modal__sectionTitle">
                     2) Selected {selected.length ? `(${selected.length})` : ""}

@@ -40,7 +40,6 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
     case "clear":
       return "clear";
 
-    // skills variations
     case "recruitermode":
     case "recruiter":
     case "match":

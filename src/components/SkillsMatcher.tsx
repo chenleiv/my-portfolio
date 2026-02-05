@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState, type DragEvent, type MouseEvent } from "react";
 import { useFocus } from "../utils/useFocus";
 
 type SkillGroup = {
@@ -144,7 +144,7 @@ export default function SkillsMatcher({
 
     const canDrag = !isMobile();
 
-    const handleDropToInput = (e: React.DragEvent<HTMLDivElement>) => {
+    const handleDropToInput = (e: DragEvent<HTMLDivElement>) => {
         e.preventDefault();
         if (!draggedSkill) return;
         addSkill(draggedSkill);
@@ -191,7 +191,7 @@ export default function SkillsMatcher({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        onMouseDown={(e) => {
+                        onMouseDown={(e: MouseEvent<HTMLDivElement>) => {
                             if (e.target === e.currentTarget) closeModal();
                         }}
                     >
@@ -263,7 +263,7 @@ export default function SkillsMatcher({
                                         <div
                                             className="skills-input-container"
                                             onDrop={canDrag ? handleDropToInput : undefined}
-                                            onDragOver={canDrag ? (e) => e.preventDefault() : undefined}
+                                            onDragOver={canDrag ? (e: DragEvent<HTMLDivElement>) => e.preventDefault() : undefined}
                                         >
                                             <input
                                                 type="text"

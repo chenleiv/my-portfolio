@@ -1,27 +1,64 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useFocus } from "../utils/useFocus";
-import { PALETTE_ITEMS, normalizeCommand, toDisplayCommand, type PaletteItem } from "./consoleCommands";
+import {
+  PALETTE_ITEMS,
+  normalizeCommand,
+  toDisplayCommand,
+  type PaletteItem,
+} from "./consoleCommands";
 import { ConsoleLineView } from "./ConsoleLineView";
-import { ConsoleLine, ABOUT_LINES } from "./consoleTypes";
+import { type ConsoleLine, ABOUT_LINES } from "./consoleTypes";
 
-const uid = () => crypto.randomUUID();
+/**
+ * Better ID:
+ * - Primary: crypto.randomUUID() (modern, collision-resistant)
+ * - Fallback: crypto.getRandomValues + timestamp (still very safe for UI keys)
+ */
+const uid = (): string => {
+  const c = globalThis.crypto as Crypto & {
+    randomUUID?: () => string;
+    getRandomValues?: (array: Uint8Array) => Uint8Array;
+  };
+
+  if (c?.randomUUID) return c.randomUUID();
+
+  if (c?.getRandomValues) {
+    const bytes = new Uint8Array(16);
+    c.getRandomValues(bytes);
+    const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, "0")).join("");
+    return `${Date.now().toString(16)}-${hex}`;
+  }
+
+  // last-resort fallback (still fine for UI keys)
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
+};
+
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
+
+// Safe array access (strict + noUncheckedIndexedAccess friendly)
+const getAt = (arr: readonly string[], index: number): string | undefined =>
+  index >= 0 && index < arr.length ? arr[index] : undefined;
+
+const clamp = (value: number, min: number, max: number) =>
+  Math.min(Math.max(value, min), max);
 
 export const InteractiveConsole = () => {
   const initialLines = useMemo(() => ABOUT_LINES, []);
-  const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
 
-  const [input, setInput] = useState("");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [suggestionIndex, setSuggestionIndex] = useState(-1);
+  const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
+  const [input, setInput] = useState<string>("");
+
+  // suggestions is effectively immutable: we only replace it
+  const [suggestions, setSuggestions] = useState<readonly string[]>([]);
+  const [suggestionIndex, setSuggestionIndex] = useState<number>(-1);
 
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
+  const [historyIndex, setHistoryIndex] = useState<number>(-1);
 
   // Palette
-  const [isPaletteOpen, setIsPaletteOpen] = useState(false);
-  const [paletteQuery, setPaletteQuery] = useState("");
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaletteOpen, setIsPaletteOpen] = useState<boolean>(false);
+  const [paletteQuery, setPaletteQuery] = useState<string>("");
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   const consoleRef = useRef<HTMLDivElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
@@ -30,14 +67,22 @@ export const InteractiveConsole = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // auto-scroll policy: only if user is “sticky” (near bottom)
-  const stickyRef = useRef(true);
+  const stickyRef = useRef<boolean>(true);
 
   // navigation guard: when we do page scroll, skip console autoscroll once
-  const skipNextConsoleAutoScrollRef = useRef(false);
+  const skipNextConsoleAutoScrollRef = useRef<boolean>(false);
 
   const { setConsoleInputRef } = useFocus();
 
-  const shortcutLabel = useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"), []);
+  const shortcutLabel = useMemo(
+    () => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"),
+    []
+  );
+
+  const resetAutocomplete = () => {
+    setSuggestions([]);
+    setSuggestionIndex(-1);
+  };
 
   // focus on load + register
   useEffect(() => {
@@ -88,7 +133,9 @@ export const InteractiveConsole = () => {
           }
           return next;
         });
+        return;
       }
+
       if (e.key === "Escape") setIsPaletteOpen(false);
     };
 
@@ -115,13 +162,11 @@ export const InteractiveConsole = () => {
   };
 
   const scrollToSection = (id: string) => {
-    // This prevents the console autoscroll from “winning” the frame
     skipNextConsoleAutoScrollRef.current = true;
 
     const el = document.getElementById(id);
     if (!el) return;
 
-    // Let React commit the console lines first, then scroll page.
     requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -151,7 +196,7 @@ export const InteractiveConsole = () => {
           {
             id: uid(),
             type: "error",
-            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / skills / clear`,
+            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / recruiterMode / clear`,
           },
         ],
         raw
@@ -159,30 +204,69 @@ export const InteractiveConsole = () => {
       return;
     }
 
-    // print command echo as the canonical display (clean)
-    const echo = { id: uid(), type: "input" as const, text: `> ${toDisplayCommand(canonical)}` };
+    const echo: ConsoleLine = {
+      id: uid(),
+      type: "input",
+      text: `> ${toDisplayCommand(canonical)}`,
+    };
 
     switch (canonical) {
       case "showProjects": {
-        pushHistory([{ ...echo }, { id: uid(), type: "system", text: "👉 Scrolling to #projects..." }], raw);
+        pushHistory(
+          [
+            { ...echo },
+            { id: uid(), type: "system", text: "👉 Scrolling to #projects..." },
+          ],
+          raw
+        );
         scrollToSection("projects");
         break;
       }
 
       case "contact": {
         if (isMobile()) {
-          pushHistory([{ ...echo }, { id: uid(), type: "system", text: "📬 Scrolling to contact section..." }], raw);
+          pushHistory(
+            [
+              { ...echo },
+              {
+                id: uid(),
+                type: "system",
+                text: "📬 Scrolling to contact section...",
+              },
+            ],
+            raw
+          );
           scrollToSection("contact");
           highlightSection("info");
         } else {
-          pushHistory([{ ...echo }, { id: uid(), type: "system", text: "📬 Highlighting contact section..." }], raw);
+          pushHistory(
+            [
+              { ...echo },
+              {
+                id: uid(),
+                type: "system",
+                text: "📬 Highlighting contact section...",
+              },
+            ],
+            raw
+          );
           highlightSection("info");
         }
         break;
       }
 
       case "skills": {
-        pushHistory([{ ...echo }, { id: uid(), type: "system", text: "🧩 Recruiter mode opened — pick a few skills." }], raw);
+        pushHistory(
+          [
+            { ...echo },
+            {
+              id: uid(),
+              type: "system",
+              text: "🧩 Recruiter mode opened — pick a few skills.",
+            },
+          ],
+          raw
+        );
         window.openSkillMatcher?.();
         break;
       }
@@ -191,8 +275,7 @@ export const InteractiveConsole = () => {
         setHistory(initialLines);
         setCommandHistory((prev) => [...prev, raw]);
         setHistoryIndex(-1);
-        setSuggestions([]);
-        setSuggestionIndex(-1);
+        resetAutocomplete();
         setInput("");
         scrollToConsoleTop();
         break;
@@ -202,11 +285,12 @@ export const InteractiveConsole = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim()) return;
-    handleCommand(input);
+    const trimmed = input.trim();
+    if (!trimmed) return;
+
+    handleCommand(trimmed);
     setInput("");
-    setSuggestions([]);
-    setSuggestionIndex(-1);
+    resetAutocomplete();
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -215,8 +299,7 @@ export const InteractiveConsole = () => {
 
     const v = value.trim().toLowerCase();
     if (!v) {
-      setSuggestions([]);
-      setSuggestionIndex(-1);
+      resetAutocomplete();
       return;
     }
 
@@ -230,59 +313,105 @@ export const InteractiveConsole = () => {
 
   const pickSuggestion = (suggestion: string) => {
     setInput(suggestion);
-    setSuggestions([]);
-    setSuggestionIndex(-1);
+    resetAutocomplete();
     inputRef.current?.focus();
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
+  const cycleSuggestionIndex = (direction: 1 | -1) => {
+    setSuggestionIndex((prev) => {
+      if (suggestions.length === 0) return -1;
+
+      const start = prev < 0 ? 0 : prev;
+      const next = start + direction;
+
+      return clamp(next, 0, suggestions.length - 1);
+    });
+  };
+
+  const runActiveSuggestion = () => {
+    if (suggestionIndex < 0) return;
+    const cmd = getAt(suggestions, suggestionIndex);
+    if (cmd === undefined) return;
+
+    handleCommand(cmd);
+    setInput("");
+    resetAutocomplete();
+  };
+
+  const setFromHistoryIndex = (newIndex: number) => {
+    const idx = commandHistory.length - 1 - newIndex;
+    const cmd = getAt(commandHistory, idx);
+    if (cmd !== undefined) setInput(cmd);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const hasSuggestions = suggestions.length > 0;
 
+    // Suggestions navigation
     if (hasSuggestions && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
       e.preventDefault();
-      setSuggestionIndex((prev) => {
-        const start = prev < 0 ? 0 : prev;
-        return e.key === "ArrowDown"
-          ? Math.min(start + 1, suggestions.length - 1)
-          : Math.max(start - 1, 0);
-      });
+      cycleSuggestionIndex(e.key === "ArrowDown" ? 1 : -1);
       return;
     }
 
+    // Tab cycles suggestions (Shift+Tab goes backwards)
     if (e.key === "Tab" && hasSuggestions) {
       e.preventDefault();
-      setInput(suggestions[suggestionIndex >= 0 ? suggestionIndex : 0]);
+
+      const dir: 1 | -1 = e.shiftKey ? -1 : 1;
+
+      // If nothing selected yet, select first/last and commit
+      if (suggestionIndex < 0) {
+        const idx = dir === 1 ? 0 : suggestions.length - 1;
+        setSuggestionIndex(idx);
+        const next = getAt(suggestions, idx);
+        if (next !== undefined) setInput(next);
+        return;
+      }
+
+      const nextIndex = clamp(suggestionIndex + dir, 0, suggestions.length - 1);
+      setSuggestionIndex(nextIndex);
+      const next = getAt(suggestions, nextIndex);
+      if (next !== undefined) setInput(next);
+
       return;
     }
 
+    // Enter runs selected suggestion
     if (e.key === "Enter" && hasSuggestions && suggestionIndex >= 0) {
       e.preventDefault();
-      handleCommand(suggestions[suggestionIndex]);
-      setInput("");
-      setSuggestions([]);
-      setSuggestionIndex(-1);
+      runActiveSuggestion();
       return;
     }
 
-    // command history nav (when no suggestions)
+    // Command history navigation (only when no suggestions)
     if (e.key === "ArrowUp") {
       e.preventDefault();
-      if (!commandHistory.length) return;
-      const newIndex = historyIndex < commandHistory.length - 1 ? historyIndex + 1 : historyIndex;
+      if (commandHistory.length === 0) return;
+
+      const newIndex =
+        historyIndex < commandHistory.length - 1
+          ? historyIndex + 1
+          : historyIndex;
+
       setHistoryIndex(newIndex);
-      setInput(commandHistory[commandHistory.length - 1 - newIndex]);
+      setFromHistoryIndex(newIndex);
+      return;
     }
 
     if (e.key === "ArrowDown") {
       e.preventDefault();
+
       if (historyIndex <= 0) {
         setHistoryIndex(-1);
         setInput("");
-      } else {
-        const newIndex = historyIndex - 1;
-        setHistoryIndex(newIndex);
-        setInput(commandHistory[commandHistory.length - 1 - newIndex]);
+        return;
       }
+
+      const newIndex = historyIndex - 1;
+      setHistoryIndex(newIndex);
+      setFromHistoryIndex(newIndex);
+      return;
     }
   };
 
@@ -305,19 +434,22 @@ export const InteractiveConsole = () => {
     closePalette();
   };
 
-  const onPaletteKeyDown = (e: React.KeyboardEvent) => {
+  const onPaletteKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       setActiveIndex((i) => Math.min(i + 1, filteredItems.length - 1));
+      return;
     }
     if (e.key === "ArrowUp") {
       e.preventDefault();
       setActiveIndex((i) => Math.max(i - 1, 0));
+      return;
     }
     if (e.key === "Enter") {
       e.preventDefault();
       const item = filteredItems[activeIndex];
       if (item) runPaletteItem(item);
+      return;
     }
     if (e.key === "Escape") {
       e.preventDefault();
@@ -327,7 +459,17 @@ export const InteractiveConsole = () => {
 
   return (
     <div className="interactive-console" ref={consoleRef}>
-      <div className="console-header" onClick={openPalette} style={{ cursor: "pointer" }}>
+      <div
+        className="console-header"
+        onClick={openPalette}
+        style={{ cursor: "pointer" }}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") openPalette();
+        }}
+        aria-label="Open command palette"
+      >
         dev@portfolio:~$ interactive mode
       </div>
 
@@ -354,19 +496,26 @@ export const InteractiveConsole = () => {
             spellCheck={false}
           />
 
-          <button type="button" className="palette-button" onClick={openPalette} aria-label="Open command palette">
+          <button
+            type="button"
+            className="palette-button"
+            onClick={openPalette}
+            aria-label="Open command palette"
+          >
             {shortcutLabel}
           </button>
         </div>
       </form>
 
       {suggestions.length > 0 && (
-        <ul className="autocomplete-list">
+        <ul className="autocomplete-list" role="listbox" aria-label="Command suggestions">
           {suggestions.map((sug, i) => (
             <li
               key={sug}
               className={`autocomplete-item ${i === suggestionIndex ? "active" : ""}`}
-              onMouseDown={(e) => {
+              role="option"
+              aria-selected={i === suggestionIndex}
+              onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
                 e.preventDefault();
                 pickSuggestion(sug);
               }}
@@ -379,8 +528,14 @@ export const InteractiveConsole = () => {
       )}
 
       {isPaletteOpen && (
-        <div className="palette-overlay" onClick={closePalette}>
-          <div className="palette" onClick={(e) => e.stopPropagation()}>
+        <div className="palette-overlay" onClick={closePalette} role="presentation">
+          <div
+            className="palette"
+            onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Command palette"
+          >
             <div className="palette-header">
               <span>Command Palette</span>
               <span className="palette-hint">Enter: run • Esc: close</span>
@@ -405,6 +560,11 @@ export const InteractiveConsole = () => {
                   className={`palette-item ${idx === activeIndex ? "active" : ""}`}
                   onMouseEnter={() => setActiveIndex(idx)}
                   onClick={() => runPaletteItem(item)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") runPaletteItem(item);
+                  }}
                 >
                   <div className="palette-item-title">{item.label}</div>
                   <div className="palette-item-cmd">{toDisplayCommand(item.id)}</div>

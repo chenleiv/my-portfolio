@@ -24,7 +24,7 @@ const About = () => {
   ];
 
   const handleDownloadCV = () => {
-    const pdfUrl = `${window.location.origin}/my-portfolio/assets/files/ChenLeiv-CV.pdf`;
+    const pdfUrl = `${import.meta.env.BASE_URL}assets/files/ChenLeiv-CV.pdf`;
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.download = 'ChenLeiv-CV.pdf';

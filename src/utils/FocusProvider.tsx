@@ -1,28 +1,24 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, type ReactNode } from "react";
 import { FocusContext } from "./FocusContext";
-import type { FocusContextValue } from "./focus.types";
 
 type Props = {
-    children: React.ReactNode;
+  children: ReactNode;
 };
 
-export const FocusProvider: React.FC<Props> = ({ children }) => {
-    const inputRef = useRef<HTMLInputElement | null>(null);
+export const FocusProvider = ({ children }: Props) => {
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-    const setConsoleInputRef = useCallback<FocusContextValue["setConsoleInputRef"]>(
-        (ref) => {
-            inputRef.current = ref;
-        },
-        []
-    );
+  const setConsoleInputRef = useCallback((ref: HTMLInputElement | null) => {
+    inputRef.current = ref;
+  }, []);
 
-    const focusConsoleInput = useCallback(() => {
-        inputRef.current?.focus();
-    }, []);
+  const focusConsoleInput = useCallback(() => {
+    inputRef.current?.focus();
+  }, []);
 
-    return (
-        <FocusContext.Provider value={{ setConsoleInputRef, focusConsoleInput }}>
-            {children}
-        </FocusContext.Provider>
-    );
+  return (
+    <FocusContext.Provider value={{ setConsoleInputRef, focusConsoleInput }}>
+      {children}
+    </FocusContext.Provider>
+  );
 };

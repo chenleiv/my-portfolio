@@ -58,9 +58,9 @@ const Projects = () => {
         </motion.h2>
 
         <div className="projects-grid">
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <motion.div
-              key={index}
+              key={project.label}
               className="project-card"
               variants={itemVariants}
               whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
@@ -99,8 +99,8 @@ const Projects = () => {
                 <h2 className="project-title">{project.header}</h2>
                 <p className="project-description">{project.sub_header}</p>
                 <div className="project-skills">
-                  {project.skill.map((skill, skillIndex) => (
-                    <span key={skillIndex} className="skill-tag">{skill}</span>
+                  {project.skill.map((skill) => (
+                    <span key={skill} className="skill-tag">{skill}</span>
                   ))}
                 </div>
               </div>
