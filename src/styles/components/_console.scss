@@ -10,7 +10,9 @@
   padding: 1rem;
   background: transparent;
   position: relative;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: visible;
+
 
   &::before {
     content: "";
@@ -504,9 +506,10 @@
 
   .email-dropdown {
     position: absolute;
-    left: 50%;
+    right: 0;
+    left: auto;
     bottom: calc(100% + 0.8rem);
-    transform: translateX(-50%);
+    transform: none;
 
     background: var(--glass-bg);
     backdrop-filter: blur(10px);
@@ -525,14 +528,10 @@
 
     &::after {
       content: "";
-      position: absolute;
-      left: 50%;
+      left: auto;
+      right: 18px;
       bottom: -8px;
-      transform: translateX(-50%);
-
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-top: 8px solid var(--glass-border);
+      transform: none;
     }
   }
 

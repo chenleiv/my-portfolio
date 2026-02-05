@@ -1,9 +1,17 @@
-import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { useEffect, useRef, useState } from 'react';
-import { FaEnvelope, FaGithub, FaLinkedin, FaGoogle, FaMicrosoft, FaFileDownload, FaMobileAlt } from 'react-icons/fa';
-import chenImage from '/assets/img/chen-bucky.jpeg';
-import { InteractiveConsole } from './InteractiveConsole';
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useRef, useState } from "react";
+import {
+  FaEnvelope,
+  FaGithub,
+  FaLinkedin,
+  FaGoogle,
+  FaMicrosoft,
+  FaFileDownload,
+  FaMobileAlt,
+} from "react-icons/fa";
+import chenImage from "/assets/img/chen-bucky.jpeg";
+import { InteractiveConsole } from "./InteractiveConsole";
 
 const About = () => {
   const [showEmailOptions, setShowEmailOptions] = useState(false);
@@ -12,22 +20,22 @@ const About = () => {
 
   const emailOptions = [
     {
-      name: 'Gmail',
-      url: 'https://mail.google.com/mail/?view=cm&fs=1&to=chenleiv@gmail.com',
+      name: "Gmail",
+      url: "https://mail.google.com/mail/?view=cm&fs=1&to=chenleiv@gmail.com",
       icon: <FaGoogle />,
     },
     {
-      name: 'Outlook',
-      url: 'https://outlook.live.com/mail/0/deeplink/compose?to=chenleiv@gmail.com',
+      name: "Outlook",
+      url: "https://outlook.live.com/mail/0/deeplink/compose?to=chenleiv@gmail.com",
       icon: <FaMicrosoft />,
     },
   ];
 
   const handleDownloadCV = () => {
     const pdfUrl = `${import.meta.env.BASE_URL}assets/files/ChenLeiv-CV.pdf`;
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = pdfUrl;
-    link.download = 'ChenLeiv-CV.pdf';
+    link.download = "ChenLeiv-CV.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -40,12 +48,20 @@ const About = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setShowEmailOptions(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   return (
-
     <motion.section
       id="about"
       ref={ref}
@@ -55,14 +71,12 @@ const About = () => {
       transition={{ duration: 0.8 }}
     >
       <div className="about-container">
-
         <motion.div
           className="about-content"
           initial={{ y: 50 }}
           animate={inView ? { y: 0 } : {}}
           transition={{ delay: 0.4 }}
         >
-
           <div className="console-wrapper">
             <InteractiveConsole />
           </div>
@@ -75,8 +89,14 @@ const About = () => {
             transition={{ delay: 0.6 }}
           >
             <motion.div className="contact-info-container">
-              <img src={chenImage} alt="Profile" className="profile-image" loading="lazy" width={640}
-                height={360} />
+              <img
+                src={chenImage}
+                alt="Profile"
+                className="profile-image"
+                loading="lazy"
+                width={640}
+                height={360}
+              />
 
               <motion.footer
                 className="about-footer"
@@ -85,30 +105,54 @@ const About = () => {
                 transition={{ delay: 0.8 }}
               >
                 <div className="contact-info" id="info">
-                  <a href="https://www.linkedin.com/in/chen-leiv-9533a1178/" target="_blank" rel="noopener noreferrer" className="footer-link" aria-label="LinkedIn">
+                  <a
+                    href="https://www.linkedin.com/in/chen-leiv-9533a1178/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-link"
+                    aria-label="LinkedIn"
+                  >
                     <FaLinkedin size={24} />
                   </a>
 
                   <motion.button
+                    type="button"
                     className="footer-link"
                     onClick={handleDownloadCV}
                     whileTap={{ scale: 0.9 }}
+                    aria-label="Download CV"
                     title="Download CV"
                   >
                     <FaFileDownload size={24} />
                   </motion.button>
-                  <a href="https://github.com/chenleiv" target="_blank" rel="noopener noreferrer" className="footer-link" aria-label="GitHub">
+                  <a
+                    href="https://github.com/chenleiv"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="footer-link"
+                    aria-label="GitHub"
+                  >
                     <FaGithub size={24} />
                   </a>
-                  <a href="tel:+972526656101" className="footer-link" title="Call me" target="_blank" rel="noopener noreferrer" aria-label="Call me">
+                  <a
+                    href="tel:+972526656101"
+                    className="footer-link"
+                    title="Call me"
+                    aria-label="Call me"
+                  >
                     <FaMobileAlt size={24} />
                   </a>
 
                   <div className="email-container" ref={dropdownRef}>
                     <motion.button
+                      type="button"
                       className="footer-link"
-                      onClick={() => setShowEmailOptions(!showEmailOptions)}
+                      onClick={() => setShowEmailOptions((v) => !v)}
+                      onMouseDown={(e) => e.preventDefault()}
                       whileTap={{ scale: 0.9 }}
+                      aria-label="Open email options"
+                      aria-expanded={showEmailOptions}
+                      aria-controls="email-options"
                     >
                       <FaEnvelope size={24} />
                     </motion.button>
@@ -116,6 +160,7 @@ const About = () => {
                     {showEmailOptions && (
                       <motion.div
                         className="email-dropdown"
+                        id="email-options"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
@@ -145,7 +190,6 @@ const About = () => {
         </motion.div>
       </div>
     </motion.section>
-
   );
 };
 
