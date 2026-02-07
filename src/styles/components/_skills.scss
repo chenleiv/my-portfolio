@@ -461,6 +461,7 @@
   .skills-modalOverlay {
     padding: 5vh 12px;
     overflow-y: auto;
+    backdrop-filter: none;
   }
 
   .skills-modal {
@@ -486,6 +487,7 @@
     padding: 14px 18px;
     font-size: 1rem;
     background: var(--background-color);
+    backdrop-filter: none;
   }
 
   .skills-groups-container {

@@ -579,4 +579,10 @@
   .interactive-console {
     height: 520px;
   }
+
+  .email-dropdown,
+  .palette,
+  .autocomplete-list {
+    backdrop-filter: none;
+  }
 }
