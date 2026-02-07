@@ -1,8 +1,8 @@
-import memoryImg from "/assets/img/memory.png";
-import memeImg from "/assets/img/meme.png";
-import trellor1 from "/assets/img/trellor1.png";
-import aiWorkerSpaceImg from "/assets/img/knowledge.png";
-import portfolioImg from "/assets/img/portfolio.png";
+import memoryImg from "/assets/img/memory.webp";
+import memeImg from "/assets/img/meme.webp";
+import trellor1 from "/assets/img/trellor1.webp";
+import aiWorkerSpaceImg from "/assets/img/knowledge.webp";
+import portfolioImg from "/assets/img/portfolio.webp";
 
 export interface Project {
   readonly label: number;

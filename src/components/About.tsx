@@ -10,7 +10,7 @@ import {
   FaFileDownload,
   FaMobileAlt,
 } from "react-icons/fa";
-import chenImage from "/assets/img/chen-bucky.jpeg";
+import chenImage from "/assets/img/chen-bucky.webp";
 import { InteractiveConsole } from "./InteractiveConsole";
 
 const About = () => {
