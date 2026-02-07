@@ -94,6 +94,7 @@ const About = () => {
                 alt="Profile"
                 className="profile-image"
                 loading="lazy"
+                decoding="async"
                 width={640}
                 height={360}
               />
