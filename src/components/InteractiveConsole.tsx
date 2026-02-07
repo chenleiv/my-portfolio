@@ -24,7 +24,6 @@ const uid = (): string => {
     return `${Date.now().toString(16)}-${hex}`;
   }
 
-  // last-resort fallback (still fine for UI keys)
   return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 };
 
@@ -43,14 +42,12 @@ export const InteractiveConsole = () => {
   const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
   const [input, setInput] = useState<string>("");
 
-  // suggestions is effectively immutable: we only replace it
   const [suggestions, setSuggestions] = useState<readonly string[]>([]);
   const [suggestionIndex, setSuggestionIndex] = useState<number>(-1);
 
   const [commandHistory, setCommandHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState<number>(-1);
 
-  // Palette
   const [isPaletteOpen, setIsPaletteOpen] = useState<boolean>(false);
   const [paletteQuery, setPaletteQuery] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -62,10 +59,8 @@ export const InteractiveConsole = () => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const lastActiveElementRef = useRef<HTMLElement | null>(null);
   const paletteRef = useRef<HTMLDivElement>(null);
-  // auto-scroll policy: only if user is “sticky” (near bottom)
   const stickyRef = useRef<boolean>(true);
 
-  // navigation guard: when we do page scroll, skip console autoscroll once
   const skipNextConsoleAutoScrollRef = useRef<boolean>(false);
 
   const { setConsoleInputRef } = useFocus();
@@ -80,13 +75,11 @@ export const InteractiveConsole = () => {
     setSuggestionIndex(-1);
   };
 
-  // focus on load + register
   useEffect(() => {
     setConsoleInputRef(inputRef.current);
     window.setTimeout(() => inputRef.current?.focus(), 0);
   }, [setConsoleInputRef]);
 
-  // track user scroll inside console-history (sticky mode)
   useEffect(() => {
     const el = historyRef.current;
     if (!el) return;
@@ -101,7 +94,6 @@ export const InteractiveConsole = () => {
     return () => el.removeEventListener("scroll", onScroll);
   }, []);
 
-  // auto-scroll when new history printed
   useEffect(() => {
     if (skipNextConsoleAutoScrollRef.current) {
       skipNextConsoleAutoScrollRef.current = false;
@@ -143,13 +135,13 @@ export const InteractiveConsole = () => {
   }, []);
 
   const filteredItems = useMemo(() => {
-    const q = paletteQuery.trim().toLowerCase();
     return PALETTE_ITEMS.filter((item) => {
+      const q = paletteQuery.trim().toLowerCase();
       if (!q) return true;
       return (
         item.id.toLowerCase().includes(q) ||
         item.label.toLowerCase().includes(q) ||
-        item.keywords.some((k) => k.includes(q))
+        item.keywords.some((k) => k.toLowerCase().includes(q))
       );
     });
   }, [paletteQuery]);
@@ -185,7 +177,47 @@ export const InteractiveConsole = () => {
     });
   };
 
+  const HIDDEN_COMMANDS = new Set(["whoami", "hireme", "why", "coffee"]);
+
   const handleCommand = (raw: string) => {
+    const rawLower = raw.trim().toLowerCase().replace(/\(\s*\)\s*$/, "");
+
+    if (HIDDEN_COMMANDS.has(rawLower)) {
+      const echoHidden: ConsoleLine = { id: uid(), type: "input", text: `> ${rawLower}()` };
+
+      switch (rawLower) {
+        case "whoami":
+          pushHistory(
+            [
+              echoHidden,
+              { id: uid(), type: "system", text: "Frontend dev • 3+ years • React/Angular/TS" },
+            ],
+            raw
+          );
+          return;
+
+        case "hireme":
+          pushHistory(
+            [
+              echoHidden,
+              { id: uid(), type: "system", text: "✔ Available for frontend positions\n✔ React / Angular / TypeScript\n✔ Tel Aviv / Remote" },
+            ],
+            raw
+          );
+          return;
+
+        case "coffee":
+          pushHistory(
+            [
+              echoHidden,
+              { id: uid(), type: "system", text: "☕ Coffee always accepted." },
+            ],
+            raw
+          );
+          return;
+      }
+    }
+
     const canonical = normalizeCommand(raw);
 
     if (!canonical) {
@@ -210,6 +242,44 @@ export const InteractiveConsole = () => {
     };
 
     switch (canonical) {
+
+      case "portfolioCode": {
+        const url = "https://github.com/chenleiv/my-portfolio";
+
+        pushHistory(
+          [
+            { ...echo },
+            {
+              id: uid(),
+              type: "system",
+              text: `💻 Portfolio source code:\n${url}`,
+            },
+          ],
+          raw
+        );
+
+        break;
+      }
+      case "cv": {
+        const pdfUrl = `${import.meta.env.BASE_URL}assets/files/ChenLeiv-CV.pdf`;
+
+        pushHistory(
+          [
+            { ...echo },
+            { id: uid(), type: "system", text: "📄 CV ready:" },
+            {
+              id: uid(),
+              type: "link",
+              text: "👉 Click to download CV",
+              href: pdfUrl,
+              download: pdfUrl,
+            },
+          ],
+          raw
+        );
+
+        break;
+      }
       case "showProjects": {
         pushHistory(
           [
@@ -254,14 +324,14 @@ export const InteractiveConsole = () => {
         break;
       }
 
-      case "skills": {
+      case "recruiterMode": {
         pushHistory(
           [
             { ...echo },
             {
               id: uid(),
               type: "system",
-              text: "🧩 Recruiter mode opened — pick a few skills.",
+              text: "🧩 Recruiter mode opened.",
             },
           ],
           raw
@@ -302,14 +372,26 @@ export const InteractiveConsole = () => {
       return;
     }
 
-    const matches = PALETTE_ITEMS.map((x) => toDisplayCommand(x.id)).filter((c) =>
-      c.toLowerCase().startsWith(v)
-    );
+    const matches = PALETTE_ITEMS.map((item) => {
+      const cmd = toDisplayCommand(item.id);
+      const cmdLower = cmd.toLowerCase();
+
+      let score = 0;
+      if (cmdLower.startsWith(v)) score += 30;
+      if (cmdLower.includes(v)) score += 10;
+
+      const kwHit = item.keywords.some((k) => k.toLowerCase().includes(v));
+      if (kwHit) score += 5;
+
+      return { cmd, score };
+    })
+      .filter((x) => x.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .map((x) => x.cmd);
 
     setSuggestions(matches);
     setSuggestionIndex(matches.length ? 0 : -1);
   };
-
   const pickSuggestion = (suggestion: string) => {
     setInput(suggestion);
     resetAutocomplete();
@@ -325,16 +407,6 @@ export const InteractiveConsole = () => {
 
       return clamp(next, 0, suggestions.length - 1);
     });
-  };
-
-  const runActiveSuggestion = () => {
-    if (suggestionIndex < 0) return;
-    const cmd = getAt(suggestions, suggestionIndex);
-    if (cmd === undefined) return;
-
-    handleCommand(cmd);
-    setInput("");
-    resetAutocomplete();
   };
 
   const trapFocus = (
@@ -376,14 +448,12 @@ export const InteractiveConsole = () => {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const hasSuggestions = suggestions.length > 0;
 
-    // Suggestions navigation
     if (hasSuggestions && (e.key === "ArrowDown" || e.key === "ArrowUp")) {
       e.preventDefault();
       cycleSuggestionIndex(e.key === "ArrowDown" ? 1 : -1);
       return;
     }
 
-    // Tab cycles suggestions (Shift+Tab goes backwards)
     if (e.key === "Tab" && hasSuggestions) {
       e.preventDefault();
 
@@ -406,14 +476,21 @@ export const InteractiveConsole = () => {
       return;
     }
 
-    // Enter runs selected suggestion
-    if (e.key === "Enter" && hasSuggestions && suggestionIndex >= 0) {
+    if (e.key === "Enter" && hasSuggestions) {
       e.preventDefault();
-      runActiveSuggestion();
+
+      if (suggestionIndex < 0) setSuggestionIndex(0);
+
+      const idx = suggestionIndex < 0 ? 0 : suggestionIndex;
+      const cmd = getAt(suggestions, idx);
+      if (cmd !== undefined) {
+        handleCommand(cmd);
+        setInput("");
+        resetAutocomplete();
+      }
       return;
     }
 
-    // Command history navigation (only when no suggestions)
     if (e.key === "ArrowUp") {
       e.preventDefault();
       if (commandHistory.length === 0) return;

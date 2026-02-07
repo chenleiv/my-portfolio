@@ -53,7 +53,6 @@ export default function SkillsContainer() {
     };
   }, []);
 
-  // Close on Escape
   useEffect(() => {
     if (!isModalOpen) return;
 
@@ -65,7 +64,6 @@ export default function SkillsContainer() {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [isModalOpen]);
 
-  // Drag support (desktop)
   const handleDropToSelected = (e: React.DragEvent) => {
     e.preventDefault();
     if (!draggedSkill) return;
@@ -74,7 +72,6 @@ export default function SkillsContainer() {
 
   return (
     <div className="skills-root" id="skills">
-      {/* FLOATING BUTTON */}
       <button
         type="button"
         className="skills-fab"
@@ -103,7 +100,6 @@ export default function SkillsContainer() {
               exit={{ opacity: 0, y: 20, scale: 0.96 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
             >
-              {/* HEADER */}
               <div className="skills-modal__header">
                 <div>
                   <div className="skills-modal__title">Build your ideal candidate</div>
@@ -123,9 +119,7 @@ export default function SkillsContainer() {
                 </button>
               </div>
 
-              {/* CONTENT */}
               <div className="skills-modal__content">
-                {/* LEFT: PICK SKILLS (GROUPED) */}
                 <div className="skills-modal__section">
                   <div className="skills-modal__sectionTitle">1) Pick skills</div>
 
@@ -166,7 +160,6 @@ export default function SkillsContainer() {
                   </div>
                 </div>
 
-                {/* RIGHT: SELECTED + RESULT + ACTIONS */}
                 <div
                   className="skills-modal__section skills-modal__section--right"
                   onDrop={!isMobile() ? handleDropToSelected : undefined}
@@ -194,7 +187,6 @@ export default function SkillsContainer() {
                     </div>
                   )}
 
-                  {/* RESULT AREA (CENTER) */}
                   <div className="skills-resultArea">
                     <AnimatePresence>
                       {isMatch && !isSearching && (
@@ -232,7 +224,6 @@ export default function SkillsContainer() {
                     {isSearching && <div className="skills-hint">Matching…</div>}
                   </div>
 
-                  {/* ACTIONS BOTTOM */}
                   <div className="skills-actionsBottom">
                     <button
                       type="button"

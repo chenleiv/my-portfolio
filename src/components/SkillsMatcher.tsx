@@ -59,7 +59,6 @@ export default function SkillsMatcher({
     const progressIntervalRef = useRef<number | null>(null);
     const searchTimeoutRef = useRef<number | null>(null);
 
-    // Focus management
     const modalRef = useRef<HTMLDivElement>(null);
     const lastActiveElementRef = useRef<HTMLElement | null>(null);
 
@@ -82,14 +81,12 @@ export default function SkillsMatcher({
         lastActiveElementRef.current = document.activeElement as HTMLElement | null;
         setIsModalOpen(true);
 
-        // focus modal container so Tab trap works immediately
         window.setTimeout(() => modalRef.current?.focus(), 0);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
 
-        // restore focus to opener
         window.setTimeout(() => lastActiveElementRef.current?.focus(), 0);
     };
 
@@ -103,7 +100,6 @@ export default function SkillsMatcher({
         };
     }, [exposeGlobalOpener]);
 
-    // Close on Escape
     useEffect(() => {
         if (!isModalOpen) return;
 

@@ -2,7 +2,6 @@ import memoryImg from "/assets/img/memory.webp";
 import memeImg from "/assets/img/meme.webp";
 import trellor1 from "/assets/img/trellor1.webp";
 import aiWorkerSpaceImg from "/assets/img/knowledge.webp";
-import portfolioImg from "/assets/img/portfolio.webp";
 
 export interface Project {
   readonly label: number;
@@ -25,15 +24,6 @@ export const PROJECTS: readonly Project[] = [
     skills: ["React", "TypeScript", "REST API", "Python", "Cloudflare"],
     web: "https://ai-knowledge-workspace.pages.dev/",
     github: "https://github.com/chenleiv/ai-worker-space",
-  },
-  {
-    label: 2,
-    header: "Portfolio",
-    subHeader: "My portfolio website.",
-    img: portfolioImg,
-    skills: ["React", "Vite", "TypeScript", "SCSS"],
-    github: "https://github.com/chenleiv/my-portfolio",
-    hideWeb: true,
   },
   {
     label: 3,

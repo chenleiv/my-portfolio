@@ -15,7 +15,6 @@
   --skills-dash: rgba(255, 255, 255, 0.22);
   --skills-dash-hover: rgba(255, 255, 255, 0.32);
 
-  /* blush CTA (tweak freely) */
   --skills-cta: #e7b7b7;
   --skills-cta-hover: #efc4c4;
   --skills-cta-text: #ffffff;
@@ -26,7 +25,7 @@
   position: fixed;
   right: 18px;
   top: 18px;
-  padding: 22px 28px;
+  padding: 18px 24px;
   z-index: 999;
   border-radius: 999px;
 
@@ -46,9 +45,6 @@
   }
 }
 
-/* =========================
-   MODAL
-========================= */
 .skills-modalOverlay {
   position: fixed;
   inset: 0;
@@ -132,9 +128,6 @@
   padding: 22px 22px 26px;
 }
 
-/* =========================
-   INNER CARD (the chips area)
-========================= */
 .skills-section-container {
   max-width: 860px;
   margin: 0 auto;
@@ -158,9 +151,6 @@
   display: none;
 }
 
-/* =========================
-   CHIPS
-========================= */
 .skills-list {
   display: flex;
   flex-wrap: wrap;
@@ -210,9 +200,6 @@
   }
 }
 
-/* =========================
-   DROP / INPUT AREA
-========================= */
 .skills-inputs-container {
   display: flex;
   flex-direction: column;
@@ -247,7 +234,6 @@
     justify-content: center;
     text-align: center;
 
-    /* not editable */
     cursor: default;
     outline: none;
 
@@ -258,7 +244,6 @@
     }
   }
 
-  /* when you add a "drag-over" class from React */
   &.dragOver .skills-input {
     border-color: var(--skills-dash-hover);
     background: rgba(255, 255, 255, 0.04);
@@ -267,7 +252,6 @@
   }
 }
 
-/* the small “Drag to input 👇” text */
 .skills-input-container .hint {
   margin-top: 10px;
   text-align: center;
@@ -279,9 +263,6 @@
   overflow: hidden;
 }
 
-/* =========================
-   SEARCH CTA AREA
-========================= */
 .search-container {
   margin: 10px 0 0;
   display: flex;
@@ -354,7 +335,6 @@
     width: 100%;
     max-width: 420px;
 
-    /* ✅ reserve space מראש (אין קפיצה) */
     height: 52px;
 
     position: relative;
@@ -394,9 +374,6 @@
   transition: width 0.18s ease;
 }
 
-/* =========================
-   OPTIONAL: match message/link
-========================= */
 
 .match-message {
   position: relative;
@@ -454,9 +431,6 @@
   }
 }
 
-/* =========================
-   MOBILE
-========================= */
 @media (max-width: 820px) {
   .skills-modalOverlay {
     padding: 5vh 12px;

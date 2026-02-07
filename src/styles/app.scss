@@ -10,14 +10,13 @@
   &__main {
     flex-grow: 1;
     width: 100%;
+    padding: 24px 12px;
   }
 
   &__section {
-    // min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    // padding: var(--spacing-md) 0;
     position: relative;
     width: 100%;
 

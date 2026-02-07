@@ -1,4 +1,10 @@
-export type CanonicalCommand = "showProjects" | "contact" | "clear" | "skills";
+export type CanonicalCommand =
+  | "showProjects"
+  | "contact"
+  | "clear"
+  | "recruiterMode"
+  | "portfolioCode"
+  | "cv";
 
 export type PaletteItem = {
   id: CanonicalCommand;
@@ -14,9 +20,19 @@ export const PALETTE_ITEMS: PaletteItem[] = [
   },
   { id: "contact", label: "Contact", keywords: ["contact", "email", "info"] },
   {
-    id: "skills",
-    label: "skills",
-    keywords: ["mode", "recruiterMode", "skills", "ideal", "hire", "talent"],
+    id: "recruiterMode",
+    label: "Recruiter mode",
+    keywords: ["mode", "recruitermode", "skills"],
+  },
+  {
+    id: "portfolioCode",
+    label: "Open portfolio code",
+    keywords: ["portfolio", "code", "github", "source"],
+  },
+  {
+    id: "cv",
+    label: "Download CV (PDF)",
+    keywords: ["cv", "resume", "pdf", "download"],
   },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
 ];
@@ -25,31 +41,45 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
   const normalized = raw
     .trim()
     .toLowerCase()
-    .replace(/;+\s*$/, "") // remove trailing ;
-    .replace(/\(\s*\)\s*$/, "") // remove trailing ()
+    .replace(/;+\s*$/, "") // trailing ;
+    .replace(/\(\s*\)\s*$/, "") // trailing ()
     .replace(/\s+/g, ""); // remove ALL spaces
 
   switch (normalized) {
     case "showprojects":
-    case "projects()":
+    case "projects":
       return "showProjects";
+
     case "contact":
-    case "contact()":
-    case "contactinfo()":
+    case "contactinfo":
       return "contact";
+
     case "clear":
+    case "reset":
       return "clear";
+
+    case "portfoliocode":
+    case "sourcecode":
+    case "code":
+    case "github":
+      return "portfolioCode";
+
+    case "cv":
+    case "cv()":
+    case "resume":
+    case "downloadcv":
+    case "downloadcv()":
+      return "cv";
 
     case "recruitermode":
     case "recruiter":
     case "match":
     case "skills":
-    case "skills()":
-      return "skills";
+      return "recruiterMode";
 
     default:
       return null;
   }
 };
 
-export const toDisplayCommand = (cmd: CanonicalCommand) => `${cmd}`;
+export const toDisplayCommand = (cmd: CanonicalCommand) => `${cmd}()`;

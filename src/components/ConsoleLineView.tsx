@@ -1,6 +1,39 @@
 import { memo } from "react";
 import type { ConsoleLine } from "./consoleTypes";
 
+const linkify = (text: string): React.ReactNode => {
+    const urlRegex = /(https?:\/\/[^\s)]+|www\.[^\s)]+)/g;
+
+    const nodes: React.ReactNode[] = [];
+    let lastIndex = 0;
+
+    for (const match of text.matchAll(urlRegex)) {
+        const index = match.index ?? 0;
+        const rawUrl = match[0];
+
+        if (index > lastIndex) nodes.push(text.slice(lastIndex, index));
+
+        const href = rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`;
+
+        nodes.push(
+            <a
+                key={`${index}-url`}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="console-link"
+            >
+                {rawUrl}
+            </a>
+        );
+
+        lastIndex = index + rawUrl.length;
+    }
+
+    if (lastIndex < text.length) nodes.push(text.slice(lastIndex));
+    return nodes;
+};
+
 const highlightTokens = (text: string): React.ReactNode => {
     const parts: React.ReactNode[] = [];
     const regex = /(".*?")|\b(const|let|var|return)\b/g;
@@ -32,6 +65,11 @@ const highlightTokens = (text: string): React.ReactNode => {
     return parts;
 };
 
+const hasUrl = (text: string): boolean => {
+    const urlRegex = /(https?:\/\/[^\s)]+|www\.[^\s)]+)/g;
+    return urlRegex.test(text);
+};
+
 export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: ConsoleLine }) {
     switch (line.type) {
         case "heroName":
@@ -40,7 +78,7 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
             return <div className="console-title">{line.text}</div>;
         case "desc":
             return <div className="console-desc">{line.text}</div>;
-        case "skills":
+        case "recruiterMode":
             return <div className="console-skills">{line.text}</div>;
         case "commandsTitle":
             return <div className="console-commands-title">{line.text}</div>;
@@ -50,7 +88,24 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
             return <div className="console-input-lineText">{line.text}</div>;
         case "error":
             return <div className="console-error">{line.text}</div>;
+        case "link":
+            return (
+                <a
+                    className="console-link"
+                    href={line.href ?? line.text}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download={line.download}
+                    aria-label={line.text}
+                >
+                    {line.text}
+                </a>
+            );
         default:
-            return <div className="console-system">{highlightTokens(line.text)}</div>;
+            return (
+                <div className="console-system">
+                    {hasUrl(line.text) ? linkify(line.text) : highlightTokens(line.text)}
+                </div>
+            );
     }
 });

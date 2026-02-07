@@ -2,17 +2,20 @@ export type ConsoleLineType =
   | "heroName"
   | "heroTitle"
   | "desc"
-  | "skills"
+  | "recruiterMode"
   | "commandsTitle"
   | "cmd"
   | "input"
   | "error"
-  | "system";
+  | "system"
+  | "link";
 
 export type ConsoleLine = {
   id: string;
   type: ConsoleLineType;
   text: string;
+  href?: string;
+  download?: string;
 };
 
 export const ABOUT_LINES: ConsoleLine[] = [
@@ -26,13 +29,14 @@ export const ABOUT_LINES: ConsoleLine[] = [
   },
   {
     id: "s1",
-    type: "skills",
+    type: "recruiterMode",
     text: "React • Angular • TypeScript • SCSS • Node.js",
   },
 
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
-  { id: "c1", type: "cmd", text: "showProjects()" },
-  { id: "c2", type: "cmd", text: "contact()" },
-  { id: "c3", type: "cmd", text: "skills()" },
-  { id: "c4", type: "cmd", text: "clear()" },
+  {
+    id: "c1",
+    type: "cmd",
+    text: "showProjects() | contact() | portfolioCode() | cv() | recruiterMode() | clear()",
+  },
 ];
