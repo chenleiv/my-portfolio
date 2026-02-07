@@ -91,12 +91,13 @@ const About = () => {
             <motion.div className="contact-info-container">
               <img
                 src={chenImage}
-                alt="Profile"
+                alt="ChenBucky"
                 className="profile-image"
-                loading="lazy"
-                decoding="async"
                 width={640}
                 height={360}
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
               />
 
               <motion.footer
