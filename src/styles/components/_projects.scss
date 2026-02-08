@@ -5,11 +5,15 @@
 .projects-container {
   max-width: 1400px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 34px;
 }
 
 .projects-title {
   text-align: center;
-  margin-bottom: 3rem;
   font-size: 2.5rem;
   color: linear-gradient(45deg, var(--text-primary), #c3c7d5);
 }
@@ -19,6 +23,13 @@
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 3rem;
   padding: 1rem;
+}
+
+.projects-subtitle {
+  text-align: start;
+  font-size: 1.5rem;
+  padding-left: 18px;
+  color: var(--text-secondary);
 }
 
 @media (min-width: 768px) {

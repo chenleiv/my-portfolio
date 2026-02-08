@@ -3,6 +3,8 @@ import memeImg from "/assets/img/meme.webp";
 import trellor1 from "/assets/img/trellor1.webp";
 import aiWorkerSpaceImg from "/assets/img/knowledge.webp";
 
+type ProjectEra = "latest" | "older";
+
 export interface Project {
   readonly label: number;
   readonly header: string;
@@ -13,6 +15,7 @@ export interface Project {
   readonly github: string;
   readonly hideWeb?: boolean;
   readonly hideGithub?: boolean;
+  readonly era?: ProjectEra;
 }
 
 export const PROJECTS: readonly Project[] = [
@@ -24,6 +27,7 @@ export const PROJECTS: readonly Project[] = [
     skills: ["React", "TypeScript", "REST API", "Python", "Cloudflare"],
     web: "https://ai-knowledge-workspace.pages.dev/",
     github: "https://github.com/chenleiv/ai-worker-space",
+    era: "latest",
   },
   {
     label: 3,
@@ -33,6 +37,7 @@ export const PROJECTS: readonly Project[] = [
     skills: ["Vue.js", "Vuex", "Node.js", "MongoDB", "SCSS"],
     web: "https://trellor.onrender.com/#/",
     github: "https://github.com/chenleiv/trellor",
+    era: "older",
   },
   {
     label: 4,
@@ -42,6 +47,7 @@ export const PROJECTS: readonly Project[] = [
     skills: ["Angular", "TypeScript", "REST API", "SCSS"],
     web: "https://chenleiv.github.io/the-memory-game/",
     github: "https://github.com/chenleiv/the-memory-game",
+    era: "older",
   },
   {
     label: 5,
@@ -51,5 +57,6 @@ export const PROJECTS: readonly Project[] = [
     skills: ["Vanilla JS", "CSS"],
     web: "https://chenleiv.github.io/Meme-Generator/",
     github: "https://github.com/chenleiv/Meme-Generator",
+    era: "older",
   },
 ] as const;

@@ -2,6 +2,7 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { PROJECTS, Project } from "./data/project";
+import { ProjectCard } from "./ProjectCard";
 
 export default function Projects() {
   const shouldReduceMotion = useReducedMotion();
@@ -19,6 +20,9 @@ export default function Projects() {
     visible: { y: 0, opacity: 1 },
   };
 
+  const latestProjects = PROJECTS.filter(p => p.era === "latest");
+  const olderProjects = PROJECTS.filter(p => p.era === "older");
+
   return (
     <motion.section
       id="projects"
@@ -33,69 +37,33 @@ export default function Projects() {
           Projects
         </motion.h2>
 
-        <div className="projects-grid">
-          {PROJECTS.map((project: Project) => (
-            <motion.div
-              key={project.label}
-              className="project-card"
-              variants={itemVariants}
-              {...(!shouldReduceMotion && {
-                whileHover: { scale: 1.05, transition: { duration: 0.2 } },
-              })}
-            >
-              <div className="project-image-container">
-                <img
-                  src={project.img}
-                  alt={project.header}
-                  className="project-image"
-                  loading="lazy"
-                  decoding="async"
-                  width={640}
-                  height={360}
-                />
+        <div className="projects-latest">
+          <motion.h3 variants={itemVariants} className="projects-subtitle">
+            Latest Development
+          </motion.h3>
 
-                <div className="project-overlay">
-                  <div className="project-actions">
-                    {!project.hideWeb && project.web && (
-                      <a
-                        href={project.web}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-button"
-                        aria-label={`Open live demo: ${project.header}`}
-                      >
-                        <FaExternalLinkAlt size={16} /> Live Demo
-                      </a>
-                    )}
+          <div className="projects-grid">
+            {latestProjects.map((project) => (
+              <ProjectCard
+                key={project.label}
+                project={project}
+                itemVariants={itemVariants}
+                shouldReduceMotion={shouldReduceMotion ?? false}
+              />
+            ))}
+          </div>
+        </div>
 
-                    {!project.hideGithub && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="project-button"
-                        aria-label={`Open source code: ${project.header}`}
-                      >
-                        <FaGithub size={16} /> Source
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
+        <div className="projects-older">
+          <motion.h3 variants={itemVariants} className="projects-subtitle older">
+            Older Projects
+          </motion.h3>
 
-              <div className="project-info">
-                <h2 className="project-title">{project.header}</h2>
-                <p className="project-description">{project.subHeader}</p>
-                <div className="project-skills">
-                  {project.skills.map((skill: string) => (
-                    <span key={`${project.label}-${skill}`} className="skill-tag">
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          ))}
+          <div className="projects-grid">
+            {olderProjects.map((project) => (
+              <ProjectCard key={project.label} project={project} itemVariants={itemVariants} shouldReduceMotion={shouldReduceMotion ?? false} />
+            ))}
+          </div>
         </div>
       </div>
     </motion.section>
