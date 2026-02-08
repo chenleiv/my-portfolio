@@ -266,28 +266,20 @@ export const InteractiveConsole = () => {
         pushHistory(
           [
             { ...echo },
-            { id: uid(), type: "system", text: "📄 CV ready:" },
             {
               id: uid(),
               type: "link",
-              text: "👉 Click to download CV",
+              text: "📄 Click to download CV",
               href: pdfUrl,
-              download: pdfUrl,
+              download: "ChenLeiv-CV.pdf",
             },
           ],
           raw
         );
-
         break;
       }
       case "showProjects": {
-        pushHistory(
-          [
-            { ...echo },
-            { id: uid(), type: "system", text: "👉 Scrolling to #projects..." },
-          ],
-          raw
-        );
+        pushHistory([{ ...echo }, { id: uid(), type: "system", text: "👉 Scrolling to #projects..." }], raw);
         scrollToSection("projects");
         break;
       }

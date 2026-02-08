@@ -71,45 +71,6 @@ Tooling & Quality
 
 📁 Project Structure (Simplified)
 
-src/
-components/
-About/
-About.tsx
-InteractiveConsole.tsx
-ConsoleLineView.tsx
-consoleCommands.ts
-consoleTypes.ts
-assets/
-styles/
-
-Browser
-│
-▼
-React App (Vite + TS)
-│
-├── Layout & Sections
-│ ├── About
-│ ├── Projects
-│ ├── Skills
-│ └── Contact
-│
-├── Interactive Console System
-│ ├── Command Parser
-│ ├── History Manager
-│ ├── Autocomplete Engine
-│ ├── Command Palette (⌘K)
-│ └── Scroll/Highlight Controller
-│
-├── UI/Animation Layer
-│ ├── Framer Motion
-│ ├── Intersection Observer
-│ └── Glass UI (SCSS)
-│
-└── Assets & Static Files
-├── Images
-├── CV PDF
-└── Icons
-
 Architecture goals:
 • Clear separation of UI / logic / data
 • Strong TypeScript safety
