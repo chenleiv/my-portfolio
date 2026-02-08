@@ -1,7 +1,6 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
-import { PROJECTS, Project } from "./data/project";
+import { PROJECTS } from "./data/project";
 import { ProjectCard } from "./ProjectCard";
 
 export default function Projects() {
