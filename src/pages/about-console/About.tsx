@@ -111,7 +111,7 @@ const About = () => {
                     href="https://www.linkedin.com/in/chen-leiv-9533a1178/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="footer-link"
+                    className="about-link"
                     aria-label="LinkedIn"
                   >
                     <FaLinkedin size={24} />
@@ -119,7 +119,7 @@ const About = () => {
 
                   <motion.button
                     type="button"
-                    className="footer-link"
+                    className="about-link"
                     onClick={handleDownloadCV}
                     whileTap={{ scale: 0.9 }}
                     aria-label="Download CV"
@@ -131,14 +131,14 @@ const About = () => {
                     href="https://github.com/chenleiv"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="footer-link"
+                    className="about-link"
                     aria-label="GitHub"
                   >
                     <FaGithub size={24} />
                   </a>
                   <a
                     href="tel:+972526656101"
-                    className="footer-link"
+                    className="about-link"
                     title="Call me"
                     aria-label="Call me"
                   >
@@ -148,7 +148,7 @@ const About = () => {
                   <div className="email-container" ref={dropdownRef}>
                     <motion.button
                       type="button"
-                      className="footer-link"
+                      className="about-link"
                       onClick={() => setShowEmailOptions((v) => !v)}
                       onMouseDown={(e) => e.preventDefault()}
                       whileTap={{ scale: 0.9 }}

@@ -1,10 +1,10 @@
 
 import { lazy, Suspense } from 'react';
-import Projects from './components/Projects';
-import Footer from './components/Footer';
-import About from './components/About';
-import { ThemeToggle } from './components/ThemeToggle';
-const SkillsMatcher = lazy(() => import("./components/SkillsMatcher"));
+import Projects from './pages/projects/Projects';
+import Footer from './components/footer/Footer';
+import About from './pages/about-console/About';
+import { ThemeToggle } from './components/theme-toggle/ThemeToggle';
+const SkillsMatcher = lazy(() => import("./pages/skills/SkillsMatcher"));
 const LazyLoader = lazy(() => import("./components/loader/LazyLoader"));
 
 function App() {

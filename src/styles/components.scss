@@ -1,9 +1,10 @@
 @use "variables" as variables;
-@use "components/_projects";
-@use "components/_skills";
-@use "components/_console";
-@use "components/_footer";
-@use "components/_theme-toggle";
+@use "../pages/projects/Projects";
+@use "../pages/skills/_skills";
+@use "../pages/about-console/_console";
+@use "../components/footer/Footer";
+@use "../components/theme-toggle/_theme-toggle";
+
 
 /* Add to your global CSS */
 .highlight {

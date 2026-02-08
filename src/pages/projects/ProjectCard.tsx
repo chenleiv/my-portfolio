@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
-import type { Project } from "./data/project";
+import type { Project } from "./projectData";
 
 type Props = {
     project: Project;

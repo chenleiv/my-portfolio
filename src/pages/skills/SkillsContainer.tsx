@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, type DragEvent, type MouseEvent } from "react";
-import { useFocus } from "../utils/useFocus";
-import { SKILL_GROUPS } from './data/skills';
+import { useFocus } from "../../utils/useFocus";
+import { SKILL_GROUPS } from './skills';
 
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 

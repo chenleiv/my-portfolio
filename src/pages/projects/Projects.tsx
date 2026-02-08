@@ -1,6 +1,6 @@
 import { motion, useReducedMotion, type Variants } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { PROJECTS } from "./data/project";
+import { PROJECTS } from "./projectData";
 import { ProjectCard } from "./ProjectCard";
 
 export default function Projects() {

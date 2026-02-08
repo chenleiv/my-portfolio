@@ -7,8 +7,8 @@ import {
     type DragEvent,
     type MouseEvent,
 } from "react";
-import { useFocus } from "../utils/useFocus";
-import { SKILL_GROUPS, SkillGroup } from "./data/skills";
+import { useFocus } from "../../utils/useFocus";
+import { SKILL_GROUPS, SkillGroup } from "./skills";
 
 const isMobile = () => window.matchMedia("(max-width: 768px)").matches;
 

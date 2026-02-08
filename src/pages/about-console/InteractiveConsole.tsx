@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useFocus } from "../utils/useFocus";
+import { useFocus } from "../../utils/useFocus";
 import {
   PALETTE_ITEMS,
   normalizeCommand,
