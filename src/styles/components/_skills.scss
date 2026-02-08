@@ -3,7 +3,6 @@
 
 }
 
-
 .skills-fab {
   position: fixed;
   right: 32px;
@@ -44,16 +43,18 @@
 }
 
 .skills-modal {
-  width: min(980px, 98vw);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  max-height: 92vh;
   border-radius: 28px;
+  width: min(980px, 98vw);
 
   background: var(--skills-panel-2);
   border: 1px solid var(--skills-border);
   box-shadow: 0 34px 140px var(--glass-shadow), inset 0 1px 0 var(--skills-border);
 
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
 }
 
 .skills-modal__header {
@@ -108,6 +109,8 @@
 }
 
 .skills-modal__content {
+  flex: 1;
+  overflow: auto;
   padding: 22px 22px 26px;
 }
 

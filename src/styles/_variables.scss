@@ -54,36 +54,36 @@
 
 :root[data-theme="light"] {
   /* Surfaces */
-  --background-color: #f6f7fba7;
+  --background-color: #f8fafc;
   /* page background */
   --surface-color: #ffffff;
   /* cards / panels */
-  --page-background: #f6f7fba7;
+  --page-background: #eef2f7;
   /* Brand */
-  --primary-color: #2b73d2;
-  --secondary-color: #4aa6f5;
-  --accent-color: #c2932e;
+  --primary-color: #1d4ed8;
+  --secondary-color: #38bdf8;
+  --accent-color: #f59e0b;
 
   /* Text */
-  --text-primary: #1b1e28;
-  --text-secondary: #4b5565;
-  --text-quaternary: #8b5e3c;
-  --text-projects-title: #1b1e28d6;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-quaternary: #7c4a1d;
+  --text-projects-title: #0f172acc;
 
   /* Scrollbar */
-  --sb-track: #00000012;
-  --sb-thumb: #2b73d26b;
-  --sb-thumb-hover: #2b73d2a8;
+  --sb-track: #00000014;
+  --sb-thumb: #1d4ed866;
+  --sb-thumb-hover: #1d4ed8a6;
 
   /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(43, 115, 210, 0.2);
-  --glass-shadow: 0 10px 24px rgba(12, 18, 32, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(29, 78, 216, 0.18);
+  --glass-shadow: 0 12px 26px rgba(12, 18, 32, 0.12);
 
   /* Gradients */
-  // --gradient-start: #2b73d2;
-  // --gradient-middle: #4aa6f5;
-  // --gradient-end: #c2932e;
+  --gradient-start: #1d4ed8;
+  --gradient-middle: #38bdf8;
+  --gradient-end: #f59e0b;
 
   /* Typography */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
@@ -99,26 +99,26 @@
   ========================================================= */
 
   /* Ink */
-  --skills-ink: #1c1e25ee;
-  --skills-ink-muted: #3f4657c7;
+  --skills-ink: #111827eb;
+  --skills-ink-muted: #475569cc;
 
   /* Panels */
-  --skills-panel: #ffffffd4;
-  --skills-panel-2: #f1f4fbf5;
-  --skills-border: #1c1e251a;
+  --skills-panel: #ffffffda;
+  --skills-panel-2: #f3f6fbf5;
+  --skills-border: #0f172a1a;
 
   /* Chips */
-  --skills-chip-bg: #2b73d214;
-  --skills-chip-bg-2: #2b73d20d;
-  --skills-chip-border: #2b73d224;
+  --skills-chip-bg: #1d4ed81a;
+  --skills-chip-bg-2: #38bdf814;
+  --skills-chip-border: #1d4ed826;
 
   /* Dashed areas */
-  --skills-dash: rgba(43, 115, 210, 0.24);
-  --skills-dash-hover: rgba(43, 115, 210, 0.36);
+  --skills-dash: rgba(29, 78, 216, 0.22);
+  --skills-dash-hover: rgba(29, 78, 216, 0.34);
 
   /* CTA */
-  --skills-cta: #2b73d2;
-  --skills-cta-hover: #3a82e0;
+  --skills-cta: #1d4ed8;
+  --skills-cta-hover: #2563eb;
   --skills-cta-text: #ffffff;
 
   /* Optional helpers */

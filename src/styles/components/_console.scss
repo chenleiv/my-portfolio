@@ -100,35 +100,6 @@
   line-height: 1.35;
 
   scrollbar-gutter: stable;
-
-  /* Firefox */
-  scrollbar-width: thin;
-  scrollbar-color: var(--sb-thumb) var(--sb-track);
-
-  /* WebKit */
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: var(--sb-track);
-    border-radius: 999px;
-    margin: 8px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg,
-        var(--sb-thumb),
-        var(--sb-track));
-    border-radius: 999px;
-    border: 2px solid var(--glass-border);
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg,
-        var(--sb-thumb-hover),
-        var(--sb-thumb-hover));
-  }
 }
 
 .console-line {

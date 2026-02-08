@@ -12,7 +12,6 @@
 /build
 
 # misc
-.DS_Store
 .env.local
 .env.development.local
 .env.test.local
@@ -40,6 +39,7 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+__MACOSX/
 *.suo
 *.ntvs*
 *.njsproj
