@@ -546,6 +546,10 @@
 
 @media (max-width: 820px) {
 
+  .about-section {
+    justify-content: space-between;
+  }
+
   .interactive-console {
     height: 520px;
   }
