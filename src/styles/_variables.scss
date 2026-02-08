@@ -2,6 +2,7 @@
   /* Surfaces */
   --background-color: #1e1e1e;
   --surface-color: #252526;
+  --page-background: #0a0c10b3;
 
   /* Brand */
   --primary-color: #569cd6;
@@ -51,13 +52,13 @@
   --rgba-white-0: #ffffff00;
 }
 
-:root {
+:root[data-theme="light"] {
   /* Surfaces */
-  --background-color: #f6f7fb;
+  --background-color: #f6f7fba7;
   /* page background */
   --surface-color: #ffffff;
   /* cards / panels */
-
+  --page-background: #f6f7fba7;
   /* Brand */
   --primary-color: #2b73d2;
   --secondary-color: #4aa6f5;
@@ -80,9 +81,9 @@
   --glass-shadow: 0 10px 24px rgba(12, 18, 32, 0.1);
 
   /* Gradients */
-  --gradient-start: #2b73d2;
-  --gradient-middle: #4aa6f5;
-  --gradient-end: #c2932e;
+  // --gradient-start: #2b73d2;
+  // --gradient-middle: #4aa6f5;
+  // --gradient-end: #c2932e;
 
   /* Typography */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;

@@ -61,6 +61,7 @@
   justify-content: center;
   justify-self: center;
   align-self: center;
+  background: var(--page-background);
 }
 
 .interactive-console {
@@ -71,7 +72,7 @@
   height: 530px;
   margin: 0 auto;
 
-  background: #0a0c10b3;
+  background: var(--page-background);
   border-radius: 12px;
   position: relative;
 

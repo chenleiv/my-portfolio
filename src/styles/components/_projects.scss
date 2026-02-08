@@ -31,13 +31,14 @@
 }
 
 .project-card {
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 3px 5px 12px var(--glass-shadow);
-  transition: all 0.3s ease;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  background: var(--glass-border);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 3px 5px 12px #0006;
+  transition: all .2s ease;
 }
 
 .project-image-container {
@@ -123,10 +124,10 @@
 }
 
 .project-description {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   text-align: center;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1;
   flex-grow: 1;
 }
 
