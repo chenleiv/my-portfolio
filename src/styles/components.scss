@@ -32,8 +32,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  padding: 2rem;
+  gap: 12px;
+  padding: 32px;
 
   &__spinner {
     width: 32px;
@@ -45,7 +45,7 @@
   }
 
   &__text {
-    font-size: 0.9rem;
+    font-size: 14.4px;
     color: var(--text-secondary);
     font-family: var(--font-mono);
   }
