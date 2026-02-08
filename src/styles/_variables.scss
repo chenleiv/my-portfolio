@@ -1,13 +1,56 @@
-/* =========================================================
-   DESIGN TOKENS — CHEN PORTFOLIO
-   Usage:
-   - Never hardcode colors in components.
-   - Use tokens only (var(--...)).
-   ========================================================= */
+:root[data-theme="dark"] {
+  /* Surfaces */
+  --background-color: #1e1e1e;
+  --surface-color: #252526;
 
-/* -----------------------------
-   LIGHT THEME (default)
------------------------------ */
+  /* Brand */
+  --primary-color: #569cd6;
+  --secondary-color: #9cdcfe;
+  --accent-color: #dcdcaa;
+
+  /* Text */
+  --text-primary: #d4d4d4;
+  --text-secondary: #b3b0b0;
+  --text-quaternary: #ce9178;
+  --text-projects-title: #ffffffbd;
+
+  /* Scrollbar */
+  --sb-track: #ffffff0f;
+  --sb-thumb: #78aaff8c;
+  --sb-thumb-hover: #78aaffbf;
+
+  /* Glass */
+  --glass-bg: rgba(37, 37, 38, 0.8);
+  --glass-border: rgba(86, 156, 214, 0.2);
+  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+
+  /* Gradients */
+  --gradient-start: #569cd6;
+  --gradient-middle: #9cdcfe;
+  --gradient-end: #dcdcaa;
+
+  /* Skills */
+  --skills-ink: #ffffffeb;
+  --skills-ink-muted: #ffffffb8;
+
+  --skills-panel: #1111121e;
+  --skills-panel-2: #18181af5;
+  --skills-border: #ffffff1a;
+
+  --skills-chip-bg: #ffffff14;
+  --skills-chip-bg-2: #ffffff0d;
+  --skills-chip-border: #ffffff1f;
+
+  --skills-dash: rgba(255, 255, 255, 0.22);
+  --skills-dash-hover: rgba(255, 255, 255, 0.32);
+
+  --skills-cta: #e7b7b7;
+  --skills-cta-hover: #efc4c4;
+  --skills-cta-text: #ffffff;
+
+  --rgba-white-0: #ffffff00;
+}
+
 :root {
   /* Surfaces */
   --background-color: #f6f7fb;
@@ -81,65 +124,13 @@
   --rgba-white-0: #ffffff00;
 }
 
-/* -----------------------------
-   DARK THEME
------------------------------ */
-:root[data-theme="dark"] {
-  /* Surfaces */
-  --background-color: #1e1e1e;
-  --surface-color: #252526;
-
-  /* Brand */
-  --primary-color: #569cd6;
-  --secondary-color: #9cdcfe;
-  --accent-color: #dcdcaa;
-
-  /* Text */
-  --text-primary: #d4d4d4;
-  --text-secondary: #b3b0b0;
-  --text-quaternary: #ce9178;
-  --text-projects-title: #ffffffbd;
-
-  /* Scrollbar */
-  --sb-track: #ffffff0f;
-  --sb-thumb: #78aaff8c;
-  --sb-thumb-hover: #78aaffbf;
-
-  /* Glass */
-  --glass-bg: rgba(37, 37, 38, 0.8);
-  --glass-border: rgba(86, 156, 214, 0.2);
-  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-
-  /* Gradients */
-  --gradient-start: #569cd6;
-  --gradient-middle: #9cdcfe;
-  --gradient-end: #dcdcaa;
-
-  /* Skills */
-  --skills-ink: #ffffffeb;
-  --skills-ink-muted: #ffffffb8;
-
-  --skills-panel: #1111121e;
-  --skills-panel-2: #18181af5;
-  --skills-border: #ffffff1a;
-
-  --skills-chip-bg: #ffffff14;
-  --skills-chip-bg-2: #ffffff0d;
-  --skills-chip-border: #ffffff1f;
-
-  --skills-dash: rgba(255, 255, 255, 0.22);
-  --skills-dash-hover: rgba(255, 255, 255, 0.32);
-
-  --skills-cta: #e7b7b7;
-  --skills-cta-hover: #efc4c4;
-  --skills-cta-text: #ffffff;
-
-  --rgba-white-0: #ffffff00;
-}
 
 /* Optional: follow system dark ensuring your toggle can override */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --skills-chip-bg: #ffffff14;
+    --skills-chip-bg-2: #ffffff0d;
+    --skills-chip-border: #ffffff1f;
     /* keep your existing fallback block, or remove if you always set data-theme */
   }
 }
