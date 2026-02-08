@@ -1,0 +1,1 @@
+import{j as a}from"./index-BYvNtSSQ.js";function s(){return a.jsxs("div",{className:"lazy-loader",role:"status","aria-live":"polite",children:[a.jsx("div",{className:"lazy-loader__spinner"}),a.jsx("span",{className:"lazy-loader__text",children:"Loading…"})]})}export{s as default};
