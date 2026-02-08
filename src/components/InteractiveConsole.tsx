@@ -251,8 +251,10 @@ export const InteractiveConsole = () => {
             { ...echo },
             {
               id: uid(),
-              type: "system",
-              text: `💻 Portfolio source code:\n${url}`,
+              type: "link",
+              text: "💻 Open portfolio source code",
+              download: "github.com/chenleiv/my-portfolio",
+              href: url,
             },
           ],
           raw
@@ -268,10 +270,28 @@ export const InteractiveConsole = () => {
             { ...echo },
             {
               id: uid(),
-              type: "link",
+              type: "download",
               text: "📄 Click to download CV",
               href: pdfUrl,
               download: "ChenLeiv-CV.pdf",
+            },
+          ],
+          raw
+        );
+        break;
+      }
+      case "linkedin": {
+        const url = "https://www.linkedin.com/in/chen-leiv-9533a1178/";
+
+        pushHistory(
+          [
+            { ...echo },
+            {
+              id: uid(),
+              type: "link",
+              text: "Open LinkedIn profile",
+              download: "linkedin/chen-leiv",
+              href: url,
             },
           ],
           raw

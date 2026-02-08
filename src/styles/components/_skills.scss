@@ -84,7 +84,7 @@
 }
 
 .skills-modal__title {
-  font-size: clamp(1.8rem, 3.2vw, 2rem);
+  font-size: clamp(1rem, 3.2vw, 2rem);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--skills-ink);
@@ -259,10 +259,6 @@
   font-weight: 700;
 }
 
-.skills-groups-container {
-  overflow: hidden;
-}
-
 .search-container {
   margin: 10px 0 0;
   display: flex;
@@ -434,14 +430,23 @@
 @media (max-width: 820px) {
   .skills-modalOverlay {
     padding: 5vh 12px;
-    overflow-y: auto;
     backdrop-filter: none;
   }
 
   .skills-modal {
     max-height: 92vh;
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+  }
+
+  .skills-modal__content {
+    padding: 16px 14px 18px;
+  }
+
+  .skills-modal__title {
+    font-size: 1rem;
+  }
+
+  .skills-modal__sub {
+    font-size: 1rem;
   }
 
   .skills-section-container {
@@ -449,9 +454,13 @@
     border-radius: 20px;
   }
 
+  .skills-list {
+    gap: 8px;
+  }
+
   .skill-item {
-    padding: 12px 18px;
-    font-size: 1rem;
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 
   .skills-fab {
@@ -465,13 +474,22 @@
   }
 
   .skills-groups-container {
-    height: 240px;
-    overflow: scroll;
+    height: 265px;
+    overflow: auto;
     padding-right: 10px;
   }
 
+  .skills-input-container {
+    .skills-input {
+      padding: 10px;
+      min-height: 45px;
+    }
+  }
+
   .search-container .search-button {
-    min-width: 100%;
+    font-size: 0.8rem;
+    padding: 10px 20px;
+    min-width: 130px;
   }
 
   .search-slot {
@@ -480,26 +498,40 @@
 
 
   .match-link {
-    width: 170px;
+    font-size: 0.8rem;
+    padding: 10px;
+    width: 110px;
   }
 
   .match-message__text {
+    font-size: 0.8rem;
     text-align: center;
   }
 
   .skills-modal__close {
-    right: 10px;
-    top: 10px;
+    right: 4px;
+    top: 4px;
     border: transparent;
     background: transparent;
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .skills-modal__header {
-    padding: 55px 22px 16px;
+    padding: 16px 14px 10px;
   }
 
   .console-line .console-desc {
     padding-right: 10px;
   }
+}
+
+.skills-groups-container {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
+}
+
+.skills-root {
+  --sb-track: rgba(255, 255, 255, 0.06);
+  --sb-thumb: rgba(110, 170, 255, 0.55);
+  --sb-thumb-hover: rgba(110, 170, 255, 0.75);
 }

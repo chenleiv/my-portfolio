@@ -88,7 +88,7 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
             return <div className="console-input-lineText">{line.text}</div>;
         case "error":
             return <div className="console-error">{line.text}</div>;
-        case "link":
+        case "download":
             return (
                 <div className="console-system">
                     <span className="console-text">{line.text}:</span>
@@ -97,6 +97,22 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
                         href={line.href}
                         download={line.download}
                         aria-label={line.text}
+                    >
+                        {line.download}
+                    </a>
+                </div>
+            );
+        case "link":
+            if (!line.href) return null;
+
+            return (
+                <div className="console-system">
+                    <span className="console-text">{line.text}:</span>
+                    <a
+                        href={line.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="console-link"
                     >
                         {line.download}
                     </a>

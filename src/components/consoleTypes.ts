@@ -8,7 +8,8 @@ export type ConsoleLineType =
   | "input"
   | "error"
   | "system"
-  | "link";
+  | "link"
+  | "download";
 
 export type ConsoleLine = {
   id: string;
@@ -37,6 +38,6 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "c1",
     type: "cmd",
-    text: "showProjects() | contact() | portfolioCode() | cv() | recruiterMode() | clear()",
+    text: "showProjects() | portfolioCode() | recruiterMode() | cv() | linkedin() | contact() | clear()",
   },
 ];

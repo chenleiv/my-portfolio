@@ -4,7 +4,8 @@ export type CanonicalCommand =
   | "clear"
   | "recruiterMode"
   | "portfolioCode"
-  | "cv";
+  | "cv"
+  | "linkedin";
 
 export type PaletteItem = {
   id: CanonicalCommand;
@@ -33,6 +34,11 @@ export const PALETTE_ITEMS: PaletteItem[] = [
     id: "cv",
     label: "Download CV (PDF)",
     keywords: ["cv", "resume", "pdf", "download"],
+  },
+  {
+    id: "linkedin",
+    label: "Open LinkedIn",
+    keywords: ["linkedin", "linkedin()"],
   },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
 ];
@@ -70,6 +76,12 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
     case "downloadcv":
     case "downloadcv()":
       return "cv";
+
+    case "linkedin":
+    case "linkedinprofile":
+    case "openLinkedin":
+    case "linkedin()":
+      return "linkedin";
 
     case "recruitermode":
     case "recruiter":
