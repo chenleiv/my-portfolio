@@ -3,7 +3,7 @@
 @use "components/_skills";
 @use "components/_console";
 @use "components/_footer";
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+@use "components/_theme-toggle";
 
 /* Add to your global CSS */
 .highlight {
@@ -15,7 +15,7 @@
 
 @keyframes glowHighlight {
   0% {
-    outline-color: rgba(255, 255, 255, 0);
+    outline-color: var(--rgba-white-0);
   }
 
   50% {
@@ -23,8 +23,15 @@
   }
 
   100% {
-    outline-color: rgba(255, 255, 255, 0);
+    outline-color: var(--rgba-white-0);
   }
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 40px;
+  left: 32px;
+  z-index: 2;
 }
 
 .lazy-loader {
@@ -39,7 +46,7 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 3px solid rgba(255, 255, 255, 0.2);
+    border: 3px solid var(--text-secondary);
     border-top-color: var(--primary-color);
     animation: spin 0.8s linear infinite;
   }
@@ -60,5 +67,14 @@
 @media (prefers-reduced-motion: reduce) {
   .lazy-loader__spinner {
     animation: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .theme-toggle {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    z-index: 2;
   }
 }

@@ -1,44 +1,145 @@
+/* =========================================================
+   DESIGN TOKENS — CHEN PORTFOLIO
+   Usage:
+   - Never hardcode colors in components.
+   - Use tokens only (var(--...)).
+   ========================================================= */
+
+/* -----------------------------
+   LIGHT THEME (default)
+----------------------------- */
 :root {
-  // VS Code Dark Theme color scheme
-  --primary-color: #569cd6;
-  --secondary-color: #9cdcfe;
-  --accent-color: #dcdcaa;
-  --background-color: #1e1e1e;
-  --surface-color: #252526;
-  --text-primary: #d4d4d4;
-  --text-secondary: #858585;
-  --text-quaternary: #ce9178;
-  --text-senary: #c586c0;
-  --text-septenary: #00ffae;
+  /* Surfaces */
+  --background-color: #f6f7fb;
+  /* page background */
+  --surface-color: #ffffff;
+  /* cards / panels */
 
-  // Glass effect
-  --glass-bg: rgba(37, 37, 38, 0.8);
-  --glass-border: rgba(86, 156, 214, 0.2);
-  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  /* Brand */
+  --primary-color: #2b73d2;
+  --secondary-color: #4aa6f5;
+  --accent-color: #c2932e;
 
-  // Gradient colors
-  --gradient-start: #569cd6;
-  --gradient-middle: #9cdcfe;
-  --gradient-end: #dcdcaa;
+  /* Text */
+  --text-primary: #1b1e28;
+  --text-secondary: #4b5565;
+  --text-quaternary: #8b5e3c;
+  --text-projects-title: #1b1e28d6;
 
-  // Spacing
-  --spacing-xs: 8px;
-  --spacing-sm: 16px;
-  --spacing-md: 32px;
-  --spacing-lg: 64px;
-  --spacing-xl: 128px;
+  /* Scrollbar */
+  --sb-track: #00000012;
+  --sb-thumb: #2b73d26b;
+  --sb-thumb-hover: #2b73d2a8;
 
-  // Typography
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(43, 115, 210, 0.2);
+  --glass-shadow: 0 10px 24px rgba(12, 18, 32, 0.1);
+
+  /* Gradients */
+  --gradient-start: #2b73d2;
+  --gradient-middle: #4aa6f5;
+  --gradient-end: #c2932e;
+
+  /* Typography */
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  // Transitions
+  /* Motion */
   --transition-fast: 0.2s ease;
   --transition-medium: 0.3s ease;
   --transition-slow: 0.5s ease;
 
-  // Border radius
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
+  /* =========================================================
+     SKILLS MODAL THEME TOKENS (shared naming, theme-specific values)
+  ========================================================= */
+
+  /* Ink */
+  --skills-ink: #1c1e25ee;
+  --skills-ink-muted: #3f4657c7;
+
+  /* Panels */
+  --skills-panel: #ffffffd4;
+  --skills-panel-2: #f1f4fbf5;
+  --skills-border: #1c1e251a;
+
+  /* Chips */
+  --skills-chip-bg: #2b73d214;
+  --skills-chip-bg-2: #2b73d20d;
+  --skills-chip-border: #2b73d224;
+
+  /* Dashed areas */
+  --skills-dash: rgba(43, 115, 210, 0.24);
+  --skills-dash-hover: rgba(43, 115, 210, 0.36);
+
+  /* CTA */
+  --skills-cta: #2b73d2;
+  --skills-cta-hover: #3a82e0;
+  --skills-cta-text: #ffffff;
+
+  /* Optional helpers */
+  --rgba-white-0: #ffffff00;
+}
+
+/* -----------------------------
+   DARK THEME
+----------------------------- */
+:root[data-theme="dark"] {
+  /* Surfaces */
+  --background-color: #1e1e1e;
+  --surface-color: #252526;
+
+  /* Brand */
+  --primary-color: #569cd6;
+  --secondary-color: #9cdcfe;
+  --accent-color: #dcdcaa;
+
+  /* Text */
+  --text-primary: #d4d4d4;
+  --text-secondary: #b3b0b0;
+  --text-quaternary: #ce9178;
+  --text-projects-title: #ffffffbd;
+
+  /* Scrollbar */
+  --sb-track: #ffffff0f;
+  --sb-thumb: #78aaff8c;
+  --sb-thumb-hover: #78aaffbf;
+
+  /* Glass */
+  --glass-bg: rgba(37, 37, 38, 0.8);
+  --glass-border: rgba(86, 156, 214, 0.2);
+  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+
+  /* Gradients */
+  --gradient-start: #569cd6;
+  --gradient-middle: #9cdcfe;
+  --gradient-end: #dcdcaa;
+
+  /* Skills */
+  --skills-ink: #ffffffeb;
+  --skills-ink-muted: #ffffffb8;
+
+  --skills-panel: #1111121e;
+  --skills-panel-2: #18181af5;
+  --skills-border: #ffffff1a;
+
+  --skills-chip-bg: #ffffff14;
+  --skills-chip-bg-2: #ffffff0d;
+  --skills-chip-border: #ffffff1f;
+
+  --skills-dash: rgba(255, 255, 255, 0.22);
+  --skills-dash-hover: rgba(255, 255, 255, 0.32);
+
+  --skills-cta: #e7b7b7;
+  --skills-cta-hover: #efc4c4;
+  --skills-cta-text: #ffffff;
+
+  --rgba-white-0: #ffffff00;
+}
+
+/* Optional: follow system dark ensuring your toggle can override */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* keep your existing fallback block, or remove if you always set data-theme */
+  }
 }

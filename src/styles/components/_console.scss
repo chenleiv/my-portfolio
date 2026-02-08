@@ -4,7 +4,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 16px 32px 0;
   background: transparent;
   position: relative;
 }
@@ -44,7 +43,6 @@
   grid-template-columns: 1fr 450px;
   align-items: center;
   gap: 20px;
-  padding: 8px;
 
   @media (max-width: 820px) {
     grid-template-columns: 1fr 260px;
@@ -73,24 +71,24 @@
   height: 530px;
   margin: 0 auto;
 
-  background: rgba(10, 12, 16, 0.72);
+  background: #0a0c10b3;
   border-radius: 12px;
   position: relative;
 
   font-family: "Fira Code", monospace;
   font-size: 16.8px;
 
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 24px var(--glass-shadow);
   overflow: hidden;
 }
 
 .console-header {
   background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-  color: rgba(0, 255, 174, 0.54);
+  color: #00ffae8a;
   padding: 14px 20px;
   font-weight: 700;
   font-size: 14px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--skills-border);
   user-select: none;
 }
 
@@ -104,7 +102,7 @@
 
   /* Firefox */
   scrollbar-width: thin;
-  scrollbar-color: rgba(120, 170, 255, 0.45) rgba(255, 255, 255, 0.06);
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
 
   /* WebKit */
   &::-webkit-scrollbar {
@@ -112,28 +110,28 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--sb-track);
     border-radius: 999px;
     margin: 8px;
   }
 
   &::-webkit-scrollbar-thumb {
     background: linear-gradient(180deg,
-        rgba(120, 170, 255, 0.55),
-        rgba(255, 255, 255, 0.2));
+        var(--sb-thumb),
+        var(--sb-track));
     border-radius: 999px;
-    border: 2px solid rgba(16, 18, 24, 0.6);
+    border: 2px solid var(--glass-border);
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg,
-        rgba(120, 170, 255, 0.75),
-        rgba(255, 255, 255, 0.28));
+        var(--sb-thumb-hover),
+        var(--sb-thumb-hover));
   }
 }
 
 .console-line {
-  color: #9cdcfe;
+  color: var(--secondary-color);
 }
 
 .console-line:not(.console-input-line) {
@@ -141,12 +139,12 @@
 }
 
 .console-comment {
-  color: var(--text-tertiary);
+  color: var(--text-secondary);
   font-style: italic;
 }
 
 .console-error {
-  color: rgba(255, 120, 120, 0.9);
+  color: var(--text-quaternary);
   font-weight: 800;
 }
 
@@ -159,7 +157,7 @@
 
 .console-title {
   font-size: 20.8px;
-  color: var(--gradient-start);
+  color: var(--primary-color);
   margin-bottom: 6px;
 }
 
@@ -170,7 +168,7 @@
 }
 
 .console-input-lineText {
-  color: var(--text-septenary);
+  color: #00ffae;
   margin-top: 12px;
 }
 
@@ -185,11 +183,11 @@
 
 .console-commands-title {
   margin-top: 12px;
-  color: var(--text-senary);
+  color: #c586c0;
 }
 
 .console-cmd {
-  color: var(--accent-color);
+  color: #dcdcaa;
 }
 
 .console-text {
@@ -203,8 +201,8 @@
   gap: 10px;
 
   padding: 12px 14px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(0, 0, 0, 0.22);
+  border-top: 1px solid var(--skills-border);
+  background: var(--glass-bg);
 }
 
 .console-input-wrap {
@@ -222,22 +220,22 @@
   padding: 0 14px;
   border-radius: 12px;
 
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--skills-chip-bg);
+  border: 1px solid var(--skills-chip-border);
 
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--skills-ink);
   font-family: "Fira Code", monospace;
   font-size: 16px;
 
   outline: none;
 
   &:focus {
-    border-color: rgba(120, 170, 255, 0.55);
-    box-shadow: 0 0 0 4px rgba(90, 140, 255, 0.14);
+    border-color: var(--sb-thumb);
+    box-shadow: 0 0 0 4px var(--glass-shadow);
   }
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--skills-ink-muted);
   }
 }
 
@@ -246,16 +244,16 @@
   padding: 0 12px;
   border-radius: 12px;
 
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: var(--skills-chip-bg);
+  border: 1px solid var(--skills-chip-border);
 
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--skills-ink);
   font-weight: 900;
 
   cursor: pointer;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--skills-chip-bg-2);
   }
 }
 
@@ -271,8 +269,8 @@
   list-style: none;
 
   border-radius: 14px;
-  background: rgba(16, 18, 24, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #252526;
+  border: 1px solid var(--glass-border);
   backdrop-filter: blur(10px);
 
   max-height: 220px;
@@ -283,11 +281,11 @@
   padding: 10px 10px;
   border-radius: 10px;
   cursor: pointer;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--skills-ink);
 
   &:hover,
   &.active {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--skills-chip-bg);
   }
 }
 
@@ -296,7 +294,7 @@
   inset: 0;
   z-index: 9999;
 
-  background: rgba(0, 0, 0, 0.55);
+  background: var(--glass-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -308,9 +306,9 @@
   border-radius: 18px;
   overflow: hidden;
 
-  background: rgba(16, 18, 24, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 26px 120px rgba(0, 0, 0, 0.65);
+  background: var(--secondary-color);
+  border: 1px solid var(--skills-border);
+  box-shadow: 0 26px 120px var(--glass-shadow);
   backdrop-filter: blur(14px);
 }
 
@@ -320,15 +318,15 @@
   justify-content: space-between;
   gap: 12px;
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--skills-border);
 
-  color: rgba(255, 255, 255, 0.86);
+  color: var(--skills-ink);
   font-weight: 900;
 }
 
 .palette-hint {
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--skills-ink-muted);
   font-size: 13.6px;
 }
 
@@ -339,12 +337,12 @@
 
   padding: 14px 16px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.92);
+  color: var(--skills-ink);
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--skills-border);
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: var(--skills-ink-muted);
   }
 }
 
@@ -368,25 +366,25 @@
 
   &:hover,
   &.active {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--skills-chip-bg);
   }
 }
 
 .palette-item-title {
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--skills-ink);
 }
 
 .palette-item-cmd {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
     "Courier New", monospace;
   font-weight: 800;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--skills-ink-muted);
 }
 
 .palette-empty {
   padding: 14px 12px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--skills-ink-muted);
 }
 
 .about-image-container {
@@ -402,13 +400,13 @@
     object-fit: cover;
 
     border: 5px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px var(--glass-shadow);
     transition: all 0.4s ease;
 
     &:hover {
       transform: scale(1.05);
       border-color: var(--primary-color);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 12px 40px var(--glass-shadow);
     }
   }
 }
@@ -447,7 +445,7 @@
       background: var(--primary-color);
       color: var(--text-primary);
       transform: translateY(-1px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 8px 20px var(--glass-shadow);
     }
   }
 }
@@ -471,7 +469,7 @@
     padding: 12px;
 
     border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 32px var(--glass-shadow);
 
     z-index: 1000;
     min-width: 150px;
