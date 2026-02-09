@@ -1,19 +1,33 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.scss";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-sans", display: "swap" });
-const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono", display: "swap" });
-
 export const metadata: Metadata = {
-  title: "Chen Leiv | Frontend Developer",
-  description: "Frontend Developer building scalable, high-performance web apps.",
+  title: {
+    default: "Chen Leiv | Frontend Developer",
+    template: "%s | Chen Leiv",
+  },
+  description: "Frontend Developer building scalable, high-performance web applications.",
+  openGraph: {
+    title: "Chen Leiv | Frontend Developer",
+    description: "Portfolio – projects, skills, and contact.",
+    type: "website",
+    images: [{ url: "/assets/og/og-image.png", width: 1200, height: 630, alt: "Chen Leiv Portfolio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Chen Leiv | Frontend Developer",
+    description: "Portfolio – projects, skills, and contact.",
+    images: ["/assets/og/og-image.png"],
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${mono.variable}`}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
