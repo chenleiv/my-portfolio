@@ -4,7 +4,9 @@
 .next/
 out/
 dist/
-
+# next
+my-portfolio-next/.next/
+my-portfolio-next/node_modules/
 # deps
 node_modules/
 
