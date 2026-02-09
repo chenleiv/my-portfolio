@@ -1,6 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import type { Project } from "./projectData";
+import Image from "next/image";
 
 type Props = {
     project: Project;
@@ -18,14 +19,16 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion }: Props
             })}
         >
             <div className="project-image-container">
-                <img
+                <Image
                     src={project.img}
                     alt={project.header}
                     className="project-image"
-                    loading="lazy"
+                    loading="eager"
                     decoding="async"
+                    fetchPriority="high"
                     width={640}
                     height={360}
+                    priority
                 />
 
                 <div className="project-overlay">

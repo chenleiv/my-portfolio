@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 const chenImage = "/assets/img/chen-bucky.webp";
 import { InteractiveConsole } from "./InteractiveConsole";
+import Image from "next/image";
 
 const About = () => {
   const [showEmailOptions, setShowEmailOptions] = useState(false);
@@ -90,15 +91,16 @@ const About = () => {
             transition={{ delay: 0.6 }}
           >
             <motion.div className="contact-info-container">
-              <img
-                src={chenImage || ""}
-                alt="ChenBucky"
+              <Image
+                src={chenImage}
+                alt="ChenandBucky"
                 className="profile-image"
-                width={640}
-                height={360}
+                width={520}
+                height={520}
+                priority
                 loading="eager"
-                fetchPriority="high"
                 decoding="async"
+                fetchPriority="high"
               />
 
               <motion.footer
