@@ -192,7 +192,7 @@ export const InteractiveConsole = () => {
           pushHistory(
             [
               echoHidden,
-              { id: uid(), type: "system", text: "Frontend dev • 3+ years • React/Angular/TS" },
+              { id: uid(), type: "system", text: "Frontend dev • 4 years • React/Angular/TS" },
             ],
             raw
           );

@@ -26,7 +26,7 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "d1",
     type: "desc",
-    text: "3+ years of experience building scalable, high-performance web applications using modern frontend frameworks. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
+    text: "4 years of experience building scalable, high-performance web applications using modern frontend frameworks. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
   },
   {
     id: "s1",
