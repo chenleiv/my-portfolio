@@ -10,6 +10,7 @@ import {
 import { ConsoleLineView } from "./ConsoleLineView";
 import { type ConsoleLine, ABOUT_LINES } from "./consoleTypes";
 import { useIsMobile } from "../../hooks/useIsMobile";
+import { MobileCommandSheet } from "./MobileCommandSheet";
 
 const uid = (): string => {
   const c = globalThis.crypto as Crypto & {
@@ -53,6 +54,7 @@ export const InteractiveConsole = () => {
   const [isPaletteOpen, setIsPaletteOpen] = useState<boolean>(false);
   const [paletteQuery, setPaletteQuery] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [sheetOpen, setSheetOpen] = useState<boolean>(false);
 
   const consoleRef = useRef<HTMLDivElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
@@ -72,6 +74,20 @@ export const InteractiveConsole = () => {
     []
   );
 
+  const MOBILE_COMMANDS = [
+    { id: "showProjects", label: "Show Projects", hint: "Open projects section", group: "Actions", keywords: ["projects"] },
+    { id: "portfolioCode", label: "Portfolio Code", hint: "GitHub repo", group: "Links", keywords: ["github"] },
+    { id: "cv", label: "Download CV", hint: "PDF file", group: "Actions", keywords: ["resume"] },
+    { id: "linkedin", label: "LinkedIn", hint: "Open profile", group: "Links", keywords: ["profile"] },
+    { id: "contact", label: "Contact", hint: "Email options", group: "Links", keywords: ["email"] },
+    { id: "clear", label: "Clear", hint: "Clear console", group: "Actions", keywords: ["reset"] },
+  ] as const;
+
+  const runFromSheet = (cmdId: string) => {
+    handleCommand(cmdId);
+  };
+
+
   const resetAutocomplete = () => {
     setSuggestions([]);
     setSuggestionIndex(-1);
@@ -79,8 +95,10 @@ export const InteractiveConsole = () => {
 
   useEffect(() => {
     setConsoleInputRef(inputRef.current);
-    window.setTimeout(() => inputRef.current?.focus(), 0);
-  }, [setConsoleInputRef]);
+    if (!isMobile) {
+      window.setTimeout(() => inputRef.current?.focus(), 0);
+    }
+  }, [setConsoleInputRef, isMobile]);
 
   useEffect(() => {
     const el = historyRef.current;
@@ -604,48 +622,58 @@ export const InteractiveConsole = () => {
 
       <form onSubmit={handleSubmit} className="console-input-row">
         <div className="console-input-wrap">
+
           <input
             ref={inputRef}
-            type="text"
-            value={input}
-            onChange={handleChange}
-            onKeyDown={handleKeyDown}
             className="console-input"
-            placeholder="Type a command..."
-            autoComplete="off"
-            spellCheck={false}
+            value={input}
+            onChange={isMobile ? undefined : handleChange}
+            readOnly={isMobile}
+            inputMode={isMobile ? "none" : "text"}
+            placeholder={isMobile ? "Tap to choose a command…" : "Type a command…"}
+            onFocus={() => {
+              if (isMobile) setSheetOpen(true);
+            }}
+            onClick={() => {
+              if (isMobile) setSheetOpen(true);
+            }}
+            onKeyDown={isMobile ? undefined : handleKeyDown}
           />
 
-          <button
-            type="button"
-            className="palette-button"
-            onClick={openPalette}
-            aria-label="Open command palette"
-          >
-            {shortcutLabel}
-          </button>
+
+          {!isMobile && (
+            <button
+              type="button"
+              className="palette-button"
+              onClick={openPalette}
+              aria-label="Open command palette"
+            >
+              {shortcutLabel}
+            </button>
+          )}
         </div>
       </form>
 
-      {suggestions.length > 0 && (
-        <ul className="autocomplete-list" role="listbox" aria-label="Command suggestions">
-          {suggestions.map((sug, i) => (
-            <li
-              key={sug}
-              className={`autocomplete-item ${i === suggestionIndex ? "active" : ""}`}
-              role="option"
-              aria-selected={i === suggestionIndex}
-              onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
-                e.preventDefault();
-                pickSuggestion(sug);
-              }}
-              onMouseEnter={() => setSuggestionIndex(i)}
-            >
-              {sug}
-            </li>
-          ))}
-        </ul>
-      )}
+      {!isMobile && suggestions.length > 0 &&
+        (
+          <ul className="autocomplete-list" role="listbox" aria-label="Command suggestions">
+            {suggestions.map((sug, i) => (
+              <li
+                key={sug}
+                className={`autocomplete-item ${i === suggestionIndex ? "active" : ""}`}
+                role="option"
+                aria-selected={i === suggestionIndex}
+                onMouseDown={(e: React.MouseEvent<HTMLLIElement>) => {
+                  e.preventDefault();
+                  pickSuggestion(sug);
+                }}
+                onMouseEnter={() => setSuggestionIndex(i)}
+              >
+                {sug}
+              </li>
+            ))}
+          </ul>
+        )}
 
       {isPaletteOpen && (
         <div className="palette-overlay" onClick={closePalette} role="presentation">
@@ -698,6 +726,15 @@ export const InteractiveConsole = () => {
           </div>
         </div>
       )}
+      <MobileCommandSheet
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        commands={MOBILE_COMMANDS}
+        onSelect={(cmdId) => {
+          runFromSheet(cmdId);
+          setSheetOpen(false);
+        }}
+      />
     </div>
   );
 };
