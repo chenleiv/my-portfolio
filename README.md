@@ -1,146 +1,36 @@
-README.md
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-🧠 Interactive Developer Portfolio
+## Getting Started
 
-A modern, animated developer portfolio built with React, TypeScript, Vite, and Framer Motion, featuring an interactive terminal-style console, smooth UX, accessibility considerations, and production-ready architecture.
+First, run the development server:
 
-🔗 Live: https://chenleiv.github.io/my-portfolio
-💻 GitHub: https://github.com/chenleiv/my-portfolio
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-✨ Features
-
-🎛 Interactive Console (Core Experience)
-• Terminal-like command interface inside the About section
-• Command history navigation (↑ ↓)
-• Autocomplete suggestions with keyboard support
-• Command palette (⌘K / Ctrl+K) similar to modern IDEs
-• Smooth scrolling & section highlighting
-• Mobile-aware behavior
-
-Supported commands:
-showProjects → scrolls to projects section
-contact → highlights contact area or scrolls on mobile
-skills → opens recruiter skill matcher
-clear → resets console
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-🎬 Modern UI & Animations
-• Framer Motion powered transitions
-• Scroll-triggered animations (useInView)
-• Glassmorphism design system
-• Smooth auto-scroll console behavior
-• Lazy-loaded assets for performance
-
-📬 Contact Experience
-• Social links (LinkedIn, GitHub, Phone)
-• CV download handler
-• Email dropdown with:
-• Gmail / Outlook deep links
-• Click-outside close behavior
-• Scroll-safe positioning
-• Accessible keyboard interaction
-
-♿ Accessibility & UX
-• Keyboard-navigable UI
-• Focus trapping in command palette
-• ARIA labels for interactive elements
-• Mobile responsiveness
-• Sticky scroll logic to prevent unwanted jumps
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-🏗 Tech Stack
-
-Frontend
-• React 18
-• TypeScript
-• Vite
-• Framer Motion
-• SCSS
-
-Tooling & Quality
-• ESLint (flat config)
-• unused-imports auto cleanup
-• Type checking script
-• GitHub Pages deployment
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-📁 Project Structure (Simplified)
-
-Architecture goals:
-• Clear separation of UI / logic / data
-• Strong TypeScript safety
-• Reusable console system
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-🚀 Getting Started
-
-Install:
-npm install
-
-Run dev server:
+```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-🧩 Notable Engineering Decisions
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-Secure UID generation
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-Uses:
-• crypto.randomUUID() when available
-• crypto.getRandomValues() fallback
-• timestamp fallback as last resort
+## Learn More
 
-Ensures:
-• Stable React keys
-• No external UUID dependency
+To learn more about Next.js, take a look at the following resources:
 
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-Scroll-safe console behavior
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Implements:
-• Sticky auto-scroll only when user is near bottom
-• Skip-scroll flag during navigation
-• Prevents jarring UX jumps
+## Deploy on Vercel
 
-Command Palette UX
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Inspired by:
-• VS Code
-• Raycast
-• Modern dev tools
-
-Includes:
-• Keyboard navigation
-• Focus trapping
-• Instant filtering
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-📊 Lighthouse Goals
-
-Target:
-• Performance ≥ 95
-• Accessibility ≥ 95
-• Best Practices ≥ 95
-• SEO ≥ 95
-
-⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻⸻
-
-👩‍💻 Author
-
-Chen Leiv
-Frontend Developer focused on:
-• High-quality UX
-• Clean architecture
-• Interactive web experiences
-• Performance & accessibility
-
-LinkedIn: https://www.linkedin.com/in/chen-leiv-9533a1178/
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

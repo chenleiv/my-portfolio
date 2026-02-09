@@ -1,9 +1,9 @@
-  @import "_variables";
-  @import "../components/projects/_projects";
-  @import "../components/skills/_skills";
-  @import "../components/about-console/_console";
-  @import "../components/footer/_footer";
-  @import "../components/theme-toggle/_theme-toggle";
+  @use "_variables";
+  @use "../components/projects/_projects";
+  @use "../components/skills/_skills";
+  @use "../components/about-console/_console";
+  @use "../components/footer/_footer";
+  @use "../components/theme-toggle/_theme-toggle";
 
 
   /* Add to your global CSS */
