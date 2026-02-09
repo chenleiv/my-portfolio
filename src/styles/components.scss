@@ -30,7 +30,7 @@
 
   .theme-toggle {
     position: absolute;
-    top: 32px;
+    top: 40px;
     left: 32px;
     z-index: 2;
   }
@@ -73,7 +73,7 @@
 
   @media (max-width: 820px) {
     .theme-toggle {
-      top: 16px;
+      top: 22px;
       left: 24px;
     }
   }

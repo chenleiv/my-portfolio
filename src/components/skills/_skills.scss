@@ -2,7 +2,8 @@
   position: fixed;
   right: 32px;
   top: 32px;
-  padding: 12px 20px;
+  padding: 10px 14px;
+  font-size: 20px;
   z-index: 999;
   border-radius: 999px;
 
@@ -12,12 +13,11 @@
 
   color: var(--skills-ink);
   font-weight: 700;
-  font-size: 24px;
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast);
 
   &:hover {
-    background: var(--skills-chip-bg-2);
+    background: var(--glass-border);
     transform: translateY(-1px);
   }
 }

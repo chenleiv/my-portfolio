@@ -1,10 +1,8 @@
 :root {
   --background-color: #1e1e1e;
-  // --surface-color: #252526;
   --page-background: #0a0c10b3;
 
   --primary-color: #569cd6;
-  --secondary-color: #9cdcfe;
   --accent-color: #dcdcaa;
   --accent-color-2: #c586c0;
 
@@ -13,6 +11,7 @@
   --text-quaternary: #ce9178;
   --text-projects-title: #ffffffbd;
 
+  --link-color: #00ffae;
   --sb-track: #ffffff0f;
   --sb-thumb: #78aaff8c;
   --sb-thumb-hover: #78aaffbf;
@@ -20,6 +19,9 @@
   --glass-bg: rgba(37, 37, 38, 0.8);
   --glass-border: rgba(86, 156, 214, 0.2);
   --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+  --console-header-gradient: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  --console-header-text: #00ffae8a;
 
   --gradient-start: #569cd6;
   --gradient-middle: #9cdcfe;
@@ -52,14 +54,12 @@
       #ffffff,
       #eef2f8 40%,
       #e6ecf5 100%);
-  ;
-  // --surface-color: #ffffff;
 
   --primary-color: #2563eb;
-  --secondary-color: #06b6d4;
   --accent-color: #46a7d1;
-
   --accent-color-2: #c586c0;
+
+  --link-color: #5f9ea0;
   --text-primary: #0b1220;
   --text-secondary: #334155;
   --text-quaternary: #cf7051;
@@ -74,6 +74,9 @@
   --glass-shadow:
     0 20px 60px #0b12202c,
     inset 0 1px 0 #ffffff99;
+
+  --console-header-gradient: linear-gradient(to right, #1f30378c, #203a4388, #2c5364cf);
+  --console-header-text: #ffffffe0;
 
   --gradient-start: #2563eb;
   --gradient-middle: #06b6d4;
