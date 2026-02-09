@@ -24,12 +24,9 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion }: Props
                     src={project.img}
                     alt={project.header}
                     className="project-image"
-                    loading="eager"
-                    decoding="async"
-                    fetchPriority="high"
+                    loading="lazy"
                     width={640}
                     height={360}
-                    priority
                 />
 
                 <div className="project-overlay">

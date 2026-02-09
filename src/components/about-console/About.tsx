@@ -94,9 +94,6 @@ const About = () => {
                 width={520}
                 height={520}
                 priority
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
               />
 
               <motion.footer
