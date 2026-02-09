@@ -40,11 +40,14 @@ const clamp = (value: number, min: number, max: number) =>
 
 export const InteractiveConsole = () => {
   const isMobile = useIsMobile(768);
-  const initialLines = useMemo(() => ABOUT_LINES, []);
 
+  const initialLines = useMemo(() => ABOUT_LINES, []);
+  const shortcutLabel = useMemo(
+    () => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"),
+    []
+  );
   const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
   const [input, setInput] = useState<string>("");
-
   const [suggestions, setSuggestions] = useState<readonly string[]>([]);
   const [suggestionIndex, setSuggestionIndex] = useState<number>(-1);
 
@@ -69,10 +72,6 @@ export const InteractiveConsole = () => {
 
   const { setConsoleInputRef } = useFocus();
 
-  const shortcutLabel = useMemo(
-    () => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"),
-    []
-  );
 
   const MOBILE_COMMANDS = [
     { id: "showProjects", label: "Show Projects", hint: "Open projects section", group: "Actions", keywords: ["projects"] },
@@ -95,9 +94,8 @@ export const InteractiveConsole = () => {
 
   useEffect(() => {
     setConsoleInputRef(inputRef.current);
-    if (!isMobile) {
-      window.setTimeout(() => inputRef.current?.focus(), 0);
-    }
+
+    if (!isMobile) window.setTimeout(() => inputRef.current?.focus(), 0);
   }, [setConsoleInputRef, isMobile]);
 
   useEffect(() => {
@@ -121,9 +119,7 @@ export const InteractiveConsole = () => {
     }
     if (!stickyRef.current) return;
 
-    requestAnimationFrame(() => {
-      bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-    });
+    scrollToBottom("smooth");
   }, [history]);
 
   // Cmd/Ctrl+K palette toggle
@@ -172,6 +168,17 @@ export const InteractiveConsole = () => {
     setHistoryIndex(-1);
   };
 
+  const scrollToBottom = (behavior: ScrollBehavior = "smooth") => {
+    const el = historyRef.current;
+    if (!el) return;
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        el.scrollTo({ top: el.scrollHeight, behavior });
+      });
+    });
+  };
+
   const scrollToSection = (id: string) => {
     skipNextConsoleAutoScrollRef.current = true;
 
@@ -197,47 +204,8 @@ export const InteractiveConsole = () => {
     });
   };
 
-  const HIDDEN_COMMANDS = new Set(["whoami", "hireme", "why", "coffee"]);
 
   const handleCommand = (raw: string) => {
-    const rawLower = raw.trim().toLowerCase().replace(/\(\s*\)\s*$/, "");
-
-    if (HIDDEN_COMMANDS.has(rawLower)) {
-      const echoHidden: ConsoleLine = { id: uid(), type: "input", text: `> ${rawLower}()` };
-
-      switch (rawLower) {
-        case "whoami":
-          pushHistory(
-            [
-              echoHidden,
-              { id: uid(), type: "system", text: "Frontend dev • 4 years • React/Angular/TS" },
-            ],
-            raw
-          );
-          return;
-
-        case "hireme":
-          pushHistory(
-            [
-              echoHidden,
-              { id: uid(), type: "system", text: "✔ Available for frontend positions\n✔ React / Angular / TypeScript\n✔ Tel Aviv / Remote" },
-            ],
-            raw
-          );
-          return;
-
-        case "coffee":
-          pushHistory(
-            [
-              echoHidden,
-              { id: uid(), type: "system", text: "☕ Coffee always accepted." },
-            ],
-            raw
-          );
-          return;
-      }
-    }
-
     const canonical = normalizeCommand(raw);
 
     if (!canonical) {
@@ -629,11 +597,7 @@ export const InteractiveConsole = () => {
             value={input}
             onChange={isMobile ? undefined : handleChange}
             readOnly={isMobile}
-            inputMode={isMobile ? "none" : "text"}
             placeholder={isMobile ? "Tap to choose a command…" : "Type a command…"}
-            onFocus={() => {
-              if (isMobile) setSheetOpen(true);
-            }}
             onClick={() => {
               if (isMobile) setSheetOpen(true);
             }}
@@ -726,6 +690,7 @@ export const InteractiveConsole = () => {
           </div>
         </div>
       )}
+
       <MobileCommandSheet
         open={sheetOpen}
         onClose={() => setSheetOpen(false)}

@@ -1,11 +1,12 @@
 .projects-container {
-  max-width: 1400px;
-  margin: 0 auto;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 36px;
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: 22px;
+
 }
 
 .projects-title {
@@ -26,7 +27,7 @@
 .projects-subtitle {
   text-align: center;
   font-size: 22px;
-  padding-left: 18px;
+  padding-bottom: 6px;
   color: var(--text-secondary);
 }
 
@@ -141,6 +142,14 @@
 }
 
 @media (max-width: 820px) {
+
+  .projects-section {
+    padding-top: 34px;
+  }
+
+  .projects-container {
+    gap: 14px;
+  }
 
   .projects-grid {
     padding: 6px;
