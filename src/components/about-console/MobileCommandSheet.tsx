@@ -108,17 +108,6 @@ export function MobileCommandSheet({ open, onClose, commands, onSelect }: Props)
                             </button>
                         </div>
 
-                        <div className="cmdsheet__search">
-                            <input
-                                value={q}
-                                onChange={(e) => setQ(e.target.value)}
-                                placeholder="Search commands…"
-                                className="cmdsheet__searchInput"
-                                inputMode="search"
-                                autoFocus
-                            />
-                        </div>
-
                         <div className="cmdsheet__tabs">
                             {groups.map((g) => (
                                 <button

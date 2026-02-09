@@ -599,7 +599,13 @@ export const InteractiveConsole = () => {
             readOnly={isMobile}
             placeholder={isMobile ? "Tap to choose a command…" : "Type a command…"}
             onClick={() => {
-              if (isMobile) setSheetOpen(true);
+              if (isMobile) {
+                setSheetOpen(true);
+
+                requestAnimationFrame(() => {
+                  scrollToBottom("smooth");
+                });
+              }
             }}
             onKeyDown={isMobile ? undefined : handleKeyDown}
           />
