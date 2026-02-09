@@ -6,7 +6,7 @@ import {
   FaGoogle,
   FaMicrosoft,
 } from "react-icons/fa";
-import { Github, Mail, Linkedin, FileDown, Smartphone, Sun, Moon } from "lucide-react";
+import { Github, Mail, Linkedin, FileDown, Smartphone } from "lucide-react";
 const chenImage = "/assets/img/chen-bucky.webp";
 import { InteractiveConsole } from "./InteractiveConsole";
 import Image from "next/image";
