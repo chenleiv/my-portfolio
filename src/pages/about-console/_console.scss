@@ -62,6 +62,8 @@
   justify-self: center;
   align-self: center;
   background: var(--page-background);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
 }
 
 .interactive-console {
@@ -155,15 +157,15 @@
 
 .console-commands-title {
   margin-top: 12px;
-  color: #c586c0;
+  color: var(--accent-color-2);
 }
 
 .console-cmd {
-  color: #dcdcaa;
+  color: var(--accent-color);
 }
 
 .console-text {
-  color: #9cdcfe;
+  color: var(--secondary-color);
   padding-right: 8px;
 }
 
@@ -403,21 +405,25 @@
     justify-content: center;
 
     width: 54px;
-    height: 52px;
+    height: 54px;
     border-radius: 50%;
 
     background: var(--glass-bg);
-    color: var(--text-primary);
+    backdrop-filter: blur(6px);
+
     border: 1px solid var(--glass-border);
+    color: var(--text-primary);
 
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: transform var(--transition-fast),
+      box-shadow var(--transition-fast),
+      border-color var(--transition-fast),
+      background var(--transition-fast);
 
     &:hover {
-      background: var(--primary-color);
-      color: var(--text-primary);
-      transform: translateY(-1px);
-      box-shadow: 0 8px 20px var(--glass-shadow);
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: var(--glass-shadow);
+      background: var(--skills-chip-bg);
     }
   }
 }
@@ -473,8 +479,7 @@
     transition: all 0.3s ease;
 
     &:hover {
-      background: var(--primary-color);
-      color: white;
+      background: var(--skills-chip-bg);
     }
 
     .email-icon {

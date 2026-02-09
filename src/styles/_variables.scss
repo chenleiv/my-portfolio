@@ -1,39 +1,32 @@
-:root[data-theme="dark"] {
-  /* Surfaces */
+:root {
   --background-color: #1e1e1e;
-  --surface-color: #252526;
+  // --surface-color: #252526;
   --page-background: #0a0c10b3;
 
-  /* Brand */
   --primary-color: #569cd6;
   --secondary-color: #9cdcfe;
   --accent-color: #dcdcaa;
+  --accent-color-2: #c586c0;
 
-  /* Text */
   --text-primary: #d4d4d4;
   --text-secondary: #b3b0b0;
   --text-quaternary: #ce9178;
   --text-projects-title: #ffffffbd;
 
-  /* Scrollbar */
   --sb-track: #ffffff0f;
   --sb-thumb: #78aaff8c;
   --sb-thumb-hover: #78aaffbf;
 
-  /* Glass */
   --glass-bg: rgba(37, 37, 38, 0.8);
   --glass-border: rgba(86, 156, 214, 0.2);
-  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
 
-  /* Gradients */
   --gradient-start: #569cd6;
   --gradient-middle: #9cdcfe;
   --gradient-end: #dcdcaa;
 
-  /* Skills */
   --skills-ink: #ffffffeb;
   --skills-ink-muted: #ffffffb8;
-
   --skills-panel: #1111121e;
   --skills-panel-2: #18181af5;
   --skills-border: #ffffff1a;
@@ -52,86 +45,55 @@
   --rgba-white-0: #ffffff00;
 }
 
+/* LIGHT overrides */
 :root[data-theme="light"] {
-  /* Surfaces */
-  --background-color: #f8fafc;
-  /* page background */
-  --surface-color: #ffffff;
-  /* cards / panels */
-  --page-background: #eef2f7;
-  /* Brand */
-  --primary-color: #1d4ed8;
-  --secondary-color: #38bdf8;
-  --accent-color: #f59e0b;
+  --background-color: white;
+  --page-background: --page-background: radial-gradient(circle at 30% 20%,
+      #ffffff,
+      #eef2f8 40%,
+      #e6ecf5 100%);
+  ;
+  // --surface-color: #ffffff;
 
-  /* Text */
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-quaternary: #7c4a1d;
-  --text-projects-title: #0f172acc;
+  --primary-color: #2563eb;
+  --secondary-color: #06b6d4;
+  --accent-color: #46a7d1;
 
-  /* Scrollbar */
-  --sb-track: #00000014;
-  --sb-thumb: #1d4ed866;
-  --sb-thumb-hover: #1d4ed8a6;
+  --accent-color-2: #c586c0;
+  --text-primary: #0b1220;
+  --text-secondary: #334155;
+  --text-quaternary: #cf7051;
+  --text-projects-title: #0b1220e0;
 
-  /* Glass */
-  --glass-bg: rgba(255, 255, 255, 0.78);
-  --glass-border: rgba(29, 78, 216, 0.18);
-  --glass-shadow: 0 12px 26px rgba(12, 18, 32, 0.12);
+  --sb-track: #0b122012;
+  --sb-thumb: #2563eb7a;
+  --sb-thumb-hover: #2563ebb0;
 
-  /* Gradients */
-  --gradient-start: #1d4ed8;
-  --gradient-middle: #38bdf8;
-  --gradient-end: #f59e0b;
+  --glass-bg: #ffffffeb;
+  --glass-border: #2563eb2e;
+  --glass-shadow:
+    0 20px 60px #0b12202c,
+    inset 0 1px 0 #ffffff99;
 
-  /* Typography */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --gradient-start: #2563eb;
+  --gradient-middle: #06b6d4;
+  --gradient-end: #f97316;
 
-  /* Motion */
-  --transition-fast: 0.2s ease;
-  --transition-medium: 0.3s ease;
-  --transition-slow: 0.5s ease;
+  --skills-ink: #0b1220f0;
+  --skills-ink-muted: #334155cc;
 
-  /* =========================================================
-     SKILLS MODAL THEME TOKENS (shared naming, theme-specific values)
-  ========================================================= */
+  --skills-panel: #ffffffeb;
+  --skills-panel-2: #f5f8fff5;
+  --skills-border: #0b12201f;
 
-  /* Ink */
-  --skills-ink: #111827eb;
-  --skills-ink-muted: #475569cc;
+  --skills-chip-bg: #2563eb14;
+  --skills-chip-bg-2: #06b6d414;
+  --skills-chip-border: #2563eb2e;
 
-  /* Panels */
-  --skills-panel: #ffffffda;
-  --skills-panel-2: #f3f6fbf5;
-  --skills-border: #0f172a1a;
+  --skills-dash: #2563eb47;
+  --skills-dash-hover: #2563eb75;
 
-  /* Chips */
-  --skills-chip-bg: #1d4ed81a;
-  --skills-chip-bg-2: #38bdf814;
-  --skills-chip-border: #1d4ed826;
-
-  /* Dashed areas */
-  --skills-dash: rgba(29, 78, 216, 0.22);
-  --skills-dash-hover: rgba(29, 78, 216, 0.34);
-
-  /* CTA */
-  --skills-cta: #1d4ed8;
-  --skills-cta-hover: #2563eb;
+  --skills-cta: #2563eb;
+  --skills-cta-hover: #1d4ed8;
   --skills-cta-text: #ffffff;
-
-  /* Optional helpers */
-  --rgba-white-0: #ffffff00;
-}
-
-
-/* Optional: follow system dark ensuring your toggle can override */
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --skills-chip-bg: #ffffff14;
-    --skills-chip-bg-2: #ffffff0d;
-    --skills-chip-border: #ffffff1f;
-    /* keep your existing fallback block, or remove if you always set data-theme */
-  }
 }
