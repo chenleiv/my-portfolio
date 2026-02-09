@@ -265,7 +265,7 @@ export const InteractiveConsole = () => {
         break;
       }
       case "cv": {
-        const pdfUrl = "public/assets/files/ChenLeiv-CV.pdf";
+        const pdfUrl = "/assets/files/ChenLeiv-CV.pdf";
 
         pushHistory(
           [

@@ -33,7 +33,7 @@ const About = () => {
   ];
 
   const handleDownloadCV = () => {
-    const pdfUrl = "public/assets/files/ChenLeiv-CV.pdf";
+    const pdfUrl = "/assets/files/ChenLeiv-CV.pdf";
     const link = document.createElement("a");
     link.href = pdfUrl;
     link.download = "ChenLeiv-CV.pdf";

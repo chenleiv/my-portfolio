@@ -1,13 +1,27 @@
-@use "./components.scss" as *;
+@use "../styles/components.scss" as *;
 
+/* ===== Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Base ===== */
 body {
   margin: 0;
   font-family: var(--font-sans);
   background-color: var(--background-color);
   color: var(--text-primary);
   line-height: 1.2;
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--sb-thumb) var(--sb-track);
 }
 
+/* ===== Layout root ===== */
 .app {
   min-height: 100vh;
   display: flex;
@@ -36,22 +50,7 @@ body {
   }
 }
 
-@media (max-width: 820px) {
-  .app__main {
-    padding: 48px 24px 0;
-  }
-}
-
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  scrollbar-width: thin;
-  /* Firefox */
-  scrollbar-color: var(--sb-thumb) var(--sb-track);
-}
-
+/* ===== Scrollbar ===== */
 *::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -71,4 +70,11 @@ body {
 
 *::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--sb-thumb-hover), rgba(255, 255, 255, 0.28));
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 820px) {
+  .app__main {
+    padding: 48px 24px 0;
+  }
 }
