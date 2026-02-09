@@ -1,0 +1,99 @@
+:root {
+  --background-color: #1e1e1e;
+  // --surface-color: #252526;
+  --page-background: #0a0c10b3;
+
+  --primary-color: #569cd6;
+  --secondary-color: #9cdcfe;
+  --accent-color: #dcdcaa;
+  --accent-color-2: #c586c0;
+
+  --text-primary: #d4d4d4;
+  --text-secondary: #b3b0b0;
+  --text-quaternary: #ce9178;
+  --text-projects-title: #ffffffbd;
+
+  --sb-track: #ffffff0f;
+  --sb-thumb: #78aaff8c;
+  --sb-thumb-hover: #78aaffbf;
+
+  --glass-bg: rgba(37, 37, 38, 0.8);
+  --glass-border: rgba(86, 156, 214, 0.2);
+  --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+
+  --gradient-start: #569cd6;
+  --gradient-middle: #9cdcfe;
+  --gradient-end: #dcdcaa;
+
+  --skills-ink: #ffffffeb;
+  --skills-ink-muted: #ffffffb8;
+  --skills-panel: #1111121e;
+  --skills-panel-2: #18181af5;
+  --skills-border: #ffffff1a;
+
+  --skills-chip-bg: #ffffff14;
+  --skills-chip-bg-2: #ffffff0d;
+  --skills-chip-border: #ffffff1f;
+
+  --skills-dash: rgba(255, 255, 255, 0.22);
+  --skills-dash-hover: rgba(255, 255, 255, 0.32);
+
+  --skills-cta: #e7b7b7;
+  --skills-cta-hover: #efc4c4;
+  --skills-cta-text: #ffffff;
+
+  --rgba-white-0: #ffffff00;
+}
+
+/* LIGHT overrides */
+:root[data-theme="light"] {
+  --background-color: white;
+  --page-background: --page-background: radial-gradient(circle at 30% 20%,
+      #ffffff,
+      #eef2f8 40%,
+      #e6ecf5 100%);
+  ;
+  // --surface-color: #ffffff;
+
+  --primary-color: #2563eb;
+  --secondary-color: #06b6d4;
+  --accent-color: #46a7d1;
+
+  --accent-color-2: #c586c0;
+  --text-primary: #0b1220;
+  --text-secondary: #334155;
+  --text-quaternary: #cf7051;
+  --text-projects-title: #0b1220e0;
+
+  --sb-track: #0b122012;
+  --sb-thumb: #2563eb7a;
+  --sb-thumb-hover: #2563ebb0;
+
+  --glass-bg: #ffffffeb;
+  --glass-border: #2563eb2e;
+  --glass-shadow:
+    0 20px 60px #0b12202c,
+    inset 0 1px 0 #ffffff99;
+
+  --gradient-start: #2563eb;
+  --gradient-middle: #06b6d4;
+  --gradient-end: #f97316;
+
+  --skills-ink: #0b1220f0;
+  --skills-ink-muted: #334155cc;
+
+  --skills-panel: #ffffffeb;
+  --skills-panel-2: #f5f8fff5;
+  --skills-border: #0b12201f;
+
+  --skills-chip-bg: #2563eb14;
+  --skills-chip-bg-2: #06b6d414;
+  --skills-chip-border: #2563eb2e;
+
+  --skills-dash: #2563eb47;
+  --skills-dash-hover: #2563eb75;
+
+  --skills-cta: #2563eb;
+  --skills-cta-hover: #1d4ed8;
+  --skills-cta-text: #ffffff;
+}

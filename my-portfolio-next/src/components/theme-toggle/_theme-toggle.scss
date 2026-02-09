@@ -1,0 +1,49 @@
+.theme-toggle {
+  width: 60px;
+  height: 30px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+
+  display: inline-flex;
+  align-items: center;
+
+  /* ===== DARK (default) ===== */
+  // background: linear-gradient(135deg, #2b73d2, #4aa6f5);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+
+  &[data-theme="light"] {
+    /* ===== LIGHT ===== */
+    background: linear-gradient(135deg, #ffd54f, #ffb300);
+    box-shadow: 0 6px 18px rgba(255, 193, 7, 0.45);
+  }
+}
+
+/* הכדור בפנים */
+.theme-toggle__thumb {
+  position: absolute;
+  top: 3px;
+  left: 4px;
+
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #0f172a;
+  color: #ffd54f;
+
+  transition: all 0.3s ease;
+}
+
+/* כשהמצב LIGHT → הכדור זז ימינה ומשנה צבע */
+.theme-toggle[data-theme="light"] .theme-toggle__thumb {
+  transform: translateX(30px);
+  background: #fff8e1;
+  color: #f59e0b;
+}
