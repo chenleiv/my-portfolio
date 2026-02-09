@@ -3,14 +3,10 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef, useState } from "react";
 import {
-  FaEnvelope,
-  FaGithub,
-  FaLinkedin,
   FaGoogle,
   FaMicrosoft,
-  FaFileDownload,
-  FaMobileAlt,
 } from "react-icons/fa";
+import { Github, Mail, Linkedin, FileDown, Smartphone, Sun, Moon } from "lucide-react";
 const chenImage = "/assets/img/chen-bucky.webp";
 import { InteractiveConsole } from "./InteractiveConsole";
 import Image from "next/image";
@@ -117,7 +113,7 @@ const About = () => {
                     className="about-link"
                     aria-label="LinkedIn"
                   >
-                    <FaLinkedin size={24} />
+                    <Linkedin size={20} />
                   </a>
 
                   <motion.button
@@ -128,7 +124,7 @@ const About = () => {
                     aria-label="Download CV"
                     title="Download CV"
                   >
-                    <FaFileDownload size={24} />
+                    <FileDown size={20} />
                   </motion.button>
                   <a
                     href="https://github.com/chenleiv"
@@ -137,7 +133,7 @@ const About = () => {
                     className="about-link"
                     aria-label="GitHub"
                   >
-                    <FaGithub size={24} />
+                    <Github size={20} />
                   </a>
                   <a
                     href="tel:+972526656101"
@@ -145,7 +141,7 @@ const About = () => {
                     title="Call me"
                     aria-label="Call me"
                   >
-                    <FaMobileAlt size={24} />
+                    <Smartphone size={20} />
                   </a>
 
                   <div className="email-container" ref={dropdownRef}>
@@ -159,7 +155,7 @@ const About = () => {
                       aria-expanded={showEmailOptions}
                       aria-controls="email-options"
                     >
-                      <FaEnvelope size={24} />
+                      <Mail size={20} />
                     </motion.button>
 
                     {showEmailOptions && (

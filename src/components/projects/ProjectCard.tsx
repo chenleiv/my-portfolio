@@ -1,5 +1,6 @@
 import { motion, type Variants } from "framer-motion";
-import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+// import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import { ExternalLink, Github } from "lucide-react";
 import type { Project } from "./projectData";
 import Image from "next/image";
 
@@ -41,7 +42,7 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion }: Props
                                 className="project-button"
                                 aria-label={`Open live demo: ${project.header}`}
                             >
-                                <FaExternalLinkAlt size={16} /> Live Demo
+                                <ExternalLink size={18} /> Live Demo
                             </a>
                         )}
 
@@ -53,7 +54,7 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion }: Props
                                 className="project-button"
                                 aria-label={`Open source code: ${project.header}`}
                             >
-                                <FaGithub size={16} /> Source
+                                <Github size={18} /> Source
                             </a>
                         )}
                     </div>
