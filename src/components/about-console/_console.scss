@@ -376,13 +376,10 @@
     height: clamp(250px, 30vw, 380px);
     border-radius: 50%;
     object-fit: cover;
-
     border: 5px solid var(--glass-border);
     box-shadow: 0 8px 32px var(--glass-shadow);
-    transition: all 0.4s ease;
 
     &:hover {
-      transform: scale(1.05);
       box-shadow: 0 12px 40px var(--glass-shadow);
     }
   }

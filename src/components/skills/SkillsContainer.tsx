@@ -2,7 +2,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState, type DragEvent, type MouseEvent } from "react";
 import { useFocus } from "../../utils/useFocus";
-import { SKILL_GROUPS } from './skills';
+import { SKILL_GROUPS } from './skillsData';
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 

@@ -9,7 +9,7 @@ import {
     type MouseEvent,
 } from "react";
 import { useFocus } from "../../utils/useFocus";
-import { SKILL_GROUPS, SkillGroup } from "./skills";
+import { SKILL_GROUPS, SkillGroup } from "./skillsData";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 
