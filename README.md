@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Chen Leiv — Interactive Portfolio
 
-## Getting Started
+A modern, interactive frontend developer portfolio built with Next.js, React, and TypeScript, designed to showcase projects, skills, and personality through a unique console-driven experience.
 
-First, run the development server:
+🔗 Live site: https://chenleiv.vercel.app
+💻 Source code: https://github.com/chenleiv/my-portfolio
 
-```bash
+⸻⸻⸻⸻
+
+⚙️ Getting Started
+
+# install dependencies
+
+npm install
+
+# run development server
+
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+# build for production
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+npm run build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# lint
 
-## Learn More
+npm run lint
+⸻⸻⸻⸻
 
-To learn more about Next.js, take a look at the following resources:
+✨ Overview
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+This portfolio reimagines the traditional developer website as an interactive terminal-style experience.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Visitors can explore content using commands, open recruiter-focused views, and navigate through a smooth, animated UI — fully responsive and optimized for both desktop and mobile.
 
-## Deploy on Vercel
+Built with strong emphasis on:
+• Clean architecture
+• Performance
+• Accessibility
+• Delightful user experience
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+    🚀 Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Interactive Experience
+• Interactive Console — explore the portfolio using real commands
+• Command Palette (⌘K / Ctrl+K) — quick navigation and actions
+• Recruiter Mode — focused skill-matching interface
+• Mobile Command Sheet — optimized touch UX
+
+UI & UX
+• Dark / Light theme support
+• Smooth animations and transitions
+• Fully responsive design
+• Accessible keyboard navigation
+
+Developer Experience
+• Built with Next.js App Router
+• Type-safe architecture using TypeScript
+• Modular hooks-based state management
+• Clean, scalable component structure
+
+⸻⸻⸻⸻
+
+🛠 Tech Stack
+
+Frontend
+• Next.js
+• React
+• TypeScript
+• SCSS
+
+Architecture & Tooling
+• Custom React hooks
+• ESLint + strict lint rules
+• Vercel deployment
+
+⸻⸻⸻⸻
+
+    📂 Project Structure (Simplified)
+
+    src/
+
+app/ # Next.js app router pages
+components/ # UI & console components
+hooks/ # Reusable custom hooks
+utils/ # Shared utilities & providers
+
+⸻⸻⸻⸻
+
+🧠 Concept
+
+Instead of a static portfolio, this project explores:
+
+How interaction, storytelling, and developer tooling can merge into one UI experience.
+
+The console metaphor reflects real developer workflows while creating a memorable, playful interface for recruiters and visitors.
+
+⸻⸻⸻⸻
+
+🧑‍💻 About Me
+
+Creative Frontend Developer
+4 years building scalable, high-performance web applications with modern frameworks.
+
+Focused on:
+• Intuitive user experiences
+• Clean, maintainable code
+• Problem solving & ownership
+• Continuous learning and growth
+
+Core stack:
+
+React · Angular · TypeScript · SCSS · Node.js
+
+⸻⸻⸻⸻
+
+📬 Contact
+• LinkedIn — https://www.linkedin.com/in/chen-leiv-9533a1178/
+• GitHub — https://github.com/chenleiv
+
+⸻⸻⸻⸻
+
+Built with React, TypeScript, and Next.js.
