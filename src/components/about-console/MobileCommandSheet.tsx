@@ -1,5 +1,6 @@
 "use client";
-import { useMemo, useState } from "react";
+
+import React, { useMemo, useState } from "react";
 
 export type CommandItem = {
     id: string;
@@ -17,7 +18,6 @@ type Props = {
 };
 
 export function MobileCommandSheet({ open, onClose, commands, onSelect }: Props) {
-    const [q, setQ] = useState("");
     const [activeGroup, setActiveGroup] = useState<string>("All");
 
     const groups = useMemo(() => {
@@ -26,77 +26,62 @@ export function MobileCommandSheet({ open, onClose, commands, onSelect }: Props)
     }, [commands]);
 
     const filtered = useMemo(() => {
-        const query = q.trim().toLowerCase();
-
-        return commands.filter((c) => {
-            const groupOk = activeGroup === "All" || c.group === activeGroup;
-            if (!groupOk) return false;
-            if (!query) return true;
-
-            return (
-                c.label.toLowerCase().includes(query) ||
-                c.hint.toLowerCase().includes(query) ||
-                c.id.toLowerCase().includes(query) ||
-                c.keywords.some((k) => k.toLowerCase().includes(query))
-            );
-        });
-    }, [commands, q, activeGroup]);
+        if (activeGroup === "All") return commands;
+        return commands.filter((c) => c.group === activeGroup);
+    }, [commands, activeGroup]);
 
     if (!open) return null;
 
     return (
-        <div className="mcs-overlay" onClick={onClose} role="presentation">
-            <div
-                className="mcs-sheet"
-                onClick={(e) => e.stopPropagation()}
-                role="dialog"
-                aria-modal="true"
-                aria-label="Commands"
-            >
-                <div className="mcs-header">
-                    <div className="mcs-title">Commands</div>
-                    <button type="button" className="mcs-close" onClick={onClose} aria-label="Close">
+        <>
+            <button
+                type="button"
+                className="cmdsheet-backdrop"
+                onClick={onClose}
+                aria-label="Close commands"
+            />
+
+            <div className="cmdsheet" role="dialog" aria-modal="true" aria-label="Commands">
+                <div className="cmdsheet__grab" />
+
+                <div className="cmdsheet__header">
+                    <div className="cmdsheet__title">Commands</div>
+                    <button type="button" className="cmdsheet__close" onClick={onClose} aria-label="Close">
                         ✕
                     </button>
                 </div>
 
-                <input
-                    className="mcs-search"
-                    value={q}
-                    onChange={(e) => setQ(e.target.value)}
-                    placeholder="Search…"
-                    autoFocus
-                />
-
-                <div className="mcs-groups">
+                <div className="cmdsheet__tabs" role="tablist" aria-label="Command groups">
                     {groups.map((g) => (
                         <button
                             key={g}
                             type="button"
-                            className={`mcs-group ${g === activeGroup ? "active" : ""}`}
+                            className={`cmdsheet__tab ${g === activeGroup ? "is-active" : ""}`}
                             onClick={() => setActiveGroup(g)}
+                            role="tab"
+                            aria-selected={g === activeGroup}
                         >
                             {g}
                         </button>
                     ))}
                 </div>
 
-                <div className="mcs-list">
+                <div className="cmdsheet__list" role="list">
                     {filtered.map((c) => (
                         <button
                             key={c.id}
                             type="button"
-                            className="mcs-item"
+                            className="cmdsheet__item"
                             onClick={() => onSelect(c.id)}
                         >
-                            <div className="mcs-item__label">{c.label}</div>
-                            <div className="mcs-item__hint">{c.hint}</div>
+                            <div className="cmdsheet__itemLabel">{c.label}</div>
+                            <div className="cmdsheet__itemHint">{c.hint}</div>
                         </button>
                     ))}
 
-                    {filtered.length === 0 && <div className="mcs-empty">No matches</div>}
+                    {filtered.length === 0 && <div className="cmdsheet__empty">No commands</div>}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
