@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useFocus } from "../../utils/useFocus";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
@@ -41,37 +41,50 @@ export const InteractiveConsole = () => {
   const ac = useConsoleAutocomplete();
   const cmdHistory = useCommandHistory();
 
-  const palette = useCommandPalette();
+  const {
+    open: paletteOpen,
+    query: paletteQuery,
+    setQuery: setPaletteQuery,
+    activeIndex: paletteActiveIndex,
+    setActiveIndex: setPaletteActiveIndex,
+    filteredItems: paletteFilteredItems,
+    inputRef: paletteInputRef,
+    containerRef: paletteContainerRef,
+    openPalette,
+    closePalette,
+    trapFocus,
+    onInputKeyDown: onPaletteInputKeyDown,
+  } = useCommandPalette();
 
-  const scrollToConsoleTop = () => {
+  const scrollToConsoleTop = useCallback(() => {
     consoleRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
     requestAnimationFrame(() => {
       if (historyRef.current) historyRef.current.scrollTop = 0;
     });
-  };
+  }, []);
 
-  const scrollToSection = (id: string) => {
+  const scrollToSection = useCallback((id: string) => {
     skipNextAutoScrollRef.current = true;
     const el = document.getElementById(id);
     if (!el) return;
     requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
-  };
+  }, []);
 
-  const highlightSection = (id: string) => {
+  const highlightSection = useCallback((id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
     el.classList.add("highlight");
     window.setTimeout(() => el.classList.remove("highlight"), 900);
-  };
+  }, []);
 
-  const pushHistory = (lines: ConsoleLine[], rawCmd: string) => {
+  const pushHistory = useCallback((lines: ConsoleLine[], rawCmd: string) => {
     setHistory((prev) => [...prev, ...lines]);
     cmdHistory.pushCommand(rawCmd);
-  };
+  }, [cmdHistory]);
 
-  const handleCommand = useMemo(
-    () =>
-      createCommandRunner({
+  const handleCommand = useCallback(
+    (rawCmd: string) => {
+      const runCommand = createCommandRunner({
         isMobile,
         initialLines,
 
@@ -85,9 +98,21 @@ export const InteractiveConsole = () => {
         scrollToSection,
         highlightSection,
         scrollToConsoleTop,
-      }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isMobile, initialLines]
+      });
+
+      runCommand(rawCmd);
+    },
+    [
+      ac.resetAutocomplete,
+      ac.setInput,
+      cmdHistory.pushCommand,
+      highlightSection,
+      initialLines,
+      isMobile,
+      pushHistory,
+      scrollToConsoleTop,
+      scrollToSection,
+    ],
   );
 
   useEffect(() => {
@@ -166,7 +191,7 @@ export const InteractiveConsole = () => {
 
   const runPaletteItem = (item: PaletteItem) => {
     handleCommand(item.id);
-    palette.closePalette();
+    closePalette();
   };
 
   return (
@@ -175,7 +200,7 @@ export const InteractiveConsole = () => {
         className="console-header"
         onClick={() => {
           if (isMobile) setSheetOpen(true);
-          else palette.openPalette();
+          else openPalette();
         }}
         style={{ cursor: "pointer" }}
         role="button"
@@ -183,7 +208,7 @@ export const InteractiveConsole = () => {
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             if (isMobile) setSheetOpen(true);
-            else palette.openPalette();
+            else openPalette();
           }
         }}
         aria-label="Open command palette"
@@ -210,22 +235,28 @@ export const InteractiveConsole = () => {
             readOnly={isMobile}
             placeholder={isMobile ? "Tap to choose a command…" : "Type a command…"}
             onClick={() => {
-              if (!isMobile) return;
-              setSheetOpen(true);
-              requestAnimationFrame(() => auto.scrollToBottom("smooth"));
+              if (isMobile) {
+                setSheetOpen(true);
+
+                requestAnimationFrame(() => {
+                  auto.scrollToBottom("smooth");
+                });
+              }
             }}
           />
 
-          {!isMobile && (
-            <button
-              type="button"
-              className="palette-button"
-              onClick={palette.openPalette}
-              aria-label="Open command palette"
-            >
-              {shortcutLabel}
-            </button>
-          )}
+          {
+            !isMobile && (
+              <button
+                type="button"
+                className="palette-button"
+                onClick={openPalette}
+                aria-label="Open command palette"
+              >
+                {shortcutLabel}
+              </button>
+            )
+          }
         </div>
       </form>
 
@@ -251,13 +282,13 @@ export const InteractiveConsole = () => {
         </ul>
       )}
 
-      {palette.open && (
-        <div className="palette-overlay" onClick={palette.closePalette} role="presentation">
+      {paletteOpen && (
+        <div className="palette-overlay" onClick={closePalette} role="presentation">
           <div
             className="palette"
             onClick={(e) => e.stopPropagation()}
-            ref={palette.containerRef}
-            onKeyDown={palette.trapFocus}
+            ref={paletteContainerRef}
+            onKeyDown={trapFocus}
             role="dialog"
             aria-modal="true"
             aria-label="Command palette"
@@ -269,23 +300,23 @@ export const InteractiveConsole = () => {
             </div>
 
             <input
-              ref={palette.inputRef}
+              ref={paletteInputRef}
               className="palette-input"
-              value={palette.query}
+              value={paletteQuery}
               onChange={(e) => {
-                palette.setQuery(e.target.value);
-                palette.setActiveIndex(0);
+                setPaletteQuery(e.target.value);
+                setPaletteActiveIndex(0);
               }}
-              onKeyDown={(e) => palette.onInputKeyDown(e, runPaletteItem)}
+              onKeyDown={(e) => onPaletteInputKeyDown(e, runPaletteItem)}
               placeholder="Type a command…"
             />
 
             <ul className="palette-list">
-              {palette.filteredItems.map((item, idx) => (
+              {paletteFilteredItems.map((item, idx) => (
                 <li
                   key={item.id}
-                  className={`palette-item ${idx === palette.activeIndex ? "active" : ""}`}
-                  onMouseEnter={() => palette.setActiveIndex(idx)}
+                  className={`palette-item ${idx === paletteActiveIndex ? "active" : ""}`}
+                  onMouseEnter={() => setPaletteActiveIndex(idx)}
                   onClick={() => runPaletteItem(item)}
                   role="button"
                   tabIndex={0}
@@ -297,7 +328,9 @@ export const InteractiveConsole = () => {
                   <div className="palette-item-cmd">{toDisplayCommand(item.id)}</div>
                 </li>
               ))}
-              {palette.filteredItems.length === 0 && <li className="palette-empty">No matches</li>}
+              {paletteFilteredItems.length === 0 && (
+                <li className="palette-empty">No matches</li>
+              )}
             </ul>
           </div>
         </div>

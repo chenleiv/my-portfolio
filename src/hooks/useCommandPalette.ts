@@ -1,22 +1,31 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { PALETTE_ITEMS } from "../components/about-console/consoleCommands";
-import type { PaletteItem } from "../components/about-console/consoleCommands";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  PALETTE_ITEMS,
+  type PaletteItem,
+} from "../components/about-console/consoleCommands";
 
-export function useCommandPalette() {
+type Params = {
+  shortcutEnabled?: boolean;
+};
+
+export function useCommandPalette(params: Params = {}) {
+  const { shortcutEnabled = true } = params;
+
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const lastActiveRef = useRef<HTMLElement | null>(null);
+  const lastActiveElementRef = useRef<HTMLElement | null>(null);
 
   const filteredItems = useMemo(() => {
     const q = query.trim().toLowerCase();
+    if (!q) return PALETTE_ITEMS;
+
     return PALETTE_ITEMS.filter((item) => {
-      if (!q) return true;
       return (
         item.id.toLowerCase().includes(q) ||
         item.label.toLowerCase().includes(q) ||
@@ -25,69 +34,27 @@ export function useCommandPalette() {
     });
   }, [query]);
 
-  const openPalette = () => {
-    lastActiveRef.current = document.activeElement as HTMLElement | null;
+  const openPalette = useCallback(() => {
+    lastActiveElementRef.current = document.activeElement as HTMLElement | null;
     setOpen(true);
     setQuery("");
     setActiveIndex(0);
-    setTimeout(() => inputRef.current?.focus(), 0);
-  };
+    window.setTimeout(() => inputRef.current?.focus(), 0);
+  }, []);
 
-  const closePalette = () => {
+  const closePalette = useCallback(() => {
     setOpen(false);
     setQuery("");
     setActiveIndex(0);
-    setTimeout(() => lastActiveRef.current?.focus(), 0);
-  };
+    window.setTimeout(() => lastActiveElementRef.current?.focus(), 0);
+  }, []);
 
-  // Cmd/Ctrl+K toggle
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      const isToggle = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
-      if (isToggle) {
-        e.preventDefault();
-        if (open) closePalette();
-        else openPalette();
-        return;
-      }
-      if (e.key === "Escape") setOpen(false);
-    };
+  const trapFocus = useCallback((e: React.KeyboardEvent) => {
+    if (e.key !== "Tab") return;
+    const container = containerRef.current;
+    if (!container) return;
 
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open]);
-
-  const onInputKeyDown = (
-    e: React.KeyboardEvent<HTMLInputElement>,
-    run: (item: PaletteItem) => void,
-  ) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setActiveIndex((i) => Math.min(i + 1, filteredItems.length - 1));
-      return;
-    }
-    if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setActiveIndex((i) => Math.max(i - 1, 0));
-      return;
-    }
-    if (e.key === "Enter") {
-      e.preventDefault();
-      const item = filteredItems[activeIndex];
-      if (item) run(item);
-      return;
-    }
-    if (e.key === "Escape") {
-      e.preventDefault();
-      closePalette();
-    }
-  };
-
-  const trapFocus = (e: React.KeyboardEvent) => {
-    if (e.key !== "Tab" || !containerRef.current) return;
-
-    const focusable = containerRef.current.querySelectorAll<HTMLElement>(
+    const focusable = container.querySelectorAll<HTMLElement>(
       'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
     );
     if (focusable.length === 0) return;
@@ -100,12 +67,68 @@ export function useCommandPalette() {
       e.preventDefault();
       first?.focus();
     }
-
     if (e.shiftKey && active === first) {
       e.preventDefault();
       last?.focus();
     }
-  };
+  }, []);
+
+  const onInputKeyDown = useCallback(
+    (
+      e: React.KeyboardEvent<HTMLInputElement>,
+      runItem: (item: PaletteItem) => void,
+    ) => {
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActiveIndex((i) => Math.min(i + 1, filteredItems.length - 1));
+        return;
+      }
+      if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActiveIndex((i) => Math.max(i - 1, 0));
+        return;
+      }
+      if (e.key === "Enter") {
+        e.preventDefault();
+        const item = filteredItems[activeIndex];
+        if (item) runItem(item);
+        return;
+      }
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closePalette();
+      }
+    },
+    [activeIndex, closePalette, filteredItems],
+  );
+
+  // Ctrl/Cmd + K
+  useEffect(() => {
+    if (!shortcutEnabled) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      const isToggle = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
+      if (isToggle) {
+        e.preventDefault();
+        setOpen((prev) => {
+          const next = !prev;
+          if (next) {
+            lastActiveElementRef.current =
+              document.activeElement as HTMLElement | null;
+            setQuery("");
+            setActiveIndex(0);
+            window.setTimeout(() => inputRef.current?.focus(), 0);
+          }
+          return next;
+        });
+        return;
+      }
+      if (e.key === "Escape") setOpen(false);
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [shortcutEnabled]);
 
   return {
     open,
@@ -114,11 +137,13 @@ export function useCommandPalette() {
     activeIndex,
     setActiveIndex,
     filteredItems,
+
     inputRef,
     containerRef,
+
     openPalette,
     closePalette,
-    onInputKeyDown,
     trapFocus,
+    onInputKeyDown,
   };
 }

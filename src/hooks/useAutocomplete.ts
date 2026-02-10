@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
