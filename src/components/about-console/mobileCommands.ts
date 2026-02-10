@@ -36,6 +36,13 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
     keywords: ["profile"],
   },
   {
+    id: "recruiterMode",
+    label: "Recruiter mode",
+    hint: "Open recruiter mode",
+    group: "Actions",
+    keywords: ["recruiter", "mode"],
+  },
+  {
     id: "contact",
     label: "Contact",
     hint: "Email options",
