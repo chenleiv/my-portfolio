@@ -7,7 +7,7 @@ import ThemeToggle from '../components/theme-toggle/ThemeToggle';
 const SkillsMatcher = lazy(() => import("../components/skills/SkillsMatcher"));
 const LazyLoader = lazy(() => import("../components/loader/LazyLoader"));
 
-function Page() {
+export default function Page() {
   return (
     <div className="app">
       <ThemeToggle />
@@ -23,12 +23,14 @@ function Page() {
           <Projects />
         </section>
       </main>
-
+      <div className="app__footer-text">
+        <p>
+          &copy; {new Date().getFullYear()} Chen Leiv. Built with React, TypeScript, and Next.js.
+        </p>
+      </div>
       <footer className="app__footer">
         <Footer />
       </footer>
     </div>
   );
 }
-
-export default Page;
