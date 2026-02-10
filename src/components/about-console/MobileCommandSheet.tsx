@@ -1,36 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useRef } from "react";
+import { CommandItem } from "./mobileCommands";
 
-export type CommandItem = {
-    id: string;
-    label: string;
-    hint: string;
-    group: string;
-    keywords: readonly string[];
-};
-
-type Props = {
-    open: boolean;
-    onClose: () => void;
-    commands: readonly CommandItem[];
-    onSelect: (cmdId: string) => void;
-};
-
-export function MobileCommandSheet({ open, onClose, commands, onSelect }: Props) {
-    const [activeGroup, setActiveGroup] = useState<string>("All");
-
-    const groups = useMemo(() => {
-        const set = new Set(commands.map((c) => c.group));
-        return ["All", ...Array.from(set)];
-    }, [commands]);
-
-    const filtered = useMemo(() => {
-        if (activeGroup === "All") return commands;
-        return commands.filter((c) => c.group === activeGroup);
-    }, [commands, activeGroup]);
+export function MobileCommandSheet({ open, onClose, commands, onSelect }: { open: boolean; onClose: () => void; commands: readonly CommandItem[]; onSelect: (id: string) => void }) {
+    const startY = useRef<number | null>(null);
 
     if (!open) return null;
+
+    const onTouchStart = (e: React.TouchEvent) => {
+        startY.current = e.touches[0].clientY;
+    };
+
+    const onTouchMove = (e: React.TouchEvent) => {
+        if (startY.current === null) return;
+
+        const delta = e.touches[0].clientY - startY.current;
+
+        // אם גררו למטה יותר מ-80px → נסגור
+        if (delta > 80) {
+            startY.current = null;
+            onClose();
+        }
+    };
+
+    const onTouchEnd = () => {
+        startY.current = null;
+    };
 
     return (
         <>
@@ -41,33 +37,31 @@ export function MobileCommandSheet({ open, onClose, commands, onSelect }: Props)
                 aria-label="Close commands"
             />
 
-            <div className="cmdsheet" role="dialog" aria-modal="true" aria-label="Commands">
+            <div
+                className="cmdsheet"
+                role="dialog"
+                aria-modal="true"
+                aria-label="Commands"
+                onTouchStart={onTouchStart}
+                onTouchMove={onTouchMove}
+                onTouchEnd={onTouchEnd}
+            >
                 <div className="cmdsheet__grab" />
 
                 <div className="cmdsheet__header">
                     <div className="cmdsheet__title">Commands</div>
-                    <button type="button" className="cmdsheet__close" onClick={onClose} aria-label="Close">
+                    <button
+                        type="button"
+                        className="cmdsheet__close"
+                        onClick={onClose}
+                        aria-label="Close"
+                    >
                         ✕
                     </button>
                 </div>
 
-                <div className="cmdsheet__tabs" role="tablist" aria-label="Command groups">
-                    {groups.map((g) => (
-                        <button
-                            key={g}
-                            type="button"
-                            className={`cmdsheet__tab ${g === activeGroup ? "is-active" : ""}`}
-                            onClick={() => setActiveGroup(g)}
-                            role="tab"
-                            aria-selected={g === activeGroup}
-                        >
-                            {g}
-                        </button>
-                    ))}
-                </div>
-
                 <div className="cmdsheet__list" role="list">
-                    {filtered.map((c) => (
+                    {commands.map((c) => (
                         <button
                             key={c.id}
                             type="button"
@@ -79,7 +73,9 @@ export function MobileCommandSheet({ open, onClose, commands, onSelect }: Props)
                         </button>
                     ))}
 
-                    {filtered.length === 0 && <div className="cmdsheet__empty">No commands</div>}
+                    {commands.length === 0 && (
+                        <div className="cmdsheet__empty">No commands</div>
+                    )}
                 </div>
             </div>
         </>

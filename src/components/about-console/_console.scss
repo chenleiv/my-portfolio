@@ -534,9 +534,12 @@
   box-shadow: 0 -30px 90px rgba(0, 0, 0, 0.55);
   overflow: hidden;
 
-  max-height: min(74vh, 560px);
+  max-height: min(74vh, 600px);
   display: flex;
   flex-direction: column;
+  touch-action: pan-y;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+
 
   /* light mode support */
   [data-theme="light"] & {
@@ -562,7 +565,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px 6px;
+  padding: 10px 14px 0px;
 }
 
 .cmdsheet__title {
