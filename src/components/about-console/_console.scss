@@ -43,19 +43,6 @@
   grid-template-columns: 1fr 500px;
   align-items: center;
   gap: 20px;
-
-  @media (max-width: 1100px) {
-    grid-template-columns: 1fr 340px;
-  }
-
-  @media (max-width: 820px) {
-    grid-template-columns: 1fr 260px;
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
 }
 
 .console-wrapper {
@@ -683,7 +670,13 @@
   }
 }
 
-@media (max-width: 820px) {
+
+@media (max-width: 960px) {
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 
   .about-section {
     justify-content: space-between;
