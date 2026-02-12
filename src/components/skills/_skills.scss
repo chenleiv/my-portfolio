@@ -408,7 +408,7 @@
   }
 }
 
-@media (max-width: 820px) {
+@media (max-width: 960px) {
   .skills-modalOverlay {
     padding: 5vh 12px;
     backdrop-filter: none;
@@ -459,11 +459,9 @@
     padding-right: 10px;
   }
 
-  .skills-input-container {
-    .skills-input {
-      padding: 10px;
-      min-height: 45px;
-    }
+  .skills-input-container .skills-input {
+    padding: 10px;
+    min-height: 45px;
   }
 
   .search-container .search-button {
@@ -475,7 +473,6 @@
   .search-slot {
     height: 66px;
   }
-
 
   .match-link {
     font-size: 12.8px;
@@ -502,6 +499,15 @@
 
   .console-line .console-desc {
     padding-right: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-modal {
+    width: 100vw;
+    border-radius: 0;
+    height: 100vh;
+    max-height: 100vh;
   }
 }
 
