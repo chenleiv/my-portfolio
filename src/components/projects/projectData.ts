@@ -24,7 +24,7 @@ export const PROJECTS: readonly Project[] = [
     header: "AI Workspace",
     subHeader: "Manage your knowledge base with AI.",
     img: aiWorkerSpaceImg,
-    skills: ["React | TypeScript | REST API | Node.js | Railway | MongoDB"],
+    skills: ["React | TypeScript | Node.js | Railway | MongoDB", "HuggingFace"],
     web: "https://ai-knowledge.up.railway.app/",
     github: "https://github.com/chenleiv/ai-knowledge-workspace",
     era: "latest",
