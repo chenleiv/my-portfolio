@@ -59,7 +59,7 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion }: Props
             </div>
 
             <div className="project-info">
-                <h3 className="project-title">{project.header}</h3>
+                <p className="project-title">{project.header}</p>
                 <p className="project-description">{project.subHeader}</p>
 
                 <div className="project-skills">

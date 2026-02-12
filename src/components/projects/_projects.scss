@@ -11,7 +11,7 @@
 
 .projects-title {
   text-align: center;
-  font-size: 34px;
+  font-size: 30px;
 }
 
 .projects-grid {
@@ -26,7 +26,7 @@
 
 .projects-subtitle {
   text-align: center;
-  font-size: 22px;
+  font-size: 20px;
   padding-bottom: 6px;
   color: var(--text-secondary);
 }
@@ -34,6 +34,7 @@
 .project-card {
   display: flex;
   flex-direction: column;
+  width: 400px;
   background: var(--skills-chip-bg);
   border: 1px solid var(--skills-chip-border);
   border-radius: 12px;
@@ -44,7 +45,6 @@
 
 .project-image-container {
   position: relative;
-  height: 200px;
   overflow: hidden;
 }
 
@@ -113,21 +113,21 @@
   justify-content: center;
   align-items: center;
   color: var(--text-projects-title);
-  padding: 16px;
+  padding: 8px;
   flex-grow: 1;
 
 }
 
 .project-title {
   margin: 0 0 8px;
-  font-size: 24px;
+  font-size: 18px;
   color: linear-gradient(45deg, var(--text-primary), #c3c7d5);
 }
 
 .project-description {
   margin: 0 0 12px;
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1;
   flex-grow: 1;
 }
@@ -135,10 +135,17 @@
 .project-skills {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
   margin-top: auto;
   justify-content: center;
   align-items: center;
+  font-size: 14px;
+  gap: 4px;
+
+  .skill-tag {
+    font-size: 14px;
+    text-align: center;
+
+  }
 }
 
 @media (max-width: 820px) {
@@ -149,6 +156,10 @@
 
   .projects-container {
     gap: 14px;
+  }
+
+  .project-card {
+    width: 300px;
   }
 
   .projects-grid {

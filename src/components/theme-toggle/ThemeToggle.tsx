@@ -11,26 +11,37 @@ const getInitialTheme = (): Theme => {
   const saved = window.localStorage.getItem("theme");
   if (saved === "light" || saved === "dark") return saved;
 
-  const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)")?.matches;
-  return prefersDark ? "dark" : "light";
+  return "dark";
 };
 
 export default function ThemeToggle() {
+  const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-    window.localStorage.setItem("theme", theme);
-  }, [theme]);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (mounted) {
+      document.documentElement.setAttribute("data-theme", theme);
+      window.localStorage.setItem("theme", theme);
+    }
+  }, [theme, mounted]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
   return (
-    <button className="theme-toggle" data-theme={theme} onClick={toggleTheme} type="button">
+    <button
+      className="theme-toggle"
+      data-theme={mounted ? theme : undefined}
+      onClick={toggleTheme}
+      type="button"
+    >
       <span className="theme-toggle__thumb">
-        {theme === "dark" ? <FaMoon /> : <FaSun />}
+        {mounted ? (theme === "dark" ? <FaMoon /> : <FaSun />) : null}
       </span>
     </button>
   );

@@ -1,7 +1,7 @@
 const memoryImg = "/assets/img/memory.webp";
 const memeImg = "/assets/img/meme.webp";
 const trellor1 = "/assets/img/trellor1.webp";
-const aiWorkerSpaceImg = "/assets/img/knowledge.webp";
+const aiWorkerSpaceImg = "/assets/img/knowledge.png";
 
 type ProjectEra = "latest" | "older";
 
@@ -24,9 +24,9 @@ export const PROJECTS: readonly Project[] = [
     header: "AI Workspace",
     subHeader: "Manage your knowledge base with AI.",
     img: aiWorkerSpaceImg,
-    skills: ["React", "TypeScript", "REST API", "Python", "Cloudflare"],
-    web: "https://ai-knowledge-workspace.pages.dev/",
-    github: "https://github.com/chenleiv/ai-worker-space",
+    skills: ["React | TypeScript | REST API | Node.js | Railway | MongoDB"],
+    web: "https://ai-knowledge.up.railway.app/",
+    github: "https://github.com/chenleiv/ai-knowledge-workspace",
     era: "latest",
   },
   {
@@ -34,7 +34,7 @@ export const PROJECTS: readonly Project[] = [
     header: "Trello Clone",
     subHeader: "Trello-like task management app.",
     img: trellor1,
-    skills: ["Vue.js", "Vuex", "Node.js", "MongoDB", "SCSS"],
+    skills: ["Vue.js | Vuex | Node.js | MongoDB | SCSS"],
     web: "https://trellor.onrender.com/#/",
     github: "https://github.com/chenleiv/trellor",
     era: "older",
@@ -44,7 +44,7 @@ export const PROJECTS: readonly Project[] = [
     header: "Memory Game",
     subHeader: "Classic memory game.",
     img: memoryImg,
-    skills: ["Angular", "TypeScript", "REST API", "SCSS"],
+    skills: ["Angular | TypeScript | REST API | SCSS"],
     web: "https://chenleiv.github.io/the-memory-game/",
     github: "https://github.com/chenleiv/the-memory-game",
     era: "older",
@@ -54,7 +54,7 @@ export const PROJECTS: readonly Project[] = [
     header: "Meme Generator",
     subHeader: "Make your own meme.",
     img: memeImg,
-    skills: ["Vanilla JS", "CSS"],
+    skills: ["Vanilla JS | CSS"],
     web: "https://chenleiv.github.io/Meme-Generator/",
     github: "https://github.com/chenleiv/Meme-Generator",
     era: "older",
