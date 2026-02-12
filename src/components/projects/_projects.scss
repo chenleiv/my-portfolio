@@ -5,7 +5,7 @@
   align-items: center;
   max-width: 1400px;
   margin: 0 auto;
-  gap: 60px;
+  gap: 30px;
 }
 
 .projects-title {
@@ -31,7 +31,7 @@
 .projects-subtitle {
   text-align: center;
   font-size: 24px;
-  margin-bottom: 30px;
+  margin-bottom: 8px;
   color: var(--text-secondary);
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -123,9 +123,9 @@
 .project-info {
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  padding: 18px;
   flex-grow: 1;
-  gap: 16px;
+  gap: 12px;
 }
 
 .project-title {
