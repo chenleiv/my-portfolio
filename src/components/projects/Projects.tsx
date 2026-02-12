@@ -42,7 +42,7 @@ export default function Projects() {
             Latest Development
           </motion.h3>
 
-          <div className="projects-grid">
+          <div className="projects-grid new" >
             {latestProjects.map((project) => (
               <ProjectCard
                 key={project.label}
@@ -59,7 +59,7 @@ export default function Projects() {
             Older Projects
           </motion.h3>
 
-          <div className="projects-grid">
+          <div className="projects-grid old">
             {olderProjects.map((project) => (
               <ProjectCard key={project.label} project={project} itemVariants={itemVariants} shouldReduceMotion={shouldReduceMotion ?? false} />
             ))}
