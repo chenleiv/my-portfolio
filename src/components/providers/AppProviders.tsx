@@ -1,7 +1,7 @@
 "use client";
 
 import { ThemeProvider } from "../../context/ThemeContext";
-import { FocusContext } from "../../utils/FocusContext";
+import { FocusContext } from "../../context/FocusContext";
 import { FocusContextDefault } from "../../utils/focus.types";
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
