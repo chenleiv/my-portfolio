@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useDeferredValue } from "react";
 import {
   PALETTE_ITEMS,
   type PaletteItem,
@@ -15,6 +15,7 @@ export function useCommandPalette(params: Params = {}) {
 
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const deferredQuery = useDeferredValue(query);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -22,7 +23,7 @@ export function useCommandPalette(params: Params = {}) {
   const lastActiveElementRef = useRef<HTMLElement | null>(null);
 
   const filteredItems = useMemo(() => {
-    const q = query.trim().toLowerCase();
+    const q = deferredQuery.trim().toLowerCase();
     if (!q) return PALETTE_ITEMS;
 
     return PALETTE_ITEMS.filter((item) => {
@@ -32,7 +33,7 @@ export function useCommandPalette(params: Params = {}) {
         item.keywords.some((k) => k.toLowerCase().includes(q))
       );
     });
-  }, [query]);
+  }, [deferredQuery]);
 
   const openPalette = useCallback(() => {
     lastActiveElementRef.current = document.activeElement as HTMLElement | null;

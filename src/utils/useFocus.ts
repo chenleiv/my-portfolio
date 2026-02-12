@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { use } from "react";
 import { FocusContext } from "./FocusContext";
 
-export const useFocus = () => useContext(FocusContext);
+export const useFocus = () => use(FocusContext);
