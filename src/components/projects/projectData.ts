@@ -1,7 +1,7 @@
 const memoryImg = "/assets/img/memory.webp";
 const memeImg = "/assets/img/meme.webp";
 const trellor1 = "/assets/img/trellor1.webp";
-const aiWorkerSpaceImg = "/assets/img/knowledge.png";
+const aiWorkerSpaceImg = "/assets/img/knowledge.webp";
 
 type ProjectEra = "latest" | "older";
 
