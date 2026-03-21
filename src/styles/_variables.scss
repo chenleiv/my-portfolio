@@ -4,8 +4,7 @@
 
   --primary-color: #569cd6;
   --accent-color: #dcdcaa;
-  --accent-color-2: #4ec9b0;
-  /* Teal - Changed from Purple */
+  --accent-color-2: #c586c0;
 
   --text-primary: #d4d4d4;
   --text-secondary: #b3b0b0;
@@ -54,55 +53,51 @@
   --page-background: #f1f5f9;
 
   --primary-color: #2563eb;
-  /* Blue 600 */
-  --accent-color: #0369a1;
-  /* Sky 700 - Darker for visibility */
-  --accent-color-2: #b91c1c;
-  /* Red 700 - Darker for visibility */
+  /* Blue 600 - Changed from Indigo/Purple */
+  --accent-color: #0284c7;
+  /* Sky 600 */
+  --accent-color-2: #dc2626;
+  /* Red 600 - Changed from Pink */
 
-  --text-primary: #020617;
-  /* Slate 950 - Almost Black */
+  --text-primary: #0f172a;
   --text-secondary: #334155;
-  /* Slate 700 - Darker */
-  --text-quaternary: #20242a;
-  /* Slate 600 */
-  --text-projects-title: #0f172a;
+  --text-quaternary: #475569;
+  --text-projects-title: #1e293b;
 
-  --link-color: #1d4ed8;
-  /* Blue 700 */
+  --link-color: #2563eb;
+  /* Matched to primary */
   --sb-track: #e2e8f0;
-  --sb-thumb: #94a3b8;
-  --sb-thumb-hover: #64748b;
+  --sb-thumb: #cbd5e1;
+  --sb-thumb-hover: #94a3b8;
 
   --glass-bg: rgba(255, 255, 255, 0.95);
-  --glass-border: rgba(0, 0, 0, 0.1);
+  /* Increased opacity to fix transparency issue */
+  --glass-border: rgba(0, 0, 0, 0.08);
   --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
 
   --console-header-gradient: linear-gradient(to right, #e2e8f0, #f1f5f9);
-  --console-header-text: #1e293b;
-  /* Slate 800 */
+  --console-header-text: #334155;
 
   --gradient-start: #2563eb;
-  --gradient-middle: #0284c7;
+  --gradient-middle: #0ea5e9;
   --gradient-end: #f97316;
 
-  --skills-ink: #000000;
-  /* Pure Black for maximum contrast */
-  --skills-ink-muted: #334155;
-  /* Slate 700 */
+  --skills-ink: #0f172a;
+  --skills-ink-muted: #475569;
 
   --skills-panel: #ffffff;
+  /* Solid white for better readability */
   --skills-panel-2: #f8fafc;
-  --skills-border: rgba(0, 0, 0, 0.1);
+  --skills-border: rgba(0, 0, 0, 0.08);
 
-  --skills-chip-bg: rgba(37, 99, 235, 0.15);
-  --skills-chip-bg-2: rgba(2, 132, 199, 0.15);
-  --skills-chip-border: rgba(37, 99, 235, 0.3);
+  --skills-chip-bg: rgba(37, 99, 235, 0.1);
+  --skills-chip-bg-2: rgba(2, 132, 199, 0.1);
+  --skills-chip-border: rgba(37, 99, 235, 0.2);
 
-  --skills-dash: rgba(71, 85, 105, 0.3);
-  --skills-dash-hover: rgba(71, 85, 105, 0.5);
+  --skills-dash: rgba(71, 85, 105, 0.2);
+  --skills-dash-hover: rgba(71, 85, 105, 0.4);
 
-  --skills-cta: #1d4ed8;
-  --skills-cta-hover: #1e40af;
+  --skills-cta: #2563eb;
+  --skills-cta-hover: #1d4ed8;
   --skills-cta-text: #ffffff;
 }
