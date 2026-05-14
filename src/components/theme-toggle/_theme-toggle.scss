@@ -1,4 +1,9 @@
 .theme-toggle {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  z-index: 2;
+
   width: 40px;
   height: 40px;
   border-radius: 12px;
@@ -20,5 +25,10 @@
     background: var(--skills-chip-bg-2);
     color: var(--text-primary);
     transform: translateY(-1px);
+  }
+
+  @media (max-width: 820px) {
+    top: 22px;
+    left: 24px;
   }
 }

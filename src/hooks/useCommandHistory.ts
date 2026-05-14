@@ -1,9 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-
-const getAt = (arr: readonly string[], index: number): string | undefined =>
-  index >= 0 && index < arr.length ? arr[index] : undefined;
+import { getAt } from "../utils/arrayUtils";
 
 export function useCommandHistory() {
   const [commandHistory, setCommandHistory] = useState<string[]>([]);

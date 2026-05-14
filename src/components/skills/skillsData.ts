@@ -2,13 +2,15 @@ export interface SkillGroup {
   id: "technical" | "other";
   title: string;
   subtitle?: string;
+  icon: string;
   skills: string[];
 }
 
 export const SKILL_GROUPS: SkillGroup[] = [
   {
     id: "technical",
-    title: "Technical skills",
+    title: "Technical",
+    icon: "⚡",
     skills: [
       "TypeScript",
       "React",
@@ -19,13 +21,14 @@ export const SKILL_GROUPS: SkillGroup[] = [
       "Git",
       "Jira",
       "Node.js",
-      "Next.js" ,
+      "Next.js",
       "Nx",
     ],
   },
   {
     id: "other",
-    title: "Other skills",
+    title: "Soft Skills",
+    icon: "🧠",
     skills: [
       "Curiosity",
       "Quick learning",

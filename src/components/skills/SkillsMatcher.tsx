@@ -50,9 +50,7 @@ export default function SkillsMatcher({
     const modalRef = useRef<HTMLDivElement>(null);
     const lastActiveElementRef = useRef<HTMLElement | null>(null);
     const isDrawingRef = useRef(false);
-    const isRevealedRef = useRef(
-        runtimeRevealed
-    );
+    const isRevealedRef = useRef(runtimeRevealed);
 
     const drawOverlay = useCallback((canvas: HTMLCanvasElement) => {
         const ctx = canvas.getContext("2d");
@@ -62,7 +60,6 @@ export default function SkillsMatcher({
 
         ctx.clearRect(0, 0, w, h);
 
-        // Silver/pearl scratch-card gradient
         const grad = ctx.createLinearGradient(0, 0, w, h);
         grad.addColorStop(0, "#a4b0c4");
         grad.addColorStop(0.25, "#c8d4e6");
@@ -72,14 +69,12 @@ export default function SkillsMatcher({
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
-        // Gloss highlight (top portion)
         const sheen = ctx.createLinearGradient(0, 0, 0, h * 0.45);
         sheen.addColorStop(0, "rgba(255,255,255,0.4)");
         sheen.addColorStop(1, "rgba(255,255,255,0)");
         ctx.fillStyle = sheen;
         ctx.fillRect(0, 0, w, h * 0.45);
 
-        // Subtle diagonal texture lines
         ctx.save();
         ctx.globalAlpha = 0.07;
         ctx.strokeStyle = "rgba(255,255,255,0.9)";
@@ -92,7 +87,6 @@ export default function SkillsMatcher({
         }
         ctx.restore();
 
-        // Text
         const cx = w / 2;
         const cy = h / 2;
         ctx.textAlign = "center";
@@ -101,22 +95,18 @@ export default function SkillsMatcher({
         const titleSize = Math.max(13, Math.min(20, h * 0.075));
         const subSize = Math.max(10, Math.min(13, h * 0.052));
 
-        // Shadow for readability
         ctx.shadowColor = "rgba(255,255,255,0.6)";
         ctx.shadowBlur = 4;
 
         ctx.font = `bold ${titleSize}px system-ui, -apple-system, sans-serif`;
         ctx.fillStyle = "rgba(18, 26, 50, 0.82)";
-        ctx.fillText(
-            "✦  Scratch to reveal my skills",
-            cx, cy - subSize * 0.8
-        );
+        ctx.fillText("✦  Scratch to reveal my skills", cx, cy - subSize * 0.8);
 
         ctx.shadowBlur = 0;
         ctx.font = `${subSize}px system-ui, -apple-system, sans-serif`;
         ctx.fillStyle = "rgba(18, 26, 50, 0.48)";
         ctx.fillText(
-            isMobile ? "Drag your finger across" : "Drag across the card",
+            isMobile ? "Drag your finger across" : "Drag across the card to reveal my skills",
             cx, cy + titleSize * 0.7
         );
     }, [isMobile]);
@@ -289,9 +279,7 @@ export default function SkillsMatcher({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        {...(!shouldReduceMotion && {
-                            transition: { duration: 0.18, ease: "easeOut" },
-                        })}
+                        transition={!shouldReduceMotion ? { duration: 0.18, ease: "easeOut" } : undefined}
                         onMouseDown={(e: MouseEvent<HTMLDivElement>) => {
                             if (e.target === e.currentTarget) closeModal();
                         }}
@@ -304,20 +292,22 @@ export default function SkillsMatcher({
                             role="dialog"
                             aria-modal="true"
                             aria-label="Recruiter mode"
-                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 18, scale: shouldReduceMotion ? 1 : 0.98 }}
+                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: shouldReduceMotion ? 0 : 18, scale: shouldReduceMotion ? 1 : 0.98 }}
-                            {...(!shouldReduceMotion && {
-                                transition: { duration: 0.18, ease: "easeOut" },
-                            })}
+                            exit={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
+                            transition={!shouldReduceMotion ? { duration: 0.22, ease: [0.16, 1, 0.3, 1] } : undefined}
                         >
                             <div className="skills-modal__header">
                                 <div>
-                                    <div className="skills-modal__sub">
+                                    <h2 className="skills-modal__title">
+                                        Recruiter Mode
+                                        <span className="skills-modal__title-emoji">🎯</span>
+                                    </h2>
+                                    <p className="skills-modal__sub">
                                         {isMobile
-                                            ? "Scratch the card to find out if I have what you need"
-                                            : "Scratch the card to find out if I have what you're looking for"}
-                                    </div>
+                                            ? "Scratch to reveal if my skills are a match"
+                                            : "Scratch the card — find out if I have the skills you're looking for"}
+                                    </p>
                                 </div>
 
                                 <button
@@ -334,8 +324,15 @@ export default function SkillsMatcher({
                                 <div className="skills-section-container scratch-card-wrapper" id="skills">
                                     <div className="skills-groups-container">
                                         {SKILL_GROUPS.map((group: SkillGroup) => (
-                                            <div key={group.id} className="skills-group">
-                                                <h3 className="skills-group__title">{group.title}</h3>
+                                            <div
+                                                key={group.id}
+                                                className="skills-group"
+                                                data-group-id={group.id}
+                                            >
+                                                <h3 className="skills-group__title">
+                                                    <span className="skills-group__icon">{group.icon}</span>
+                                                    {group.title}
+                                                </h3>
                                                 <div className="skills-list">
                                                     {group.skills.map((skill: string) => {
                                                         const idx = globalIdx++;
@@ -343,7 +340,7 @@ export default function SkillsMatcher({
                                                             <span
                                                                 key={skill}
                                                                 className={`skill-item${revealAnimating ? " skill-item--pop" : ""}`}
-                                                                style={revealAnimating ? { animationDelay: `${idx * 0.022}s` } : undefined}
+                                                                style={revealAnimating ? { animationDelay: `${idx * 0.028}s` } : undefined}
                                                             >
                                                                 {skill}
                                                             </span>
@@ -382,17 +379,17 @@ export default function SkillsMatcher({
                                     {isRevealed && (
                                         <motion.div
                                             className="scratch-cta"
-                                            initial={{ opacity: 0, y: 10 }}
+                                            initial={{ opacity: 0, y: 12 }}
                                             animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.3, delay: 0.3 }}
+                                            transition={{ duration: 0.35, delay: 0.25 }}
                                         >
-                                            <span className="scratch-cta__text">🎉 Jackpot — you found your match</span>
+                                            <span className="scratch-cta__text">Congratulations! You found your match</span>
                                             <button
                                                 type="button"
                                                 className="match-link"
                                                 onClick={goToProfile}
                                             >
-                                                Back to my profile →
+                                                Back to my portfolio →
                                             </button>
                                         </motion.div>
                                     )}

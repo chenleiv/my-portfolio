@@ -707,6 +707,18 @@
 
 @media (min-width: 1400px) {
   .about-content {
-    grid-template-columns: 1fr 600px;
+    grid-template-columns: 1fr 620px;
+  }
+}
+
+@media (min-width: 1600px) {
+  .about-content {
+    grid-template-columns: 1fr 680px;
+    gap: 40px;
+  }
+
+  .interactive-console {
+    height: 580px;
+    font-size: 17.5px;
   }
 }

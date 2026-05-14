@@ -1,56 +1,57 @@
+// ─── FAB ───────────────────────────────────────────────────────────────────
+
 .skills-fab {
   position: fixed;
   right: 32px;
   top: 32px;
-  padding: 9px 16px;
-  font-size: 14px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 700;
   z-index: 999;
   border-radius: 999px;
-  gap: 6px;
-
   display: inline-flex;
   align-items: center;
-
+  gap: 7px;
   background: var(--glass-bg);
-  border: 1px solid var(--skills-chip-border);
-  backdrop-filter: blur(10px);
-
+  border: 1px solid rgba(86, 156, 214, 0.3);
+  backdrop-filter: blur(12px);
   color: var(--skills-ink);
-  font-weight: 700;
   cursor: pointer;
-  transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
-  &::before {
+  &::after {
     content: '';
     position: absolute;
     inset: 0;
     border-radius: 999px;
-    border: 1px solid rgba(86, 156, 214, 0.5);
-    animation: fabPulse 3s ease-in-out infinite;
+    box-shadow: 0 0 0 5px rgba(86, 156, 214, 0.18);
+    animation: fabRipple 2.5s ease-in-out infinite;
     pointer-events: none;
   }
 
   &:hover {
-    background: var(--skills-chip-bg);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px var(--shadow-color);
+    box-shadow: 0 6px 22px rgba(86, 156, 214, 0.22);
+    border-color: rgba(86, 156, 214, 0.6);
 
-    &::before {
-      animation: none;
-    }
+    &::after { animation: none; opacity: 0; }
   }
 }
 
-@keyframes fabPulse {
-  0%, 100% { transform: scale(1); opacity: 0; }
-  50% { transform: scale(1.18); opacity: 1; }
+@keyframes fabRipple {
+  0%   { opacity: 0.7; transform: scale(1); }
+  70%  { opacity: 0; transform: scale(1.55); }
+  100% { opacity: 0; }
 }
+
+// ─── Overlay ────────────────────────────────────────────────────────────────
 
 .skills-modalOverlay {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  backdrop-filter: blur(3px);
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -58,62 +59,95 @@
   overflow: hidden;
 }
 
+// ─── Modal ──────────────────────────────────────────────────────────────────
+
 .skills-modal {
   display: flex;
   flex-direction: column;
   overflow: hidden;
   max-height: 92vh;
-  border-radius: 28px;
+  border-radius: 24px;
   width: min(860px, 98vw);
   background: var(--skills-panel-2);
   border: 1px solid var(--skills-border);
-  box-shadow: 0 24px 80px var(--shadow-color), inset 0 1px 0 var(--skills-border);
+  box-shadow:
+    0 32px 80px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(86, 156, 214, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color-2));
+    border-radius: 24px 24px 0 0;
+    z-index: 1;
+  }
 }
+
+// ─── Header ─────────────────────────────────────────────────────────────────
 
 .skills-modal__header {
   position: relative;
-  padding: 28px 24px 16px;
+  padding: 28px 24px 18px;
   border-bottom: 1px solid var(--skills-border);
-  display: grid;
-  justify-items: center;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .skills-modal__title {
-  font-size: clamp(22px, 4vw, 36px);
+  font-size: clamp(18px, 3vw, 26px);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  color: var(--skills-ink);
-  margin: 0;
+  letter-spacing: -0.025em;
+  margin: 0 0 6px 0;
+  background: linear-gradient(120deg, var(--primary-color) 0%, var(--accent-color-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skills-modal__title-emoji {
+  -webkit-text-fill-color: initial;
+  font-size: 0.8em;
 }
 
 .skills-modal__sub {
-  margin-top: 8px;
-  font-size: clamp(14px, 2vw, 17px);
-  line-height: 1.5;
+  margin: 0;
+  font-size: clamp(12.5px, 1.8vw, 14.5px);
   color: var(--skills-ink-muted);
+  line-height: 1.5;
 }
 
 .skills-modal__close {
-  position: absolute;
-  right: 18px;
-  top: 18px;
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   border: 1px solid var(--skills-chip-border);
   background: var(--skills-chip-bg-2);
   color: var(--skills-ink);
   display: grid;
   place-items: center;
   cursor: pointer;
-  font-size: 15px;
-  transition: transform var(--transition-fast), background var(--transition-fast);
+  font-size: 14px;
+  transition: transform 0.15s ease, background 0.15s ease;
 
   &:hover {
     transform: translateY(-1px);
+    background: var(--skills-chip-bg);
   }
 }
+
+// ─── Content ────────────────────────────────────────────────────────────────
 
 .skills-modal__content {
   flex: 1;
@@ -121,28 +155,25 @@
   padding: 20px 20px 24px;
 }
 
-/* ── Scratch card wrapper ── */
+// ─── Scratch card ───────────────────────────────────────────────────────────
 
 .skills-section-container {
   max-width: 820px;
   margin: 0 auto;
-  padding: 0;
-  background: transparent;
-  border: none;
-  border-radius: 22px;
+  border-radius: 20px;
 }
 
 .scratch-card-wrapper {
   position: relative;
   overflow: hidden;
-  border-radius: 22px;
+  border-radius: 20px;
 }
 
 .scratch-canvas-wrapper {
   position: absolute;
   inset: 0;
   z-index: 5;
-  border-radius: 22px;
+  border-radius: 20px;
   overflow: hidden;
 }
 
@@ -155,78 +186,129 @@
   user-select: none;
 }
 
-/* ── Skill groups grid ── */
+// ─── Groups grid ────────────────────────────────────────────────────────────
 
 .skills-groups-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 14px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--sb-thumb) var(--sb-track);
 }
 
 .skills-group {
-  background: var(--skills-panel);
+  border-radius: 16px;
+  padding: 18px 18px 20px;
   border: 1px solid var(--skills-border);
-  border-radius: 18px;
-  padding: 16px 18px 18px;
-  box-shadow: inset 0 1px 0 var(--skills-border);
-}
-
-.skills-group__title {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--primary-color);
-  margin: 0 0 12px 0;
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  position: relative;
+  overflow: hidden;
 
   &::before {
     content: '';
-    display: block;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--primary-color);
-    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 3px;
+    height: 100%;
+    border-radius: 16px 0 0 16px;
   }
 }
+
+// Technical group — blue accent
+.skills-group[data-group-id="technical"] {
+  background: linear-gradient(135deg, rgba(86, 156, 214, 0.07) 0%, transparent 55%);
+
+  &::before { background: var(--primary-color); }
+
+  .skills-group__title { color: var(--primary-color); }
+
+  .skill-item {
+    background: rgba(86, 156, 214, 0.08);
+    border-color: rgba(86, 156, 214, 0.22);
+
+    &:hover {
+      background: rgba(86, 156, 214, 0.18);
+      border-color: rgba(86, 156, 214, 0.5);
+      box-shadow: 0 2px 12px rgba(86, 156, 214, 0.18);
+      color: #9cdcfe;
+    }
+  }
+}
+
+// Soft skills group — purple accent
+.skills-group[data-group-id="other"] {
+  background: linear-gradient(135deg, rgba(197, 134, 192, 0.07) 0%, transparent 55%);
+
+  &::before { background: var(--accent-color-2); }
+
+  .skills-group__title { color: var(--accent-color-2); }
+
+  .skill-item {
+    background: rgba(197, 134, 192, 0.08);
+    border-color: rgba(197, 134, 192, 0.22);
+
+    &:hover {
+      background: rgba(197, 134, 192, 0.18);
+      border-color: rgba(197, 134, 192, 0.5);
+      box-shadow: 0 2px 12px rgba(197, 134, 192, 0.18);
+      color: #e5b8e0;
+    }
+  }
+}
+
+.skills-group__title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 14px 0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.skills-group__icon {
+  font-size: 15px;
+  text-transform: none;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+// ─── Skill chips ────────────────────────────────────────────────────────────
 
 .skills-list {
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
   gap: 7px;
-  margin: 0;
 }
 
 .skill-item {
   display: inline-block;
   padding: 5px 13px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 500;
   letter-spacing: 0.01em;
   color: var(--skills-ink);
-  background: var(--glass-bg);
   border: 1px solid var(--skills-chip-border);
+  background: var(--skills-chip-bg-2);
   line-height: 1.4;
+  cursor: default;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, transform 0.15s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
 
   &--pop {
-    animation: skillPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    animation: skillPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
   }
 }
 
 @keyframes skillPop {
-  0%   { transform: scale(1); }
-  45%  { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0%   { transform: scale(0.75) translateY(6px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-/* ── CTA after reveal ── */
+// ─── Post-reveal CTA ────────────────────────────────────────────────────────
 
 .scratch-cta {
   display: flex;
@@ -234,7 +316,7 @@
   justify-content: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-top: 18px;
+  margin-top: 20px;
 }
 
 .scratch-cta__text {
@@ -244,27 +326,35 @@
 }
 
 .match-link {
-  background: var(--skills-chip-bg);
-  border: 1px solid var(--skills-chip-border);
-  padding: 10px 18px;
+  background: linear-gradient(135deg, rgba(86, 156, 214, 0.14), rgba(197, 134, 192, 0.14));
+  border: 1px solid rgba(86, 156, 214, 0.3);
+  padding: 10px 22px;
   border-radius: 999px;
   cursor: pointer;
   color: var(--skills-ink);
   font-weight: 700;
   font-size: 14px;
   text-decoration: none;
-  transition: transform var(--transition-fast), background var(--transition-fast), border-color var(--transition-fast);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 
   &:hover {
-    background: var(--skills-chip-bg-2);
-    border-color: var(--skills-border);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(86, 156, 214, 0.2);
+    border-color: rgba(86, 156, 214, 0.55);
   }
 }
 
-/* ── Mobile ── */
+// ─── Mobile ─────────────────────────────────────────────────────────────────
 
 @media (max-width: 820px) {
+  .skills-fab {
+    top: 16px;
+    right: 24px;
+    padding: 9px 14px;
+    font-size: 13px;
+    backdrop-filter: none;
+  }
+
   .skills-modalOverlay {
     padding: 5vh 10px;
     backdrop-filter: none;
@@ -272,48 +362,35 @@
 
   .skills-modal {
     max-height: 92vh;
-    border-radius: 22px;
+    border-radius: 20px;
     width: 100%;
+  }
+
+  .skills-modal__header {
+    padding: 22px 16px 14px;
+  }
+
+  .skills-modal__close {
+    border-color: transparent;
+    background: transparent;
   }
 
   .skills-modal__content {
     padding: 14px 12px 18px;
   }
 
-  .skills-modal__header {
-    padding: 24px 14px 14px;
-  }
-
-  .skills-modal__close {
-    right: 2px;
-    top: 2px;
-    border-color: transparent;
-    background: transparent;
-  }
-
-  .skills-section-container {
-    border-radius: 18px;
-  }
-
-  .scratch-card-wrapper {
-    border-radius: 18px;
-  }
-
-  .scratch-canvas-wrapper {
-    border-radius: 18px;
-  }
-
   .skills-groups-container {
     grid-template-columns: 1fr;
-    height: 280px;
+    max-height: 300px;
     overflow: auto;
     gap: 10px;
-    padding-right: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
   }
 
   .skills-group {
     border-radius: 14px;
-    padding: 12px 14px 14px;
+    padding: 14px 14px 16px;
   }
 
   .skill-item {
@@ -321,19 +398,7 @@
     padding: 4px 10px;
   }
 
-  .skills-fab {
-    top: 16px;
-    right: 24px;
-    padding: 10px 14px;
-    font-size: 16px;
-    backdrop-filter: none;
-  }
-
   .scratch-cta__text {
     font-size: 13px;
-  }
-
-  .console-line .console-desc {
-    padding-right: 10px;
   }
 }

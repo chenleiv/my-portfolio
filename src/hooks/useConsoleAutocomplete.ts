@@ -1,14 +1,11 @@
 "use client";
 
 import { useCallback, useMemo, useState } from "react";
-import { PALETTE_ITEMS } from "../components/about-console/consoleCommands";
-import { toDisplayCommand } from "../components/about-console/consoleCommands";
+import { PALETTE_ITEMS, toDisplayCommand } from "../components/about-console/consoleCommands";
+import { getAt } from "../utils/arrayUtils";
 
 const clamp = (v: number, min: number, max: number) =>
   Math.min(Math.max(v, min), max);
-
-const getAt = (arr: readonly string[], index: number): string | undefined =>
-  index >= 0 && index < arr.length ? arr[index] : undefined;
 
 export function useConsoleAutocomplete() {
   const [input, setInput] = useState("");

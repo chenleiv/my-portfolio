@@ -46,6 +46,6 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "hint1",
     type: "hint",
-    text: "// 💡 Try recruiterMode() — match your stack to my skills",
+    text: "// 💡 Try recruiterMode() — find out if my skills are a match",
   },
 ];
