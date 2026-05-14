@@ -108,7 +108,7 @@ export default function SkillsMatcher({
         ctx.font = `bold ${titleSize}px system-ui, -apple-system, sans-serif`;
         ctx.fillStyle = "rgba(18, 26, 50, 0.82)";
         ctx.fillText(
-            isMobile ? "✦  Scratch to reveal my skills" : "✦  Scratch to reveal my skills",
+            "✦  Scratch to reveal my skills",
             cx, cy - subSize * 0.8
         );
 

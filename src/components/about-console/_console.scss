@@ -8,26 +8,6 @@
   position: relative;
 }
 
-.main-header {
-  text-align: center;
-  margin-bottom: 48px;
-  position: relative;
-  z-index: 1;
-
-  .heading {
-    font-size: clamp(40px, 5vw, 64px);
-    font-weight: 700;
-    background: linear-gradient(45deg, var(--text-primary), #c3c7d5);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .subtitle {
-    font-size: clamp(20px, 2vw, 24px);
-    color: var(--text-secondary);
-    font-weight: 500;
-  }
-}
 
 .about-container {
   position: relative;
@@ -103,10 +83,6 @@
   margin-top: 6px;
 }
 
-.console-comment {
-  color: var(--text-secondary);
-  font-style: italic;
-}
 
 .console-error {
   color: var(--text-quaternary);
@@ -497,17 +473,6 @@
 
   &:hover {
     opacity: 0.9;
-  }
-}
-
-
-@keyframes patternMove {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 100% 100%;
   }
 }
 
