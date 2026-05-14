@@ -2,11 +2,8 @@
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { useEffect, useRef, useState } from "react";
-import {
-  FaGoogle,
-  FaMicrosoft,
-} from "react-icons/fa";
-import { Github, Mail, Linkedin, FileDown, Smartphone } from "lucide-react";
+import { FaGoogle, FaMicrosoft, FaGithub, FaLinkedin } from "react-icons/fa";
+import { Mail, FileDown, Smartphone } from "lucide-react";
 const chenImage = "/assets/img/portfolio-v.webp";
 import { InteractiveConsole } from "./InteractiveConsole";
 import Image from "next/image";
@@ -93,6 +90,7 @@ const About = () => {
                 className="profile-image"
                 width={520}
                 height={520}
+                sizes="(max-width: 820px) 40vw, 30vw"
                 priority
               />
 
@@ -110,7 +108,7 @@ const About = () => {
                     className="about-link"
                     aria-label="LinkedIn"
                   >
-                    <Linkedin size={20} />
+                    <FaLinkedin size={20} />
                   </a>
 
                   <motion.button
@@ -130,7 +128,7 @@ const About = () => {
                     className="about-link"
                     aria-label="GitHub"
                   >
-                    <Github size={20} />
+                    <FaGithub size={20} />
                   </a>
                   <a
                     href="tel:+972526656101"

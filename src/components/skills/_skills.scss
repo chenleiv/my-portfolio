@@ -18,20 +18,32 @@
   color: var(--skills-ink);
   font-weight: 700;
   cursor: pointer;
-  animation: fabPulse 3s ease-in-out infinite;
   transition: transform var(--transition-fast), background var(--transition-fast), box-shadow var(--transition-fast);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 999px;
+    border: 1px solid rgba(86, 156, 214, 0.5);
+    animation: fabPulse 3s ease-in-out infinite;
+    pointer-events: none;
+  }
 
   &:hover {
     background: var(--skills-chip-bg);
     transform: translateY(-2px);
-    animation: none;
     box-shadow: 0 4px 16px var(--shadow-color);
+
+    &::before {
+      animation: none;
+    }
   }
 }
 
 @keyframes fabPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(86, 156, 214, 0); }
-  50% { box-shadow: 0 0 0 5px rgba(86, 156, 214, 0.18); }
+  0%, 100% { transform: scale(1); opacity: 0; }
+  50% { transform: scale(1.18); opacity: 1; }
 }
 
 .skills-modalOverlay {

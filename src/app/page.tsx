@@ -1,9 +1,9 @@
 
 import { lazy, Suspense } from 'react';
-import Projects from '../components/projects/Projects';
-import Footer from '../components/footer/Footer';
 import About from '../components/about-console/About';
 import ThemeToggle from '../components/theme-toggle/ThemeToggle';
+const Projects = lazy(() => import('../components/projects/Projects'));
+const Footer = lazy(() => import('../components/footer/Footer'));
 const SkillsMatcher = lazy(() => import("../components/skills/SkillsMatcher"));
 const LazyLoader = lazy(() => import("../components/loader/LazyLoader"));
 
@@ -20,7 +20,9 @@ export default function Page() {
         </section>
 
         <section id="projects" className="app__section">
-          <Projects />
+          <Suspense fallback={null}>
+            <Projects />
+          </Suspense>
         </section>
       </main>
       <div className="app__footer-text">
@@ -29,7 +31,9 @@ export default function Page() {
         </p>
       </div>
       <footer className="app__footer">
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
       </footer>
     </div>
   );
