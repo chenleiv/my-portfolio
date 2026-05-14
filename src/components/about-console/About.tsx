@@ -7,7 +7,7 @@ import {
   FaMicrosoft,
 } from "react-icons/fa";
 import { Github, Mail, Linkedin, FileDown, Smartphone } from "lucide-react";
-const chenImage = "/assets/img/portfolio-v1.webp";
+const chenImage = "/assets/img/portfolio-v.webp";
 import { InteractiveConsole } from "./InteractiveConsole";
 import Image from "next/image";
 

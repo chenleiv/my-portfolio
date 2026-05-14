@@ -1,4 +1,6 @@
 :root {
+  --transition-fast: 0.2s ease;
+
   --background-color: #1e1e1e;
   --page-background: #0a0c10b3;
 
@@ -12,6 +14,7 @@
   --text-projects-title: #ffffffbd;
 
   --link-color: #00ffae;
+  --open-to-work: #4ade80;
   --sb-track: #ffffff0f;
   --sb-thumb: #78aaff8c;
   --sb-thumb-hover: #78aaffbf;
@@ -19,6 +22,7 @@
   --glass-bg: rgba(37, 37, 38, 0.8);
   --glass-border: rgba(86, 156, 214, 0.2);
   --glass-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  --shadow-color: rgba(0, 0, 0, 0.45);
 
   --console-header-gradient: linear-gradient(to right, #0f2027, #203a43, #2c5364);
   --console-header-text: #00ffae8a;
@@ -66,6 +70,7 @@
 
   --link-color: #2563eb;
   /* Matched to primary */
+  --open-to-work: #16a34a;
   --sb-track: #e2e8f0;
   --sb-thumb: #cbd5e1;
   --sb-thumb-hover: #94a3b8;
@@ -74,6 +79,7 @@
   /* Increased opacity to fix transparency issue */
   --glass-border: rgba(0, 0, 0, 0.08);
   --glass-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-color: rgba(15, 23, 42, 0.1);
 
   --console-header-gradient: linear-gradient(to right, #e2e8f0, #f1f5f9);
   --console-header-text: #334155;

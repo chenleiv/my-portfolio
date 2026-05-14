@@ -1,7 +1,9 @@
 export type ConsoleLineType =
   | "heroName"
   | "heroTitle"
+  | "openToWork"
   | "desc"
+  | "hint"
   | "recruiterMode"
   | "commandsTitle"
   | "cmd"
@@ -22,6 +24,7 @@ export type ConsoleLine = {
 export const ABOUT_LINES: ConsoleLine[] = [
   { id: "h1", type: "heroName", text: "CHEN LEIV" },
   { id: "h2", type: "heroTitle", text: "Frontend Developer" },
+  { id: "h3", type: "openToWork", text: "● Open to opportunities" },
 
   {
     id: "d1",
@@ -38,6 +41,11 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "c1",
     type: "cmd",
-    text: "showProjects() | portfolioCode() | recruiterMode() | cv() | linkedin() | contact() | clear()",
+    text: "showProjects() | portfolioCode() | cv() | linkedin() | contact() | clear()",
+  },
+  {
+    id: "hint1",
+    type: "hint",
+    text: "// 💡 Try recruiterMode() — match your stack to my skills",
   },
 ];

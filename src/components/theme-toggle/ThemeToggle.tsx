@@ -37,13 +37,11 @@ export default function ThemeToggle() {
   return (
     <button
       className="theme-toggle"
-      data-theme={mounted ? theme : undefined}
       onClick={toggleTheme}
       type="button"
+      aria-label={mounted ? (theme === "dark" ? "Switch to light mode" : "Switch to dark mode") : "Toggle theme"}
     >
-      <span className="theme-toggle__thumb">
-        {mounted ? (theme === "dark" ? <FaMoon /> : <FaSun />) : null}
-      </span>
+      {mounted ? (theme === "dark" ? <FaMoon /> : <FaSun />) : null}
     </button>
   );
 }

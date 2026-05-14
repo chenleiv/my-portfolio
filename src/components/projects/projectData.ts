@@ -21,8 +21,8 @@ export interface Project {
 export const PROJECTS: readonly Project[] = [
   {
     label: 1,
-    header: "AI Workspace",
-    subHeader: "Manage your knowledge base with AI.",
+    header: "InsightDesk — AI Platform",
+    subHeader: "Full-stack AI platform with RAG-powered semantic search, HuggingFace embeddings, and real-time document indexing.",
     img: aiWorkerSpaceImg,
     skills: ["React | TypeScript | Node.js | Railway | MongoDB | HuggingFace"],
     web: "https://insight-desk-bwji.onrender.com/",
@@ -32,7 +32,7 @@ export const PROJECTS: readonly Project[] = [
   {
     label: 3,
     header: "Trello Clone",
-    subHeader: "Trello-like task management app.",
+    subHeader: "Full-stack project management app with drag-and-drop boards, Vuex state management, and a RESTful Node.js API.",
     img: trellor1,
     skills: ["Vue.js | Vuex | Node.js | MongoDB | SCSS"],
     web: "https://trellor.onrender.com/#/",
@@ -42,7 +42,7 @@ export const PROJECTS: readonly Project[] = [
   {
     label: 4,
     header: "Memory Game",
-    subHeader: "Classic memory game.",
+    subHeader: "Angular SPA with dynamic difficulty levels, REST API leaderboard integration, and reactive component architecture.",
     img: memoryImg,
     skills: ["Angular | TypeScript | REST API | SCSS"],
     web: "https://chenleiv.github.io/the-memory-game/",
@@ -52,7 +52,7 @@ export const PROJECTS: readonly Project[] = [
   {
     label: 5,
     header: "Meme Generator",
-    subHeader: "Make your own meme.",
+    subHeader: "Client-side meme creator using Canvas API for real-time text overlay and image manipulation. Zero-dependency vanilla JS.",
     img: memeImg,
     skills: ["Vanilla JS | CSS"],
     web: "https://chenleiv.github.io/Meme-Generator/",

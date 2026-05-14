@@ -2,16 +2,14 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
     useEffect,
-    useMemo,
     useRef,
     useState,
-    type DragEvent,
+    useCallback,
     type MouseEvent,
 } from "react";
 import { useFocus } from "../../utils/useFocus";
 import { SKILL_GROUPS, SkillGroup } from "./skillsData";
 import { useIsMobile } from "../../hooks/useIsMobile";
-
 
 type Props = {
     scrollTargetId?: string;
@@ -20,159 +18,257 @@ type Props = {
 
 const trapFocus = (e: React.KeyboardEvent, container: HTMLDivElement | null) => {
     if (e.key !== "Tab" || !container) return;
-
     const focusable = container.querySelectorAll<HTMLElement>(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
-
     if (focusable.length === 0) return;
-
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     const active = document.activeElement;
-
-    if (!e.shiftKey && active === last) {
-        e.preventDefault();
-        first?.focus();
-    }
-
-    if (e.shiftKey && active === first) {
-        e.preventDefault();
-        last?.focus();
-    }
+    if (!e.shiftKey && active === last) { e.preventDefault(); first?.focus(); }
+    if (e.shiftKey && active === first) { e.preventDefault(); last?.focus(); }
 };
+
+const SCRATCH_THRESHOLD = 0.42;
+const BRUSH_RADIUS = 40;
+
+let runtimeRevealed = false;
 
 export default function SkillsMatcher({
     scrollTargetId = "home",
     exposeGlobalOpener = true,
 }: Props) {
     const isMobile = useIsMobile(768);
-    const skillGroups = useMemo(() => SKILL_GROUPS, []);
     const { focusConsoleInput } = useFocus();
     const shouldReduceMotion = useReducedMotion();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-    const [isSearching, setIsSearching] = useState(false);
-    const [searchProgress, setSearchProgress] = useState(0);
-    const [isMatch, setIsMatch] = useState(false);
-    const [draggedSkill, setDraggedSkill] = useState<string | null>(null);
+    const [isRevealed, setIsRevealed] = useState(() => runtimeRevealed);
+    const [revealAnimating, setRevealAnimating] = useState(() => runtimeRevealed);
 
-    const progressIntervalRef = useRef<number | null>(null);
-    const searchTimeoutRef = useRef<number | null>(null);
-
+    const canvasRef = useRef<HTMLCanvasElement>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const lastActiveElementRef = useRef<HTMLElement | null>(null);
+    const isDrawingRef = useRef(false);
+    const isRevealedRef = useRef(
+        runtimeRevealed
+    );
 
-    const clearTimers = () => {
-        if (progressIntervalRef.current !== null) {
-            window.clearInterval(progressIntervalRef.current);
-            progressIntervalRef.current = null;
+    const drawOverlay = useCallback((canvas: HTMLCanvasElement) => {
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        const w = canvas.width;
+        const h = canvas.height;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Silver/pearl scratch-card gradient
+        const grad = ctx.createLinearGradient(0, 0, w, h);
+        grad.addColorStop(0, "#a4b0c4");
+        grad.addColorStop(0.25, "#c8d4e6");
+        grad.addColorStop(0.55, "#dce6f4");
+        grad.addColorStop(0.8, "#bcc8da");
+        grad.addColorStop(1, "#98a6bc");
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, w, h);
+
+        // Gloss highlight (top portion)
+        const sheen = ctx.createLinearGradient(0, 0, 0, h * 0.45);
+        sheen.addColorStop(0, "rgba(255,255,255,0.4)");
+        sheen.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = sheen;
+        ctx.fillRect(0, 0, w, h * 0.45);
+
+        // Subtle diagonal texture lines
+        ctx.save();
+        ctx.globalAlpha = 0.07;
+        ctx.strokeStyle = "rgba(255,255,255,0.9)";
+        ctx.lineWidth = 1.5;
+        for (let x = -h; x < w + h; x += 30) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x + h, h);
+            ctx.stroke();
         }
-        if (searchTimeoutRef.current !== null) {
-            window.clearTimeout(searchTimeoutRef.current);
-            searchTimeoutRef.current = null;
-        }
-    };
+        ctx.restore();
+
+        // Text
+        const cx = w / 2;
+        const cy = h / 2;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        const titleSize = Math.max(13, Math.min(20, h * 0.075));
+        const subSize = Math.max(10, Math.min(13, h * 0.052));
+
+        // Shadow for readability
+        ctx.shadowColor = "rgba(255,255,255,0.6)";
+        ctx.shadowBlur = 4;
+
+        ctx.font = `bold ${titleSize}px system-ui, -apple-system, sans-serif`;
+        ctx.fillStyle = "rgba(18, 26, 50, 0.82)";
+        ctx.fillText(
+            isMobile ? "✦  Scratch to reveal my skills" : "✦  Scratch to reveal my skills",
+            cx, cy - subSize * 0.8
+        );
+
+        ctx.shadowBlur = 0;
+        ctx.font = `${subSize}px system-ui, -apple-system, sans-serif`;
+        ctx.fillStyle = "rgba(18, 26, 50, 0.48)";
+        ctx.fillText(
+            isMobile ? "Drag your finger across" : "Drag across the card",
+            cx, cy + titleSize * 0.7
+        );
+    }, [isMobile]);
+
+    const initCanvas = useCallback(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const parent = canvas.parentElement;
+        if (!parent) return;
+        const { width, height } = parent.getBoundingClientRect();
+        if (!width || !height) return;
+        canvas.width = Math.round(width);
+        canvas.height = Math.round(height);
+        drawOverlay(canvas);
+    }, [drawOverlay]);
 
     useEffect(() => {
-        return () => clearTimers();
+        if (!isModalOpen || isRevealedRef.current) return;
+        const t = window.setTimeout(initCanvas, 80);
+        return () => window.clearTimeout(t);
+    }, [isModalOpen, initCanvas]);
+
+    const scratchAt = useCallback((x: number, y: number) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.beginPath();
+        ctx.arc(x, y, BRUSH_RADIUS, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalCompositeOperation = "source-over";
     }, []);
+
+    const checkThreshold = useCallback(() => {
+        if (isRevealedRef.current) return;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+        let transparent = 0;
+        for (let i = 3; i < data.length; i += 4) {
+            if (data[i] < 128) transparent++;
+        }
+        if (transparent / (data.length / 4) >= SCRATCH_THRESHOLD) {
+            isRevealedRef.current = true;
+            runtimeRevealed = true;
+            setIsRevealed(true);
+        }
+    }, []);
+
+    const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+        isDrawingRef.current = true;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        scratchAt(
+            (e.clientX - rect.left) * (canvas.width / rect.width),
+            (e.clientY - rect.top) * (canvas.height / rect.height)
+        );
+    }, [scratchAt]);
+
+    const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+        if (!isDrawingRef.current) return;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const rect = canvas.getBoundingClientRect();
+        scratchAt(
+            (e.clientX - rect.left) * (canvas.width / rect.width),
+            (e.clientY - rect.top) * (canvas.height / rect.height)
+        );
+        checkThreshold();
+    }, [scratchAt, checkThreshold]);
+
+    const handleMouseUp = useCallback(() => {
+        if (!isDrawingRef.current) return;
+        isDrawingRef.current = false;
+        checkThreshold();
+    }, [checkThreshold]);
+
+    const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+        e.preventDefault();
+        isDrawingRef.current = true;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        scratchAt(
+            (touch.clientX - rect.left) * (canvas.width / rect.width),
+            (touch.clientY - rect.top) * (canvas.height / rect.height)
+        );
+    }, [scratchAt]);
+
+    const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+        e.preventDefault();
+        if (!isDrawingRef.current) return;
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const touch = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        scratchAt(
+            (touch.clientX - rect.left) * (canvas.width / rect.width),
+            (touch.clientY - rect.top) * (canvas.height / rect.height)
+        );
+        checkThreshold();
+    }, [scratchAt, checkThreshold]);
+
+    const handleTouchEnd = useCallback(() => {
+        isDrawingRef.current = false;
+        checkThreshold();
+    }, [checkThreshold]);
 
     const openModal = () => {
         lastActiveElementRef.current = document.activeElement as HTMLElement | null;
         setIsModalOpen(true);
-
         window.setTimeout(() => modalRef.current?.focus(), 0);
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-
         window.setTimeout(() => lastActiveElementRef.current?.focus(), 0);
     };
 
     useEffect(() => {
         if (!exposeGlobalOpener) return;
-
         window.openSkillMatcher = openModal;
-
-        return () => {
-            delete window.openSkillMatcher;
-        };
+        return () => { delete window.openSkillMatcher; };
     }, [exposeGlobalOpener]);
 
     useEffect(() => {
         if (!isModalOpen) return;
-
-        window.addEventListener("keydown", (e: KeyboardEvent) => {
-            if (e.key === "Escape") closeModal();
-        });
-        return () => window.removeEventListener("keydown", (e: KeyboardEvent) => {
-            if (e.key === "Escape") closeModal();
-        });
+        const handler = (e: KeyboardEvent) => { if (e.key === "Escape") closeModal(); };
+        window.addEventListener("keydown", handler);
+        return () => window.removeEventListener("keydown", handler);
     }, [isModalOpen]);
-
-    const inputValue = useMemo(() => selectedSkills.join(", "), [selectedSkills]);
-
-    const addSkill = (skill: string) => {
-        setSelectedSkills((prev) => (prev.includes(skill) ? prev : [...prev, skill]));
-    };
-
-    const clearAll = () => {
-        clearTimers();
-        setSelectedSkills([]);
-        setIsSearching(false);
-        setSearchProgress(0);
-        setIsMatch(false);
-    };
-
-    const handleSearch = () => {
-        if (selectedSkills.length === 0) return;
-
-        clearTimers();
-        setIsSearching(true);
-        setIsMatch(false);
-        setSearchProgress(0);
-
-        progressIntervalRef.current = window.setInterval(() => {
-            setSearchProgress((prev) => Math.min(prev + 4, 100));
-        }, 60);
-
-        searchTimeoutRef.current = window.setTimeout(() => {
-            clearTimers();
-            setIsSearching(false);
-            setSearchProgress(100);
-            setIsMatch(true);
-        }, 1000);
-    };
-
-    const canDrag = !isMobile;
-
-    const handleDropToInput = (e: DragEvent<HTMLDivElement>) => {
-        e.preventDefault();
-        if (!draggedSkill) return;
-        addSkill(draggedSkill);
-    };
 
     const goToProfile = () => {
         closeModal();
-
         const target =
             document.getElementById(scrollTargetId) ??
             document.getElementById("console") ??
             document.getElementById("about");
-
         if (target) {
             target.scrollIntoView({ behavior: "smooth", block: "start" });
         } else {
             window.scrollTo({ top: 0, behavior: "smooth" });
         }
-
-        window.setTimeout(() => {
-            focusConsoleInput();
-        }, 250);
+        window.setTimeout(() => { focusConsoleInput(); }, 250);
     };
+
+    let globalIdx = 0;
 
     return (
         <div className="skills-root">
@@ -183,7 +279,7 @@ export default function SkillsMatcher({
                 aria-label="Recruiter mode"
                 title="Recruiter mode"
             >
-                Recruiter mode
+                🎯 Recruiter mode
             </button>
 
             <AnimatePresence>
@@ -217,13 +313,10 @@ export default function SkillsMatcher({
                         >
                             <div className="skills-modal__header">
                                 <div>
-                                    <div className="skills-modal__title">
-                                        What skills should your ideal candidate have?
-                                    </div>
                                     <div className="skills-modal__sub">
                                         {isMobile
-                                            ? "Tap skills to add them"
-                                            : "Click or drag to input to add skills"}
+                                            ? "Scratch the card to find out if I have what you need"
+                                            : "Scratch the card to find out if I have what you're looking for"}
                                     </div>
                                 </div>
 
@@ -238,34 +331,22 @@ export default function SkillsMatcher({
                             </div>
 
                             <div className="skills-modal__content">
-                                <div className="skills-section-container" id="skills">
+                                <div className="skills-section-container scratch-card-wrapper" id="skills">
                                     <div className="skills-groups-container">
-                                        {skillGroups.map((group: SkillGroup) => (
+                                        {SKILL_GROUPS.map((group: SkillGroup) => (
                                             <div key={group.id} className="skills-group">
                                                 <h3 className="skills-group__title">{group.title}</h3>
-
                                                 <div className="skills-list">
                                                     {group.skills.map((skill: string) => {
-                                                        const selected = selectedSkills.includes(skill);
-
+                                                        const idx = globalIdx++;
                                                         return (
-                                                            <motion.button
+                                                            <span
                                                                 key={skill}
-                                                                type="button"
-                                                                draggable={canDrag && !selected}
-                                                                onDragStart={() => setDraggedSkill(skill)}
-                                                                onDragEnd={() => setDraggedSkill(null)}
-                                                                onClick={() => addSkill(skill)}
-                                                                className={`skill-item ${selected ? "selected" : ""}`}
-                                                                aria-pressed={selected}
-                                                                style={{ cursor: "pointer" }}
-                                                                {...(!shouldReduceMotion && {
-                                                                    whileHover: { scale: 1.05 },
-                                                                    whileTap: { scale: 0.95 },
-                                                                })}
+                                                                className={`skill-item${revealAnimating ? " skill-item--pop" : ""}`}
+                                                                style={revealAnimating ? { animationDelay: `${idx * 0.022}s` } : undefined}
                                                             >
                                                                 {skill}
-                                                            </motion.button>
+                                                            </span>
                                                         );
                                                     })}
                                                 </div>
@@ -273,123 +354,49 @@ export default function SkillsMatcher({
                                         ))}
                                     </div>
 
-                                    <div className="skills-inputs-container">
-                                        <div
-                                            className="skills-input-container"
-                                            onDrop={canDrag ? handleDropToInput : undefined}
-                                            onDragOver={
-                                                canDrag
-                                                    ? (e: DragEvent<HTMLDivElement>) => e.preventDefault()
-                                                    : undefined
-                                            }
-                                        >
-                                            <input
-                                                type="text"
-                                                value={inputValue}
-                                                placeholder="* required"
-                                                readOnly
-                                                className="skills-input"
-                                                aria-label="Required skills"
-                                            />
-                                        </div>
-                                    </div>
+                                    <AnimatePresence onExitComplete={() => setRevealAnimating(true)}>
+                                        {!isRevealed && (
+                                            <motion.div
+                                                className="scratch-canvas-wrapper"
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{ duration: shouldReduceMotion ? 0.01 : 0.5 }}
+                                            >
+                                                <canvas
+                                                    ref={canvasRef}
+                                                    className="scratch-canvas"
+                                                    onMouseDown={handleMouseDown}
+                                                    onMouseMove={handleMouseMove}
+                                                    onMouseUp={handleMouseUp}
+                                                    onMouseLeave={handleMouseUp}
+                                                    onTouchStart={handleTouchStart}
+                                                    onTouchMove={handleTouchMove}
+                                                    onTouchEnd={handleTouchEnd}
+                                                />
+                                            </motion.div>
+                                        )}
+                                    </AnimatePresence>
+                                </div>
 
-                                    <div className="search-container">
-                                        <div className="button-group">
+                                <AnimatePresence>
+                                    {isRevealed && (
+                                        <motion.div
+                                            className="scratch-cta"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.3, delay: 0.3 }}
+                                        >
+                                            <span className="scratch-cta__text">🎉 Jackpot — you found your match</span>
                                             <button
                                                 type="button"
-                                                className="search-button"
-                                                onClick={handleSearch}
-                                                disabled={selectedSkills.length === 0 || isSearching}
+                                                className="match-link"
+                                                onClick={goToProfile}
                                             >
-                                                {isSearching ? "Searching..." : "Search Matches"}
+                                                Back to my profile →
                                             </button>
-
-                                            {(selectedSkills.length > 0 || isMatch) && (
-                                                <button
-                                                    type="button"
-                                                    className="clear-button"
-                                                    onClick={clearAll}
-                                                    disabled={isSearching}
-                                                >
-                                                    Clear Selection
-                                                </button>
-                                            )}
-                                        </div>
-
-                                        <div className="search-slot" aria-live="polite">
-                                            <AnimatePresence mode="wait">
-                                                {isSearching ? (
-                                                    <motion.div
-                                                        key="progress"
-                                                        className="search-slot__item"
-                                                        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 6 }}
-                                                        animate={{ opacity: 1, y: 0 }}
-                                                        exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -6 }}
-                                                        {...(!shouldReduceMotion && {
-                                                            transition: { duration: 0.18, ease: "easeOut" },
-                                                        })}
-                                                    >
-                                                        <div className="search-progress" aria-label="Search progress">
-                                                            <div className="search-progress__track">
-                                                                <div
-                                                                    className="search-progress__bar"
-                                                                    style={{ width: `${searchProgress}%` }}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </motion.div>
-                                                ) : isMatch ? (
-                                                    <motion.div
-                                                        key="match"
-                                                        className="search-slot__item match-message"
-                                                        initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 8, scale: shouldReduceMotion ? 1 : 0.98 }}
-                                                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                                                        exit={{ opacity: 0, y: shouldReduceMotion ? 0 : -8, scale: shouldReduceMotion ? 1 : 0.98 }}
-                                                        {...(!shouldReduceMotion && {
-                                                            transition: { duration: 0.22, ease: "easeOut" },
-                                                        })}
-                                                    >
-                                                        <motion.span
-                                                            className="match-message__glow"
-                                                            initial={{ opacity: 0, scale: shouldReduceMotion ? 1 : 0.85 }}
-                                                            animate={
-                                                                shouldReduceMotion
-                                                                    ? { opacity: 0 }
-                                                                    : { opacity: [0, 1, 0], scale: [0.85, 1.15, 1.25] }
-                                                            }
-                                                            {...(!shouldReduceMotion && {
-                                                                transition: { duration: 0.9, ease: "easeOut" },
-                                                            })}
-                                                        />
-
-                                                        <span className="match-message__text">Found the perfect match → </span>
-
-                                                        <motion.button
-                                                            type="button"
-                                                            className="match-link"
-                                                            onClick={goToProfile}
-                                                            {...(!shouldReduceMotion && {
-                                                                whileHover: { y: -1 },
-                                                                whileTap: { scale: 0.98 },
-                                                            })}
-                                                        >
-                                                            View profile
-                                                        </motion.button>
-                                                    </motion.div>
-                                                ) : (
-                                                    <motion.div
-                                                        key="empty"
-                                                        className="search-slot__item"
-                                                        initial={{ opacity: 0 }}
-                                                        animate={{ opacity: 1 }}
-                                                        exit={{ opacity: 0 }}
-                                                    />
-                                                )}
-                                            </AnimatePresence>
-                                        </div>
-                                    </div>
-                                </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </motion.div>
                     </motion.div>
