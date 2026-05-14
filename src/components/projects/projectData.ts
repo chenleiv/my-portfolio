@@ -1,7 +1,7 @@
 const memoryImg = "/assets/img/memory.webp";
 const memeImg = "/assets/img/meme.webp";
 const trellor1 = "/assets/img/trellor1.webp";
-const aiWorkerSpaceImg = "/assets/img/knowledge.webp";
+const aiWorkerSpaceImg = "/assets/img/insight-desk.webp";
 
 type ProjectEra = "latest" | "older";
 
@@ -25,8 +25,8 @@ export const PROJECTS: readonly Project[] = [
     subHeader: "Manage your knowledge base with AI.",
     img: aiWorkerSpaceImg,
     skills: ["React | TypeScript | Node.js | Railway | MongoDB | HuggingFace"],
-    web: "https://ai-knowledge.up.railway.app/",
-    github: "https://github.com/chenleiv/ai-knowledge-workspace",
+    web: "https://insight-desk-bwji.onrender.com/",
+    github: "https://github.com/chenleiv/insight-desk",
     era: "latest",
   },
   {
