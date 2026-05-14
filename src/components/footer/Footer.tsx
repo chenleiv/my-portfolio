@@ -40,9 +40,6 @@ const Footer = () => {
         <a href="#projects" className="footer-link" onClick={handleClick} aria-label="Projects" target="_blank" rel="noopener noreferrer">
           Projects
         </a>
-        <a href="#skills" className="footer-link" onClick={openSkillMatcher} aria-label="Skills" target="_blank" rel="noopener noreferrer">
-          Skills
-        </a>
       </div>
     </motion.footer>
   );
