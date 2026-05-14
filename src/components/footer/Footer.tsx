@@ -4,11 +4,6 @@ import { useEffect } from 'react';
 
 const Footer = () => {
 
-  const openSkillMatcher = () => {
-    document.getElementById("skills")?.scrollIntoView({ behavior: 'smooth' });
-    window.openSkillMatcher?.();
-  };
-
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
     return () => {
