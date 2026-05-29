@@ -1,6 +1,7 @@
 const memoryImg = "/assets/img/memory.webp";
-const memeImg = "/assets/img/meme.webp";
+const signalForge = "/assets/img/signal.webp";
 const trellor1 = "/assets/img/trellor1.webp";
+
 const aiWorkerSpaceImg = "/assets/img/insight-desk.webp";
 
 type ProjectEra = "latest" | "older";
@@ -23,11 +24,22 @@ export const PROJECTS: readonly Project[] = [
     label: 1,
     header: "InsightDesk — AI Platform",
     subHeader:
-      "Full-stack AI platform with RAG-powered semantic search, HuggingFace embeddings, and real-time document indexing.",
+      "Full-stack AI platform with RAG-powered semantic search, and real-time document indexing.",
     img: aiWorkerSpaceImg,
-    skills: ["React", "TypeScript", "Node.js", "Render", "MongoDB", "Groq"],
+    skills: ["React", "TypeScript", "Node.js", "Zod", "MongoDB", "Groq"],
     web: "https://insight-desk-bwji.onrender.com/",
     github: "https://github.com/chenleiv/insight-desk",
+    era: "latest",
+  },
+  {
+    label: 2,
+    header: "SignalForge — SOC Dashboard",
+    subHeader:
+      "Full-stack project A real-time Security Operations Center dashboard.",
+    img: signalForge,
+    skills: ["Angular", "SCSS", "Python", "Groq", "rest API", "WebSockets"],
+    // web: "https://trellor.onrender.com/#/",
+    github: "https://github.com/chenleiv/signal-forge",
     era: "latest",
   },
   {
@@ -37,8 +49,8 @@ export const PROJECTS: readonly Project[] = [
       "Full-stack project management app with drag-and-drop boards, Vuex state management, and a RESTful Node.js API.",
     img: trellor1,
     skills: ["Vue.js", "Vuex", "Node.js", "MongoDB", "SCSS"],
-    web: "https://trellor.onrender.com/#/",
-    github: "https://github.com/chenleiv/trellor",
+    web: "https://insight-desk-bwji.onrender.com/",
+    github: "https://github.com/chenleiv/insight-desk",
     era: "older",
   },
   {
@@ -50,17 +62,6 @@ export const PROJECTS: readonly Project[] = [
     skills: ["Angular", "TypeScript", "REST API", "SCSS"],
     web: "https://chenleiv.github.io/the-memory-game/",
     github: "https://github.com/chenleiv/the-memory-game",
-    era: "older",
-  },
-  {
-    label: 5,
-    header: "Meme Generator",
-    subHeader:
-      "Client-side meme creator using Canvas API for real-time text overlay and image manipulation. Zero-dependency vanilla JS.",
-    img: memeImg,
-    skills: ["Vanilla JS", "Canvas API", "CSS"],
-    web: "https://chenleiv.github.io/Meme-Generator/",
-    github: "https://github.com/chenleiv/Meme-Generator",
     era: "older",
   },
 ] as const;
