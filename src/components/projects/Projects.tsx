@@ -34,7 +34,7 @@ export default function Projects() {
     >
       <div className="projects-container">
         <motion.div className="projects-header" variants={itemVariants}>
-          <h2 className="projects-title">Projects</h2>
+          <h2 className="projects-title">New Projects</h2>
         </motion.div>
 
         <div className="projects-featured">

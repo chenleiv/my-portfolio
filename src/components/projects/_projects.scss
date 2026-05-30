@@ -37,7 +37,11 @@
   font-size: clamp(32px, 6vw, 48px);
   font-weight: 900;
   letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--text-primary) 25%, var(--text-secondary) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--text-primary) 25%,
+    var(--text-secondary) 100%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -133,7 +137,12 @@
   flex: 1;
   max-width: 120px;
   height: 1px;
-  background: linear-gradient(to right, transparent, var(--glass-border), transparent);
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--glass-border),
+    transparent
+  );
 }
 
 .projects-grid {
@@ -272,6 +281,7 @@
   gap: 8px;
   flex-wrap: wrap;
   margin-top: auto;
+  justify-content: center;
 }
 
 .project-link {

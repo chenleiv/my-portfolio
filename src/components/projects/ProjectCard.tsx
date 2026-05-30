@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, SwatchBook } from "lucide-react";
 import type { Project } from "./projectData";
 import Image from "next/image";
 
@@ -69,6 +69,18 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion, isFeatu
                         >
                             <FaGithub size={14} />
                             GitHub
+                        </a>
+                    )}
+                    {project.swagger && (
+                        <a
+                            href={project.swagger}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="project-link project-link--secondary"
+                            aria-label={`API documentation: ${project.header}`}
+                        >
+                            <SwatchBook size={14} />
+                            API Docs 
                         </a>
                     )}
                 </div>
