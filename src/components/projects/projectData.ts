@@ -36,9 +36,9 @@ export const PROJECTS: readonly Project[] = [
     label: 2,
     header: "SignalForge — monitoring threat platform",
     subHeader:
-      "Full-stack project A real-time threat monitoring and behavioral detection platform inspired by SOC workflows, featuring live event streaming, threat scoring, and incident alerting.",
+      "Full-stack project A real-time threat monitoring and behavioral detection platform inspired by SOC tier 1-3 workflows, featuring live event streaming, threat scoring, and incident alerting.",
     img: signalForge,
-    skills: ["Angular", "SCSS", "Python", "Groq", "rest API", "WebSockets"],
+    skills: ["Angular", "Python", "Groq", "rest API", "WebSockets"],
     web: "https://signal-forge-tane.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
     swagger: "https://signalforge-api-ah1q.onrender.com/docs",
@@ -52,7 +52,7 @@ export const PROJECTS: readonly Project[] = [
     img: trellor1,
     skills: ["Vue.js", "Vuex", "Node.js", "MongoDB", "SCSS"],
     web: "https://insight-desk-bwji.onrender.com/",
-    github: "https://github.com/chenleiv/insight-desk",
+    github: "https://github.com/chenleiv/trellor",
     era: "older",
     hideWeb: true,
   },
@@ -66,6 +66,6 @@ export const PROJECTS: readonly Project[] = [
     web: "https://chenleiv.github.io/the-memory-game/",
     github: "https://github.com/chenleiv/the-memory-game",
     era: "older",
-    hideGithub: true,
+    // hideGithub: true,
   },
 ] as const;
