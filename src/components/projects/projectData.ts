@@ -34,11 +34,18 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     label: 2,
-    header: "SignalForge — monitoring threat platform",
+    header: "SignalForge — Security Operations Platform",
     subHeader:
-      "Full-stack project A real-time threat monitoring and behavioral detection platform inspired by SOC tier 1-3 workflows, featuring live event streaming, threat scoring, and incident alerting.",
+      "Full-stack project, A real-time Security Operations Center (SOC) dashboard built with Angular 21 and FastAPI. Streams live threat intelligence from real AbuseIPDB data with animated attack maps, analytics, incident management, detection rules, and multi-source threat enrichment.",
     img: signalForge,
-    skills: ["Angular", "Python", "Groq", "rest API", "WebSockets"],
+    skills: [
+      "Angular",
+      "Python",
+      "PostgreSQL",
+      "WebSockets",
+      "rest API",
+      "Groq",
+    ],
     web: "https://signal-forge-tane.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
     swagger: "https://signalforge-api-ah1q.onrender.com/docs",
