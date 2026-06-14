@@ -36,7 +36,7 @@ export const PROJECTS: readonly Project[] = [
     label: 2,
     header: "SignalForge — Security Operations Platform",
     subHeader:
-      "Full-stack project, A real-time Security Operations Center (SOC) dashboard built with Angular 21 and FastAPI. Streams live threat intelligence from real AbuseIPDB data with animated attack maps, analytics, incident management, detection rules, and multi-source threat enrichment.",
+      "An AI-powered document workspace for teams organizes your knowledge base, and an chat (powered by Groq) that can read and reason over your documents.",
     img: signalForge,
     skills: [
       "Angular",
