@@ -23,7 +23,7 @@ export type ConsoleLine = {
 
 export const ABOUT_LINES: ConsoleLine[] = [
   { id: "h1", type: "heroName", text: "CHEN LEIV" },
-  { id: "h2", type: "heroTitle", text: "Frontend Developer" },
+  { id: "h2", type: "heroTitle", text: "Frontend Engineer" },
 
   {
     id: "d1",
