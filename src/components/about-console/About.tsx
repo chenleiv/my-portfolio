@@ -27,10 +27,10 @@ const About = () => {
   ];
 
   const handleDownloadCV = () => {
-    const pdfUrl = "/assets/files/ChenLeiv-CV.pdf";
+    const pdfUrl = "/assets/files/ChenLeiv-resume.pdf";
     const link = document.createElement("a");
     link.href = pdfUrl;
-    link.download = "ChenLeiv-CV.pdf";
+    link.download = "ChenLeiv-resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

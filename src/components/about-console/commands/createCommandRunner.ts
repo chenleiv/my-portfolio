@@ -64,7 +64,7 @@ export function createCommandRunner(deps: Deps) {
       }
 
       case "cv": {
-        const pdfUrl = "/assets/files/ChenLeiv-CV.pdf";
+        const pdfUrl = "/assets/files/ChenLeiv-resume.pdf";
         deps.pushHistory(
           [
             { ...echo },
@@ -73,7 +73,7 @@ export function createCommandRunner(deps: Deps) {
               type: "download",
               text: "📄 Click to download CV",
               href: pdfUrl,
-              download: "ChenLeiv-CV.pdf",
+              download: "ChenLeiv-resume.pdf",
             },
           ],
           raw,
