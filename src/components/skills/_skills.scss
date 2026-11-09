@@ -189,8 +189,8 @@
   }
 }
 
-// Technical group — blue accent
-.skills-group[data-group-id="technical"] {
+// Technical groups — blue accent
+.skills-group:not([data-group-id="other"]) {
   background: linear-gradient(135deg, rgba(86, 156, 214, 0.07) 0%, transparent 55%);
 
   &::before { background: var(--primary-color); }
