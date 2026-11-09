@@ -2,8 +2,6 @@ const signalForge = "/assets/img/signal.webp";
 
 const aiWorkerSpaceImg = "/assets/img/insight-desk.webp";
 
-type ProjectEra = "latest" | "older";
-
 export interface Project {
   readonly label: number;
   readonly header: string;
@@ -16,7 +14,6 @@ export interface Project {
   readonly swagger?: string;
   readonly hideWeb?: boolean;
   readonly hideGithub?: boolean;
-  readonly era?: ProjectEra;
 }
 
 export const PROJECTS: readonly Project[] = [
@@ -40,7 +37,6 @@ export const PROJECTS: readonly Project[] = [
     ],
     web: "https://insight-desk-bwji.onrender.com/",
     github: "https://github.com/chenleiv/insight-desk",
-    era: "latest",
   },
   {
     label: 2,
@@ -61,6 +57,5 @@ export const PROJECTS: readonly Project[] = [
     web: "https://signal-forge-tane.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
     swagger: "https://signalforge-api-ah1q.onrender.com/docs",
-    era: "latest",
   },
 ] as const;
