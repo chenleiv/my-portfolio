@@ -29,7 +29,7 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "d1",
     type: "desc",
-    text: "4 years of experience building scalable, high-performance web applications using modern frontend frameworks, now also building full-stack applications with built-in security and AI features. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
+    text: "4 years of experience building enterprise web applications with Angular, React and TypeScript. Now building full-stack applications with security and AI built in: my flagship project, InsightDesk, is a RAG app that answers from your documents and verifies every citation.",
   },
   {
     id: "o1",
