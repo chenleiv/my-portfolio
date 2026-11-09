@@ -10,6 +10,7 @@ export interface Project {
   readonly header: string;
   readonly subHeader: string;
   readonly img: string;
+  readonly imgAlt?: string;
   readonly skills: readonly string[];
   readonly web?: string;
   readonly github: string;
@@ -26,6 +27,7 @@ export const PROJECTS: readonly Project[] = [
     subHeader:
       "My flagship project: a full-stack document workspace with an AI assistant (RAG) that answers from your own documents and verifies every citation. Built end to end with a React frontend, Node.js backend and MongoDB, local embeddings for retrieval, over 1,400 automated tests, CI with CodeQL, and an evaluation suite. Security built in: CSP and secure cookies, hardened file uploads with isolated parsing, server-side session revocation, rate limits and daily per-user question limits. Live demo, no sign-up needed.",
     img: aiWorkerSpaceImg,
+    imgAlt: "InsightDesk chat answer with a cited source",
     skills: [
       "React",
       "TypeScript",
