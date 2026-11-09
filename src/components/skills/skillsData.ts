@@ -23,6 +23,12 @@ export const SKILL_GROUPS: SkillGroup[] = [
       "Node.js",
       "Next.js",
       "Nx",
+      "Application Security",
+      "OWASP Top 10",
+      "Burp Suite",
+      "Linux",
+      "RAG/LLM apps",
+      "Claude Code",
     ],
   },
   {
