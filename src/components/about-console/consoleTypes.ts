@@ -24,11 +24,17 @@ export type ConsoleLine = {
 export const ABOUT_LINES: ConsoleLine[] = [
   { id: "h1", type: "heroName", text: "CHEN LEIV" },
   { id: "h2", type: "heroTitle", text: "Frontend Engineer" },
+  { id: "h3", type: "openToWork", text: "Full-Stack · Security · AI Apps" },
 
   {
     id: "d1",
     type: "desc",
-    text: "4 years of experience building scalable, high-performance web applications using modern frontend frameworks. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
+    text: "4 years of experience building scalable, high-performance web applications using modern frontend frameworks, now also building full-stack applications with built-in security and AI features. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
+  },
+  {
+    id: "o1",
+    type: "openToWork",
+    text: "Open to Frontend / Full-stack roles with a security focus, or Junior AppSec",
   },
   {
     id: "s1",
