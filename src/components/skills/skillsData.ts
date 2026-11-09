@@ -1,5 +1,5 @@
 export interface SkillGroup {
-  id: "technical" | "other";
+  id: "frontend" | "backend" | "security" | "other";
   title: string;
   subtitle?: string;
   icon: string;
@@ -8,21 +8,42 @@ export interface SkillGroup {
 
 export const SKILL_GROUPS: SkillGroup[] = [
   {
-    id: "technical",
-    title: "Technical",
+    id: "frontend",
+    title: "Frontend",
     icon: "⚡",
     skills: [
       "TypeScript",
+      "JavaScript",
       "React",
       "Angular",
-      "JavaScript",
+      "Next.js",
       "SCSS",
+      "Nx",
+    ],
+  },
+  {
+    id: "backend",
+    title: "Backend, AI & Tools",
+    icon: "🤖",
+    skills: [
+      "Node.js",
+      "MongoDB",
       "REST API",
+      "RAG/LLM apps",
+      "Claude Code",
       "Git",
       "Jira",
-      "Node.js",
-      "Next.js",
-      "Nx",
+    ],
+  },
+  {
+    id: "security",
+    title: "Security",
+    icon: "🔒",
+    skills: [
+      "Application Security",
+      "OWASP Top 10",
+      "Burp Suite",
+      "Linux",
     ],
   },
   {
@@ -30,13 +51,11 @@ export const SKILL_GROUPS: SkillGroup[] = [
     title: "Soft Skills",
     icon: "🧠",
     skills: [
-      "Curiosity",
-      "Quick learning",
-      "Detail-oriented",
       "Ownership",
       "Problem solving",
+      "Quick learning",
+      "Detail-oriented",
       "Team player",
-      "Time management",
     ],
   },
 ];

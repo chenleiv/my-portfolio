@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, use, useEffect, useState, useMemo } from "react";
+import { createContext, use, useEffect, useState, useMemo, useSyncExternalStore } from "react";
 
 type Theme = "light" | "dark";
 
@@ -19,13 +19,15 @@ const getInitialTheme = (): Theme => {
     return "dark";
 };
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [mounted, setMounted] = useState(false);
-    const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
+const subscribeToNothing = () => () => {};
 
-    useEffect(() => {
-        setMounted(true);
-    }, []);
+// False on the server and during hydration, true right after hydration.
+const useHasMounted = () =>
+    useSyncExternalStore(subscribeToNothing, () => true, () => false);
+
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+    const mounted = useHasMounted();
+    const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
 
     useEffect(() => {
         if (mounted) {

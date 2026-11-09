@@ -1,6 +1,5 @@
 const memoryImg = "/assets/img/memory.webp";
 const signalForge = "/assets/img/signal.webp";
-const trellor1 = "/assets/img/trellor1.webp";
 
 const aiWorkerSpaceImg = "/assets/img/insight-desk.webp";
 
@@ -11,6 +10,7 @@ export interface Project {
   readonly header: string;
   readonly subHeader: string;
   readonly img: string;
+  readonly imgAlt?: string;
   readonly skills: readonly string[];
   readonly web?: string;
   readonly github: string;
@@ -23,17 +23,20 @@ export interface Project {
 export const PROJECTS: readonly Project[] = [
   {
     label: 1,
-    header: "InsightDesk — AI Platform",
+    header: "InsightDesk — AI Document Workspace",
     subHeader:
-      "Full-stack document workspace for teams. organizes your knowledge base, and an chat (powered by Groq) that can read and reason over your documents.",
+      "My flagship project: a full-stack document workspace with an AI assistant (RAG) that answers from your own documents and verifies every citation. Built end to end with a React frontend, Node.js backend and MongoDB, local embeddings for retrieval, over 1,400 automated tests, CI with CodeQL, and an evaluation suite. Security built in: CSP and secure cookies, hardened file uploads with isolated parsing, server-side session revocation, rate limits and daily per-user question limits. Live demo, no sign-up needed.",
     img: aiWorkerSpaceImg,
+    imgAlt: "InsightDesk chat answer with a cited source",
     skills: [
       "React",
       "TypeScript",
       "Node.js",
+      "MongoDB",
+      "RAG",
+      "CodeQL",
       "Zod",
       "TanStack Query",
-      "MongoDB",
       "Groq",
     ],
     web: "https://insight-desk-bwji.onrender.com/",
@@ -63,18 +66,6 @@ export const PROJECTS: readonly Project[] = [
   },
   {
     label: 3,
-    header: "Trello Clone",
-    subHeader:
-      "Full-stack project management app with drag-and-drop boards, Vuex state management, and a RESTful Node.js API.",
-    img: trellor1,
-    skills: ["Vue.js", "Vuex", "Node.js", "MongoDB", "SCSS"],
-    web: "https://insight-desk-bwji.onrender.com/",
-    github: "https://github.com/chenleiv/trellor",
-    era: "older",
-    hideWeb: true,
-  },
-  {
-    label: 4,
     header: "Memory Game",
     subHeader:
       "Angular SPA with dynamic difficulty levels, REST API leaderboard integration, and reactive component architecture.",

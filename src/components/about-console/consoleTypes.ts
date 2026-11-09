@@ -24,11 +24,12 @@ export type ConsoleLine = {
 export const ABOUT_LINES: ConsoleLine[] = [
   { id: "h1", type: "heroName", text: "CHEN LEIV" },
   { id: "h2", type: "heroTitle", text: "Frontend Engineer" },
+  { id: "h3", type: "openToWork", text: "Full-Stack · Security · AI-Powered Apps" },
 
   {
     id: "d1",
     type: "desc",
-    text: "4 years of experience building scalable, high-performance web applications using modern frontend frameworks. Focus on intuitive user experiences, problem-solving skills, attention to detail, and a drive for learning and growth.",
+    text: "4 years of experience building enterprise web applications with Angular, React and TypeScript. Now building full-stack applications with security and AI built in: my flagship project, InsightDesk, is a RAG app that answers from your documents and verifies every citation.",
   },
   {
     id: "s1",

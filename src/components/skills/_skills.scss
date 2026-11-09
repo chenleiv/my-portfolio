@@ -155,35 +155,12 @@
   padding: 20px 20px 24px;
 }
 
-// ─── Scratch card ───────────────────────────────────────────────────────────
+// ─── Skills container ───────────────────────────────────────────────────────
 
 .skills-section-container {
   max-width: 820px;
   margin: 0 auto;
   border-radius: 20px;
-}
-
-.scratch-card-wrapper {
-  position: relative;
-  overflow: hidden;
-  border-radius: 20px;
-}
-
-.scratch-canvas-wrapper {
-  position: absolute;
-  inset: 0;
-  z-index: 5;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
-.scratch-canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
-  cursor: crosshair;
-  touch-action: none;
-  user-select: none;
 }
 
 // ─── Groups grid ────────────────────────────────────────────────────────────
@@ -212,8 +189,8 @@
   }
 }
 
-// Technical group — blue accent
-.skills-group[data-group-id="technical"] {
+// Technical groups — blue accent
+.skills-group:not([data-group-id="other"]) {
   background: linear-gradient(135deg, rgba(86, 156, 214, 0.07) 0%, transparent 55%);
 
   &::before { background: var(--primary-color); }
@@ -297,51 +274,6 @@
   &:hover {
     transform: translateY(-2px);
   }
-
-  &--pop {
-    animation: skillPop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  }
-}
-
-@keyframes skillPop {
-  0%   { transform: scale(0.75) translateY(6px); opacity: 0; }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-// ─── Post-reveal CTA ────────────────────────────────────────────────────────
-
-.scratch-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin-top: 20px;
-}
-
-.scratch-cta__text {
-  color: var(--skills-ink);
-  font-weight: 700;
-  font-size: 15px;
-}
-
-.match-link {
-  background: linear-gradient(135deg, rgba(86, 156, 214, 0.14), rgba(197, 134, 192, 0.14));
-  border: 1px solid rgba(86, 156, 214, 0.3);
-  padding: 10px 22px;
-  border-radius: 999px;
-  cursor: pointer;
-  color: var(--skills-ink);
-  font-weight: 700;
-  font-size: 14px;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(86, 156, 214, 0.2);
-    border-color: rgba(86, 156, 214, 0.55);
-  }
 }
 
 // ─── Mobile ─────────────────────────────────────────────────────────────────
@@ -362,6 +294,7 @@
 
   .skills-modal {
     max-height: 92vh;
+    max-height: 92dvh;
     border-radius: 20px;
     width: 100%;
   }
@@ -377,15 +310,13 @@
 
   .skills-modal__content {
     padding: 14px 12px 18px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--sb-thumb) var(--sb-track);
   }
 
   .skills-groups-container {
     grid-template-columns: 1fr;
-    max-height: 300px;
-    overflow: auto;
     gap: 10px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--sb-thumb) var(--sb-track);
   }
 
   .skills-group {
@@ -396,9 +327,5 @@
   .skill-item {
     font-size: 12px;
     padding: 4px 10px;
-  }
-
-  .scratch-cta__text {
-    font-size: 13px;
   }
 }

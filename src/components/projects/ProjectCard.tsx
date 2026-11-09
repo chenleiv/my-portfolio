@@ -21,7 +21,7 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion, isFeatu
             <div className="project-image-wrap">
                 <Image
                     src={project.img}
-                    alt={project.header}
+                    alt={project.imgAlt ?? project.header}
                     className="project-image"
                     loading="lazy"
                     width={640}
