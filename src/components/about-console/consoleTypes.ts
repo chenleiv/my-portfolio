@@ -32,11 +32,6 @@ export const ABOUT_LINES: ConsoleLine[] = [
     text: "4 years of experience building enterprise web applications with Angular, React and TypeScript. Now building full-stack applications with security and AI built in: my flagship project, InsightDesk, is a RAG app that answers from your documents and verifies every citation.",
   },
   {
-    id: "o1",
-    type: "openToWork",
-    text: "Open to Frontend / Full-stack roles with a security focus, or Junior AppSec",
-  },
-  {
     id: "s1",
     type: "recruiterMode",
     text: "React • Angular • TypeScript • SCSS • Node.js",
