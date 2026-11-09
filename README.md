@@ -1,6 +1,6 @@
 Chen Leiv — Interactive Portfolio
 
-A modern, interactive frontend developer portfolio built with Next.js, React, and TypeScript, designed to showcase projects, skills, and personality through a unique console-driven experience.
+A modern, interactive frontend engineer portfolio built with Next.js, React, and TypeScript, designed to showcase projects, skills, and personality through a unique console-driven experience.
 
 🔗 Live site: https://chenleiv.vercel.app
 💻 Source code: https://github.com/chenleiv/my-portfolio
@@ -98,7 +98,7 @@ The console metaphor reflects real developer workflows while creating a memorabl
 
 🧑‍💻 About Me
 
-Creative Frontend Developer
+Creative Frontend Engineer
 4 years building scalable, high-performance web applications with modern frameworks.
 
 Focused on:
