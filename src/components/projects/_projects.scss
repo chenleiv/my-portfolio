@@ -24,15 +24,6 @@
   text-align: center;
 }
 
-.projects-header__label {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--primary-color);
-  opacity: 0.8;
-}
-
 .projects-title {
   font-size: clamp(32px, 6vw, 48px);
   font-weight: 900;
@@ -106,50 +97,6 @@
     margin: 0;
     opacity: 0.85;
   }
-}
-
-// ─── More projects grid ──────────────────────────────────────────────────────
-
-.projects-more {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
-.projects-more__heading {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  justify-content: center;
-}
-
-.projects-more__label {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  white-space: nowrap;
-  opacity: 0.7;
-}
-
-.projects-more__line {
-  flex: 1;
-  max-width: 120px;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    var(--glass-border),
-    transparent
-  );
-}
-
-.projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  width: 100%;
 }
 
 // ─── Card base ───────────────────────────────────────────────────────────────
@@ -346,10 +293,6 @@
 }
 
 @media (max-width: 900px) {
-  .projects-grid {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  }
-
   .projects-container {
     gap: 48px;
   }
@@ -387,19 +330,6 @@
     .project-title {
       font-size: 15px;
     }
-  }
-
-  .projects-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .projects-more__heading {
-    gap: 12px;
-  }
-
-  .projects-more__line {
-    max-width: 60px;
   }
 
   .project-card {

@@ -1,9 +1,6 @@
-const memoryImg = "/assets/img/memory.webp";
 const signalForge = "/assets/img/signal.webp";
 
 const aiWorkerSpaceImg = "/assets/img/insight-desk.webp";
-
-type ProjectEra = "latest" | "older";
 
 export interface Project {
   readonly label: number;
@@ -17,7 +14,6 @@ export interface Project {
   readonly swagger?: string;
   readonly hideWeb?: boolean;
   readonly hideGithub?: boolean;
-  readonly era?: ProjectEra;
 }
 
 export const PROJECTS: readonly Project[] = [
@@ -41,7 +37,6 @@ export const PROJECTS: readonly Project[] = [
     ],
     web: "https://insight-desk-bwji.onrender.com/",
     github: "https://github.com/chenleiv/insight-desk",
-    era: "latest",
   },
   {
     label: 2,
@@ -62,18 +57,5 @@ export const PROJECTS: readonly Project[] = [
     web: "https://signal-forge-tane.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
     swagger: "https://signalforge-api-ah1q.onrender.com/docs",
-    era: "latest",
-  },
-  {
-    label: 3,
-    header: "Memory Game",
-    subHeader:
-      "Angular SPA with dynamic difficulty levels, REST API leaderboard integration, and reactive component architecture.",
-    img: memoryImg,
-    skills: ["Angular", "TypeScript", "REST API", "SCSS"],
-    web: "https://chenleiv.github.io/the-memory-game/",
-    github: "https://github.com/chenleiv/the-memory-game",
-    era: "older",
-    // hideGithub: true,
   },
 ] as const;
