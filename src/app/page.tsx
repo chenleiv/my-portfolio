@@ -14,7 +14,7 @@ export default function Page() {
       <main className="app__main">
         <section id="about" className="app__section">
           <Suspense fallback={<LazyLoader />}>
-            <SkillsMatcher scrollTargetId="about" />
+            <SkillsMatcher />
           </Suspense>
           <About />
         </section>
