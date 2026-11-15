@@ -82,18 +82,11 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
           </ul>
         </>
       );
-    case "cv":
-      return (
-        <>
-          <p>Download the CV and see how to reach me.</p>
-          <Links links={[{ label: "Download CV", href: contact.cvPath, primary: true, download: contact.cvFileName }, LINKEDIN]} />
-        </>
-      );
     case "contact":
       return (
         <>
-          <p>LinkedIn and GitHub.</p>
-          <Links links={[{ ...LINKEDIN, primary: true }, GITHUB]} />
+          <p>Download my CV, or find me on LinkedIn and GitHub.</p>
+          <Links links={[{ label: "Download CV", href: contact.cvPath, primary: true, download: contact.cvFileName }, LINKEDIN, GITHUB]} />
         </>
       );
     case "tv":

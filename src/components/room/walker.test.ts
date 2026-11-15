@@ -76,7 +76,9 @@ describe("collision", () => {
   });
 
   it("never lets held keys push Chen into furniture", () => {
-    const state = createWalkerState<ObjectKey>(SPOTS.cv);
+    // Start just left of the coffee table, then hold "right" into it.
+    const table = FOOTPRINT_BY_ID["coffee-table"];
+    const state = createWalkerState<ObjectKey>([table.x0 - BODY_RADIUS - 0.1, (table.y0 + table.y1) / 2]);
     run(state, hold({ right: true }), 3);
     assert.equal(isBlocked(state.x, state.y, cfg), false);
   });
@@ -141,11 +143,11 @@ describe("auto-open", () => {
 describe("scripted walks", () => {
   it("walks through the hub to the target and never auto-opens on arrival", () => {
     const state = createWalkerState<ObjectKey>(SPOTS.desk);
-    assert.equal(planWalk(state, "cv", cfg, false), false);
-    assert.deepEqual(state.path, [HUB, SPOTS.cv]);
+    assert.equal(planWalk(state, "bucky", cfg, false), false);
+    assert.deepEqual(state.path, [HUB, SPOTS.bucky]);
     const opened = run(state, noKeys(), 10);
-    assert.deepEqual([state.x, state.y], [...SPOTS.cv]);
-    assert.equal(state.near, "cv");
+    assert.deepEqual([state.x, state.y], [...SPOTS.bucky]);
+    assert.equal(state.near, "bucky");
     assert.equal(state.moving, false);
     assert.deepEqual(opened, []);
   });

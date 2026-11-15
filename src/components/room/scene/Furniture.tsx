@@ -1,4 +1,4 @@
-import { box, project, qx, qy, qz, shade, type Face } from "../iso";
+import { box, project, qx, qy, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
 import { FOOTPRINT_BY_ID } from "../roomContent";
 import { Faces, SceneObject } from "./primitives";
@@ -60,20 +60,17 @@ export function Chair({ p }: { p: ScenePalette }) {
   );
 }
 
+// Decoration only; the CV now hangs on the contact board.
 export function CoffeeTable({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y } = FOOTPRINT_BY_ID["coffee-table"];
   const legs: [number, number][] = [[x + 0.05, y + 0.05], [x + 1.25, y + 0.05], [x + 0.05, y + 1.45], [x + 1.25, y + 1.45]];
-  const faces: Face[] = [
-    ...box(x, y, 0.5, 1.4, 1.6, 0.12, p.wood),
-    ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
-    // The CV: a sheet of paper with an accent header stripe.
-    qz(0.63, x + 0.4, x + 1.0, y + 0.4, y + 1.2, "#ffffff"),
-    qz(0.64, x + 0.45, x + 0.9, y + 0.5, y + 0.58, p.accent),
-  ];
   return (
-    <SceneObject objectKey="cv">
-      <Faces faces={faces} />
-    </SceneObject>
+    <Faces
+      faces={[
+        ...box(x, y, 0.5, 1.4, 1.6, 0.12, p.wood),
+        ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
+      ]}
+    />
   );
 }
 

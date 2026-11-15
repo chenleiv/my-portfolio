@@ -1,8 +1,8 @@
 // Room configuration: objects, where Chen stands for each, labels, collision
 // and timing. Keep this file free of runtime imports so the Node test runner
-// can load it directly. Links and project data live in popupContent.ts.
+// can load it directly. Links and project data live in RoomPopupBody.tsx.
 
-export type ObjectKey = "desk" | "cv" | "shelf" | "tv" | "bucky" | "contact";
+export type ObjectKey = "desk" | "shelf" | "tv" | "bucky" | "contact";
 
 export type Vec2 = readonly [number, number];
 
@@ -28,11 +28,10 @@ export interface RoomObject {
 // Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [6.2, 2.7], label: { x: 7.3, y: 1.0, z: 3.0 } },
-  { key: "cv", name: "CV", title: "Resume", spot: [1.9, 8.0], label: { x: 3.0, y: 8.0, z: 1.25 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
   { key: "bucky", name: "Bucky", title: "Bucky", spot: [6.2, 7.8], label: { x: 5.1, y: 7.8, z: 1.6 } },
-  { key: "contact", name: "Contact", title: "Get in touch", spot: [2.8, 1.5], label: { x: 2.8, y: 0.0, z: 4.35 } },
+  { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.55 } },
 ];
 
 export const OBJECT_BY_KEY: Readonly<Record<ObjectKey, RoomObject>> = Object.fromEntries(
