@@ -1,5 +1,64 @@
+// Design tokens. Light is the default; data-theme is set before first paint
+// by the inline script in app/layout.tsx.
+// Accent rule: --accent is only a background with --on-accent text on top,
+// or large display text in dark. Never small body text, and never text in light.
+:root,
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f7efe2;
+  --ink: #2a1f2d;
+  --ink-muted: #635960;
+  --accent: #ff6b4a;
+  --on-accent: #2a1f2d;
+  --panel: #fffaf0;
+
+  --line: rgba(42, 31, 45, 0.18);
+  --ink-soft: rgba(42, 31, 45, 0.06);
+  --ink-soft-2: rgba(42, 31, 45, 0.11);
+  --shadow: rgba(42, 31, 45, 0.14);
+  --overlay: rgba(42, 31, 45, 0.45);
+  --scrollbar-track: rgba(42, 31, 45, 0.06);
+  --scrollbar-thumb: rgba(42, 31, 45, 0.35);
+  --scrollbar-thumb-hover: rgba(42, 31, 45, 0.55);
+
+  // Console syntax colors, each at least 5.5:1 on --panel and --bg.
+  --console-cmd: #1d6b63;
+  --console-heading: #6b3fa0;
+  --console-error: #a8341e;
+  --console-prompt: #3d6b1f;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #121528;
+  --ink: #f1ece0;
+  --ink-muted: #b3b0ac;
+  --accent: #35e0ff;
+  --on-accent: #0a1020;
+  --panel: #1c2140;
+
+  --line: rgba(241, 236, 224, 0.18);
+  --ink-soft: rgba(241, 236, 224, 0.06);
+  --ink-soft-2: rgba(241, 236, 224, 0.11);
+  --shadow: rgba(0, 0, 0, 0.45);
+  --overlay: rgba(5, 7, 15, 0.65);
+  --scrollbar-track: rgba(241, 236, 224, 0.06);
+  --scrollbar-thumb: rgba(241, 236, 224, 0.3);
+  --scrollbar-thumb-hover: rgba(241, 236, 224, 0.5);
+
+  --console-cmd: #8fe3b0;
+  --console-heading: #c9b6ff;
+  --console-error: #ff9b85;
+  --console-prompt: #b5e48c;
+}
+
 :root {
   --transition-fast: 0.2s ease;
+  --font-display-stack: var(--font-display, "Arial Black"), "Arial Black", system-ui, sans-serif;
+  --font-body-stack: var(--font-body, system-ui), system-ui, sans-serif;
+  --font-mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 
   --background-color: #1e1e1e;
   --page-background: #0a0c10b3;

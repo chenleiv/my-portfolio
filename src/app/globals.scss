@@ -10,20 +10,34 @@
 }
 
 /* ===== Base ===== */
-:root {
-  --font-main: 'Inter', 'Segoe UI', Roboto, sans-serif;
-}
-
 body {
   margin: 0;
-  font-family: var(--font-main);
-  background-color: var(--background-color);
-  color: var(--text-primary);
+  font-family: var(--font-body-stack);
+  background-color: var(--bg);
+  color: var(--ink);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scrollbar-width: thin;
-  scrollbar-color: var(--sb-thumb) var(--sb-track);
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display-stack);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 3px;
 }
 
 /* ===== Layout root ===== */
@@ -33,9 +47,6 @@ body {
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
-  background-image:
-    radial-gradient(circle at 15% 50%, rgba(86, 156, 214, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(197, 134, 192, 0.08), transparent 25%);
 
   &__main {
     flex-grow: 1;
@@ -62,7 +73,6 @@ body {
     position: relative;
     z-index: 10;
     width: 100%;
-    background: linear-gradient(to top, var(--background-color), transparent);
   }
 
   &__footer-text {
@@ -71,9 +81,8 @@ body {
     width: 100%;
     text-align: center;
     padding: 32px;
-    color: var(--text-secondary);
+    color: var(--ink-muted);
     font-size: 0.9rem;
-    opacity: 0.8;
   }
 }
 
@@ -84,16 +93,16 @@ body {
 }
 
 *::-webkit-scrollbar-track {
-  background: var(--sb-track);
+  background: var(--scrollbar-track);
 }
 
 *::-webkit-scrollbar-thumb {
-  background: var(--sb-thumb);
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: var(--sb-thumb-hover);
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* ===== Responsive ===== */
@@ -101,5 +110,17 @@ body {
   .app__main {
     padding: 40px 20px;
     gap: 60px;
+  }
+}
+
+/* ===== Reduced motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
