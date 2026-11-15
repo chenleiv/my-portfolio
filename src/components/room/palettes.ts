@@ -54,6 +54,9 @@ export interface ScenePalette {
   readonly leaf: string;
   readonly pot: string;
   readonly guitar: string;
+  // Desk mug and its steam, chosen to show against the desk top.
+  readonly mug: string;
+  readonly steam: string;
   readonly books: readonly string[];
 }
 
@@ -90,6 +93,8 @@ const LIGHT: ScenePalette = {
   leaf: "#4f8a4b",
   pot: "#b5603a",
   guitar: "#c97b3d",
+  mug: "#5b8f8b",
+  steam: "#6b7470",
   books: ["#e8a5a0", "#8fbfb7", "#f2cf86", "#9db7d6", "#c9a6d6"],
 };
 
@@ -126,6 +131,8 @@ const DARK: ScenePalette = {
   leaf: "#3f9a6a",
   pot: "#8a4a32",
   guitar: "#b0703f",
+  mug: "#f4f1ea",
+  steam: "#e8edf2",
   books: ["#35e0ff", "#ff8a5c", "#ffe14a", "#8a6ad1", "#3fd69a"],
 };
 

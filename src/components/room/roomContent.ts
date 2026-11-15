@@ -99,7 +99,7 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "lamp", rect: { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 } },
   { id: "tv", rect: { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 } },
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 9.0, y1: 1.8 } },
-  { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.3 } },
+  { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
   { id: "coffee-table", rect: { x0: 2.3, y0: 7.2, x1: 3.7, y1: 8.8 } },
   { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
   // Food bowl and bone on the rug beside Bucky.

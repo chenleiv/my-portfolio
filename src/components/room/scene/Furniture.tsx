@@ -36,18 +36,41 @@ export function Desk({ p }: { p: ScenePalette }) {
     ...box(5.9, 0.5, 1.6, 0.3, 0.3, 0.05, p.brass),
     ...box(6.0, 0.6, 1.65, 0.05, 0.05, 0.4, p.brass),
     ...box(5.9, 0.5, 2.0, 0.3, 0.25, 0.15, PLANT_GREEN),
+    // Mug at the front-left corner of the desk, where its steam clears the plant and the Projects label.
+    ...box(MUG.x, MUG.y, 1.6, 0.2, 0.2, 0.22, p.mug),
+    ...box(MUG.x + 0.2, MUG.y + 0.07, 1.65, 0.05, 0.06, 0.12, p.mug),
+    qz(1.821, MUG.x + 0.03, MUG.x + 0.17, MUG.y + 0.03, MUG.y + 0.17, COFFEE),
   ];
   return (
     <SceneObject objectKey="desk">
       <Faces faces={faces} />
+      <g fill="none" stroke={p.steam} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+        {[MUG.x + 0.06, MUG.x + 0.14].map((sx, i) => (
+          <polyline key={i} points={steamPoints(sx, MUG.y + 0.1, i)} />
+        ))}
+      </g>
     </SceneObject>
   );
 }
 
-// A separate scene item from the desk so Chen can stand in front of the desk
-// and behind the chair at the same time. Clicking it still opens Projects.
+const MUG = { x: 5.68, y: 1.5 } as const;
+const COFFEE = "#5a3a26";
+
+// A short wavy line rising from the mug, offset per strand so the two do not mirror.
+function steamPoints(x: number, y: number, strand: number): string {
+  const wave = [0, 0.03, -0.03, 0.02];
+  return wave
+    .map((dx, i) => {
+      const [sx, sy] = project(x + (strand ? -dx : dx), y, 1.9 + i * 0.13);
+      return `${sx.toFixed(1)},${sy.toFixed(1)}`;
+    })
+    .join(" ");
+}
+
 // Gaming chair facing the desk: the seat is on the desk side and the tall back,
-// side wings and headrest are at the rear (+y). Coral with dark trim.
+// side wings and headrest are at the rear (+y). Coral with dark trim. A separate
+// scene item from the desk so Chen can stand in front of the desk and behind the
+// chair. Clicking it still opens Projects. Headphones hang on the left wing.
 export function Chair({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y } = FOOTPRINT_BY_ID.chair;
   const trim = p.tv;
@@ -74,6 +97,10 @@ export function Chair({ p }: { p: ScenePalette }) {
           ...box(x, backY - 0.12, 0.9, 0.1, 0.3, 1.2, wing),
           ...box(x + 0.9, backY - 0.12, 0.9, 0.1, 0.3, 1.2, wing),
           ...box(x + 0.25, backY - 0.02, 2.24, 0.5, 0.2, 0.3, body),
+          // Headphones over the top of the left wing: band on top, one cup on its front.
+          ...box(x - 0.02, backY - 0.06, 2.1, 0.14, 0.18, 0.05, trim),
+          ...box(x - 0.02, backY + 0.18, 1.78, 0.14, 0.06, 0.24, trim),
+          ...box(x + 0.01, backY + 0.24, 1.83, 0.08, 0.01, 0.14, p.screen),
         ]}
       />
     </SceneObject>
