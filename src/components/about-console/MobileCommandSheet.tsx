@@ -17,7 +17,7 @@ export function MobileCommandSheet({ open, onClose, commands, onSelect }: { open
 
         const delta = e.touches[0].clientY - startY.current;
 
-        // אם גררו למטה יותר מ-80px → נסגור
+        // Close the sheet when dragged down more than 80px
         if (delta > 80) {
             startY.current = null;
             onClose();
