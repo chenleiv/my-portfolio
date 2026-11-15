@@ -13,7 +13,9 @@ import {
   START,
   WALK_SPEED,
   type ObjectKey,
+  type Rect,
 } from "./roomContent";
+import { drawSlot } from "./depth";
 import { CHEN_PARTS, SWING, type ChenPart } from "./scene/Chen";
 import {
   createWalkerState,
@@ -69,21 +71,16 @@ export function usePrefersReducedMotion(): boolean {
   );
 }
 
-// Index among the depth-sorted scene items where Chen is drawn.
-function slotFor(depth: number, depths: readonly number[]): number {
-  return depths.filter((d) => d <= depth).length;
-}
-
 interface UseWalkerOptions {
-  // Depths of the scene items, sorted ascending. Must be a stable reference.
-  depths: readonly number[];
+  // Floor footprints of the scene items, back to front. Must be a stable reference.
+  footprints: readonly (Rect | null)[];
   onAutoOpen: (key: ObjectKey) => void;
   onNearChange: (key: ObjectKey | null) => void;
 }
 
 // Chen moves only while a movement key is held, or along a walk started by a
 // click on an object, a label or a quick button. Nothing else moves her.
-export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions) {
+export function useWalker({ footprints, onAutoOpen, onNearChange }: UseWalkerOptions) {
   const reducedMotion = usePrefersReducedMotion();
 
   const stateRef = useRef(createWalkerState<ObjectKey>(START));
@@ -96,7 +93,7 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
   const chenElRef = useRef<SVGGElement | null>(null);
   const limbsRef = useRef<Partial<Record<ChenPart, SVGGElement>>>({});
 
-  const [slot, setSlot] = useState(() => slotFor(START[0] + START[1], depths));
+  const [slot, setSlot] = useState(() => drawSlot(START[0], START[1], footprints));
   const slotRef = useRef(slot);
 
   useEffect(() => {
@@ -117,12 +114,12 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
       const [lx, ly] = worldOffset(0, stride * SWING[part]);
       g.setAttribute("transform", `translate(${lx.toFixed(2)},${ly.toFixed(2)})`);
     }
-    const next = slotFor(s.x + s.y, depths);
+    const next = drawSlot(s.x, s.y, footprints);
     if (next !== slotRef.current) {
       slotRef.current = next;
       setSlot(next);
     }
-  }, [depths]);
+  }, [footprints]);
 
   const chenRef = useCallback(
     (el: SVGGElement | null) => {

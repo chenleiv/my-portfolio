@@ -4,7 +4,7 @@ import { useCallback, useMemo, useRef, useState, type CSSProperties, type FocusE
 import { useTheme } from "../../context/ThemeContext";
 import { toViewPercent, VIEW_BOX } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
-import { OBJECT_BY_KEY, ROOM_OBJECTS, type ObjectKey } from "./roomContent";
+import { FOOTPRINT_RECTS, OBJECT_BY_KEY, ROOM_OBJECTS, SCENE_FOOTPRINTS, type ObjectKey, type SceneItemId } from "./roomContent";
 import { RoomDialog } from "./RoomDialog";
 import { Background } from "./scene/Background";
 import { Bucky } from "./scene/Bucky";
@@ -15,28 +15,18 @@ import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
 import { useWalker } from "./useWalker";
 
-interface SceneItem {
-  readonly id: string;
-  // Chen is drawn in front of every item whose depth is at most her x + y.
-  readonly depth: number;
-  readonly render: (p: ScenePalette) => ReactNode;
-}
-
-// Sorted by depth, back to front.
-const SCENE_ITEMS: readonly SceneItem[] = [
-  { id: "window", depth: 0.1, render: (p) => <Window p={p} /> },
-  { id: "shelf", depth: 4.15, render: (p) => <Shelf p={p} /> },
-  { id: "lamp", depth: 6.0, render: (p) => <Lamp p={p} /> },
-  { id: "tv", depth: 8.3, render: (p) => <Tv p={p} /> },
-  { id: "desk", depth: 8.35, render: (p) => <Desk p={p} /> },
-  { id: "chair", depth: 9.0, render: (p) => <Chair p={p} /> },
-  { id: "coffee-table", depth: 11.3, render: (p) => <CoffeeTable p={p} /> },
-  { id: "bucky", depth: 12.3, render: () => <Bucky /> },
-  { id: "sofa", depth: 14.0, render: (p) => <Sofa p={p} /> },
-  { id: "plant", depth: 18.2, render: (p) => <Plant p={p} /> },
-];
-
-const DEPTHS = SCENE_ITEMS.map((i) => i.depth);
+const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
+  window: (p) => <Window p={p} />,
+  shelf: (p) => <Shelf p={p} />,
+  lamp: (p) => <Lamp p={p} />,
+  tv: (p) => <Tv p={p} />,
+  desk: (p) => <Desk p={p} />,
+  chair: (p) => <Chair p={p} />,
+  "coffee-table": (p) => <CoffeeTable p={p} />,
+  bucky: () => <Bucky />,
+  sofa: (p) => <Sofa p={p} />,
+  plant: (p) => <Plant p={p} />,
+};
 
 const LABELS = ROOM_OBJECTS.map((o) => {
   const { left, top } = toViewPercent(o.label.x, o.label.y, o.label.z);
@@ -73,7 +63,7 @@ export default function Room() {
   }, []);
 
   const { sceneRef, chenRef, slot, walkToAndOpen, markDialogOpen, markDialogClosed, handleKeyDown, getNear } = useWalker({
-    depths: DEPTHS,
+    footprints: FOOTPRINT_RECTS,
     onAutoOpen,
     onNearChange: setNearKey,
   });
@@ -127,7 +117,8 @@ export default function Room() {
   const onLabelFocus = (e: FocusEvent<HTMLDivElement>) => setHoverKey(keyFromTarget(e.target)?.key ?? null);
 
   const sceneItems = useMemo(
-    () => SCENE_ITEMS.map((item) => <g key={item.id}>{item.render(palette)}</g>),
+    // Back to front, in the same order as the footprints the walker uses for Chen's slot.
+    () => SCENE_FOOTPRINTS.map(({ id }) => <g key={id}>{RENDER[id](palette)}</g>),
     [palette],
   );
   const background = useMemo(
