@@ -24,14 +24,6 @@
   }
 }
 
-@media (max-width: 820px) {
-  // The Recruiter mode button is fixed at the top right; keep the top bar
-  // clear of it so the back link wraps to a second row instead of overlapping.
-  .app__topbar--console {
-    padding-right: 180px;
-  }
-}
-
 .console-wrapper {
   width: 100%;
   max-width: 1100px;

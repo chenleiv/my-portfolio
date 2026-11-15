@@ -60,17 +60,8 @@ export default function SkillsMatcher({
     }, [isModalOpen]);
 
     return (
+        // Opened only through window.openSkillMatcher, from the recruiterMode() console command.
         <div className="skills-root">
-            <button
-                type="button"
-                className="skills-fab"
-                onClick={openModal}
-                aria-label="Recruiter mode"
-                title="Recruiter mode"
-            >
-                🎯 Recruiter mode
-            </button>
-
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div

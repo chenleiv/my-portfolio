@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function ConsolePage() {
   return (
     <div className="app">
-      <header className="app__topbar app__topbar--console">
+      <header className="app__topbar">
         <ThemeToggle />
         <Link href="/" className="topbar-link">
           <span aria-hidden="true">←</span>
