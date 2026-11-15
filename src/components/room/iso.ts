@@ -2,15 +2,15 @@
 // World units: x runs down-right along the right wall, y runs down-left along
 // the left wall, z is height. The room floor is 10 x 10 and the walls are 5 high.
 
+// Projection, in SVG units per world unit. U is the horizontal spread, V the
+// vertical spread of the floor (lower = flatter floor), Z the height of one
+// unit (lower = squatter walls and furniture). The viewBox follows these.
 export const U = 34;
-export const V = 19;
-export const Z = 38;
+export const V = 15;
+export const Z = 30;
 export const OX = 380;
 export const OY = 200;
 export const WALL_H = 5;
-
-export const VIEW_W = 760;
-export const VIEW_H = 620;
 
 export type Point3 = readonly [number, number, number];
 
@@ -21,6 +21,38 @@ export interface Face {
 
 export function project(x: number, y: number, z = 0): [number, number] {
   return [OX + (x - y) * U, OY + (x + y) * V - z * Z];
+}
+
+// Space around the room inside the viewBox. The top is larger so the pulse
+// ring of the highest label is never clipped.
+const PAD = { top: 24, right: 16, bottom: 16, left: 16 } as const;
+
+// The viewBox hugs the projected room: walls on top, floor corners below.
+export const VIEW_BOX = (() => {
+  const corners = [
+    project(0, 0, WALL_H),
+    project(10, 0, WALL_H),
+    project(0, 10, WALL_H),
+    project(10, 0, 0),
+    project(0, 10, 0),
+    project(10, 10, 0),
+  ];
+  const xs = corners.map((c) => c[0]);
+  const ys = corners.map((c) => c[1]);
+  const x = Math.min(...xs) - PAD.left;
+  const y = Math.min(...ys) - PAD.top;
+  return {
+    x,
+    y,
+    w: Math.max(...xs) + PAD.right - x,
+    h: Math.max(...ys) + PAD.bottom - y,
+  };
+})();
+
+// Position of a world point as a percentage of the viewBox, for HTML overlays.
+export function toViewPercent(x: number, y: number, z = 0): { left: number; top: number } {
+  const [sx, sy] = project(x, y, z);
+  return { left: ((sx - VIEW_BOX.x) / VIEW_BOX.w) * 100, top: ((sy - VIEW_BOX.y) / VIEW_BOX.h) * 100 };
 }
 
 // Screen offset for a move in world space. The projection is affine, so a

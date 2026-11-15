@@ -1,13 +1,13 @@
-import { box, qy, type Face } from "../iso";
+import { box, project, qy, worldOffset, type Face } from "../iso";
 import { BUCKY } from "../palettes";
 import { Faces, SceneObject } from "./primitives";
 
-// Bucky is drawn slightly larger than world scale and nudged onto the rug.
+// Bucky is drawn slightly larger than world scale around a pivot on the floor,
+// then nudged onto the rug. Both are world points, so they follow the projection.
 const SCALE = 1.3;
-const PIVOT_X = 327;
-const PIVOT_Y = 387;
-const NUDGE_X = -12;
-const NUDGE_Y = 36;
+const PIVOT = project(4.142, 5.7, 0);
+const NUDGE = worldOffset(0.771, 1.124);
+const TRANSFORM = `translate(${(PIVOT[0] + NUDGE[0]).toFixed(1)},${(PIVOT[1] + NUDGE[1]).toFixed(1)}) scale(${SCALE}) translate(${(-PIVOT[0]).toFixed(1)},${(-PIVOT[1]).toFixed(1)})`;
 
 function buckyFaces(): Face[] {
   const c = BUCKY;
@@ -42,7 +42,7 @@ const FACES = buckyFaces();
 export function Bucky() {
   return (
     <SceneObject objectKey="bucky">
-      <g transform={`translate(${PIVOT_X + NUDGE_X},${PIVOT_Y + NUDGE_Y}) scale(${SCALE}) translate(${-PIVOT_X},${-PIVOT_Y})`}>
+      <g transform={TRANSFORM}>
         <Faces faces={FACES} />
       </g>
     </SceneObject>

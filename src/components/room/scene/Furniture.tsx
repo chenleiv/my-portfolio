@@ -83,7 +83,7 @@ export function Lamp({ p }: { p: ScenePalette }) {
   const [gx, gy] = project(0.4, 5.55, 3.1);
   return (
     <>
-      <ellipse cx={gx.toFixed(1)} cy={gy.toFixed(1)} rx={62} ry={50} fill={p.glow} opacity={p.isDark ? 0.24 : 0.09} />
+      <ellipse cx={gx.toFixed(1)} cy={gy.toFixed(1)} rx={62} ry={42} fill={p.glow} opacity={p.isDark ? 0.24 : 0.09} />
       <Faces
         faces={[
           ...box(0.2, 5.35, 0, 0.4, 0.4, 0.08, p.brass),

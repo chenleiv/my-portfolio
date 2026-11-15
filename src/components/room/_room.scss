@@ -9,10 +9,16 @@ $room-keys: desk, cv, shelf, tv, bucky, win;
   flex-direction: column;
   align-items: stretch;
 
+  // The room never gets taller than min(65svh, 600px); its width follows from
+  // the viewBox ratio (--room-ratio, set inline by Room.tsx).
   &__scene {
-    width: 100%;
-    max-width: 900px;
+    --room-max-h: min(65vh, 600px);
+    width: min(100%, calc(var(--room-max-h) * var(--room-ratio, 1.45)));
     margin: 0 auto;
+
+    @supports (height: 1svh) {
+      --room-max-h: min(65svh, 600px);
+    }
     border-radius: 12px;
 
     &:focus-visible {
@@ -24,7 +30,7 @@ $room-keys: desk, cv, shelf, tv, bucky, win;
   &__stage {
     position: relative;
     width: 100%;
-    aspect-ratio: 760 / 620;
+    aspect-ratio: var(--room-ratio, 1.45);
 
     @each $key in $room-keys {
       &[data-active="#{$key}"] {

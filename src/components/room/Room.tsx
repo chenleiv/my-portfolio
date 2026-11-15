@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState, type FocusEvent, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState, type CSSProperties, type FocusEvent, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { useTheme } from "../../context/ThemeContext";
-import { project, VIEW_H, VIEW_W } from "./iso";
+import { toViewPercent, VIEW_BOX } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
 import { OBJECT_BY_KEY, ROOM_OBJECTS, type ObjectKey } from "./roomContent";
 import { RoomDialog } from "./RoomDialog";
@@ -38,9 +38,14 @@ const SCENE_ITEMS: readonly SceneItem[] = [
 const DEPTHS = SCENE_ITEMS.map((i) => i.depth);
 
 const LABELS = ROOM_OBJECTS.map((o) => {
-  const [x, y] = project(o.label.x, o.label.y, o.label.z);
-  return { key: o.key, name: o.name, left: `${((x / VIEW_W) * 100).toFixed(2)}%`, top: `${((y / VIEW_H) * 100).toFixed(2)}%` };
+  const { left, top } = toViewPercent(o.label.x, o.label.y, o.label.z);
+  return { key: o.key, name: o.name, left: `${left.toFixed(2)}%`, top: `${top.toFixed(2)}%` };
 });
+
+const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) => n.toFixed(1)).join(" ");
+
+// The stage keeps the viewBox ratio, so labels placed in percent stay on their objects.
+const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
 const SCENE_LABEL = "Room. Use the arrow keys or WASD to walk. Stop next to an object to open it.";
 
@@ -146,6 +151,7 @@ export default function Room() {
       <div
         ref={sceneRef}
         className="room__scene"
+        style={STAGE_STYLE}
         tabIndex={0}
         role="application"
         aria-label={SCENE_LABEL}
@@ -158,7 +164,7 @@ export default function Room() {
       >
         <div className="room__stage" data-active={activeKey ?? undefined}>
           {mounted && (
-            <svg className="room__svg" viewBox={`0 0 ${VIEW_W} ${VIEW_H}`} aria-hidden="true" focusable="false">
+            <svg className="room__svg" viewBox={VIEW_BOX_ATTR} aria-hidden="true" focusable="false">
               {background}
               {/* One keyed list, so a depth change moves Chen instead of remounting furniture. */}
               <g>{[...sceneItems.slice(0, slot), chen, ...sceneItems.slice(slot)]}</g>
