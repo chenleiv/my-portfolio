@@ -46,6 +46,11 @@ export const ABOUT_LINES: ConsoleLine[] = [
     text: "showProjects() | portfolioCode() | cv() | linkedin() | contact() | clear()",
   },
   {
+    id: "c2",
+    type: "cmd",
+    text: "home() — back to the site",
+  },
+  {
     id: "hint1",
     type: "hint",
     text: "// 💡 Try recruiterMode() — find out if my skills are a match",
