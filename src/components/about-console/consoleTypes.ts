@@ -1,3 +1,5 @@
+import { profile } from "../../content/profile";
+
 export type ConsoleLineType =
   | "heroName"
   | "heroTitle"
@@ -22,19 +24,19 @@ export type ConsoleLine = {
 };
 
 export const ABOUT_LINES: ConsoleLine[] = [
-  { id: "h1", type: "heroName", text: "CHEN LEIV" },
-  { id: "h2", type: "heroTitle", text: "Frontend Engineer" },
-  { id: "h3", type: "openToWork", text: "Full-Stack · Security · AI-Powered Apps" },
+  { id: "h1", type: "heroName", text: profile.name },
+  { id: "h2", type: "heroTitle", text: profile.title },
+  { id: "h3", type: "openToWork", text: profile.tagline },
 
   {
     id: "d1",
     type: "desc",
-    text: "4 years of experience building enterprise web applications with Angular, React and TypeScript. Now building full-stack applications with security and AI built in: my flagship project, InsightDesk, is a RAG app that answers from your documents and verifies every citation.",
+    text: profile.intro,
   },
   {
     id: "s1",
     type: "recruiterMode",
-    text: "React • Angular • TypeScript • SCSS • Node.js",
+    text: profile.stack,
   },
 
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
