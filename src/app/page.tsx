@@ -19,9 +19,6 @@ export default function Page() {
       <main className="app__main">
         <section id="about" className="app__section app__section--intro">
           <Hero />
-          <p className="app__howto">
-            Click the room, then walk with the arrow keys or WASD. Stop next to an object and it opens. Or just click any labelled object.
-          </p>
           <Room />
         </section>
 

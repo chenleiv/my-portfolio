@@ -88,12 +88,18 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
   }
 
-  &__prompt {
-    min-height: 1.6em;
-    margin-top: 12px;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--ink);
+  // Narrow screens: the How to play panel sits above the room. Wide screens:
+  // beside it on the left, in the space the height-capped room leaves free.
+  &__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    align-items: center;
+
+    @media (min-width: 1100px) {
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 28px;
+    }
   }
 
   &__quick {
@@ -300,5 +306,138 @@ $room-keys: desk, shelf, tv, bucky, contact;
 
   .room-obj {
     transition: none;
+  }
+}
+
+// ─── How to play panel ──────────────────────────────────────────────────────
+// Site tokens only: ink on panel. The pixel font is used for the title, key
+// caps and status; the instruction lines keep the body font for readability.
+
+.how-to-play {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+  padding: 16px 18px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--ink);
+
+  // Mid-width screens: key caps beside the steps, title and status full width.
+  @media (min-width: 600px) and (max-width: 1099px) {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 24px;
+
+    .how-to-play__title,
+    .how-to-play__status {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__title {
+    font-family: var(--font-pixel-stack);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  &__keys {
+    display: flex;
+    gap: 16px;
+  }
+
+  &__cluster {
+    display: grid;
+    grid-template-columns: repeat(3, 30px);
+    grid-template-rows: repeat(2, 30px);
+    gap: 4px;
+  }
+
+  &__key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    background: var(--bg);
+    box-shadow: 0 3px 0 var(--ink);
+    color: var(--ink);
+    font: 700 14px / 1 var(--font-pixel-stack);
+
+    &--up {
+      grid-column: 2;
+    }
+  }
+
+  // Arrow heads drawn with borders, so they do not depend on font glyphs.
+  &__arrow {
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+
+    &--up {
+      border-bottom-color: var(--ink);
+      margin-top: -6px;
+    }
+
+    &--down {
+      border-top-color: var(--ink);
+      margin-bottom: -6px;
+    }
+
+    &--left {
+      border-right-color: var(--ink);
+      margin-left: -6px;
+    }
+
+    &--right {
+      border-left-color: var(--ink);
+      margin-right: -6px;
+    }
+  }
+
+  &__steps {
+    display: grid;
+    gap: 4px;
+    padding-left: 18px;
+    font-size: 15px;
+    line-height: 1.35;
+  }
+
+  &__status {
+    padding: 10px 12px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--bg);
+    font-family: var(--font-pixel-stack);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  &__status-title {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  &__status-main {
+    margin-top: 2px;
+    font-weight: 700;
+    font-size: 16px;
+  }
+
+  &__options {
+    display: grid;
+    gap: 2px;
+    margin-top: 6px;
+    padding: 0;
+    list-style: none;
+    font-size: 14px;
+
+    li::before {
+      content: "› ";
+    }
   }
 }

@@ -82,14 +82,6 @@ a {
     text-underline-offset: 3px;
   }
 
-  &__howto {
-    width: 100%;
-    margin: 44px 0 24px;
-    font-size: 17px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
   &__main {
     flex-grow: 1;
     width: 100%;
@@ -114,6 +106,7 @@ a {
       max-width: 1180px;
       margin: 0 auto;
       align-items: stretch;
+      gap: 44px;
     }
   }
 

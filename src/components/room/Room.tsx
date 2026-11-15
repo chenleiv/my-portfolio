@@ -14,6 +14,7 @@ import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
 import { ContactBoard } from "./scene/ContactBoard";
+import { HowToPlay } from "./HowToPlay";
 import { useWalker, type ScreenBox } from "./useWalker";
 
 const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
@@ -167,51 +168,47 @@ export default function Room() {
   const chen = <Chen key="chen" ref={chenRef} />;
 
   const activeKey = hoverKey ?? nearKey;
-  const prompt = nearKey
-    ? `Next to: ${OBJECT_BY_KEY[nearKey].title}. Stay a moment to open it, or press E.`
-    : "Walk next to an object and it opens, or click an object.";
 
   return (
     <section className="room" aria-label="Interactive room">
-      <div
-        ref={sceneRef}
-        className="room__scene"
-        style={STAGE_STYLE}
-        tabIndex={0}
-        role="application"
-        aria-label={SCENE_LABEL}
-        onClick={onSceneClick}
-        onKeyDown={onSceneKeyDown}
-        onPointerOver={onPointerOver}
-        onPointerLeave={() => setHoverKey(null)}
-        onFocus={onLabelFocus}
-        onBlur={() => setHoverKey(null)}
-      >
-        <div ref={stageRef} className="room__stage" data-active={activeKey ?? undefined}>
-          {mounted && (
-            <svg className="room__svg" viewBox={VIEW_BOX_ATTR} aria-hidden="true" focusable="false">
-              {background}
-              {/* One keyed list, so a depth change moves Chen instead of remounting furniture. */}
-              <g>{[...sceneItems.slice(0, slot), chen, ...sceneItems.slice(slot)]}</g>
-            </svg>
-          )}
-          {LABELS.map((l) => (
-            <button
-              key={l.key}
-              type="button"
-              className="room__label"
-              data-room-key={l.key}
-              style={{ left: l.left, top: l.top }}
-            >
-              {l.name}
-            </button>
-          ))}
+      <div className="room__layout">
+        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} />
+        <div
+          ref={sceneRef}
+          className="room__scene"
+          style={STAGE_STYLE}
+          tabIndex={0}
+          role="application"
+          aria-label={SCENE_LABEL}
+          onClick={onSceneClick}
+          onKeyDown={onSceneKeyDown}
+          onPointerOver={onPointerOver}
+          onPointerLeave={() => setHoverKey(null)}
+          onFocus={onLabelFocus}
+          onBlur={() => setHoverKey(null)}
+        >
+          <div ref={stageRef} className="room__stage" data-active={activeKey ?? undefined}>
+            {mounted && (
+              <svg className="room__svg" viewBox={VIEW_BOX_ATTR} aria-hidden="true" focusable="false">
+                {background}
+                {/* One keyed list, so a depth change moves Chen instead of remounting furniture. */}
+                <g>{[...sceneItems.slice(0, slot), chen, ...sceneItems.slice(slot)]}</g>
+              </svg>
+            )}
+            {LABELS.map((l) => (
+              <button
+                key={l.key}
+                type="button"
+                className="room__label"
+                data-room-key={l.key}
+                style={{ left: l.left, top: l.top }}
+              >
+                {l.name}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-
-      <p className="room__prompt" aria-live="polite">
-        {prompt}
-      </p>
 
       <div className="room__quick" role="group" aria-label="Open directly">
         {ROOM_OBJECTS.map((o) => (
