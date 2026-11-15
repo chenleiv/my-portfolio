@@ -66,20 +66,31 @@ export default function Room() {
     setOpenKey(key);
   }, []);
 
-  const { sceneRef, chenRef, slot, walkTo, markDialogClosed, handleKeyDown, getNear } = useWalker({
+  const { sceneRef, chenRef, slot, walkToAndOpen, markDialogOpen, markDialogClosed, handleKeyDown, getNear } = useWalker({
     depths: DEPTHS,
     onAutoOpen,
     onNearChange: setNearKey,
   });
 
+  // Click on an object, a label or a quick button: open now, Chen walks there in the background.
   const openObject = useCallback(
     (key: ObjectKey, trigger: HTMLElement | null) => {
       returnFocusRef.current = trigger;
-      walkTo(key, true);
+      walkToAndOpen(key);
       setOpenKey(key);
     },
-    [walkTo],
+    [walkToAndOpen],
   );
+
+  // E or Enter: open the object Chen is next to, without moving her.
+  const openNearInPlace = (trigger: HTMLElement | null) => {
+    const near = getNear();
+    if (!near) return false;
+    returnFocusRef.current = trigger;
+    markDialogOpen();
+    setOpenKey(near);
+    return true;
+  };
 
   const closeDialog = useCallback(() => {
     setOpenKey(null);
@@ -102,10 +113,7 @@ export default function Room() {
     if (handleKeyDown(e)) return;
     const onScene = e.target === e.currentTarget;
     if (e.key === "e" || e.key === "E" || (e.key === "Enter" && onScene)) {
-      const near = getNear();
-      if (!near) return;
-      e.preventDefault();
-      openObject(near, onScene ? null : (e.target as HTMLElement));
+      if (openNearInPlace(onScene ? null : (e.target as HTMLElement))) e.preventDefault();
     }
   };
 

@@ -75,9 +75,5 @@ export const WALK_SPEED = 2.6;
 // How long Chen must stand still next to an object before its popup opens.
 export const AUTO_OPEN_DWELL_SECONDS = 0.2;
 
-// Wandering: checked every WANDER_CHECK_MS, starts after IDLE_BEFORE_WANDER_MS without input.
-export const WANDER_CHECK_MS = 4000;
-export const IDLE_BEFORE_WANDER_MS = 7000;
-
 export const OFF_DUTY_TEXT = "PS5 and TV series. I also write, and one day a series of my own.";
 export const BUCKY_TEXT = "Bucky supervises my code reviews from the floor.";

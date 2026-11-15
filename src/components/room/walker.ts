@@ -24,7 +24,7 @@ export interface HeldKeys {
 export interface WalkerState<K extends string> {
   x: number;
   y: number;
-  // Waypoints of a scripted walk (click or wander). Empty when keys drive Chen.
+  // Waypoints of a walk started by a click. Empty when keys drive Chen.
   path: Vec2[];
   moving: boolean;
   // Walk cycle phase in radians.
@@ -139,7 +139,7 @@ export function tick<K extends string>(
   const step = cfg.speed * dt;
 
   if (state.path.length > 0) {
-    // Scripted walk: straight lines between waypoints, no collision.
+    // Walk after a click: straight lines between waypoints, no collision.
     const [tx, ty] = state.path[0];
     const dx = tx - state.x;
     const dy = ty - state.y;

@@ -14,7 +14,6 @@ $room-keys: desk, cv, shelf, tv, bucky, win;
     max-width: 900px;
     margin: 0 auto;
     border-radius: 12px;
-    cursor: pointer;
 
     &:focus-visible {
       outline: 3px solid var(--ink);
@@ -109,6 +108,7 @@ $room-keys: desk, cv, shelf, tv, bucky, win;
 }
 
 .room-obj {
+  cursor: pointer;
   transition: filter var(--transition-fast);
 }
 

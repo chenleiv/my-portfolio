@@ -8,13 +8,10 @@ import {
   BODY_RADIUS,
   BOUNDS,
   HUB,
-  IDLE_BEFORE_WANDER_MS,
   NEAR_RADIUS,
-  ROOM_OBJECTS,
   SPOTS,
   START,
   WALK_SPEED,
-  WANDER_CHECK_MS,
   type ObjectKey,
 } from "./roomContent";
 import { CHEN_PARTS, SWING, type ChenPart } from "./scene/Chen";
@@ -84,6 +81,8 @@ interface UseWalkerOptions {
   onNearChange: (key: ObjectKey | null) => void;
 }
 
+// Chen moves only while a movement key is held, or along a walk started by a
+// click on an object, a label or a quick button. Nothing else moves her.
 export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions) {
   const reducedMotion = usePrefersReducedMotion();
 
@@ -91,9 +90,6 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
   const keysRef = useRef<HeldKeys>(noKeys());
   const dialogOpenRef = useRef(false);
   const reducedRef = useRef(reducedMotion);
-  const lastActivityRef = useRef(0);
-  // Last place Chen was sent, so wandering picks somewhere else.
-  const whereRef = useRef<ObjectKey>("desk");
   const callbacksRef = useRef({ onAutoOpen, onNearChange });
 
   const sceneRef = useRef<HTMLDivElement>(null);
@@ -146,22 +142,9 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
   useEffect(() => {
     const scene = sceneRef.current;
     if (!scene) return;
-    lastActivityRef.current = performance.now();
     let raf = 0;
     let last = 0;
-    let wanderClock = 0;
     let running = false;
-
-    const maybeWander = () => {
-      const s = stateRef.current;
-      if (reducedRef.current || document.hidden || dialogOpenRef.current) return;
-      if (s.path.length > 0 || s.moving) return;
-      if (performance.now() - lastActivityRef.current < IDLE_BEFORE_WANDER_MS) return;
-      const others = ROOM_OBJECTS.map((o) => o.key).filter((k) => k !== whereRef.current);
-      const key = others[Math.floor(Math.random() * others.length)];
-      whereRef.current = key;
-      planWalk(stateRef.current, key, CONFIG, false);
-    };
 
     const frame = (t: number) => {
       const dt = last ? Math.min(0.05, (t - last) / 1000) : 0;
@@ -169,17 +152,11 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
       const s = stateRef.current;
       const r = tick(s, keysRef.current, dt, dialogOpenRef.current, CONFIG);
       if (r.changed) applyPose();
-      if (r.userActed) lastActivityRef.current = performance.now();
       if (r.nearChanged) callbacksRef.current.onNearChange(s.near);
       if (r.open) {
         dialogOpenRef.current = true;
         keysRef.current = noKeys();
         callbacksRef.current.onAutoOpen(r.open);
-      }
-      wanderClock += dt;
-      if (wanderClock >= WANDER_CHECK_MS / 1000) {
-        wanderClock = 0;
-        maybeWander();
       }
       raf = requestAnimationFrame(frame);
     };
@@ -225,24 +202,22 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
     };
   }, []);
 
-  // Sends Chen to an object. With `open`, the popup opens right away and she walks in the background.
-  const walkTo = useCallback(
-    (key: ObjectKey, open: boolean) => {
+  // Marks a popup as open so held keys stop and auto-open waits until it closes.
+  const markDialogOpen = useCallback(() => {
+    dialogOpenRef.current = true;
+    keysRef.current = noKeys();
+  }, []);
+
+  // Sends Chen to an object after a click. The popup opens right away and she walks in the background.
+  const walkToAndOpen = useCallback(
+    (key: ObjectKey) => {
       const s = stateRef.current;
-      whereRef.current = key;
-      lastActivityRef.current = performance.now();
-      if (open) {
-        dialogOpenRef.current = true;
-        keysRef.current = noKeys();
-      }
-      const jumped = planWalk(s, key, CONFIG, reducedRef.current);
-      if (jumped) applyPose();
-      if (jumped || open) {
-        s.near = key;
-        callbacksRef.current.onNearChange(key);
-      }
+      markDialogOpen();
+      if (planWalk(s, key, CONFIG, reducedRef.current)) applyPose();
+      s.near = key;
+      callbacksRef.current.onNearChange(key);
     },
-    [applyPose],
+    [applyPose, markDialogOpen],
   );
 
   // Returns true when the key was a movement key and has been handled.
@@ -252,17 +227,15 @@ export function useWalker({ depths, onAutoOpen, onNearChange }: UseWalkerOptions
     e.preventDefault();
     keysRef.current[dir] = true;
     stateRef.current.path = [];
-    lastActivityRef.current = performance.now();
     return true;
   }, []);
 
   const markDialogClosed = useCallback(() => {
     dialogOpenRef.current = false;
     onDialogClosed(stateRef.current);
-    lastActivityRef.current = performance.now();
   }, []);
 
   const getNear = useCallback(() => stateRef.current.near, []);
 
-  return { sceneRef, chenRef, slot, walkTo, handleKeyDown, markDialogClosed, getNear, reducedMotion };
+  return { sceneRef, chenRef, slot, walkToAndOpen, markDialogOpen, handleKeyDown, markDialogClosed, getNear, reducedMotion };
 }
