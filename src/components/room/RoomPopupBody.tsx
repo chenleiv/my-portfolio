@@ -11,7 +11,6 @@ interface PopupLink {
   readonly download?: string;
 }
 
-const EMAIL: PopupLink = { label: "Email", href: `mailto:${contact.email}` };
 const LINKEDIN: PopupLink = { label: "LinkedIn", href: contact.linkedin, external: true };
 const GITHUB: PopupLink = { label: "GitHub", href: contact.github, external: true };
 
@@ -87,14 +86,14 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
       return (
         <>
           <p>Download the CV and see how to reach me.</p>
-          <Links links={[{ label: "Download CV", href: contact.cvPath, primary: true, download: contact.cvFileName }, EMAIL, LINKEDIN]} />
+          <Links links={[{ label: "Download CV", href: contact.cvPath, primary: true, download: contact.cvFileName }, LINKEDIN]} />
         </>
       );
     case "contact":
       return (
         <>
-          <p>Email, LinkedIn and GitHub.</p>
-          <Links links={[{ ...EMAIL, primary: true }, LINKEDIN, GITHUB]} />
+          <p>LinkedIn and GitHub.</p>
+          <Links links={[{ ...LINKEDIN, primary: true }, GITHUB]} />
         </>
       );
     case "tv":

@@ -26,17 +26,6 @@ function square(cx: number, cz: number, half: number): WallPoint[] {
   ];
 }
 
-function EmailIcon({ x, p }: { x: number; p: ScenePalette }) {
-  const top = ICON_Z + HALF * 0.8;
-  const bottom = ICON_Z - HALF * 0.8;
-  return (
-    <g stroke={p.boardText} strokeWidth={2.5} strokeLinejoin="round">
-      <polygon points={wallPoints([[x - HALF, bottom], [x + HALF, bottom], [x + HALF, top], [x - HALF, top]])} fill={p.accent} />
-      <polyline points={wallPoints([[x - HALF, top], [x, ICON_Z - 0.05], [x + HALF, top]])} fill="none" />
-    </g>
-  );
-}
-
 // The outline keeps the square visible on the dark board, where the blue alone is too close to the paper.
 function LinkedInIcon({ x, p }: { x: number; p: ScenePalette }) {
   return (
@@ -76,20 +65,24 @@ function GitHubIcon({ x, p }: { x: number; p: ScenePalette }) {
   );
 }
 
+// Paper area of the board on the back wall. The two icons sit symmetrically
+// about its center, with equal space to each edge.
+const BOARD = { x0: 1.3, x1: 4.3 } as const;
+const BOARD_CENTER = (BOARD.x0 + BOARD.x1) / 2;
+const ICON_OFFSET = 0.6;
+
 const ITEMS = [
-  { caption: "Email", x: 1.85 },
-  { caption: "LinkedIn", x: 2.8 },
-  { caption: "GitHub", x: 3.75 },
+  { caption: "LinkedIn", x: BOARD_CENTER - ICON_OFFSET },
+  { caption: "GitHub", x: BOARD_CENTER + ICON_OFFSET },
 ] as const;
 
-// Framed board on the back wall with one icon per way to reach Chen. The popup has the links.
+// Framed board on the back wall with LinkedIn and GitHub. The popup has the links.
 export function ContactBoard({ p }: { p: ScenePalette }) {
   return (
     <SceneObject objectKey="contact">
-      <Faces faces={[qy(0, 1.2, 4.4, 1.8, 4.05, p.frame), qy(0, 1.3, 4.3, 1.9, 3.95, p.paper)]} />
-      <EmailIcon x={ITEMS[0].x} p={p} />
-      <LinkedInIcon x={ITEMS[1].x} p={p} />
-      <GitHubIcon x={ITEMS[2].x} p={p} />
+      <Faces faces={[qy(0, BOARD.x0 - 0.1, BOARD.x1 + 0.1, 1.8, 4.05, p.frame), qy(0, BOARD.x0, BOARD.x1, 1.9, 3.95, p.paper)]} />
+      <LinkedInIcon x={ITEMS[0].x} p={p} />
+      <GitHubIcon x={ITEMS[1].x} p={p} />
       {ITEMS.map((item) => (
         <YText key={item.caption} x={item.x} z={2.3} h={0.28} fill={p.boardText}>
           {item.caption}
