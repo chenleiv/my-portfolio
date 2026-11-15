@@ -10,7 +10,7 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
   {
     id: "showProjects",
     label: "Show Projects",
-    hint: "Open projects section",
+    hint: "List my projects",
     group: "Actions",
     keywords: ["projects"],
   },
@@ -45,7 +45,7 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
   {
     id: "contact",
     label: "Contact",
-    hint: "Email options",
+    hint: "Email, phone and links",
     group: "Links",
     keywords: ["email"],
   },

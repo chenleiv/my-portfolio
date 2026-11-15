@@ -1,9 +1,10 @@
 import { normalizeCommand, toDisplayCommand } from "../consoleCommands";
 import type { ConsoleLine } from "../consoleTypes";
 import { uid } from "../../../utils/uid";
+import { contact } from "../../../content/contact";
+import { PROJECTS } from "../../projects/projectData";
 
 type Deps = {
-  isMobile: boolean;
   initialLines: ConsoleLine[];
 
   pushHistory: (lines: ConsoleLine[], rawCmd: string) => void;
@@ -13,10 +14,86 @@ type Deps = {
 
   setCommandHistoryRaw: (rawCmd: string) => void;
 
-  scrollToSection: (id: string) => void;
-  highlightSection: (id: string) => void;
   scrollToConsoleTop: () => void;
 };
+
+// "https://example.com/path/" -> "example.com/path"
+const toDisplayUrl = (url: string) =>
+  url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+
+const projectLines = (): ConsoleLine[] => {
+  const lines: ConsoleLine[] = [
+    { id: uid(), type: "system", text: `📂 Projects (${PROJECTS.length})` },
+  ];
+
+  PROJECTS.forEach((project, index) => {
+    lines.push(
+      { id: uid(), type: "commandsTitle", text: `${index + 1}. ${project.header}` },
+      { id: uid(), type: "desc", text: project.summary },
+    );
+
+    if (project.web && !project.hideWeb) {
+      lines.push({
+        id: uid(),
+        type: "link",
+        text: "🌐 Live demo",
+        href: project.web,
+        download: toDisplayUrl(project.web),
+      });
+    }
+
+    if (!project.hideGithub) {
+      lines.push({
+        id: uid(),
+        type: "link",
+        text: "💻 GitHub",
+        href: project.github,
+        download: toDisplayUrl(project.github),
+      });
+    }
+  });
+
+  return lines;
+};
+
+const contactLines = (): ConsoleLine[] => [
+  { id: uid(), type: "system", text: "📬 Contact" },
+  {
+    id: uid(),
+    type: "link",
+    text: "✉️ Email",
+    href: `mailto:${contact.email}`,
+    download: contact.email,
+  },
+  {
+    id: uid(),
+    type: "link",
+    text: "📱 Phone",
+    href: `tel:${contact.phone}`,
+    download: contact.phone,
+  },
+  {
+    id: uid(),
+    type: "link",
+    text: "🔗 LinkedIn",
+    href: contact.linkedin,
+    download: "linkedin/chen-leiv",
+  },
+  {
+    id: uid(),
+    type: "link",
+    text: "💻 GitHub",
+    href: contact.github,
+    download: toDisplayUrl(contact.github),
+  },
+  {
+    id: uid(),
+    type: "download",
+    text: "📄 CV",
+    href: contact.cvPath,
+    download: contact.cvFileName,
+  },
+];
 
 export function createCommandRunner(deps: Deps) {
   return function handleCommand(raw: string) {
@@ -46,7 +123,6 @@ export function createCommandRunner(deps: Deps) {
 
     switch (canonical) {
       case "portfolioCode": {
-        const url = "https://github.com/chenleiv/my-portfolio";
         deps.pushHistory(
           [
             { ...echo },
@@ -54,8 +130,8 @@ export function createCommandRunner(deps: Deps) {
               id: uid(),
               type: "link",
               text: "💻 Open portfolio source code",
-              download: "github.com/chenleiv/my-portfolio",
-              href: url,
+              download: toDisplayUrl(contact.portfolioRepo),
+              href: contact.portfolioRepo,
             },
           ],
           raw,
@@ -64,7 +140,6 @@ export function createCommandRunner(deps: Deps) {
       }
 
       case "cv": {
-        const pdfUrl = "/assets/files/ChenLeiv-resume.pdf";
         deps.pushHistory(
           [
             { ...echo },
@@ -72,8 +147,8 @@ export function createCommandRunner(deps: Deps) {
               id: uid(),
               type: "download",
               text: "📄 Click to download CV",
-              href: pdfUrl,
-              download: "ChenLeiv-resume.pdf",
+              href: contact.cvPath,
+              download: contact.cvFileName,
             },
           ],
           raw,
@@ -82,7 +157,6 @@ export function createCommandRunner(deps: Deps) {
       }
 
       case "linkedin": {
-        const url = "https://www.linkedin.com/in/chen-leiv-9533a1178/";
         deps.pushHistory(
           [
             { ...echo },
@@ -91,7 +165,7 @@ export function createCommandRunner(deps: Deps) {
               type: "link",
               text: "Open LinkedIn profile",
               download: "linkedin/chen-leiv",
-              href: url,
+              href: contact.linkedin,
             },
           ],
           raw,
@@ -100,46 +174,12 @@ export function createCommandRunner(deps: Deps) {
       }
 
       case "showProjects": {
-        deps.pushHistory(
-          [
-            { ...echo },
-            { id: uid(), type: "system", text: "👉 Scrolling to #projects..." },
-          ],
-          raw,
-        );
-        deps.scrollToSection("projects");
+        deps.pushHistory([{ ...echo }, ...projectLines()], raw);
         break;
       }
 
       case "contact": {
-        if (deps.isMobile) {
-          deps.pushHistory(
-            [
-              { ...echo },
-              {
-                id: uid(),
-                type: "system",
-                text: "📬 Scrolling to contact section...",
-              },
-            ],
-            raw,
-          );
-          deps.scrollToSection("contact");
-          deps.highlightSection("info");
-        } else {
-          deps.pushHistory(
-            [
-              { ...echo },
-              {
-                id: uid(),
-                type: "system",
-                text: "📬 Highlighting contact section...",
-              },
-            ],
-            raw,
-          );
-          deps.highlightSection("info");
-        }
+        deps.pushHistory([{ ...echo }, ...contactLines()], raw);
         break;
       }
 

@@ -4,29 +4,8 @@
   @use "../components/about-console/_console";
   @use "../components/footer/_footer";
   @use "../components/theme-toggle/_theme-toggle";
+  @use "../components/hero/_hero";
 
-
-  /* Add to your global CSS */
-  .highlight {
-    animation: glowHighlight 0.5s ease-in-out;
-    outline: 3px solid var(--primary-color);
-    outline-offset: 5px;
-    border-radius: 10px;
-  }
-
-  @keyframes glowHighlight {
-    0% {
-      outline-color: var(--rgba-white-0);
-    }
-
-    50% {
-      outline-color: var(--primary-color);
-    }
-
-    100% {
-      outline-color: var(--rgba-white-0);
-    }
-  }
 
   .lazy-loader {
     display: flex;

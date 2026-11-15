@@ -29,13 +29,11 @@ export const InteractiveConsole = () => {
   const historyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const skipNextAutoScrollRef = useRef(false);
   const { setConsoleInputRef } = useFocus();
 
   const auto = useStickyAutoScroll({
     historyRef,
     deps: [history],
-    skipRef: skipNextAutoScrollRef,
   });
 
   const ac = useConsoleAutocomplete();
@@ -63,20 +61,6 @@ export const InteractiveConsole = () => {
     });
   }, []);
 
-  const scrollToSection = useCallback((id: string) => {
-    skipNextAutoScrollRef.current = true;
-    const el = document.getElementById(id);
-    if (!el) return;
-    requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
-  }, []);
-
-  const highlightSection = useCallback((id: string) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    el.classList.add("highlight");
-    window.setTimeout(() => el.classList.remove("highlight"), 900);
-  }, []);
-
   const pushHistory = useCallback((lines: ConsoleLine[], rawCmd: string) => {
     setHistory((prev) => [...prev, ...lines]);
     cmdHistory.pushCommand(rawCmd);
@@ -85,7 +69,6 @@ export const InteractiveConsole = () => {
   const handleCommand = useCallback(
     (rawCmd: string) => {
       const runCommand = createCommandRunner({
-        isMobile,
         initialLines,
 
         pushHistory,
@@ -95,8 +78,6 @@ export const InteractiveConsole = () => {
 
         setCommandHistoryRaw: cmdHistory.pushCommand,
 
-        scrollToSection,
-        highlightSection,
         scrollToConsoleTop,
       });
 
@@ -106,12 +87,9 @@ export const InteractiveConsole = () => {
       ac.resetAutocomplete,
       ac.setInput,
       cmdHistory.pushCommand,
-      highlightSection,
       initialLines,
-      isMobile,
       pushHistory,
       scrollToConsoleTop,
-      scrollToSection,
     ],
   );
 

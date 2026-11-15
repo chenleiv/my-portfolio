@@ -106,22 +106,26 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
                     </a>
                 </div>
             );
-        case "link":
+        case "link": {
             if (!line.href) return null;
+
+            // mailto: and tel: links hand off to an app, so they must not open an empty tab.
+            const opensInNewTab = !/^(mailto|tel):/i.test(line.href);
 
             return (
                 <div className="console-system">
                     <span className="console-text">{line.text}:</span>
                     <a
                         href={line.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                        target={opensInNewTab ? "_blank" : undefined}
+                        rel={opensInNewTab ? "noopener noreferrer" : undefined}
                         className="console-link"
                     >
                         {line.download}
                     </a>
                 </div>
             );
+        }
         default:
             return (
                 <div className="console-system">

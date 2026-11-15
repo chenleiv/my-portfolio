@@ -1,28 +1,6 @@
-.about-section {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  position: relative;
-}
-
-
-.about-container {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.about-content {
-  margin: 0 auto;
-
-  display: grid;
-  grid-template-columns: 1fr 500px;
-  align-items: center;
-  gap: 20px;
+// /console page: fills the viewport below .app__main padding (60px top and bottom).
+.console-page {
+  min-height: calc(100vh - 120px);
 }
 
 .console-wrapper {
@@ -344,128 +322,6 @@
   color: var(--skills-ink-muted);
 }
 
-.about-image-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-
-  .profile-image {
-    width: clamp(250px, 30vw, 380px);
-    height: clamp(250px, 30vw, 380px);
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid var(--glass-border);
-    box-shadow: 0 8px 32px var(--shadow-color);
-
-    &:hover {
-      box-shadow: 0 12px 40px var(--shadow-color);
-    }
-  }
-}
-
-.contact-info-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 48px;
-}
-
-.contact-info {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 16px;
-
-  .about-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-
-    background: transparent;
-    backdrop-filter: blur(6px);
-
-    border: 1px solid var(--glass-border);
-    color: var(--text-primary);
-
-    cursor: pointer;
-    transition: transform var(--transition-fast),
-      box-shadow var(--transition-fast),
-      border-color var(--transition-fast),
-      background var(--transition-fast);
-
-    &:hover {
-      transform: translateY(-1px) scale(1);
-      box-shadow: var(--glass-shadow);
-      background: var(--skills-chip-bg);
-    }
-  }
-}
-
-.email-container {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .email-dropdown {
-    position: absolute;
-    right: 0;
-    left: auto;
-    bottom: calc(100% + 12.8px);
-    transform: none;
-
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    padding: 12px;
-
-    border: 1px solid var(--glass-border);
-    box-shadow: 0 8px 32px var(--shadow-color);
-
-    z-index: 1000;
-    min-width: 130px;
-
-    display: flex;
-    flex-direction: column;
-
-    &::after {
-      content: "";
-      left: auto;
-      right: 18px;
-      bottom: -8px;
-      transform: none;
-    }
-  }
-
-  .email-option {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-
-    padding: 8px 12px;
-    border-radius: 8px;
-
-    color: var(--text-primary);
-    text-decoration: none;
-    background: transparent;
-    transition: all 0.3s ease;
-
-    &:hover {
-      background: var(--skills-chip-bg);
-    }
-
-    .email-icon {
-      font-size: 16px;
-    }
-  }
-}
-
 .console-link {
   color: var(--primary-color);
   text-decoration: underline;
@@ -653,23 +509,10 @@
 
 
 @media (max-width: 1100px) {
-
-  .about-content {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .about-section {
-    min-height: auto;
-    padding-top: 40px;
-    padding-bottom: 48px;
-  }
-
   .interactive-console {
     height: 520px;
   }
 
-  .email-dropdown,
   .palette,
   .autocomplete-list {
     backdrop-filter: none;
@@ -695,28 +538,13 @@
     font-size: 15px;
   }
 
-  .contact-info-container {
-    gap: 20px;
-  }
-
-  .about-image-container .profile-image {
-    width: clamp(130px, 40vw, 200px);
-    height: clamp(130px, 40vw, 200px);
-  }
-}
-
-@media (min-width: 1400px) {
-  .about-content {
-    grid-template-columns: 1fr 620px;
+  // .app__main padding is 40px top and bottom at this width.
+  .console-page {
+    min-height: calc(100vh - 80px);
   }
 }
 
 @media (min-width: 1600px) {
-  .about-content {
-    grid-template-columns: 1fr 680px;
-    gap: 40px;
-  }
-
   .interactive-console {
     height: 580px;
     font-size: 17.5px;
