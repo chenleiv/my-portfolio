@@ -24,6 +24,19 @@ const bodyFont = localFont({
   adjustFontFallback: 'Arial',
 });
 
+// Pixel font for the room's How to play panel (title, key caps, status), OFL 1.1;
+// see src/fonts/pixelify-sans/OFL.txt. Only used on the home page, so not preloaded.
+const pixelFont = localFont({
+  src: [
+    { path: '../fonts/pixelify-sans/pixelify-sans-latin-400-normal.woff2', weight: '400', style: 'normal' },
+    { path: '../fonts/pixelify-sans/pixelify-sans-latin-700-normal.woff2', weight: '700', style: 'normal' },
+  ],
+  display: 'swap',
+  preload: false,
+  variable: '--font-pixel',
+  fallback: ['ui-monospace', 'monospace'],
+});
+
 const DEFAULT_SITE_URL = 'https://chenleiv.vercel.app';
 
 // An invalid or local override must never end up in social preview URLs.
@@ -67,7 +80,7 @@ const THEME_INIT_SCRIPT = `(function(){var d=document.documentElement,t;try{t=lo
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable} ${pixelFont.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>

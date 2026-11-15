@@ -58,5 +58,6 @@
   --transition-fast: 0.2s ease;
   --font-display-stack: var(--font-display, "Arial Black"), "Arial Black", system-ui, sans-serif;
   --font-body-stack: var(--font-body, system-ui), system-ui, sans-serif;
+  --font-pixel-stack: var(--font-pixel, ui-monospace), ui-monospace, monospace;
   --font-mono-stack: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
 }
