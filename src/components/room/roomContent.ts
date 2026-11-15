@@ -78,6 +78,7 @@ export type SceneItemId =
   | "chair"
   | "coffee-table"
   | "bucky"
+  | "bucky-bowl"
   | "sofa"
   | "plant";
 
@@ -101,6 +102,8 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "chair", rect: { x0: 6.9, y0: 2.15, x1: 7.9, y1: 3.3 } },
   { id: "coffee-table", rect: { x0: 2.3, y0: 7.2, x1: 3.7, y1: 8.8 } },
   { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
+  // Food bowl and bone on the rug beside Bucky.
+  { id: "bucky-bowl", rect: { x0: 5.7, y0: 8.8, x1: 6.1, y1: 9.45 } },
   { id: "sofa", rect: { x0: 7.0, y0: 6.4, x1: 8.5, y1: 9.4 } },
   { id: "plant", rect: { x0: 9.0, y0: 8.9, x1: 9.45, y1: 9.35 } },
 ];

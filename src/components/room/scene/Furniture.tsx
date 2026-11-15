@@ -165,6 +165,30 @@ export function Guitar({ p }: { p: ScenePalette }) {
   );
 }
 
+const BOWL_STEEL = "#9aa4ad";
+const KIBBLE = "#8a5a3a";
+const BONE = "#f3ead8";
+
+// Bucky's food bowl and a bone on the rug beside his head. Decoration only.
+export function BowlAndBone() {
+  const { x0: x, y0: y } = FOOTPRINT_BY_ID["bucky-bowl"];
+  const by = y + 0.53;
+  return (
+    <Faces
+      faces={[
+        ...box(x, y, 0, 0.4, 0.4, 0.15, BOWL_STEEL),
+        qz(0.151, x + 0.05, x + 0.35, y + 0.05, y + 0.35, KIBBLE),
+        // Bone: a shaft with a knob at each corner.
+        ...box(x + 0.12, by, 0, 0.21, 0.06, 0.05, BONE),
+        ...box(x + 0.06, by - 0.03, 0, 0.07, 0.06, 0.06, BONE),
+        ...box(x + 0.06, by + 0.03, 0, 0.07, 0.06, 0.06, BONE),
+        ...box(x + 0.32, by - 0.03, 0, 0.07, 0.06, 0.06, BONE),
+        ...box(x + 0.32, by + 0.03, 0, 0.07, 0.06, 0.06, BONE),
+      ]}
+    />
+  );
+}
+
 export function Plant({ p }: { p: ScenePalette }) {
   return (
     <Faces
