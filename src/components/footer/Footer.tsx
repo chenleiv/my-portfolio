@@ -1,8 +1,9 @@
 "use client";
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { useEffect } from 'react';
 
 const Footer = () => {
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
     document.documentElement.style.scrollBehavior = 'smooth';
@@ -16,7 +17,7 @@ const Footer = () => {
     const targetId = e.currentTarget.getAttribute('href')?.substring(1);
     const targetElement = document.getElementById(targetId || '');
     if (targetElement) {
-      targetElement.scrollIntoView({ behavior: 'smooth' });
+      targetElement.scrollIntoView({ behavior: shouldReduceMotion ? 'auto' : 'smooth' });
     }
   };
 
@@ -24,15 +25,15 @@ const Footer = () => {
     <motion.footer
       id="footer"
       className="footer-section"
-      initial={{ opacity: 0 }}
+      initial={shouldReduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
     >
       <div className="footer-bottom">
-        <a href="#about" className="footer-link" onClick={handleClick} aria-label="About" target="_blank" rel="noopener noreferrer">
+        <a href="#about" className="footer-link" onClick={handleClick}>
           About
         </a>
-        <a href="#projects" className="footer-link" onClick={handleClick} aria-label="Projects" target="_blank" rel="noopener noreferrer">
+        <a href="#projects" className="footer-link" onClick={handleClick}>
           Projects
         </a>
       </div>

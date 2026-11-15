@@ -43,7 +43,7 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "c1",
     type: "cmd",
-    text: "showProjects() | portfolioCode() | cv() | linkedin() | contact() | clear()",
+    text: "showProjects() | portfolioCode() | cv() | linkedin() | contact() | clear() | home()",
   },
   {
     id: "hint1",

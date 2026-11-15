@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useFocus } from "../../utils/useFocus";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
@@ -19,6 +20,7 @@ import { toDisplayCommand, type PaletteItem } from "./consoleCommands";
 
 export const InteractiveConsole = () => {
   const isMobile = useIsMobile(768);
+  const router = useRouter();
   const initialLines = useMemo(() => ABOUT_LINES, []);
   const shortcutLabel = useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"), []);
 
@@ -79,6 +81,8 @@ export const InteractiveConsole = () => {
         setCommandHistoryRaw: cmdHistory.pushCommand,
 
         scrollToConsoleTop,
+
+        navigate: router.push,
       });
 
       runCommand(rawCmd);
@@ -89,6 +93,7 @@ export const InteractiveConsole = () => {
       cmdHistory.pushCommand,
       initialLines,
       pushHistory,
+      router.push,
       scrollToConsoleTop,
     ],
   );

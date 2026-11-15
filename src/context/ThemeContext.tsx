@@ -1,22 +1,33 @@
 "use client";
 
-import { createContext, use, useEffect, useState, useMemo, useSyncExternalStore } from "react";
+import { createContext, use, useCallback, useEffect, useState, useMemo, useSyncExternalStore } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "light" | "dark";
 
 type ThemeContextValue = {
     theme: Theme;
+    setTheme: (theme: Theme) => void;
     toggleTheme: () => void;
     mounted: boolean;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+const STORAGE_KEY = "theme";
+
+// The inline script in app/layout.tsx sets data-theme before first paint
+// (saved choice, then system preference, then light). Read it back here.
 const getInitialTheme = (): Theme => {
-    if (typeof window === "undefined") return "dark";
-    const saved = window.localStorage.getItem("theme");
-    if (saved === "light" || saved === "dark") return saved;
-    return "dark";
+    if (typeof document === "undefined") return "light";
+    return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+};
+
+const saveTheme = (theme: Theme) => {
+    try {
+        window.localStorage.setItem(STORAGE_KEY, theme);
+    } catch {
+        // Storage can be blocked; the theme still applies for this visit.
+    }
 };
 
 const subscribeToNothing = () => () => {};
@@ -27,22 +38,32 @@ const useHasMounted = () =>
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const mounted = useHasMounted();
-    const [theme, setTheme] = useState<Theme>(() => getInitialTheme());
+    const [theme, setThemeState] = useState<Theme>(() => getInitialTheme());
 
     useEffect(() => {
         if (mounted) {
             document.documentElement.setAttribute("data-theme", theme);
-            window.localStorage.setItem("theme", theme);
         }
     }, [theme, mounted]);
 
-    const toggleTheme = () => {
-        setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-    };
+    // Only an explicit choice is saved, so first-time visitors keep following
+    // their system preference.
+    const setTheme = useCallback((next: Theme) => {
+        setThemeState(next);
+        saveTheme(next);
+    }, []);
+
+    const toggleTheme = useCallback(() => {
+        setThemeState((prev) => {
+            const next = prev === "dark" ? "light" : "dark";
+            saveTheme(next);
+            return next;
+        });
+    }, []);
 
     const value = useMemo(
-        () => ({ theme, toggleTheme, mounted }),
-        [theme, mounted]
+        () => ({ theme, setTheme, toggleTheme, mounted }),
+        [theme, setTheme, toggleTheme, mounted]
     );
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

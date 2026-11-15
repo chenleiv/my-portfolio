@@ -7,33 +7,37 @@
   text-align: center;
 
   &__name {
-    font-size: clamp(2rem, 6vw, 3.5rem);
-    letter-spacing: 0.04em;
-    color: var(--primary-color);
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink);
   }
 
   &__title {
     font-size: 1.4rem;
-    color: var(--text-primary);
+    font-weight: 500;
+    color: var(--ink);
   }
 
   &__tagline {
-    color: var(--accent-color);
+    font-weight: 600;
+    color: var(--ink);
   }
 
   &__intro {
-    color: var(--text-secondary);
+    color: var(--ink-muted);
   }
 
   &__link {
     align-self: center;
     margin-top: 8px;
-    color: var(--link-color);
-    text-decoration: none;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
 
-    &:hover,
-    &:focus-visible {
-      text-decoration: underline;
+    &:hover {
+      text-decoration-thickness: 2px;
     }
   }
 }

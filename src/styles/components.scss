@@ -19,14 +19,14 @@
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: 3px solid var(--text-secondary);
-      border-top-color: var(--primary-color);
+      border: 3px solid var(--ink-soft-2);
+      border-top-color: var(--ink);
       animation: spin 0.8s linear infinite;
     }
 
     &__text {
       font-size: 14.4px;
-      color: var(--text-secondary);
+      color: var(--ink-muted);
     }
   }
 
