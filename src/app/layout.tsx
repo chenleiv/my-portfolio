@@ -1,20 +1,27 @@
 import type { Metadata } from 'next';
-import { Bricolage_Grotesque, Instrument_Sans } from 'next/font/google';
+import localFont from 'next/font/local';
 import { AppProviders } from "../components/providers/AppProviders";
 import "./globals.scss";
 
-const displayFont = Bricolage_Grotesque({
-  subsets: ['latin'],
-  weight: ['500', '800'],
+// Self-hosted from Fontsource (latin subset), OFL 1.1; see src/fonts/*/OFL.txt.
+// Only weight 800 of the display font is used (h1 to h3).
+const displayFont = localFont({
+  src: [{ path: '../fonts/bricolage-grotesque/bricolage-grotesque-latin-800-normal.woff2', weight: '800', style: 'normal' }],
   display: 'swap',
+  preload: true,
   variable: '--font-display',
+  fallback: ['Arial Black', 'system-ui', 'sans-serif'],
+  adjustFontFallback: 'Arial',
 });
 
-const bodyFont = Instrument_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600'],
+// Variable weight axis covering 400 to 700; the site uses 400, 500 and 600.
+const bodyFont = localFont({
+  src: [{ path: '../fonts/instrument-sans/instrument-sans-latin-wght-normal.woff2', weight: '400 700', style: 'normal' }],
   display: 'swap',
+  preload: true,
   variable: '--font-body',
+  fallback: ['system-ui', 'sans-serif'],
+  adjustFontFallback: 'Arial',
 });
 
 const DEFAULT_SITE_URL = 'https://chenleiv.vercel.app';
