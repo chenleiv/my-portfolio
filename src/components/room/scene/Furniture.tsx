@@ -110,6 +110,28 @@ export function Lamp({ p }: { p: ScenePalette }) {
   );
 }
 
+// Acoustic guitar standing against the back wall, between the contact board and the desk. Decoration only.
+export function Guitar({ p }: { p: ScenePalette }) {
+  const { x0: x, y0: y } = FOOTPRINT_BY_ID.guitar;
+  const neck = shade(p.wood, 0.7);
+  const front = y + 0.25;
+  return (
+    <Faces
+      faces={[
+        // Lower and upper bouts.
+        ...box(x, y, 0, 0.6, 0.25, 0.55, p.guitar),
+        ...box(x + 0.08, y + 0.02, 0.55, 0.44, 0.21, 0.4, p.guitar),
+        // Sound hole and bridge on the front face.
+        qy(front - 0.019, x + 0.22, x + 0.38, 0.66, 0.82, p.tv),
+        qy(front + 0.001, x + 0.18, x + 0.42, 0.22, 0.27, p.tv),
+        // Neck and headstock.
+        ...box(x + 0.26, y + 0.06, 0.95, 0.08, 0.08, 1.2, neck),
+        ...box(x + 0.23, y + 0.04, 2.15, 0.14, 0.1, 0.3, neck),
+      ]}
+    />
+  );
+}
+
 export function Plant({ p }: { p: ScenePalette }) {
   return (
     <Faces

@@ -9,7 +9,7 @@ import { RoomDialog } from "./RoomDialog";
 import { Background } from "./scene/Background";
 import { Bucky } from "./scene/Bucky";
 import { Chen } from "./scene/Chen";
-import { Chair, CoffeeTable, Desk, Lamp, Plant, Sofa, Tv } from "./scene/Furniture";
+import { Chair, CoffeeTable, Desk, Guitar, Lamp, Plant, Sofa, Tv } from "./scene/Furniture";
 import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
@@ -19,6 +19,7 @@ import { useWalker } from "./useWalker";
 const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
   "contact-board": (p) => <ContactBoard p={p} />,
   window: (p) => <Window p={p} />,
+  guitar: (p) => <Guitar p={p} />,
   shelf: (p) => <Shelf p={p} />,
   lamp: (p) => <Lamp p={p} />,
   tv: (p) => <Tv p={p} />,

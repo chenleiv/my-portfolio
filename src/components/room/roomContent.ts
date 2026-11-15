@@ -71,6 +71,7 @@ export type WallItemId = "contact-board" | "window";
 
 export type SceneItemId =
   | WallItemId
+  | "guitar"
   | "shelf"
   | "lamp"
   | "tv"
@@ -93,6 +94,7 @@ export interface SceneFootprint {
 export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "contact-board", rect: null },
   { id: "window", rect: null },
+  { id: "guitar", rect: { x0: 4.6, y0: 0.05, x1: 5.2, y1: 0.3 } },
   { id: "shelf", rect: { x0: 0, y0: 2.2, x1: 0.9, y1: 5.2 } },
   { id: "lamp", rect: { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 } },
   { id: "tv", rect: { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 } },

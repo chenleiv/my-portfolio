@@ -53,6 +53,7 @@ export interface ScenePalette {
   readonly glow: string;
   readonly leaf: string;
   readonly pot: string;
+  readonly guitar: string;
   readonly books: readonly string[];
 }
 
@@ -88,6 +89,7 @@ const LIGHT: ScenePalette = {
   glow: "#ffd98a",
   leaf: "#4f8a4b",
   pot: "#b5603a",
+  guitar: "#c97b3d",
   books: ["#e8a5a0", "#8fbfb7", "#f2cf86", "#9db7d6", "#c9a6d6"],
 };
 
@@ -123,6 +125,7 @@ const DARK: ScenePalette = {
   glow: "#ffd36a",
   leaf: "#3f9a6a",
   pot: "#8a4a32",
+  guitar: "#b0703f",
   books: ["#35e0ff", "#ff8a5c", "#ffe14a", "#8a6ad1", "#3fd69a"],
 };
 
