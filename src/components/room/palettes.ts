@@ -24,7 +24,7 @@ export interface ScenePalette {
   readonly accent: string;
   // Letters on the accent skill book spine.
   readonly spineOnAccent: string;
-  // Captions on the contact board, on the paper color.
+  // Icon outlines and the GitHub circle on the contact board, on the paper color.
   readonly boardText: string;
   readonly wallL: string;
   readonly wallR: string;
