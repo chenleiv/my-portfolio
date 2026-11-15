@@ -2,7 +2,7 @@
 // and timing. Keep this file free of runtime imports so the Node test runner
 // can load it directly. Links and project data live in popupContent.ts.
 
-export type ObjectKey = "desk" | "cv" | "shelf" | "tv" | "bucky" | "win";
+export type ObjectKey = "desk" | "cv" | "shelf" | "tv" | "bucky" | "contact";
 
 export type Vec2 = readonly [number, number];
 
@@ -32,7 +32,7 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
   { key: "bucky", name: "Bucky", title: "Bucky", spot: [6.2, 7.8], label: { x: 5.1, y: 7.8, z: 1.6 } },
-  { key: "win", name: "Contact", title: "Get in touch", spot: [2.8, 1.5], label: { x: 2.8, y: 0.0, z: 4.5 } },
+  { key: "contact", name: "Contact", title: "Get in touch", spot: [2.8, 1.5], label: { x: 2.8, y: 0.0, z: 4.35 } },
 ];
 
 export const OBJECT_BY_KEY: Readonly<Record<ObjectKey, RoomObject>> = Object.fromEntries(
@@ -66,8 +66,11 @@ function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
 // The living-room rug, long side along world x. Floor decoration, not a block.
 export const RUG: Rect = { x0: 2.1, y0: 5.8, x1: 7.7, y1: 9.8 };
 
+// Items mounted on a wall: no floor footprint, always behind Chen.
+export type WallItemId = "contact-board" | "window";
+
 export type SceneItemId =
-  | "window"
+  | WallItemId
   | "shelf"
   | "lamp"
   | "tv"
@@ -88,6 +91,7 @@ export interface SceneFootprint {
 // Every scene item, back to front. Each footprint is used both for collision
 // and for drawing Chen in the right order (see depth.ts).
 export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
+  { id: "contact-board", rect: null },
   { id: "window", rect: null },
   { id: "shelf", rect: { x0: 0, y0: 2.2, x1: 0.9, y1: 5.2 } },
   { id: "lamp", rect: { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 } },
@@ -105,7 +109,7 @@ export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f
 // Floor footprints by item, for drawing furniture where its footprint is.
 export const FOOTPRINT_BY_ID = Object.fromEntries(
   SCENE_FOOTPRINTS.flatMap((f) => (f.rect ? [[f.id, f.rect]] : [])),
-) as Readonly<Record<Exclude<SceneItemId, "window">, Rect>>;
+) as Readonly<Record<Exclude<SceneItemId, WallItemId>, Rect>>;
 
 // Furniture Chen cannot walk into: every floor footprint.
 export const BLOCKS: readonly Rect[] = SCENE_FOOTPRINTS.flatMap((f) => (f.rect ? [f.rect] : []));

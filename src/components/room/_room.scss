@@ -1,7 +1,7 @@
 // Interactive room. Scene colors come from palettes.ts; everything here uses
 // the site tokens. The accent is only ever a background under --on-accent text.
 
-$room-keys: desk, cv, shelf, tv, bucky, win;
+$room-keys: desk, cv, shelf, tv, bucky, contact;
 
 .room {
   width: 100%;
@@ -125,6 +125,11 @@ $room-keys: desk, cv, shelf, tv, bucky, win;
 .room-svg-text {
   font-family: var(--font-body-stack);
   font-weight: 700;
+  pointer-events: none;
+}
+
+.room-svg-emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
   pointer-events: none;
 }
 

@@ -22,6 +22,18 @@ export function SceneObject({ objectKey, children }: { objectKey: ObjectKey; chi
   );
 }
 
+// Text painted on the back wall plane (y = 0, facing +y), `h` world units tall.
+export function YText({ x, z, h, fill, className = "room-svg-text", children }: { x: number; z: number; h: number; fill?: string; className?: string; children: string }) {
+  const [sx, sy] = project(x, 0, z);
+  const k = h / 70;
+  const m = [k * U, k * V, 0, k * Z].map((v) => v.toFixed(4)).join(",");
+  return (
+    <text className={className} transform={`matrix(${m},${sx.toFixed(1)},${sy.toFixed(1)})`} textAnchor="middle" fontSize="100" fill={fill}>
+      {children}
+    </text>
+  );
+}
+
 // Text painted on a wall plane of constant x (facing +x), `h` world units tall.
 export function XText({ x, y, z, h, fill, children }: { x: number; y: number; z: number; h: number; fill: string; children: string }) {
   const [sx, sy] = project(x, y, z);

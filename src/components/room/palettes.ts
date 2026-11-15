@@ -24,6 +24,8 @@ export interface ScenePalette {
   readonly accent: string;
   // Letters on the accent skill tile, which sits on a darker side face.
   readonly tileOnAccent: string;
+  // Captions on the contact board, on the paper color.
+  readonly boardText: string;
   readonly wallL: string;
   readonly wallR: string;
   readonly wains: string;
@@ -58,6 +60,7 @@ const LIGHT: ScenePalette = {
   isDark: false,
   accent: "#ff6b4a",
   tileOnAccent: "#ffffff",
+  boardText: "#2a1f2d",
   wallL: "#d3dfd1",
   wallR: "#e3ecdf",
   wains: "#f1ece1",
@@ -92,6 +95,7 @@ const DARK: ScenePalette = {
   isDark: true,
   accent: "#35e0ff",
   tileOnAccent: "#0a1020",
+  boardText: "#f1ece0",
   wallL: "#222a4d",
   wallR: "#2b3360",
   wains: "#3a4373",

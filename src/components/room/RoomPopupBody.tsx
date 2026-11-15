@@ -90,7 +90,7 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
           <Links links={[{ label: "Download CV", href: contact.cvPath, primary: true, download: contact.cvFileName }, EMAIL, LINKEDIN]} />
         </>
       );
-    case "win":
+    case "contact":
       return (
         <>
           <p>Email, LinkedIn and GitHub.</p>

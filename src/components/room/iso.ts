@@ -110,7 +110,12 @@ export function qz(z: number, xa: number, xb: number, ya: number, yb: number, fi
   return poly([[xa, ya, z], [xb, ya, z], [xb, yb, z], [xa, yb, z]], fill);
 }
 
-// Points of a polyline drawn on the back wall (y = 0).
+// Points of a polyline drawn on the back wall (y = 0), given as [x, z].
 export function wallPoints(list: readonly (readonly [number, number])[]): string {
   return points(list.map(([x, z]) => [x, 0, z] as const));
+}
+
+// Points of a polyline drawn on the left wall (x = 0), given as [y, z].
+export function leftWallPoints(list: readonly (readonly [number, number])[]): string {
+  return points(list.map(([y, z]) => [0, y, z] as const));
 }

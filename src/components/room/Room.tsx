@@ -13,9 +13,11 @@ import { Chair, CoffeeTable, Desk, Lamp, Plant, Sofa, Tv } from "./scene/Furnitu
 import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
+import { ContactBoard } from "./scene/ContactBoard";
 import { useWalker } from "./useWalker";
 
 const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
+  "contact-board": (p) => <ContactBoard p={p} />,
   window: (p) => <Window p={p} />,
   shelf: (p) => <Shelf p={p} />,
   lamp: (p) => <Lamp p={p} />,
