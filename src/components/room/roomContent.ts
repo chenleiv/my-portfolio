@@ -27,10 +27,10 @@ export interface RoomObject {
 
 // Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
-  { key: "desk", name: "Projects", title: "Projects", spot: [6.3, 3.75], label: { x: 7.3, y: 1.0, z: 3.0 } },
+  { key: "desk", name: "Projects", title: "Projects", spot: [6.3, 3.75], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
-  { key: "tv", name: "Off duty", title: "Off duty", spot: [1.55, 6.0], label: { x: 0.6, y: 7.7, z: 2.6 } },
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [4.4, 9.3], label: { x: 5.1, y: 7.8, z: 1.6 } },
+  { key: "tv", name: "Off duty", title: "Off duty", spot: [1.55, 6.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [4.4, 9.3], label: { x: 5.1, y: 7.4, z: 2.6 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
