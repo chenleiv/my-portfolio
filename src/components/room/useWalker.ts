@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
-import { worldOffset } from "./iso";
+import { project, worldOffset } from "./iso";
 import {
   AUTO_OPEN_DWELL_SECONDS,
   BLOCKS,
@@ -73,23 +73,41 @@ export function usePrefersReducedMotion(): boolean {
   );
 }
 
+export interface ScreenBox {
+  readonly x0: number;
+  readonly y0: number;
+  readonly x1: number;
+  readonly y1: number;
+}
+
+// Box around Chen's figure on screen: arms reach 0.4 to each side, she is about 2 tall.
+function chenScreenBox(x: number, y: number): ScreenBox {
+  const pts = [];
+  for (const dx of [-0.4, 0.4]) for (const dy of [-0.3, 0.3]) for (const z of [0, 2]) pts.push(project(x + dx, y + dy, z));
+  const xs = pts.map((p) => p[0]);
+  const ys = pts.map((p) => p[1]);
+  return { x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) };
+}
+
 interface UseWalkerOptions {
   // Floor footprints of the scene items, back to front. Must be a stable reference.
   footprints: readonly (Rect | null)[];
   onAutoOpen: (key: ObjectKey) => void;
   onNearChange: (key: ObjectKey | null) => void;
+  // Chen's screen box in viewBox units, after every pose change.
+  onPose?: (box: ScreenBox) => void;
 }
 
 // Chen moves only while a movement key is held, or along a walk started by a
 // click on an object, a label or a quick button. Nothing else moves her.
-export function useWalker({ footprints, onAutoOpen, onNearChange }: UseWalkerOptions) {
+export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseWalkerOptions) {
   const reducedMotion = usePrefersReducedMotion();
 
   const stateRef = useRef(createWalkerState<ObjectKey>(START));
   const keysRef = useRef<HeldKeys>(noKeys());
   const dialogOpenRef = useRef(false);
   const reducedRef = useRef(reducedMotion);
-  const callbacksRef = useRef({ onAutoOpen, onNearChange });
+  const callbacksRef = useRef({ onAutoOpen, onNearChange, onPose });
 
   const sceneRef = useRef<HTMLDivElement>(null);
   const chenElRef = useRef<SVGGElement | null>(null);
@@ -99,7 +117,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange }: UseWalkerOpt
   const slotRef = useRef(slot);
 
   useEffect(() => {
-    callbacksRef.current = { onAutoOpen, onNearChange };
+    callbacksRef.current = { onAutoOpen, onNearChange, onPose };
     reducedRef.current = reducedMotion;
   });
 
@@ -116,6 +134,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange }: UseWalkerOpt
       const [lx, ly] = worldOffset(0, stride * SWING[part]);
       g.setAttribute("transform", `translate(${lx.toFixed(2)},${ly.toFixed(2)})`);
     }
+    callbacksRef.current.onPose?.(chenScreenBox(s.x, s.y));
     const next = drawSlot(s.x, s.y, footprints);
     if (next !== slotRef.current) {
       slotRef.current = next;

@@ -63,6 +63,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
     font: 600 14px / 1.2 var(--font-body-stack);
     white-space: nowrap;
     cursor: pointer;
+    transition: opacity 0.15s ease;
 
     // Pulse ring, drawn outside the pill.
     &::after {
@@ -78,6 +79,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
     &:focus-visible {
       outline: 3px solid var(--ink);
       outline-offset: 3px;
+    }
+
+    // While Chen stands under a label it fades so she stays visible. Hover and
+    // keyboard focus bring it back to full strength.
+    &.is-faded:not(:hover):not(:focus-visible) {
+      opacity: 0.25;
     }
   }
 
@@ -282,6 +289,10 @@ $room-keys: desk, shelf, tv, bucky, contact;
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .room__label {
+    transition: none;
+  }
+
   .room__label::after {
     animation: none;
     opacity: 0;

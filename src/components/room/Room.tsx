@@ -14,7 +14,7 @@ import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
 import { ContactBoard } from "./scene/ContactBoard";
-import { useWalker } from "./useWalker";
+import { useWalker, type ScreenBox } from "./useWalker";
 
 const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
   "contact-board": (p) => <ContactBoard p={p} />,
@@ -60,6 +60,34 @@ export default function Room() {
   const [hoverKey, setHoverKey] = useState<ObjectKey | null>(null);
   // Control that opened the popup; null means the scene itself.
   const returnFocusRef = useRef<HTMLElement | null>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  // Label boxes relative to the stage, measured once per stage width.
+  const labelBoxesRef = useRef<{ width: number; boxes: { el: HTMLElement; x0: number; y0: number; x1: number; y1: number }[] }>({ width: 0, boxes: [] });
+
+  // Fades a label while Chen stands under it, so no label ever hides her.
+  const onPose = useCallback((box: ScreenBox) => {
+    const stage = stageRef.current;
+    if (!stage) return;
+    const s = stage.getBoundingClientRect();
+    if (s.width === 0) return;
+    const cache = labelBoxesRef.current;
+    if (cache.width !== s.width) {
+      cache.width = s.width;
+      cache.boxes = Array.from(stage.querySelectorAll<HTMLElement>(".room__label")).map((el) => {
+        const r = el.getBoundingClientRect();
+        return { el, x0: r.left - s.left, y0: r.top - s.top, x1: r.right - s.left, y1: r.bottom - s.top };
+      });
+    }
+    const k = s.width / VIEW_BOX.w;
+    const cx0 = (box.x0 - VIEW_BOX.x) * k;
+    const cx1 = (box.x1 - VIEW_BOX.x) * k;
+    const cy0 = (box.y0 - VIEW_BOX.y) * k;
+    const cy1 = (box.y1 - VIEW_BOX.y) * k;
+    for (const b of cache.boxes) {
+      const hit = b.x0 < cx1 && b.x1 > cx0 && b.y0 < cy1 && b.y1 > cy0;
+      if (b.el.classList.contains("is-faded") !== hit) b.el.classList.toggle("is-faded", hit);
+    }
+  }, []);
 
   const onAutoOpen = useCallback((key: ObjectKey) => {
     returnFocusRef.current = null;
@@ -70,6 +98,7 @@ export default function Room() {
     footprints: FOOTPRINT_RECTS,
     onAutoOpen,
     onNearChange: setNearKey,
+    onPose,
   });
 
   // Click on an object, a label or a quick button: open now, Chen walks there in the background.
@@ -158,7 +187,7 @@ export default function Room() {
         onFocus={onLabelFocus}
         onBlur={() => setHoverKey(null)}
       >
-        <div className="room__stage" data-active={activeKey ?? undefined}>
+        <div ref={stageRef} className="room__stage" data-active={activeKey ?? undefined}>
           {mounted && (
             <svg className="room__svg" viewBox={VIEW_BOX_ATTR} aria-hidden="true" focusable="false">
               {background}
