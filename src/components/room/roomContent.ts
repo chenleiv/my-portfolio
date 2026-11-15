@@ -31,7 +31,7 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
   { key: "bucky", name: "Bucky", title: "Bucky", spot: [6.2, 7.8], label: { x: 5.1, y: 7.8, z: 1.6 } },
-  { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.55 } },
+  { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
 export const OBJECT_BY_KEY: Readonly<Record<ObjectKey, RoomObject>> = Object.fromEntries(
