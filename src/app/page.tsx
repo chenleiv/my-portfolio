@@ -1,7 +1,7 @@
 
 import { lazy, Suspense } from 'react';
 import ThemeToggle from '../components/theme-toggle/ThemeToggle';
-import TempHero from '../components/hero/TempHero';
+import Hero from '../components/hero/Hero';
 const Projects = lazy(() => import('../components/projects/Projects'));
 const Footer = lazy(() => import('../components/footer/Footer'));
 
@@ -13,7 +13,7 @@ export default function Page() {
       </header>
       <main className="app__main">
         <section id="about" className="app__section">
-          <TempHero />
+          <Hero />
         </section>
 
         <section id="projects" className="app__section">

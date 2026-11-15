@@ -1,36 +1,42 @@
-.temp-hero {
+.hero {
   width: 100%;
-  max-width: 760px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  text-align: center;
+  align-items: flex-start;
 
-  &__name {
-    font-size: clamp(2.5rem, 7vw, 4.5rem);
-    line-height: 1;
-    letter-spacing: -0.04em;
+  &__eyebrow {
+    margin-top: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--ink);
+
+    &:first-child {
+      margin-top: 0;
+    }
   }
 
   &__title {
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--ink);
-  }
-
-  &__tagline {
-    font-weight: 600;
+    margin-top: 8px;
+    font-size: clamp(48px, 9vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
     color: var(--ink);
   }
 
   &__intro {
-    color: var(--ink-muted);
+    margin-top: 18px;
+    max-width: 720px;
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.45;
+    font-weight: 500;
+    color: var(--ink);
   }
 
   &__link {
-    align-self: center;
-    margin-top: 8px;
+    margin-top: 16px;
     font-weight: 600;
     color: var(--ink);
     text-decoration: underline;
