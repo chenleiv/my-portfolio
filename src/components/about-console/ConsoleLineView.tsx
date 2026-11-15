@@ -121,7 +121,7 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
                         rel={opensInNewTab ? "noopener noreferrer" : undefined}
                         className="console-link"
                     >
-                        {line.download}
+                        {line.label}
                     </a>
                 </div>
             );

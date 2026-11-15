@@ -60,6 +60,7 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
 
     case "contact":
     case "contactinfo":
+    case "email":
       return "contact";
 
     case "clear":

@@ -20,6 +20,9 @@ export type ConsoleLine = {
   type: ConsoleLineType;
   text: string;
   href?: string;
+  // Visible text of a "link" line.
+  label?: string;
+  // File name for a "download" line; also shown as its link text.
   download?: string;
 };
 

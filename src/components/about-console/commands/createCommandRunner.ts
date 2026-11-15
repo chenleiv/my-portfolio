@@ -40,7 +40,7 @@ const projectLines = (): ConsoleLine[] => {
         type: "link",
         text: "🌐 Live demo",
         href: project.web,
-        download: toDisplayUrl(project.web),
+        label: toDisplayUrl(project.web),
       });
     }
 
@@ -50,7 +50,7 @@ const projectLines = (): ConsoleLine[] => {
         type: "link",
         text: "💻 GitHub",
         href: project.github,
-        download: toDisplayUrl(project.github),
+        label: toDisplayUrl(project.github),
       });
     }
   });
@@ -65,28 +65,28 @@ const contactLines = (): ConsoleLine[] => [
     type: "link",
     text: "✉️ Email",
     href: `mailto:${contact.email}`,
-    download: contact.email,
+    label: contact.email,
   },
   {
     id: uid(),
     type: "link",
     text: "📱 Phone",
     href: `tel:${contact.phone}`,
-    download: contact.phone,
+    label: contact.phone,
   },
   {
     id: uid(),
     type: "link",
     text: "🔗 LinkedIn",
     href: contact.linkedin,
-    download: "linkedin/chen-leiv",
+    label: "linkedin/chen-leiv",
   },
   {
     id: uid(),
     type: "link",
     text: "💻 GitHub",
     href: contact.github,
-    download: toDisplayUrl(contact.github),
+    label: toDisplayUrl(contact.github),
   },
   {
     id: uid(),
@@ -132,7 +132,7 @@ export function createCommandRunner(deps: Deps) {
               id: uid(),
               type: "link",
               text: "💻 Open portfolio source code",
-              download: toDisplayUrl(contact.portfolioRepo),
+              label: toDisplayUrl(contact.portfolioRepo),
               href: contact.portfolioRepo,
             },
           ],
@@ -166,7 +166,7 @@ export function createCommandRunner(deps: Deps) {
               id: uid(),
               type: "link",
               text: "Open LinkedIn profile",
-              download: "linkedin/chen-leiv",
+              label: "linkedin/chen-leiv",
               href: contact.linkedin,
             },
           ],
