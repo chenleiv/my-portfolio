@@ -46,14 +46,34 @@ export function Desk({ p }: { p: ScenePalette }) {
 
 // A separate scene item from the desk so Chen can stand in front of the desk
 // and behind the chair at the same time. Clicking it still opens Projects.
+// Gaming chair facing the desk: the seat is on the desk side and the tall back,
+// side wings and headrest are at the rear (+y). Coral with dark trim.
 export function Chair({ p }: { p: ScenePalette }) {
+  const { x0: x, y0: y } = FOOTPRINT_BY_ID.chair;
+  const trim = p.tv;
+  const body = p.art2;
+  const wing = shade(p.art2, 0.85);
+  const backY = y + 0.77;
   return (
     <SceneObject objectKey="desk">
       <Faces
         faces={[
-          ...box(6.9, 2.3, 0, 1.0, 1.0, 0.5, p.cab),
-          ...box(6.9, 2.3, 0.5, 1.0, 1.0, 0.3, p.sofa),
-          ...box(6.9, 2.15, 0.8, 1.0, 0.15, 1.2, p.cab),
+          // Base and post.
+          ...box(x + 0.1, y + 0.1, 0, 0.8, 0.7, 0.06, trim),
+          ...box(x + 0.45, y + 0.4, 0.06, 0.1, 0.1, 0.4, trim),
+          // Seat.
+          ...box(x + 0.05, y, 0.46, 0.9, 0.8, 0.18, body),
+          // Armrests on short posts.
+          ...box(x + 0.02, y + 0.4, 0.64, 0.04, 0.06, 0.16, trim),
+          ...box(x + 0.94, y + 0.4, 0.64, 0.04, 0.06, 0.16, trim),
+          ...box(x, y + 0.15, 0.8, 0.08, 0.55, 0.06, trim),
+          ...box(x + 0.92, y + 0.15, 0.8, 0.08, 0.55, 0.06, trim),
+          // Tall back with a racing stripe, then the side wings and the headrest.
+          ...box(x + 0.05, backY, 0.64, 0.9, 0.18, 1.6, body),
+          qy(backY + 0.181, x + 0.4, x + 0.6, 0.8, 2.1, trim),
+          ...box(x, backY - 0.12, 0.9, 0.1, 0.3, 1.2, wing),
+          ...box(x + 0.9, backY - 0.12, 0.9, 0.1, 0.3, 1.2, wing),
+          ...box(x + 0.25, backY - 0.02, 2.24, 0.5, 0.2, 0.3, body),
         ]}
       />
     </SceneObject>

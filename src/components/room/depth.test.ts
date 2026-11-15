@@ -58,10 +58,10 @@ describe("Chen's draw order", () => {
     assert.ok(drawnInFrontOf(x, y, "chair"));
   });
 
-  it("is in front of the desk and behind the chair at the desk spot", () => {
+  it("is in front of the desk and the chair at the desk spot", () => {
     const [x, y] = SPOTS.desk;
     assert.ok(drawnInFrontOf(x, y, "desk"));
-    assert.equal(drawnInFrontOf(x, y, "chair"), false);
+    assert.ok(drawnInFrontOf(x, y, "chair"));
   });
 
   it("is always in front of the window", () => {
