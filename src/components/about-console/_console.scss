@@ -1,6 +1,6 @@
-// /console page: fills the viewport below .app__main padding (60px top and bottom).
+// /console page: fills the viewport below the top bar and .app__main padding (60px top and bottom).
 .console-page {
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 120px - var(--topbar-height));
 }
 
 .console-wrapper {
@@ -540,7 +540,7 @@
 
   // .app__main padding is 40px top and bottom at this width.
   .console-page {
-    min-height: calc(100vh - 80px);
+    min-height: calc(100vh - 80px - var(--topbar-height));
   }
 }
 

@@ -8,7 +8,9 @@ const Footer = lazy(() => import('../components/footer/Footer'));
 export default function Page() {
   return (
     <div className="app">
-      <ThemeToggle />
+      <header className="app__topbar">
+        <ThemeToggle />
+      </header>
       <main className="app__main">
         <section id="about" className="app__section">
           <TempHero />

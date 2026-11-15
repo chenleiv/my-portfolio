@@ -12,7 +12,9 @@ export const metadata: Metadata = {
 export default function ConsolePage() {
   return (
     <div className="app">
-      <ThemeToggle />
+      <header className="app__topbar">
+        <ThemeToggle />
+      </header>
       <main className="app__main">
         <section className="app__section console-page">
           <Suspense fallback={<LazyLoader />}>

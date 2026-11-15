@@ -1,19 +1,32 @@
 "use client";
 
-import { FaMoon, FaSun } from "react-icons/fa";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme, type Theme } from "../../context/ThemeContext";
+
+const OPTIONS: { value: Theme; label: string }[] = [
+  { value: "light", label: "Light" },
+  { value: "dark", label: "Dark" },
+];
 
 export default function ThemeToggle() {
-  const { theme, toggleTheme, mounted } = useTheme();
+  const { theme, setTheme, mounted } = useTheme();
 
   return (
-    <button
-      className="theme-toggle"
-      onClick={toggleTheme}
-      type="button"
-      aria-label={mounted ? (theme === "dark" ? "Switch to light mode" : "Switch to dark mode") : "Toggle theme"}
-    >
-      {mounted ? (theme === "dark" ? <FaMoon /> : <FaSun />) : null}
-    </button>
+    <div className="theme-toggle" role="group" aria-label="Theme">
+      {OPTIONS.map((option) => {
+        // The server cannot know the theme, so nothing is pressed until hydration.
+        const pressed = mounted && theme === option.value;
+        return (
+          <button
+            key={option.value}
+            type="button"
+            className="theme-toggle__option"
+            aria-pressed={pressed}
+            onClick={() => setTheme(option.value)}
+          >
+            {option.label}
+          </button>
+        );
+      })}
+    </div>
   );
 }
