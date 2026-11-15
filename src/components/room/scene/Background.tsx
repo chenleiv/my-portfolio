@@ -1,5 +1,6 @@
 import { qx, qy, qz, shade, WALL_H, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
+import { RUG } from "../roomContent";
 import { Faces } from "./primitives";
 
 function backgroundFaces(p: ScenePalette): Face[] {
@@ -18,12 +19,13 @@ function backgroundFaces(p: ScenePalette): Face[] {
   // Skirting and ceiling trim.
   f.push(qy(0, 0, 10, 0, 0.25, shade(p.wains, 0.7)), qx(0, 0, 10, 0, 0.25, shade(p.wains, 0.62)));
   f.push(qy(0, 0, 10, WALL_H - 0.3, WALL_H, shade(p.wallR, 1.05)), qx(0, 0, 10, WALL_H - 0.3, WALL_H, shade(p.wallL, 1.0)));
-  // Two overlapping rugs.
+  // One large rug: border, field, inner stripe and inner field.
+  const inset = (d: number) => [RUG.x0 + d, RUG.x1 - d, RUG.y0 + d, RUG.y1 - d] as const;
   f.push(
-    qz(0.03, 2.0, 6.4, 6.9, 9.6, p.rugB),
-    qz(0.04, 2.25, 6.65, 6.65, 9.35, p.rug),
-    qz(0.05, 3.0, 6.9, 6.2, 8.6, shade(p.rugB, 0.9)),
-    qz(0.06, 3.15, 7.05, 6.05, 8.45, p.rug),
+    qz(0.03, ...inset(0), p.rugB),
+    qz(0.04, ...inset(0.25), p.rug),
+    qz(0.05, ...inset(0.7), shade(p.rugB, 0.9)),
+    qz(0.06, ...inset(0.85), p.rug),
   );
   return f;
 }

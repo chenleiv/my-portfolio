@@ -9,7 +9,7 @@ import { RoomDialog } from "./RoomDialog";
 import { Background } from "./scene/Background";
 import { Bucky } from "./scene/Bucky";
 import { Chen } from "./scene/Chen";
-import { CoffeeTable, Desk, Lamp, Plant, Sofa, Tv } from "./scene/Furniture";
+import { Chair, CoffeeTable, Desk, Lamp, Plant, Sofa, Tv } from "./scene/Furniture";
 import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
@@ -29,9 +29,10 @@ const SCENE_ITEMS: readonly SceneItem[] = [
   { id: "lamp", depth: 6.0, render: (p) => <Lamp p={p} /> },
   { id: "tv", depth: 8.3, render: (p) => <Tv p={p} /> },
   { id: "desk", depth: 8.35, render: (p) => <Desk p={p} /> },
+  { id: "chair", depth: 9.0, render: (p) => <Chair p={p} /> },
   { id: "coffee-table", depth: 11.3, render: (p) => <CoffeeTable p={p} /> },
   { id: "bucky", depth: 12.3, render: () => <Bucky /> },
-  { id: "sofa", depth: 13.45, render: (p) => <Sofa p={p} /> },
+  { id: "sofa", depth: 14.0, render: (p) => <Sofa p={p} /> },
   { id: "plant", depth: 18.2, render: (p) => <Plant p={p} /> },
 ];
 

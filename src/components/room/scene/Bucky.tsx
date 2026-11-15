@@ -1,13 +1,16 @@
 import { box, project, qy, worldOffset, type Face } from "../iso";
 import { BUCKY } from "../palettes";
+import { BUCKY_LAYOUT } from "../roomContent";
 import { Faces, SceneObject } from "./primitives";
 
-// Bucky is drawn slightly larger than world scale around a pivot on the floor,
-// then nudged onto the rug. Both are world points, so they follow the projection.
-const SCALE = 1.3;
-const PIVOT = project(4.142, 5.7, 0);
-const NUDGE = worldOffset(0.771, 1.124);
-const TRANSFORM = `translate(${(PIVOT[0] + NUDGE[0]).toFixed(1)},${(PIVOT[1] + NUDGE[1]).toFixed(1)}) scale(${SCALE}) translate(${(-PIVOT[0]).toFixed(1)},${(-PIVOT[1]).toFixed(1)})`;
+// Bucky's boxes below are drawn inside BUCKY_LAYOUT.raw. They are scaled about
+// the center of that box on the floor, then moved so it lands on BUCKY_LAYOUT.center.
+// The projection is affine, so a screen scale about a floor point is a world scale.
+const { raw, scale, center } = BUCKY_LAYOUT;
+const RAW_CENTER = [(raw.x0 + raw.x1) / 2, (raw.y0 + raw.y1) / 2] as const;
+const PIVOT = project(RAW_CENTER[0], RAW_CENTER[1], 0);
+const MOVE = worldOffset(center[0] - RAW_CENTER[0], center[1] - RAW_CENTER[1]);
+const TRANSFORM = `translate(${(PIVOT[0] + MOVE[0]).toFixed(1)},${(PIVOT[1] + MOVE[1]).toFixed(1)}) scale(${scale}) translate(${(-PIVOT[0]).toFixed(1)},${(-PIVOT[1]).toFixed(1)})`;
 
 function buckyFaces(): Face[] {
   const c = BUCKY;

@@ -28,10 +28,10 @@ export interface RoomObject {
 // Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [6.2, 2.7], label: { x: 7.3, y: 1.0, z: 3.0 } },
-  { key: "cv", name: "CV", title: "Resume", spot: [1.9, 8.0], label: { x: 3.3, y: 8.0, z: 1.25 } },
+  { key: "cv", name: "CV", title: "Resume", spot: [1.9, 8.0], label: { x: 3.0, y: 8.0, z: 1.25 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [5.7, 7.6], label: { x: 4.4, y: 7.4, z: 1.5 } },
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [5.8, 7.8], label: { x: 4.6, y: 7.8, z: 1.6 } },
   { key: "win", name: "Contact", title: "Get in touch", spot: [2.8, 1.5], label: { x: 2.8, y: 0.0, z: 4.5 } },
 ];
 
@@ -48,18 +48,67 @@ export const HUB: Vec2 = [3.6, 4.2];
 
 export const START: Vec2 = SPOTS.desk;
 
-// Furniture footprints Chen cannot walk into.
-export const BLOCKS: readonly Rect[] = [
-  { x0: 0, y0: 2.2, x1: 0.9, y1: 5.2 }, // bookshelf
-  { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 }, // TV cabinet
-  { x0: 5.6, y0: 0.3, x1: 9.0, y1: 1.8 }, // desk
-  { x0: 6.9, y0: 2.15, x1: 7.9, y1: 3.3 }, // desk chair
-  { x0: 2.6, y0: 7.2, x1: 4.0, y1: 8.8 }, // coffee table
-  { x0: 6.4, y0: 6.4, x1: 7.9, y1: 9.4 }, // sofa
-  { x0: 4.3, y0: 6.5, x1: 5.1, y1: 8.7 }, // Bucky
-  { x0: 9.0, y0: 8.9, x1: 9.45, y1: 9.35 }, // plant
-  { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 }, // lamp
+// Bucky lies along world y on the middle of the rug. RAW is the box his
+// drawing spans at scale 1; Bucky.tsx scales it about its center and moves
+// that center to CENTER.
+export const BUCKY_LAYOUT = {
+  raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
+  scale: 1.1,
+  center: [4.6, 7.8],
+} as const;
+
+function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
+  const hw = ((raw.x1 - raw.x0) * scale) / 2;
+  const hd = ((raw.y1 - raw.y0) * scale) / 2;
+  return { x0: center[0] - hw, y0: center[1] - hd, x1: center[0] + hw, y1: center[1] + hd };
+}
+
+// The living-room rug, long side along world x. Floor decoration, not a block.
+export const RUG: Rect = { x0: 1.8, y0: 5.8, x1: 7.4, y1: 9.8 };
+
+export type SceneItemId =
+  | "window"
+  | "shelf"
+  | "lamp"
+  | "tv"
+  | "desk"
+  | "chair"
+  | "coffee-table"
+  | "bucky"
+  | "sofa"
+  | "plant";
+
+export interface SceneFootprint {
+  readonly id: SceneItemId;
+  // Floor rectangle the item stands on, or null for items on the wall,
+  // which are always behind Chen.
+  readonly rect: Rect | null;
+}
+
+// Every scene item, back to front. Each footprint is used both for collision
+// and for drawing Chen in the right order (see depth.ts).
+export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
+  { id: "window", rect: null },
+  { id: "shelf", rect: { x0: 0, y0: 2.2, x1: 0.9, y1: 5.2 } },
+  { id: "lamp", rect: { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 } },
+  { id: "tv", rect: { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 } },
+  { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 9.0, y1: 1.8 } },
+  { id: "chair", rect: { x0: 6.9, y0: 2.15, x1: 7.9, y1: 3.3 } },
+  { id: "coffee-table", rect: { x0: 2.3, y0: 7.2, x1: 3.7, y1: 8.8 } },
+  { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
+  { id: "sofa", rect: { x0: 7.0, y0: 6.4, x1: 8.5, y1: 9.4 } },
+  { id: "plant", rect: { x0: 9.0, y0: 8.9, x1: 9.45, y1: 9.35 } },
 ];
+
+export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
+
+// Floor footprints by item, for drawing furniture where its footprint is.
+export const FOOTPRINT_BY_ID = Object.fromEntries(
+  SCENE_FOOTPRINTS.flatMap((f) => (f.rect ? [[f.id, f.rect]] : [])),
+) as Readonly<Record<Exclude<SceneItemId, "window">, Rect>>;
+
+// Furniture Chen cannot walk into: every floor footprint.
+export const BLOCKS: readonly Rect[] = SCENE_FOOTPRINTS.flatMap((f) => (f.rect ? [f.rect] : []));
 
 export const BOUNDS: Rect = { x0: 0.45, y0: 0.5, x1: 9.7, y1: 9.7 };
 

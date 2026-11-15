@@ -1,5 +1,6 @@
 import { box, project, qx, qy, qz, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
+import { FOOTPRINT_BY_ID } from "../roomContent";
 import { Faces, SceneObject } from "./primitives";
 
 const PS5_WHITE = "#f2f2f2";
@@ -35,10 +36,6 @@ export function Desk({ p }: { p: ScenePalette }) {
     ...box(5.9, 0.5, 1.6, 0.3, 0.3, 0.05, p.brass),
     ...box(6.0, 0.6, 1.65, 0.05, 0.05, 0.4, p.brass),
     ...box(5.9, 0.5, 2.0, 0.3, 0.25, 0.15, PLANT_GREEN),
-    // Chair.
-    ...box(6.9, 2.3, 0, 1.0, 1.0, 0.5, p.cab),
-    ...box(6.9, 2.3, 0.5, 1.0, 1.0, 0.3, p.sofa),
-    ...box(6.9, 2.15, 0.8, 1.0, 0.15, 1.2, p.cab),
   ];
   return (
     <SceneObject objectKey="desk">
@@ -47,14 +44,31 @@ export function Desk({ p }: { p: ScenePalette }) {
   );
 }
 
+// A separate scene item from the desk so Chen can stand in front of the desk
+// and behind the chair at the same time. Clicking it still opens Projects.
+export function Chair({ p }: { p: ScenePalette }) {
+  return (
+    <SceneObject objectKey="desk">
+      <Faces
+        faces={[
+          ...box(6.9, 2.3, 0, 1.0, 1.0, 0.5, p.cab),
+          ...box(6.9, 2.3, 0.5, 1.0, 1.0, 0.3, p.sofa),
+          ...box(6.9, 2.15, 0.8, 1.0, 0.15, 1.2, p.cab),
+        ]}
+      />
+    </SceneObject>
+  );
+}
+
 export function CoffeeTable({ p }: { p: ScenePalette }) {
-  const legs: [number, number][] = [[2.65, 7.25], [3.85, 7.25], [2.65, 8.65], [3.85, 8.65]];
+  const { x0: x, y0: y } = FOOTPRINT_BY_ID["coffee-table"];
+  const legs: [number, number][] = [[x + 0.05, y + 0.05], [x + 1.25, y + 0.05], [x + 0.05, y + 1.45], [x + 1.25, y + 1.45]];
   const faces: Face[] = [
-    ...box(2.6, 7.2, 0.5, 1.4, 1.6, 0.12, p.wood),
-    ...legs.flatMap(([x, y]) => box(x, y, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
+    ...box(x, y, 0.5, 1.4, 1.6, 0.12, p.wood),
+    ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
     // The CV: a sheet of paper with an accent header stripe.
-    qz(0.63, 3.0, 3.6, 7.6, 8.4, "#ffffff"),
-    qz(0.64, 3.05, 3.5, 7.7, 7.78, p.accent),
+    qz(0.63, x + 0.4, x + 1.0, y + 0.4, y + 1.2, "#ffffff"),
+    qz(0.64, x + 0.45, x + 0.9, y + 0.5, y + 0.58, p.accent),
   ];
   return (
     <SceneObject objectKey="cv">
@@ -64,15 +78,16 @@ export function CoffeeTable({ p }: { p: ScenePalette }) {
 }
 
 export function Sofa({ p }: { p: ScenePalette }) {
+  const { x0: x, y0: y } = FOOTPRINT_BY_ID.sofa;
   return (
     <SceneObject objectKey="tv">
       <Faces
         faces={[
-          ...box(6.4, 6.4, 0, 1.5, 3.0, 0.8, p.sofa),
-          ...box(6.4, 6.4, 0.8, 1.1, 0.3, 0.4, p.sofa),
-          ...box(6.4, 9.1, 0.8, 1.1, 0.3, 0.4, p.sofa),
-          ...box(7.5, 6.4, 0.8, 0.4, 3.0, 0.9, shade(p.sofa, 0.9)),
-          ...box(6.6, 8.4, 0.8, 0.5, 0.6, 0.35, p.rugB),
+          ...box(x, y, 0, 1.5, 3.0, 0.8, p.sofa),
+          ...box(x, y, 0.8, 1.1, 0.3, 0.4, p.sofa),
+          ...box(x, y + 2.7, 0.8, 1.1, 0.3, 0.4, p.sofa),
+          ...box(x + 1.1, y, 0.8, 0.4, 3.0, 0.9, shade(p.sofa, 0.9)),
+          ...box(x + 0.2, y + 2.0, 0.8, 0.5, 0.6, 0.35, p.rugB),
         ]}
       />
     </SceneObject>
