@@ -70,7 +70,7 @@ describe("collision", () => {
     assert.equal(isBlocked(0.2, 5, cfg), true);
     assert.equal(isBlocked(5, 9.9, cfg), true);
     assert.equal(isBlocked(3.3, 8.0, cfg), true); // coffee table
-    assert.equal(isBlocked(2.6 - BODY_RADIUS + 0.01, 8.0, cfg), true); // padded edge
+    assert.equal(isBlocked(2.3 - BODY_RADIUS + 0.01, 8.0, cfg), true); // padded edge
   });
 
   it("never lets held keys push Chen into furniture", () => {

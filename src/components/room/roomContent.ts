@@ -31,7 +31,7 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "cv", name: "CV", title: "Resume", spot: [1.9, 8.0], label: { x: 3.0, y: 8.0, z: 1.25 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [5.8, 7.8], label: { x: 4.6, y: 7.8, z: 1.6 } },
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [6.2, 7.8], label: { x: 5.1, y: 7.8, z: 1.6 } },
   { key: "win", name: "Contact", title: "Get in touch", spot: [2.8, 1.5], label: { x: 2.8, y: 0.0, z: 4.5 } },
 ];
 
@@ -54,7 +54,7 @@ export const START: Vec2 = SPOTS.desk;
 export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
   scale: 1.1,
-  center: [4.6, 7.8],
+  center: [5.1, 7.8],
 } as const;
 
 function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
@@ -64,7 +64,7 @@ function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
 }
 
 // The living-room rug, long side along world x. Floor decoration, not a block.
-export const RUG: Rect = { x0: 1.8, y0: 5.8, x1: 7.4, y1: 9.8 };
+export const RUG: Rect = { x0: 2.1, y0: 5.8, x1: 7.7, y1: 9.8 };
 
 export type SceneItemId =
   | "window"
