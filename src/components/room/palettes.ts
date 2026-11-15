@@ -22,8 +22,8 @@ export const BUCKY = {
 export interface ScenePalette {
   readonly isDark: boolean;
   readonly accent: string;
-  // Letters on the accent skill tile, which sits on a darker side face.
-  readonly tileOnAccent: string;
+  // Letters on the accent skill book spine.
+  readonly spineOnAccent: string;
   // Captions on the contact board, on the paper color.
   readonly boardText: string;
   readonly wallL: string;
@@ -59,7 +59,7 @@ export interface ScenePalette {
 const LIGHT: ScenePalette = {
   isDark: false,
   accent: "#ff6b4a",
-  tileOnAccent: "#ffffff",
+  spineOnAccent: "#2a1f2d",
   boardText: "#2a1f2d",
   wallL: "#d3dfd1",
   wallR: "#e3ecdf",
@@ -94,7 +94,7 @@ const LIGHT: ScenePalette = {
 const DARK: ScenePalette = {
   isDark: true,
   accent: "#35e0ff",
-  tileOnAccent: "#0a1020",
+  spineOnAccent: "#0a1020",
   boardText: "#f1ece0",
   wallL: "#222a4d",
   wallR: "#2b3360",
