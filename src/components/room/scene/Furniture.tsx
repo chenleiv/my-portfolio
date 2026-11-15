@@ -1,7 +1,7 @@
-import { box, project, qx, qy, shade, type Face } from "../iso";
+import { box, project, qx, qy, qz, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
 import { FOOTPRINT_BY_ID } from "../roomContent";
-import { Faces, SceneObject } from "./primitives";
+import { Faces, SceneObject, ZText } from "./primitives";
 
 const PS5_WHITE = "#f2f2f2";
 const PLANT_GREEN = "#2f6f4f";
@@ -60,17 +60,53 @@ export function Chair({ p }: { p: ScenePalette }) {
   );
 }
 
-// Decoration only; the CV now hangs on the contact board.
+const PAGE_WHITE = "#ffffff";
+const PAGE_INK = "#2a1f2d";
+const PAGE_LINE = "#b8b2a7";
+// Lengths of the text lines under the title, as a share of the usable width.
+const SCRIPT_LINES = [0.9, 0.75, 0.85, 0.6];
+
+// A small stack of loose script pages. Lower pages are offset and slightly
+// darker so the stack reads as several sheets.
+function ScriptPages({ x, y }: { x: number; y: number }) {
+  const w = 0.8;
+  const d = 1.0;
+  const top = 0.64;
+  const pad = 0.05;
+  return (
+    <>
+      <Faces
+        faces={[
+          qz(0.625, x + 0.06, x + 0.06 + w, y + 0.06, y + 0.06 + d, shade(PAGE_WHITE, 0.86)),
+          qz(0.632, x - 0.04, x - 0.04 + w, y + 0.08, y + 0.08 + d, shade(PAGE_WHITE, 0.93)),
+          qz(top, x, x + w, y, y + d, PAGE_WHITE),
+          ...SCRIPT_LINES.map((share, i) => {
+            const ly = y + 0.4 + i * 0.13;
+            return qz(top + 0.001, x + pad, x + pad + (w - pad * 2) * share, ly, ly + 0.04, PAGE_LINE);
+          }),
+        ]}
+      />
+      <ZText x={x + w / 2} y={y + 0.27} z={top + 0.002} h={0.13} fill={PAGE_INK}>
+        SCRIPT
+      </ZText>
+    </>
+  );
+}
+
+// Decoration only; the CV now hangs on the contact board. Loose script pages lie on top.
 export function CoffeeTable({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y } = FOOTPRINT_BY_ID["coffee-table"];
   const legs: [number, number][] = [[x + 0.05, y + 0.05], [x + 1.25, y + 0.05], [x + 0.05, y + 1.45], [x + 1.25, y + 1.45]];
   return (
-    <Faces
-      faces={[
-        ...box(x, y, 0.5, 1.4, 1.6, 0.12, p.wood),
-        ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
-      ]}
-    />
+    <>
+      <Faces
+        faces={[
+          ...box(x, y, 0.5, 1.4, 1.6, 0.12, p.wood),
+          ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
+        ]}
+      />
+      <ScriptPages x={x + 0.3} y={y + 0.35} />
+    </>
   );
 }
 
