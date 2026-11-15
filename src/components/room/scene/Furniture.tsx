@@ -68,14 +68,14 @@ function steamPoints(x: number, y: number, strand: number): string {
 }
 
 // Gaming chair facing the desk: the seat is on the desk side and the tall back,
-// side wings and headrest are at the rear (+y). Coral with dark trim. A separate
+// side wings and headrest are at the rear (+y). Soft coral with dark trim. A separate
 // scene item from the desk so Chen can stand in front of the desk and behind the
 // chair. Clicking it still opens Projects. Headphones hang on the left wing.
 export function Chair({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y } = FOOTPRINT_BY_ID.chair;
   const trim = p.tv;
-  const body = p.art2;
-  const wing = shade(p.art2, 0.85);
+  const body = p.chair;
+  const wing = shade(p.chair, 0.85);
   const backY = y + 0.77;
   return (
     <SceneObject objectKey="desk">
