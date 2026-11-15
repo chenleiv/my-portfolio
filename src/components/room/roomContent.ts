@@ -30,7 +30,7 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [6.3, 3.75], label: { x: 7.3, y: 1.0, z: 3.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [6.2, 7.8], label: { x: 5.1, y: 7.8, z: 1.6 } },
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [4.4, 9.3], label: { x: 5.1, y: 7.8, z: 1.6 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
@@ -53,7 +53,7 @@ export const START: Vec2 = SPOTS.desk;
 export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
   scale: 1.1,
-  center: [5.1, 7.8],
+  center: [5.1, 7.4],
 } as const;
 
 function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
@@ -63,7 +63,7 @@ function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
 }
 
 // The living-room rug, long side along world x. Floor decoration, not a block.
-export const RUG: Rect = { x0: 2.1, y0: 5.8, x1: 7.7, y1: 9.8 };
+export const RUG: Rect = { x0: 2.0, y0: 5.3, x1: 9.4, y1: 9.9 };
 
 // Items mounted on a wall: no floor footprint, always behind Chen.
 export type WallItemId = "contact-board" | "window";
@@ -103,9 +103,9 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "coffee-table", rect: { x0: 2.3, y0: 7.2, x1: 3.7, y1: 8.8 } },
   { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
   // Food bowl and bone on the rug beside Bucky.
-  { id: "bucky-bowl", rect: { x0: 5.7, y0: 8.8, x1: 6.1, y1: 9.45 } },
-  { id: "sofa", rect: { x0: 7.0, y0: 6.4, x1: 8.5, y1: 9.4 } },
-  { id: "plant", rect: { x0: 9.0, y0: 8.9, x1: 9.45, y1: 9.35 } },
+  { id: "bucky-bowl", rect: { x0: 5.7, y0: 8.4, x1: 6.1, y1: 9.05 } },
+  { id: "sofa", rect: { x0: 7.0, y0: 6.0, x1: 8.5, y1: 9.0 } },
+  { id: "plant", rect: { x0: 9.2, y0: 4.8, x1: 9.65, y1: 5.25 } },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
