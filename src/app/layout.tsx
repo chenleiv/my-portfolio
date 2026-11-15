@@ -1,6 +1,21 @@
 import type { Metadata } from 'next';
+import { Bricolage_Grotesque, Instrument_Sans } from 'next/font/google';
 import { AppProviders } from "../components/providers/AppProviders";
 import "./globals.scss";
+
+const displayFont = Bricolage_Grotesque({
+  subsets: ['latin'],
+  weight: ['500', '800'],
+  display: 'swap',
+  variable: '--font-display',
+});
+
+const bodyFont = Instrument_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-body',
+});
 
 const DEFAULT_SITE_URL = 'https://chenleiv.vercel.app';
 
@@ -45,7 +60,7 @@ const THEME_INIT_SCRIPT = `(function(){var d=document.documentElement,t;try{t=lo
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${displayFont.variable} ${bodyFont.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
       </head>
