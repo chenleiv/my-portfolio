@@ -127,12 +127,6 @@ $room-keys: desk, cv, shelf, tv, bucky, contact;
   font-weight: 700;
   pointer-events: none;
 }
-
-.room-svg-emoji {
-  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
-  pointer-events: none;
-}
-
 @keyframes room-ring {
   0% {
     box-shadow: 0 0 0 0 var(--accent);
