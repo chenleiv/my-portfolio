@@ -49,11 +49,45 @@ a {
   overflow-x: hidden;
 
   &__topbar {
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
     padding: 32px 40px 0;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  &__topbar-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__logo {
+    font-family: var(--font-display-stack);
+    font-weight: 800;
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  &__skip {
+    font-weight: 600;
+    font-size: 15px;
+    color: var(--ink);
+    text-underline-offset: 3px;
+  }
+
+  &__howto {
+    width: 100%;
+    margin-top: 44px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
   }
 
   &__main {
@@ -75,6 +109,12 @@ a {
     position: relative;
     width: 100%;
     scroll-margin-top: 80px;
+
+    &--intro {
+      max-width: 1180px;
+      margin: 0 auto;
+      align-items: stretch;
+    }
   }
 
   &__footer {

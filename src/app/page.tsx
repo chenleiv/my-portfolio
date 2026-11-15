@@ -2,18 +2,27 @@
 import { lazy, Suspense } from 'react';
 import ThemeToggle from '../components/theme-toggle/ThemeToggle';
 import Hero from '../components/hero/Hero';
+import Room from '../components/room/Room';
 const Projects = lazy(() => import('../components/projects/Projects'));
 const Footer = lazy(() => import('../components/footer/Footer'));
 
 export default function Page() {
   return (
-    <div className="app">
+    <div className="app" id="top">
       <header className="app__topbar">
-        <ThemeToggle />
+        <a className="app__logo" href="#top">Chen Leiv</a>
+        <div className="app__topbar-actions">
+          <a className="app__skip" href="#projects">Skip to the plain page</a>
+          <ThemeToggle />
+        </div>
       </header>
       <main className="app__main">
-        <section id="about" className="app__section">
+        <section id="about" className="app__section app__section--intro">
           <Hero />
+          <p className="app__howto">
+            Click the room, then walk with the arrow keys or WASD. Stop next to an object and it opens. Or just click any labelled object.
+          </p>
+          <Room />
         </section>
 
         <section id="projects" className="app__section">
