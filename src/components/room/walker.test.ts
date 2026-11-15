@@ -5,6 +5,7 @@ import {
   BLOCKS,
   BODY_RADIUS,
   BOUNDS,
+  FOOTPRINT_BY_ID,
   HUB,
   NEAR_RADIUS,
   SPOTS,
@@ -70,7 +71,8 @@ describe("collision", () => {
     assert.equal(isBlocked(0.2, 5, cfg), true);
     assert.equal(isBlocked(5, 9.9, cfg), true);
     assert.equal(isBlocked(3.3, 8.0, cfg), true); // coffee table
-    assert.equal(isBlocked(2.3 - BODY_RADIUS + 0.01, 8.0, cfg), true); // padded edge
+    const table = FOOTPRINT_BY_ID["coffee-table"];
+    assert.equal(isBlocked(table.x0 - BODY_RADIUS + 0.01, (table.y0 + table.y1) / 2, cfg), true); // padded edge
   });
 
   it("never lets held keys push Chen into furniture", () => {
