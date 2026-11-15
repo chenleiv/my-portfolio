@@ -133,4 +133,4 @@ export const WALK_SPEED = 2.6;
 export const AUTO_OPEN_DWELL_SECONDS = 0.2;
 
 export const OFF_DUTY_TEXT = "Off the clock: TV, PS5, tech and pets.";
-export const BUCKY_TEXT = "Currently waiting for a snack.";
+export const BUCKY_TEXT = "Waiting for a snack.";
