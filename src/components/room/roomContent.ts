@@ -19,7 +19,7 @@ export interface RoomObject {
   readonly name: string;
   // Popup heading.
   readonly title: string;
-  // World point where Chen stands to use the object.
+  // Where Chen walks to after a click on the object. Proximity uses OBJECT_AREAS.
   readonly spot: Vec2;
   // World anchor of the label in the scene.
   readonly label: { readonly x: number; readonly y: number; readonly z: number };
@@ -28,8 +28,8 @@ export interface RoomObject {
 // Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [6.3, 3.75], label: { x: 7.3, y: 1.0, z: 3.0 } },
-  { key: "shelf", name: "Skills", title: "Skills", spot: [1.9, 3.8], label: { x: 0.45, y: 3.7, z: 4.1 } },
-  { key: "tv", name: "Off duty", title: "Off duty", spot: [2.1, 5.2], label: { x: 0.6, y: 7.7, z: 2.6 } },
+  { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
+  { key: "tv", name: "Off duty", title: "Off duty", spot: [1.55, 6.0], label: { x: 0.6, y: 7.7, z: 2.6 } },
   { key: "bucky", name: "Bucky", title: "Bucky", spot: [4.4, 9.3], label: { x: 5.1, y: 7.8, z: 1.6 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
@@ -123,8 +123,44 @@ export const BOUNDS: Rect = { x0: 0.45, y0: 0.5, x1: 9.7, y1: 9.7 };
 // Half the width of Chen's footprint, used to pad every block.
 export const BODY_RADIUS = 0.28;
 
-// Chen counts as "next to" an object within this distance of its spot.
-export const NEAR_RADIUS = 1.5;
+// Chen counts as "next to" an object when her distance to any of its
+// footprints is at most its margin. Collision keeps her at least BODY_RADIUS away.
+export const NEAR_MARGIN = 0.8;
+
+// The contact board hangs on the back wall and Chen cannot get closer than
+// BOUNDS.y0 to it, so it gets a wider margin.
+export const BOARD_NEAR_MARGIN = 1.6;
+
+// While Chen is still next to the current object, another one takes over only
+// when it is closer by more than this. Stops neighbors (Bucky and the sofa)
+// from fighting for the popup as she walks between them.
+export const SWITCH_MARGIN = 0.15;
+
+// Strip of floor under the contact board, used only for proximity.
+const CONTACT_WALL: Rect = { x0: 1.0, y0: 0, x1: 4.5, y1: 0.05 };
+
+export interface ObjectArea {
+  readonly key: ObjectKey;
+  readonly rects: readonly Rect[];
+  readonly margin: number;
+}
+
+// Proximity areas, in ROOM_OBJECTS order, which also breaks exact ties.
+export const OBJECT_AREAS: readonly ObjectArea[] = ROOM_OBJECTS.map((o) => {
+  const f = FOOTPRINT_BY_ID;
+  switch (o.key) {
+    case "desk":
+      return { key: o.key, rects: [f.desk, f.chair], margin: NEAR_MARGIN };
+    case "shelf":
+      return { key: o.key, rects: [f.shelf], margin: NEAR_MARGIN };
+    case "tv":
+      return { key: o.key, rects: [f.tv, f.sofa], margin: NEAR_MARGIN };
+    case "bucky":
+      return { key: o.key, rects: [f.bucky, f["bucky-bowl"]], margin: NEAR_MARGIN };
+    case "contact":
+      return { key: o.key, rects: [CONTACT_WALL], margin: BOARD_NEAR_MARGIN };
+  }
+});
 
 // World units per second.
 export const WALK_SPEED = 2.6;

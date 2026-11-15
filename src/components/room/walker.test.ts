@@ -7,8 +7,9 @@ import {
   BOUNDS,
   FOOTPRINT_BY_ID,
   HUB,
-  NEAR_RADIUS,
+  OBJECT_AREAS,
   SPOTS,
+  SWITCH_MARGIN,
   WALK_SPEED,
   type ObjectKey,
 } from "./roomContent.ts";
@@ -16,7 +17,7 @@ import {
   createWalkerState,
   isBlocked,
   keysToWorld,
-  nearestSpot,
+  nearestObject,
   noKeys,
   onDialogClosed,
   planWalk,
@@ -32,7 +33,8 @@ const cfg: WalkerConfig<ObjectKey> = {
   blocks: BLOCKS,
   bounds: BOUNDS,
   bodyRadius: BODY_RADIUS,
-  nearRadius: NEAR_RADIUS,
+  areas: OBJECT_AREAS,
+  switchMargin: SWITCH_MARGIN,
   speed: WALK_SPEED,
   dwellSeconds: AUTO_OPEN_DWELL_SECONDS,
 };
@@ -51,11 +53,11 @@ function run(state: WalkerState<ObjectKey>, keys: HeldKeys, seconds: number, dia
 
 const hold = (k: Partial<HeldKeys>): HeldKeys => ({ ...noKeys(), ...k });
 
-// Walks the user to the desk spot with the keys, so userMoved is set as in real use.
+// Walks the user away from the desk spot and back with the keys, so userMoved is set as in real use.
 function arriveAtDeskByKeys(): WalkerState<ObjectKey> {
   const state = createWalkerState<ObjectKey>(SPOTS.desk);
-  run(state, hold({ left: true }), 1);
-  run(state, hold({ right: true }), 1);
+  run(state, hold({ up: true }), 1);
+  run(state, hold({ down: true }), 1);
   return state;
 }
 
@@ -84,7 +86,7 @@ describe("collision", () => {
   });
 });
 
-describe("keys and nearest spot", () => {
+describe("keys and proximity", () => {
   it("maps screen directions to world directions", () => {
     const close = (actual: readonly number[] | null, expected: number[]) => {
       assert.ok(actual);
@@ -95,9 +97,59 @@ describe("keys and nearest spot", () => {
     assert.equal(keysToWorld(hold({ left: true, right: true })), null);
   });
 
-  it("finds the object within the near radius only", () => {
-    assert.equal(nearestSpot(SPOTS.shelf[0], SPOTS.shelf[1], cfg), "shelf");
-    assert.equal(nearestSpot(4.5, 4.5, cfg), null);
+  it("counts each spot as next to its own object", () => {
+    for (const [key, [x, y]] of Object.entries(SPOTS)) {
+      assert.equal(nearestObject(x, y, null, cfg), key, `spot ${key}`);
+    }
+  });
+
+  it("is next to nothing on open floor", () => {
+    assert.equal(nearestObject(HUB[0], HUB[1], null, cfg), null);
+  });
+
+  it("is next to an object from every side Chen can stand on", () => {
+    const f = FOOTPRINT_BY_ID;
+    const cases: [ObjectKey, (typeof f)[keyof typeof f]][] = [
+      ["tv", f.tv],
+      ["tv", f.sofa],
+      ["bucky", f.bucky],
+      ["shelf", f.shelf],
+      ["desk", f.chair],
+    ];
+    const off = BODY_RADIUS + 0.1;
+    for (const [key, r] of cases) {
+      const cx = (r.x0 + r.x1) / 2;
+      const cy = (r.y0 + r.y1) / 2;
+      const sides = [[r.x0 - off, cy], [r.x1 + off, cy], [cx, r.y0 - off], [cx, r.y1 + off]];
+      const free = sides.filter(([x, y]) => !isBlocked(x, y, cfg));
+      assert.ok(free.length >= 2, `${key}: fewer than two free sides`);
+      for (const [x, y] of free) {
+        assert.equal(nearestObject(x, y, null, cfg), key, `${key} at ${x.toFixed(2)}, ${y.toFixed(2)}`);
+      }
+    }
+  });
+
+  it("breaks exact ties by area order", () => {
+    const tie: WalkerConfig<"a" | "b"> = {
+      ...cfg,
+      spots: { a: [0, 0], b: [0, 0] },
+      areas: [
+        { key: "a", rects: [{ x0: 0, y0: 0, x1: 1, y1: 1 }], margin: 1 },
+        { key: "b", rects: [{ x0: 2, y0: 0, x1: 3, y1: 1 }], margin: 1 },
+      ],
+    };
+    assert.equal(nearestObject(1.5, 0.5, null, tie), "a");
+  });
+
+  it("keeps the current object until another is clearly closer", () => {
+    // Between Bucky and the sofa, which belongs to the Off duty object.
+    const y = 7.4;
+    const bucky = FOOTPRINT_BY_ID.bucky;
+    const sofa = FOOTPRINT_BY_ID.sofa;
+    const x = (bucky.x1 + sofa.x0) / 2 + 0.03; // sofa slightly closer, by less than the switch margin
+    assert.equal(nearestObject(x, y, null, cfg), "tv");
+    assert.equal(nearestObject(x, y, "bucky", cfg), "bucky");
+    assert.equal(nearestObject(sofa.x0 - BODY_RADIUS - 0.05, y, "bucky", cfg), "tv");
   });
 });
 
@@ -116,14 +168,14 @@ describe("auto-open", () => {
     assert.deepEqual(run(state, noKeys(), 2), []);
 
     // A small step that stays next to the desk does not clear the suppression.
-    run(state, hold({ left: true }), 0.1);
+    run(state, hold({ right: true }), 0.1);
     assert.equal(state.near, "desk");
     assert.deepEqual(run(state, noKeys(), 1), []);
 
     // Walk away, then back.
-    run(state, hold({ left: true }), 1);
+    run(state, hold({ up: true }), 1);
     assert.equal(state.near, null);
-    run(state, hold({ right: true }), 1.1);
+    run(state, hold({ down: true }), 1);
     assert.equal(state.near, "desk");
     assert.deepEqual(run(state, noKeys(), 1), ["desk"]);
   });

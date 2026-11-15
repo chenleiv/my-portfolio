@@ -9,7 +9,10 @@ export interface WalkerConfig<K extends string> {
   readonly blocks: readonly Rect[];
   readonly bounds: Rect;
   readonly bodyRadius: number;
-  readonly nearRadius: number;
+  // Proximity areas in priority order: earlier wins an exact tie.
+  readonly areas: readonly { readonly key: K; readonly rects: readonly Rect[]; readonly margin: number }[];
+  // A different object takes over from the current one only when closer by more than this.
+  readonly switchMargin: number;
   readonly speed: number;
   readonly dwellSeconds: number;
 }
@@ -71,16 +74,32 @@ export function isBlocked<K extends string>(x: number, y: number, cfg: WalkerCon
   return cfg.blocks.some((k) => x > k.x0 - r && x < k.x1 + r && y > k.y0 - r && y < k.y1 + r);
 }
 
-export function nearestSpot<K extends string>(x: number, y: number, cfg: WalkerConfig<K>): K | null {
+// Distance from a point to a rectangle; 0 inside it.
+export function distanceToRect(x: number, y: number, r: Rect): number {
+  const dx = Math.max(r.x0 - x, 0, x - r.x1);
+  const dy = Math.max(r.y0 - y, 0, y - r.y1);
+  return Math.hypot(dx, dy);
+}
+
+// Object Chen is next to: the closest area within its margin. Exact ties go to
+// the area listed first. While `current` is still within its margin it is kept
+// unless another object is closer by more than switchMargin, so two neighbors
+// never alternate as Chen walks between them.
+export function nearestObject<K extends string>(x: number, y: number, current: K | null, cfg: WalkerConfig<K>): K | null {
   let best: K | null = null;
-  let bestDistance = cfg.nearRadius;
-  for (const key of Object.keys(cfg.spots) as K[]) {
-    const [sx, sy] = cfg.spots[key];
-    const d = Math.hypot(x - sx, y - sy);
+  let bestDistance = Infinity;
+  let currentDistance = Infinity;
+  for (const area of cfg.areas) {
+    const d = Math.min(...area.rects.map((r) => distanceToRect(x, y, r)));
+    if (d > area.margin) continue;
+    if (area.key === current) currentDistance = d;
     if (d < bestDistance) {
       bestDistance = d;
-      best = key;
+      best = area.key;
     }
+  }
+  if (current !== null && best !== current && currentDistance !== Infinity && bestDistance > currentDistance - cfg.switchMargin) {
+    return current;
   }
   return best;
 }
@@ -158,7 +177,7 @@ export function tick<K extends string>(
     if (state.path.length === 0) {
       state.moving = false;
       state.phase = 0;
-      const n = nearestSpot(state.x, state.y, cfg);
+      const n = nearestObject(state.x, state.y, state.near, cfg);
       nearChanged = n !== state.near;
       state.near = n;
     }
@@ -178,7 +197,7 @@ export function tick<K extends string>(
     state.dwell = 0;
     changed = true;
     userActed = true;
-    const n = nearestSpot(state.x, state.y, cfg);
+    const n = nearestObject(state.x, state.y, state.near, cfg);
     if (n !== state.near) {
       state.near = n;
       nearChanged = true;
