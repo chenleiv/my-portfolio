@@ -1,0 +1,39 @@
+.temp-hero {
+  width: 100%;
+  max-width: 760px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+
+  &__name {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    letter-spacing: 0.04em;
+    color: var(--primary-color);
+  }
+
+  &__title {
+    font-size: 1.4rem;
+    color: var(--text-primary);
+  }
+
+  &__tagline {
+    color: var(--accent-color);
+  }
+
+  &__intro {
+    color: var(--text-secondary);
+  }
+
+  &__link {
+    align-self: center;
+    margin-top: 8px;
+    color: var(--link-color);
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+      text-decoration: underline;
+    }
+  }
+}

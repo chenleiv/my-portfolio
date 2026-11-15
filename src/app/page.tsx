@@ -1,11 +1,9 @@
 
 import { lazy, Suspense } from 'react';
-import About from '../components/about-console/About';
 import ThemeToggle from '../components/theme-toggle/ThemeToggle';
+import TempHero from '../components/hero/TempHero';
 const Projects = lazy(() => import('../components/projects/Projects'));
 const Footer = lazy(() => import('../components/footer/Footer'));
-const SkillsMatcher = lazy(() => import("../components/skills/SkillsMatcher"));
-const LazyLoader = lazy(() => import("../components/loader/LazyLoader"));
 
 export default function Page() {
   return (
@@ -13,10 +11,7 @@ export default function Page() {
       <ThemeToggle />
       <main className="app__main">
         <section id="about" className="app__section">
-          <Suspense fallback={<LazyLoader />}>
-            <SkillsMatcher />
-          </Suspense>
-          <About />
+          <TempHero />
         </section>
 
         <section id="projects" className="app__section">
