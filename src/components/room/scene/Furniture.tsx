@@ -110,7 +110,7 @@ export function Lamp({ p }: { p: ScenePalette }) {
   );
 }
 
-// Acoustic guitar standing against the back wall, between the contact board and the desk. Decoration only.
+// Acoustic guitar against the back wall in the back-left corner, where nothing is drawn over it. Decoration only.
 export function Guitar({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y } = FOOTPRINT_BY_ID.guitar;
   const neck = shade(p.wood, 0.7);
