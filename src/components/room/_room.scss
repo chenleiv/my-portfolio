@@ -1,0 +1,288 @@
+// Interactive room. Scene colors come from palettes.ts; everything here uses
+// the site tokens. The accent is only ever a background under --on-accent text.
+
+$room-keys: desk, cv, shelf, tv, bucky, win;
+
+.room {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  &__scene {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 12px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 4px;
+    }
+  }
+
+  &__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 760 / 620;
+
+    @each $key in $room-keys {
+      &[data-active="#{$key}"] {
+        .room-obj[data-room-key="#{$key}"] {
+          filter: brightness(1.12) drop-shadow(0 0 7px var(--accent));
+        }
+
+        .room__label[data-room-key="#{$key}"] {
+          box-shadow: 0 0 0 3px var(--ink);
+        }
+      }
+    }
+  }
+
+  &__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    min-height: 28px;
+    padding: 2px 13px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font: 600 14px / 1.2 var(--font-body-stack);
+    white-space: nowrap;
+    cursor: pointer;
+
+    // Pulse ring, drawn outside the pill.
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: 0 0 0 0 var(--accent);
+      animation: room-ring 2.4s ease-out infinite;
+      pointer-events: none;
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+  }
+
+  &__prompt {
+    min-height: 1.6em;
+    margin-top: 12px;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  &__quick {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  &__quick-btn {
+    min-height: 44px;
+    padding: 0 18px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: 600 15px / 1 var(--font-body-stack);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+
+    &:hover {
+      background: var(--ink-soft-2);
+    }
+  }
+}
+
+.room-obj {
+  transition: filter var(--transition-fast);
+}
+
+.room-chen {
+  pointer-events: none;
+}
+
+.room-svg-text {
+  font-family: var(--font-body-stack);
+  font-weight: 700;
+  pointer-events: none;
+}
+
+@keyframes room-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent);
+    opacity: 0.9;
+  }
+
+  100% {
+    box-shadow: 0 0 0 7px var(--accent);
+    opacity: 0;
+  }
+}
+
+// The dialog element fills the viewport and acts as the overlay; the card sits inside.
+.room-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  background: var(--overlay);
+  color: var(--ink);
+
+  &[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::backdrop {
+    background: transparent;
+  }
+
+  &__card {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    max-height: 86vh;
+    overflow: auto;
+    padding: 30px 28px 28px;
+    border: 2px solid var(--ink);
+    border-radius: 22px;
+    background: var(--panel);
+    color: var(--ink);
+
+    p {
+      margin-top: 12px;
+      font-size: 17px;
+    }
+  }
+
+  &__title {
+    padding-right: 52px;
+    font-size: 34px;
+    line-height: 1.05;
+  }
+
+  &__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  &__project {
+    margin-top: 14px;
+    padding: 22px 24px;
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    background: var(--panel);
+
+    h3 {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 16px;
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+
+    &--primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--on-accent);
+    }
+  }
+
+  &__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 0;
+    list-style: none;
+
+    li {
+      padding: 4px 14px;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .room__label {
+    min-height: 24px;
+    padding: 2px 9px;
+    font-size: 12px;
+  }
+
+  .room-dialog__card {
+    padding: 24px 20px 20px;
+  }
+
+  .room-dialog__title {
+    font-size: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room__label::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .room-obj {
+    transition: none;
+  }
+}
