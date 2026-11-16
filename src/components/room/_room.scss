@@ -474,7 +474,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
 // Site tokens only: ink on panel. Everything in the panel uses the pixel font:
 // the title, the key caps and the instruction line.
 
-// Compact: title, two rows of key caps, one line of text, then the status block.
+// Compact: title, one row of arrow keys, then one line of text.
 .how-to-play {
   display: grid;
   grid-template-columns: minmax(0, 1fr);

@@ -1,7 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFocus } from "../../utils/useFocus";
+import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 import { ABOUT_LINES, type ConsoleLine } from "./consoleTypes";
@@ -23,10 +22,15 @@ interface InteractiveConsoleProps {
   autoFocus: boolean;
 }
 
+// The platform never changes, so there is nothing to subscribe to. On the
+// server the label falls back to Ctrl+K.
+const noSubscribe = () => () => {};
+const readShortcutLabel = () => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K");
+
 export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
   const isMobile = useIsMobile(768);
   const initialLines = useMemo(() => ABOUT_LINES, []);
-  const shortcutLabel = useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"), []);
+  const shortcutLabel = useSyncExternalStore(noSubscribe, readShortcutLabel, () => "Ctrl+K");
 
   const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -34,8 +38,6 @@ export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
   const consoleRef = useRef<HTMLDivElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const { setConsoleInputRef } = useFocus();
 
   const auto = useStickyAutoScroll({
     historyRef,
@@ -99,10 +101,6 @@ export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
       scrollToConsoleTop,
     ],
   );
-
-  useEffect(() => {
-    setConsoleInputRef(inputRef.current);
-  }, [setConsoleInputRef]);
 
   // Only when the console first appears; preventScroll keeps the hero in view.
   const autoFocusRef = useRef(autoFocus);

@@ -8,11 +8,11 @@
 export const U = 34;
 export const V = 15;
 export const Z = 30;
-export const OX = 380;
-export const OY = 200;
+const OX = 380;
+const OY = 200;
 export const WALL_H = 5;
 
-export type Point3 = readonly [number, number, number];
+type Point3 = readonly [number, number, number];
 
 export interface Face {
   readonly points: string;
@@ -81,7 +81,7 @@ function points(list: readonly Point3[]): string {
     .join(" ");
 }
 
-export function poly(list: readonly Point3[], fill: string): Face {
+function poly(list: readonly Point3[], fill: string): Face {
   return { points: points(list), fill };
 }
 

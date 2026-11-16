@@ -15,7 +15,7 @@ export interface Rect {
 
 export interface RoomObject {
   readonly key: ObjectKey;
-  // Short name on the scene label and the quick button.
+  // Short name on the scene label and the Places button.
   readonly name: string;
   // Popup heading.
   readonly title: string;
@@ -25,7 +25,6 @@ export interface RoomObject {
   readonly label: { readonly x: number; readonly y: number; readonly z: number };
 }
 
-// Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
@@ -79,7 +78,7 @@ export const BUCKY_LAYOUT = {
 
 // Proximity only (the chaise itself blocks): the whole chaise is Bucky's. The
 // sofa it meets is decoration only; For fun belongs to the TV alone.
-export const BUCKY_SEAT: Rect = SOFA_FRONT;
+const BUCKY_SEAT: Rect = SOFA_FRONT;
 
 // The living-room rug, long side along world y, in front of the sofa. Floor decoration, not a block.
 export const RUG: Rect = { x0: 2.15, y0: 3.8, x1: 7.4, y1: 9.8 };
@@ -147,11 +146,11 @@ export const BODY_RADIUS = 0.28;
 
 // Chen counts as "next to" an object when her distance to any of its
 // footprints is at most its margin. Collision keeps her at least BODY_RADIUS away.
-export const NEAR_MARGIN = 0.8;
+const NEAR_MARGIN = 0.8;
 
 // The contact board hangs on the back wall and Chen cannot get closer than
 // BOUNDS.y0 to it, so it gets a wider margin.
-export const BOARD_NEAR_MARGIN = 1.6;
+const BOARD_NEAR_MARGIN = 1.6;
 
 // While Chen is still next to the current object, another one takes over only
 // when it is closer by more than this. Stops neighbors (Bucky and the sofa)

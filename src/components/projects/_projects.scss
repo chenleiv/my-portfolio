@@ -5,6 +5,43 @@
   padding: 32px 20px 80px; // little on top: .app__main already spaces sections
 }
 
+// ─── Entrance ───────────────────────────────────────────────────────────────
+// Once the section scrolls into view, Projects.tsx adds .is-visible: the section
+// fades in, then the header and each card rise 24px in turn (--enter-delay).
+// With reduced motion nothing rises and the site-wide rule in globals.scss
+// makes the fade instant.
+$enter-ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+.projects-section {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+
+  &.is-visible {
+    opacity: 1;
+  }
+}
+
+.projects-header,
+.project-card {
+  opacity: 0;
+  translate: 0 24px;
+
+  .is-visible & {
+    opacity: 1;
+    translate: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    translate: none;
+  }
+}
+
+.projects-header {
+  transition:
+    opacity 0.45s $enter-ease var(--enter-delay, 0s),
+    translate 0.45s $enter-ease var(--enter-delay, 0s);
+}
+
 .projects-container {
   display: flex;
   flex-direction: column;
@@ -54,10 +91,22 @@
   border: 2px solid var(--ink);
   border-radius: 16px;
   box-shadow: 0 4px 16px var(--shadow);
-  transition: box-shadow 0.3s ease;
+  // Only the entrance waits for --enter-delay; the hover effects start at once.
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.22s ease-out,
+    opacity 0.45s $enter-ease var(--enter-delay, 0s),
+    translate 0.45s $enter-ease var(--enter-delay, 0s);
 
   &:hover {
     box-shadow: 0 16px 40px var(--shadow);
+  }
+
+  // Lift on hover with a real pointer only, so a tap does not leave it raised.
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    &:hover {
+      transform: translateY(-6px);
+    }
   }
 
   @media (min-width: 900px) {

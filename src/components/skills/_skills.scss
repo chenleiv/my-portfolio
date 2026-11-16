@@ -10,6 +10,42 @@
   align-items: center;
   padding: 6vh 16px;
   overflow: hidden;
+  animation: skills-fade-in 0.18s ease-out both;
+
+  &.is-closing {
+    animation-name: skills-fade-out;
+  }
+}
+
+// ─── Enter and exit ─────────────────────────────────────────────────────────
+// The modal rises 24px and scales from 0.97 on enter, and back on exit.
+// SkillsMatcher.tsx unmounts it when the exit animation ends. With reduced
+// motion it only fades, and the site-wide rule in globals.scss makes that instant.
+
+@keyframes skills-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes skills-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes skills-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+}
+
+@keyframes skills-modal-out {
+  to {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
 }
 
 // ─── Modal ──────────────────────────────────────────────────────────────────
@@ -26,6 +62,19 @@
   border: 2px solid var(--ink);
   box-shadow: 0 32px 80px var(--shadow);
   position: relative;
+  animation: skills-modal-in 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  .is-closing > & {
+    animation-name: skills-modal-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-name: skills-fade-in;
+
+    .is-closing > & {
+      animation-name: skills-fade-out;
+    }
+  }
 
   &::before {
     content: '';

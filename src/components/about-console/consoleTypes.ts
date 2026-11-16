@@ -1,4 +1,4 @@
-export type ConsoleLineType =
+type ConsoleLineType =
   | "desc"
   | "hint"
   | "commandsTitle"
@@ -21,7 +21,7 @@ export type ConsoleLine = {
 };
 
 // The console sits under the hero, so it starts at the command list instead of
-// repeating the name, title, tagline, intro and stack.
+// repeating the name, title, tagline and intro.
 export const ABOUT_LINES: ConsoleLine[] = [
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
   {

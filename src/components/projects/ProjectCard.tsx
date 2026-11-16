@@ -1,13 +1,13 @@
-import { motion, type Variants } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
 import { ExternalLink } from "lucide-react";
+import type { CSSProperties } from "react";
 import type { Project } from "./projectData";
 import Image from "next/image";
 
 type Props = {
     project: Project;
-    itemVariants: Variants;
-    shouldReduceMotion: boolean;
+    // Carries --enter-delay for the staggered entrance.
+    style?: CSSProperties;
     isFeatured?: boolean;
 };
 
@@ -15,13 +15,9 @@ type Props = {
 // top of it below that. All text comes from projectData.ts; the long subHeader
 // stays in the data but is not shown here. The card has no fixed height, so
 // nothing is clipped at any width.
-export function ProjectCard({ project, itemVariants, shouldReduceMotion, isFeatured }: Props) {
+export function ProjectCard({ project, style, isFeatured }: Props) {
     return (
-        <motion.article
-            className="project-card"
-            variants={itemVariants}
-            whileHover={!shouldReduceMotion ? { y: -6, transition: { duration: 0.22, ease: "easeOut" } } : undefined}
-        >
+        <article className="project-card" style={style}>
             <div className="project-shot">
                 <Image
                     src={project.img}
@@ -76,6 +72,6 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion, isFeatu
                     )}
                 </div>
             </div>
-        </motion.article>
+        </article>
     );
 }

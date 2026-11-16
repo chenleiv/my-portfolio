@@ -10,6 +10,13 @@
 }
 
 /* ===== Base ===== */
+// Smooth in-page anchor scrolling (skip link, footer links), only when motion is welcome.
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
 body {
   margin: 0;
   font-family: var(--font-body-stack);

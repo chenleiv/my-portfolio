@@ -1,9 +1,10 @@
 "use client";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import {
+    useCallback,
     useEffect,
     useRef,
     useState,
+    type AnimationEvent,
     type MouseEvent,
 } from "react";
 import { Skills } from "./Skills";
@@ -28,23 +29,40 @@ const trapFocus = (e: React.KeyboardEvent, container: HTMLDivElement | null) => 
 export default function SkillsMatcher({
     exposeGlobalOpener = true,
 }: Props) {
-    const shouldReduceMotion = useReducedMotion();
-
     const [isModalOpen, setIsModalOpen] = useState(false);
+    // While closing, the modal stays mounted until its exit animation ends.
+    const [isClosing, setIsClosing] = useState(false);
 
     const modalRef = useRef<HTMLDivElement>(null);
     const lastActiveElementRef = useRef<HTMLElement | null>(null);
 
     const openModal = () => {
         lastActiveElementRef.current = document.activeElement as HTMLElement | null;
+        setIsClosing(false);
         setIsModalOpen(true);
         window.setTimeout(() => modalRef.current?.focus(), 0);
     };
 
     const closeModal = () => {
-        setIsModalOpen(false);
+        setIsClosing(true);
         window.setTimeout(() => lastActiveElementRef.current?.focus(), 0);
     };
+
+    const finishClosing = useCallback(() => {
+        setIsModalOpen(false);
+        setIsClosing(false);
+    }, []);
+
+    const onModalAnimationEnd = (e: AnimationEvent<HTMLDivElement>) => {
+        if (isClosing && e.target === e.currentTarget) finishClosing();
+    };
+
+    // Fallback in case animationend never fires; the exit animation takes 0.22s.
+    useEffect(() => {
+        if (!isClosing) return;
+        const id = window.setTimeout(finishClosing, 400);
+        return () => window.clearTimeout(id);
+    }, [isClosing, finishClosing]);
 
     useEffect(() => {
         if (!exposeGlobalOpener) return;
@@ -62,64 +80,55 @@ export default function SkillsMatcher({
     return (
         // Opened only through window.openSkillMatcher, from the skills() console command.
         <div className="skills-root">
-            <AnimatePresence>
-                {isModalOpen && (
-                    <motion.div
-                        className="skills-modalOverlay"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        transition={!shouldReduceMotion ? { duration: 0.18, ease: "easeOut" } : undefined}
-                        onMouseDown={(e: MouseEvent<HTMLDivElement>) => {
-                            if (e.target === e.currentTarget) closeModal();
-                        }}
+            {isModalOpen && (
+                <div
+                    className={`skills-modalOverlay${isClosing ? " is-closing" : ""}`}
+                    onMouseDown={(e: MouseEvent<HTMLDivElement>) => {
+                        if (e.target === e.currentTarget) closeModal();
+                    }}
+                >
+                    <div
+                        className="skills-modal"
+                        ref={modalRef}
+                        tabIndex={-1}
+                        onKeyDown={(e) => trapFocus(e, modalRef.current)}
+                        onAnimationEnd={onModalAnimationEnd}
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Skills"
                     >
-                        <motion.div
-                            className="skills-modal"
-                            ref={modalRef}
-                            tabIndex={-1}
-                            onKeyDown={(e) => trapFocus(e, modalRef.current)}
-                            role="dialog"
-                            aria-modal="true"
-                            aria-label="Skills"
-                            initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
-                            transition={!shouldReduceMotion ? { duration: 0.22, ease: [0.16, 1, 0.3, 1] } : undefined}
-                        >
-                            <div className="skills-modal__header">
-                                <div>
-                                    <h2 className="skills-modal__title">
-                                        Skills
-                                        <span className="skills-modal__title-emoji">🎯</span>
-                                    </h2>
-                                    <p className="skills-modal__sub">The skills I bring</p>
-                                </div>
-
-                                <button
-                                    type="button"
-                                    className="skills-modal__close"
-                                    onClick={closeModal}
-                                    aria-label="Close"
-                                >
-                                    ✕
-                                </button>
+                        <div className="skills-modal__header">
+                            <div>
+                                <h2 className="skills-modal__title">
+                                    Skills
+                                    <span className="skills-modal__title-emoji">🎯</span>
+                                </h2>
+                                <p className="skills-modal__sub">The skills I bring</p>
                             </div>
 
-                            <div
-                                className="skills-modal__content"
-                                role="region"
-                                aria-label="Skills"
-                                tabIndex={0}
+                            <button
+                                type="button"
+                                className="skills-modal__close"
+                                onClick={closeModal}
+                                aria-label="Close"
                             >
-                                <div className="skills-section-container" id="skills">
-                                    <Skills />
-                                </div>
+                                ✕
+                            </button>
+                        </div>
+
+                        <div
+                            className="skills-modal__content"
+                            role="region"
+                            aria-label="Skills"
+                            tabIndex={0}
+                        >
+                            <div className="skills-section-container" id="skills">
+                                <Skills />
                             </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

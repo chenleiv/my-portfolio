@@ -6,14 +6,11 @@ import {
   type PaletteItem,
 } from "../components/about-console/consoleCommands";
 
-type Params = {
-  shortcutEnabled?: boolean;
-};
-
-export function useCommandPalette(params: Params = {}) {
-  const { shortcutEnabled = true } = params;
-
+export function useCommandPalette() {
   const [open, setOpen] = useState(false);
+  // Mirrors open for the global shortcut handler, so it can toggle without
+  // side effects inside a state updater.
+  const openRef = useRef(false);
   const [query, setQuery] = useState("");
   const deferredQuery = useDeferredValue(query);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -103,25 +100,26 @@ export function useCommandPalette(params: Params = {}) {
     [activeIndex, closePalette, filteredItems],
   );
 
+  useEffect(() => {
+    openRef.current = open;
+  }, [open]);
+
   // Ctrl/Cmd + K
   useEffect(() => {
-    if (!shortcutEnabled) return;
-
     const onKeyDown = (e: KeyboardEvent) => {
       const isToggle = (e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k";
       if (isToggle) {
         e.preventDefault();
-        setOpen((prev) => {
-          const next = !prev;
-          if (next) {
-            lastActiveElementRef.current =
-              document.activeElement as HTMLElement | null;
-            setQuery("");
-            setActiveIndex(0);
-            window.setTimeout(() => inputRef.current?.focus(), 0);
-          }
-          return next;
-        });
+        const next = !openRef.current;
+        openRef.current = next;
+        if (next) {
+          lastActiveElementRef.current =
+            document.activeElement as HTMLElement | null;
+          setQuery("");
+          setActiveIndex(0);
+          window.setTimeout(() => inputRef.current?.focus(), 0);
+        }
+        setOpen(next);
         return;
       }
       if (e.key === "Escape") setOpen(false);
@@ -129,7 +127,7 @@ export function useCommandPalette(params: Params = {}) {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [shortcutEnabled]);
+  }, []);
 
   return {
     open,

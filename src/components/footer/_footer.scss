@@ -1,6 +1,16 @@
 .footer-section {
   padding: 16px;
   border-top: 2px solid var(--ink);
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: footer-fade-in 0.8s ease-out both;
+  }
+}
+
+@keyframes footer-fade-in {
+  from {
+    opacity: 0;
+  }
 }
 
 .footer-bottom {
