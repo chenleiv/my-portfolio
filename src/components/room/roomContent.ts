@@ -55,11 +55,12 @@ export const HUB: Vec2 = [3.6, 4.2];
 export const START: Vec2 = SPOTS.desk;
 
 // The L-shaped sofa: the original section along the right of the rug, which
-// also holds the corner, and a low chaise (no backrest, no armrest) along the
-// rug's front-left edge that meets the sofa's seat side at x = 7.4.
+// also holds the corner, and a chaise (no backrest, no armrest) along the
+// rug's front-left edge that meets the sofa's seat side at x = 7.4, at the
+// same seat height, so the two read as one continuous seat.
 const SOFA: Rect = { x0: 7.4, y0: 5.3, x1: 8.9, y1: 9.5 };
 const SOFA_FRONT: Rect = { x0: 3.4, y0: 8.3, x1: SOFA.x0, y1: SOFA.y1 };
-export const CHAISE_HEIGHT = 0.45;
+export const SOFA_SEAT_HEIGHT = 0.8;
 
 // Bucky lies on the left end of the chaise, tail toward the TV and
 // face toward +x, so his face shows on the side the camera sees. RAW is the
@@ -70,7 +71,7 @@ export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
   scale: 1.0,
   center: [5.05, 8.9],
-  lift: CHAISE_HEIGHT,
+  lift: SOFA_SEAT_HEIGHT,
 } as const;
 
 // Proximity only (the sofa itself blocks): Bucky's end of the chaise,

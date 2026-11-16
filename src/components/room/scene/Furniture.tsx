@@ -1,6 +1,6 @@
 import { box, project, qx, qy, qz, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
-import { CHAISE_HEIGHT, FOOTPRINT_BY_ID } from "../roomContent";
+import { FOOTPRINT_BY_ID, SOFA_SEAT_HEIGHT } from "../roomContent";
 import { Bucky } from "./Bucky";
 import { Faces, SceneObject, ZText } from "./primitives";
 
@@ -173,13 +173,13 @@ export function CoffeeTable({ p }: { p: ScenePalette }) {
   );
 }
 
-const SOFA_SEAT_Z = 0.8;
+const SOFA_SEAT_Z = SOFA_SEAT_HEIGHT;
 const SOFA_BACK_DEPTH = 0.4;
 const SOFA_BACK_HEIGHT = 0.9;
 
 // The original section of the L, which also holds the corner: seat facing the
 // TV (-x), backrest along its whole +x side, an armrest at the back end. The
-// low chaise meets its seat side near the front end.
+// chaise meets its seat side near the front end, at the same seat height.
 export function Sofa({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID.sofa;
   const back = shade(p.sofa, 0.9);
@@ -197,22 +197,15 @@ export function Sofa({ p }: { p: ScenePalette }) {
   );
 }
 
-const CHAISE_PLINTH = 0.12;
-
-// The front part of the L: a low chaise along the rug's front-left edge, a
-// plain cushion on a darker plinth, with no backrest or armrest. It sits
-// lower than the sofa seat it meets. Bucky lies on its left end, fully in view.
+// The front part of the L: a chaise along the rug's front-left edge, one block
+// at the sofa's seat height and color, with no backrest or armrest, so it
+// continues the sofa seat. Bucky lies on its left end, fully in view.
 export function SofaFront({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID["sofa-front"];
   return (
     <>
       <SceneObject objectKey="tv">
-        <Faces
-          faces={[
-            ...box(x, y, 0, x1 - x, y1 - y, CHAISE_PLINTH, shade(p.sofa, 0.75)),
-            ...box(x, y, CHAISE_PLINTH, x1 - x, y1 - y, CHAISE_HEIGHT - CHAISE_PLINTH, p.sofa),
-          ]}
-        />
+        <Faces faces={box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa)} />
       </SceneObject>
       <Bucky />
     </>
