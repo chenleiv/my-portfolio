@@ -30,8 +30,10 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "For fun", title: "For fun", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
-  // Chen stands on the rug in front of his end of the front sofa; the label floats above him.
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [3.7, 7.85], label: { x: 4.44, y: 9.0, z: 1.65 } },
+  // Chen stands on the rug in front of his end of the chaise. The label is a
+  // caption just below the chaise's front edge, centered under him: above him
+  // there is no room clear of the TV, the coffee table and Bucky himself.
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [3.7, 7.85], label: { x: 6.2, y: 10.0, z: -0.75 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 

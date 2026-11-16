@@ -6,8 +6,10 @@ import {
   BLOCKS,
   BODY_RADIUS,
   BOUNDS,
+  BUCKY_LAYOUT,
   HUB,
   OBJECT_AREAS,
+  OBJECT_BY_KEY,
   ROOM_OBJECTS,
   RUG,
   SPOTS,
@@ -53,7 +55,58 @@ describe("label bubbles", () => {
       }
     }
   });
+
+  it("keep Bucky's label off Bucky himself", () => {
+    // The box Bucky is drawn in: his raw drawing turned to lie along x, scaled,
+    // centered and lifted onto the chaise. His tallest parts (head, ears) are 0.7 high.
+    const { raw, scale, center, lift } = BUCKY_LAYOUT;
+    const halfLength = ((raw.y1 - raw.y0) * scale) / 2;
+    const halfWidth = ((raw.x1 - raw.x0) * scale) / 2;
+    const corners: Pt[] = [];
+    for (const x of [center[0] - halfLength, center[0] + halfLength]) {
+      for (const y of [center[1] - halfWidth, center[1] + halfWidth]) {
+        for (const z of [lift, lift + 0.7 * scale]) corners.push(project(x, y, z));
+      }
+    }
+    const { label, name } = OBJECT_BY_KEY.bucky;
+    const r = pill(name, label.x, label.y, label.z);
+    const rect: Pt[] = [[r.x0, r.y0], [r.x1, r.y0], [r.x1, r.y1], [r.x0, r.y1]];
+    assert.equal(convexOverlap(rect, convexHull(corners)), false);
+  });
 });
+
+type Pt = readonly [number, number];
+
+function convexHull(points: Pt[]): Pt[] {
+  const p = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+  const cross = (o: Pt, a: Pt, b: Pt) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
+  const lower: Pt[] = [];
+  const upper: Pt[] = [];
+  for (const q of p) {
+    while (lower.length > 1 && cross(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop();
+    lower.push(q);
+  }
+  for (const q of [...p].reverse()) {
+    while (upper.length > 1 && cross(upper[upper.length - 2], upper[upper.length - 1], q) <= 0) upper.pop();
+    upper.push(q);
+  }
+  return [...lower.slice(0, -1), ...upper.slice(0, -1)];
+}
+
+// Separating axis test between two convex polygons.
+function convexOverlap(a: Pt[], b: Pt[]): boolean {
+  for (const poly of [a, b]) {
+    for (let i = 0; i < poly.length; i++) {
+      const [x1, y1] = poly[i];
+      const [x2, y2] = poly[(i + 1) % poly.length];
+      const n = [y2 - y1, x1 - x2];
+      const pa = a.map((p) => p[0] * n[0] + p[1] * n[1]);
+      const pb = b.map((p) => p[0] * n[0] + p[1] * n[1]);
+      if (Math.max(...pa) <= Math.min(...pb) || Math.max(...pb) <= Math.min(...pa)) return false;
+    }
+  }
+  return true;
+}
 
 // Every free floor point Chen can reach from her start by walking, on a fine grid.
 const STEP = 0.05;
