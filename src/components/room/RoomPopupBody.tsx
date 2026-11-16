@@ -1,7 +1,8 @@
 import { contact } from "../../content/contact";
 import { PROJECTS } from "../projects/projectData";
 import { SKILL_GROUPS } from "../skills/skillsData";
-import { BUCKY_TEXT, OFF_DUTY_TEXT, type ObjectKey } from "./roomContent";
+import { BUCKY_TEXT, CONTACT_TEXT, FOR_FUN_TEXT } from "../../content/room";
+import type { ObjectKey } from "./roomContent";
 
 interface PopupLink {
   readonly label: string;
@@ -90,12 +91,12 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
     case "contact":
       return (
         <>
-          <p>Download my CV, or find me on LinkedIn and GitHub.</p>
+          <p>{CONTACT_TEXT}</p>
           <Links links={[{ label: "Download CV", href: contact.cvPath, primary: true, download: contact.cvFileName }, LINKEDIN, GITHUB]} />
         </>
       );
     case "tv":
-      return <p>{OFF_DUTY_TEXT}</p>;
+      return <p>{FOR_FUN_TEXT}</p>;
     case "bucky":
       return <p>{BUCKY_TEXT}</p>;
   }
