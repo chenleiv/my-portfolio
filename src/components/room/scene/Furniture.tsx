@@ -5,7 +5,6 @@ import { Bucky } from "./Bucky";
 import { Faces, SceneObject, ZText } from "./primitives";
 
 const PS5_WHITE = "#f2f2f2";
-const PLANT_GREEN = "#2f6f4f";
 
 export function Tv({ p }: { p: ScenePalette }) {
   return (
@@ -53,11 +52,13 @@ export function Desk({ p }: { p: ScenePalette }) {
     // Keyboard under the landscape screen, mouse to its right.
     ...box(6.6, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
     ...box(7.95, 1.05, 1.6, 0.17, 0.23, 0.06, p.tv),
-    // Desk plant.
-    ...box(5.9, 0.5, 1.6, 0.3, 0.3, 0.05, p.brass),
-    ...box(6.0, 0.6, 1.65, 0.05, 0.05, 0.4, p.brass),
-    ...box(5.9, 0.5, 2.0, 0.3, 0.25, 0.15, PLANT_GREEN),
-    // Mug at the front-left corner of the desk, where its steam clears the plant and the Projects label.
+    // Small potted plant to the right of the portrait monitor, the same pot and
+    // leaf colors as the floor plant; its top stays under the window.
+    ...box(9.1, 0.55, 1.6, 0.32, 0.32, 0.26, p.pot),
+    ...box(9.13, 0.58, 1.86, 0.26, 0.26, 0.2, p.leaf),
+    ...box(9.09, 0.54, 2.02, 0.34, 0.34, 0.16, shade(p.leaf, 1.15)),
+    ...box(9.16, 0.61, 2.18, 0.2, 0.2, 0.12, p.leaf),
+    // Mug at the front-left corner of the desk, where its steam clears the Projects label.
     ...box(MUG.x, MUG.y, 1.6, 0.2, 0.2, 0.22, p.mug),
     ...box(MUG.x + 0.2, MUG.y + 0.07, 1.65, 0.05, 0.06, 0.12, p.mug),
     qz(1.821, MUG.x + 0.03, MUG.x + 0.17, MUG.y + 0.03, MUG.y + 0.17, COFFEE),
