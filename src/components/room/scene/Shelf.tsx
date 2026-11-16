@@ -1,30 +1,73 @@
 import { box, qx, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
-import { Faces, SceneObject, XText } from "./primitives";
+import { Faces, SceneObject, XIcon, XText } from "./primitives";
+
+type SpineIconId = "angular" | "react" | "node" | "shield";
 
 interface SkillBook {
+  // Unique key, and the spine text when the book has no icon.
   readonly letters: string;
+  // Simple mark instead of the letters. TypeScript and SCSS keep letters:
+  // the TS mark is the letters, and the Sass mark is not readable this small.
+  readonly icon?: SpineIconId;
   readonly color: string;
   readonly text: string;
 }
 
-// Thick books with skill letters on the spine, two per shelf, between the
-// ordinary books. Letter colors pass 4.5:1 on their spine color.
+// Thick books for skills from skillsData.ts, two per shelf, between the
+// ordinary books. Mark and letter colors pass 4.5:1 on their spine color.
 function skillBooks(p: ScenePalette): SkillBook[][] {
   return [
     [
-      { letters: "Ng", color: "#dd0031", text: "#ffffff" },
+      { letters: "Ng", icon: "angular", color: "#dd0031", text: "#ffffff" },
       { letters: "TS", color: "#3178c6", text: "#ffffff" },
     ],
     [
-      { letters: "Re", color: "#61dafb", text: "#10202a" },
+      { letters: "Re", icon: "react", color: "#61dafb", text: "#10202a" },
       { letters: "Sc", color: "#cd6799", text: "#10202a" },
     ],
     [
-      { letters: "No", color: "#6cc24a", text: "#0a1408" },
-      { letters: "AS", color: p.accent, text: p.spineOnAccent },
+      { letters: "No", icon: "node", color: "#6cc24a", text: "#0a1408" },
+      // Application Security.
+      { letters: "AS", icon: "shield", color: p.accent, text: p.spineOnAccent },
     ],
   ];
+}
+
+// Marks drawn in a 100 x 100 box centered on (0, 0), in the spine's text
+// color, with the spine color for cut-outs. Kept to a few thick shapes.
+function SpineIcon({ id, ink, paper }: { id: SpineIconId; ink: string; paper: string }) {
+  switch (id) {
+    case "angular":
+      // Filled angular shield with an "A".
+      return (
+        <>
+          <polygon points="0,-48 44,-32 37,30 0,50 -37,30 -44,-32" fill={ink} />
+          <path d="M-19,30 L0,-28 L19,30 M-10,8 L10,8" fill="none" stroke={paper} strokeWidth={10} strokeLinejoin="round" />
+        </>
+      );
+    case "react":
+      // Atom: three orbits and a nucleus.
+      return (
+        <g fill="none" stroke={ink} strokeWidth={7}>
+          <ellipse rx={46} ry={17} />
+          <ellipse rx={46} ry={17} transform="rotate(60)" />
+          <ellipse rx={46} ry={17} transform="rotate(-60)" />
+          <circle r={9} fill={ink} stroke="none" />
+        </g>
+      );
+    case "node":
+      // Hexagon outline.
+      return <polygon points="0,-46 40,-23 40,23 0,46 -40,23 -40,-23" fill="none" stroke={ink} strokeWidth={10} strokeLinejoin="round" />;
+    case "shield":
+      // Rounded shield outline with a check mark.
+      return (
+        <g fill="none" stroke={ink} strokeWidth={9} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M0,-44 L38,-30 L38,0 C38,24 20,38 0,46 C-20,38 -38,24 -38,0 L-38,-30 Z" />
+          <path d="M-17,2 L-5,15 L19,-14" />
+        </g>
+      );
+  }
 }
 
 const SHELF_ROWS = [0.25, 1.35, 2.45];
@@ -67,11 +110,17 @@ export function Shelf({ p }: { p: ScenePalette }) {
     return (
       <g key={r}>
         <Faces faces={faces} />
-        {letters.map(({ book, y: cy }) => (
-          <XText key={book.letters} x={0.905} y={cy} z={z0 + 0.34} h={0.2} fill={book.text}>
-            {book.letters}
-          </XText>
-        ))}
+        {letters.map(({ book, y: cy }) =>
+          book.icon ? (
+            <XIcon key={book.letters} x={0.905} y={cy} z={z0 + SKILL_HEIGHT / 2} h={0.38}>
+              <SpineIcon id={book.icon} ink={book.text} paper={book.color} />
+            </XIcon>
+          ) : (
+            <XText key={book.letters} x={0.905} y={cy} z={z0 + 0.34} h={0.2} fill={book.text}>
+              {book.letters}
+            </XText>
+          ),
+        )}
       </g>
     );
   });

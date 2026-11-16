@@ -65,6 +65,16 @@ export function ZText({
   );
 }
 
+// Shapes painted on a plane of constant x (facing +x), like XText. Children are
+// drawn in a local 100 x 100 box centered on (0, 0), y down, which maps to `h`
+// world units; (x, y, z) is the center.
+export function XIcon({ x, y, z, h, children }: { x: number; y: number; z: number; h: number; children: ReactNode }) {
+  const [sx, sy] = project(x, y, z);
+  const k = h / 100;
+  const m = [k * U, -k * V, 0, k * Z].map((v) => v.toFixed(4)).join(",");
+  return <g transform={`matrix(${m},${sx.toFixed(1)},${sy.toFixed(1)})`}>{children}</g>;
+}
+
 // Text painted on a wall plane of constant x (facing +x), `h` world units tall.
 export function XText({ x, y, z, h, fill, children }: { x: number; y: number; z: number; h: number; fill: string; children: string }) {
   const [sx, sy] = project(x, y, z);
