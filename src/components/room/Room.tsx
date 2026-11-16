@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { toViewPercent, VIEW_BOX } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
@@ -14,7 +14,8 @@ import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
 import { ContactBoard } from "./scene/ContactBoard";
 import { bubbleState } from "./bubbles";
-import { HowToPlay, PlacesList } from "./HowToPlay";
+import { HowToPlay } from "./HowToPlay";
+import { RoomPlaces } from "./RoomPlaces";
 import { useTouchLayout } from "../../hooks/useTouchLayout";
 import { useWalker, type ScreenBox } from "./useWalker";
 
@@ -40,7 +41,8 @@ const LABELS = ROOM_OBJECTS.map((o) => {
 
 const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) => n.toFixed(1)).join(" ");
 
-// The stage keeps the viewBox ratio, so labels placed in percent stay on their objects.
+// The stage keeps the viewBox ratio, so labels placed in percent stay on their
+// objects. Set on the layout so the Places row can share the room width.
 const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
 const SCENE_LABEL = "Room. Use the arrow keys or WASD to walk. Stop next to an object to open it.";
@@ -76,7 +78,6 @@ export default function Room() {
   const [hoverKey, setHoverKey] = useState<ObjectKey | null>(null);
   const [revealing, setRevealing] = useState(false);
   const touch = useNoHover();
-  const tapTitleId = useId();
   const touchLayout = useTouchLayout();
   // Control that opened the popup; null means the scene itself.
   const returnFocusRef = useRef<HTMLElement | null>(null);
@@ -208,12 +209,12 @@ export default function Room() {
 
   return (
     <section className="room" aria-label="Interactive room">
-      <div className="room__layout">
-        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} onOpen={openObject} />
+      {/* DOM order: panel, scene, Places. CSS keeps the same visual order at every width. */}
+      <div className="room__layout" style={STAGE_STYLE}>
+        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} />
         <div
           ref={sceneRef}
           className="room__scene"
-          style={STAGE_STYLE}
           tabIndex={0}
           role="application"
           aria-label={touchLayout ? SCENE_LABEL_TOUCH : SCENE_LABEL}
@@ -252,15 +253,7 @@ export default function Room() {
             })}
           </div>
         </div>
-      </div>
-
-      {/* Touch screens: CSS hides the How to play panel and shows this list
-          under the room instead, so only one Places list is ever in use. */}
-      <div className="room__tap">
-        <h2 id={tapTitleId} className="room__tap-title">
-          Tap the place you want to visit
-        </h2>
-        <PlacesList labelledBy={tapTitleId} onOpen={openObject} className="room__tap-list" />
+        <RoomPlaces onOpen={openObject} />
       </div>
 
       <RoomDialog openKey={openKey} onClose={closeDialog} onClosed={restoreFocus} />

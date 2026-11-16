@@ -1,5 +1,4 @@
 import { useId } from "react";
-import { OBJECT_BY_KEY, PLACES_ORDER, type ObjectKey } from "./roomContent";
 
 // Key caps are drawn only; the scene's aria-label names the keys for screen readers.
 function KeyCaps() {
@@ -29,40 +28,16 @@ function KeyCaps() {
   );
 }
 
-interface PlacesListProps {
-  labelledBy: string;
-  onOpen: (key: ObjectKey, trigger: HTMLElement) => void;
-  className?: string;
-}
-
-// One button per place. Used in the panel and, on touch screens, under the room.
-export function PlacesList({ labelledBy, onOpen, className }: PlacesListProps) {
-  return (
-    <ul className={`how-to-play__places-list${className ? ` ${className}` : ""}`} aria-labelledby={labelledBy}>
-      {PLACES_ORDER.map((key) => (
-        <li key={key}>
-          <button type="button" className="how-to-play__place" onClick={(e) => onOpen(key, e.currentTarget)}>
-            {OBJECT_BY_KEY[key].name}
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
-}
-
 interface HowToPlayProps {
   nearName: string | null;
-  // Opens an object as if it were clicked; focus returns to the button afterwards.
-  onOpen: (key: ObjectKey, trigger: HTMLElement) => void;
 }
 
-// Game-style instructions, the Places list and the live status line. The Places
-// buttons are the keyboard and screen reader way into the room. The status text
-// is written in sentence case and shown in capitals by CSS, so screen readers
-// read words, not letters. It changes only when the nearest object changes.
-export function HowToPlay({ nearName, onOpen }: HowToPlayProps) {
+// Game-style instructions and the live status line; the Places list sits under
+// the room (RoomPlaces). The status text is written in sentence case and shown
+// in capitals by CSS, so screen readers read words, not letters. It changes
+// only when the nearest object changes.
+export function HowToPlay({ nearName }: HowToPlayProps) {
   const titleId = useId();
-  const placesId = useId();
   return (
     <aside className="how-to-play" aria-labelledby={titleId}>
       <h2 id={titleId} className="how-to-play__title">
@@ -70,12 +45,6 @@ export function HowToPlay({ nearName, onOpen }: HowToPlayProps) {
       </h2>
       <KeyCaps />
       <p className="how-to-play__steps">Walk to an object and it opens, or click it.</p>
-      <div className="how-to-play__places">
-        <p id={placesId} className="how-to-play__places-title">
-          Places
-        </p>
-        <PlacesList labelledBy={placesId} onOpen={onOpen} />
-      </div>
       <div className="how-to-play__status">
         <p className="how-to-play__status-title" aria-hidden="true">
           Status
