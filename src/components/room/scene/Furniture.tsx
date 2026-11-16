@@ -1,6 +1,6 @@
 import { box, project, qx, qy, qz, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
-import { FOOTPRINT_BY_ID } from "../roomContent";
+import { CHAISE_HEIGHT, FOOTPRINT_BY_ID } from "../roomContent";
 import { Bucky } from "./Bucky";
 import { Faces, SceneObject, ZText } from "./primitives";
 
@@ -177,8 +177,9 @@ const SOFA_SEAT_Z = 0.8;
 const SOFA_BACK_DEPTH = 0.4;
 const SOFA_BACK_HEIGHT = 0.9;
 
-// The original section of the L: seat facing the TV (-x), backrest along its
-// +x side, an armrest at the back end. Its front end joins the front section.
+// The original section of the L, which also holds the corner: seat facing the
+// TV (-x), backrest along its whole +x side, an armrest at the back end. The
+// low chaise meets its seat side near the front end.
 export function Sofa({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID.sofa;
   const back = shade(p.sofa, 0.9);
@@ -196,30 +197,24 @@ export function Sofa({ p }: { p: ScenePalette }) {
   );
 }
 
-// The front section of the L, along the rug's front-left edge: seat facing the
-// rug (-y), backrest along its +y side, an armrest at the left end, and the
-// corner where it meets the original section. Bucky lies on the left end,
-// drawn after the seat and before the backrest that stands in front of him.
+const CHAISE_PLINTH = 0.12;
+
+// The front part of the L: a low chaise along the rug's front-left edge, a
+// plain cushion on a darker plinth, with no backrest or armrest. It sits
+// lower than the sofa seat it meets. Bucky lies on its left end, fully in view.
 export function SofaFront({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID["sofa-front"];
-  const back = shade(p.sofa, 0.9);
-  const backY = y1 - SOFA_BACK_DEPTH;
   return (
     <>
       <SceneObject objectKey="tv">
         <Faces
           faces={[
-            ...box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa),
-            // Left armrest, then the corner backrest that continues the original section's.
-            ...box(x, y, SOFA_SEAT_Z, 0.3, backY - y, 0.4, p.sofa),
-            ...box(x1 - SOFA_BACK_DEPTH, y, SOFA_SEAT_Z, SOFA_BACK_DEPTH, backY - y, SOFA_BACK_HEIGHT, back),
+            ...box(x, y, 0, x1 - x, y1 - y, CHAISE_PLINTH, shade(p.sofa, 0.75)),
+            ...box(x, y, CHAISE_PLINTH, x1 - x, y1 - y, CHAISE_HEIGHT - CHAISE_PLINTH, p.sofa),
           ]}
         />
       </SceneObject>
       <Bucky />
-      <SceneObject objectKey="tv">
-        <Faces faces={box(x, backY, SOFA_SEAT_Z, x1 - x, SOFA_BACK_DEPTH, SOFA_BACK_HEIGHT, back)} />
-      </SceneObject>
     </>
   );
 }

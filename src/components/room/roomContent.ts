@@ -52,24 +52,26 @@ export const HUB: Vec2 = [3.6, 4.2];
 
 export const START: Vec2 = SPOTS.desk;
 
-// The L-shaped sofa: the original section along the right of the rug, and a
-// front section along the rug's front-left edge that also takes the corner.
-// The front section's seat faces the rug (-y); its backrest is along y = 9.4 to 9.8.
-const SOFA_FRONT: Rect = { x0: 3.4, y0: 8.3, x1: 8.9, y1: 9.8 };
+// The L-shaped sofa: the original section along the right of the rug, which
+// also holds the corner, and a low chaise (no backrest, no armrest) along the
+// rug's front-left edge that meets the sofa's seat side at x = 7.4.
+const SOFA: Rect = { x0: 7.4, y0: 5.3, x1: 8.9, y1: 9.5 };
+const SOFA_FRONT: Rect = { x0: 3.4, y0: 8.3, x1: SOFA.x0, y1: SOFA.y1 };
+export const CHAISE_HEIGHT = 0.45;
 
-// Bucky lies on the left end of the front section, tail toward the TV and
+// Bucky lies on the left end of the chaise, tail toward the TV and
 // face toward +x, so his face shows on the side the camera sees. RAW is the
 // box his drawing spans at scale 1, drawn along y; Bucky.tsx turns it to lie
 // along x (head at +x), scales it about its center, moves that center to
-// CENTER and lifts it onto the seat.
+// CENTER and lifts it onto the chaise. Nothing stands in front of him there.
 export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
   scale: 1.0,
-  center: [5.05, 8.85],
-  lift: 0.8,
+  center: [5.05, 8.9],
+  lift: CHAISE_HEIGHT,
 } as const;
 
-// Proximity only (the sofa itself blocks): Bucky's end of the front section,
+// Proximity only (the sofa itself blocks): Bucky's end of the chaise,
 // and the rest of it, which belongs to the For fun popup. The 0.3 gap between
 // them keeps the two popups apart.
 export const BUCKY_SEAT: Rect = { x0: SOFA_FRONT.x0, y0: SOFA_FRONT.y0, x1: 6.4, y1: SOFA_FRONT.y1 };
@@ -117,10 +119,9 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   // On the right edge beside the sofa's back end, against it. Behind the sofa
   // along y and in front of the chair along x, so it is drawn between them.
   { id: "plant", rect: { x0: 9.2, y0: 4.85, x1: 9.65, y1: 5.3 } },
-  { id: "sofa", rect: { x0: 7.4, y0: 5.3, x1: 8.9, y1: 8.3 } },
-  // Starts where the first section ends along y, so it is always drawn after it,
-  // and after everything on the rug. Bucky is drawn as part of it.
+  // The chaise ends where the sofa starts along x, so it is drawn before the sofa.
   { id: "sofa-front", rect: SOFA_FRONT },
+  { id: "sofa", rect: SOFA },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
