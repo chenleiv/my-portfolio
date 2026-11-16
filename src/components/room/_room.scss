@@ -484,9 +484,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
   color: var(--ink);
 
   // Mid-width screens, where the panel sits above the room: title on top,
-  // then key caps, text and status in one row, to keep the panel low.
+  // then the key caps and the text in one row, and only as wide as that content.
   @media (min-width: 600px) and (max-width: 1099px) {
-    grid-template-columns: auto minmax(0, 1fr) minmax(200px, 260px);
+    grid-template-columns: auto auto;
+    justify-self: start;
+    width: fit-content;
+    max-width: 100%;
     align-items: center;
     column-gap: 20px;
 
