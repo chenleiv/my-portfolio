@@ -120,6 +120,15 @@
     --room-max-h: min(65svh, 600px);
   }
 
+  // Same size as the room: larger side by side (see .room__layout).
+  @media (min-width: 1100px) {
+    --room-max-h: min(78vh, 680px);
+
+    @supports (height: 1svh) {
+      --room-max-h: min(78svh, 680px);
+    }
+  }
+
   .console-wrapper {
     width: min(100%, calc(var(--room-max-h) * var(--room-ratio, 1.45)));
     max-width: none;

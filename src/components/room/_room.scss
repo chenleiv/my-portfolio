@@ -120,6 +120,13 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
 
     @media (min-width: 1100px) {
+      // Side by side the room may be larger: up to 78% of the window height.
+      --room-max-h: min(78vh, 680px);
+
+      @supports (height: 1svh) {
+        --room-max-h: min(78svh, 680px);
+      }
+
       grid-template-columns: 240px minmax(0, 1fr);
       column-gap: 28px;
 
