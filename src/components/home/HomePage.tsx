@@ -11,11 +11,9 @@ export default function HomePage() {
   return (
     <div className="app" id="top">
       <header className="app__topbar">
-        <a className="app__logo" href="#top">Chen Leiv</a>
-        <div className="app__topbar-actions">
-          <a className="app__skip" href="#projects">Skip to projects</a>
-          <ThemeToggle />
-        </div>
+        {/* First focusable element; hidden until it gets keyboard focus. */}
+        <a className="app__skip" href="#projects">Skip to projects</a>
+        <ThemeToggle />
       </header>
       <main className="app__main">
         <section id="about" className="app__section app__section--intro">

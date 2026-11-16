@@ -56,30 +56,33 @@ a {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 12px;
   }
 
-  &__topbar-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 16px;
-  }
-
-  &__logo {
-    font-family: var(--font-display-stack);
-    font-weight: 800;
-    font-size: 20px;
-    text-decoration: none;
-    color: var(--ink);
-  }
-
+  // Skip link: off screen until it gets keyboard focus, then shown at the top
+  // left above everything, with full contrast in both themes.
   &__skip {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    padding: 10px 16px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--panel);
+    color: var(--ink);
     font-weight: 600;
     font-size: 15px;
-    color: var(--ink);
     text-underline-offset: 3px;
+    transform: translateY(-200%);
+
+    &:focus,
+    &:focus-visible {
+      transform: none;
+      outline: 3px solid var(--ink);
+      outline-offset: 2px;
+    }
   }
 
   &__main {
