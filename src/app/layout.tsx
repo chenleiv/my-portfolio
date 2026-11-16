@@ -39,6 +39,10 @@ const pixelFont = localFont({
   fallback: ['ui-monospace', 'monospace'],
 });
 
+// Shared by the meta, Open Graph and Twitter descriptions, so link previews match.
+const SITE_DESCRIPTION =
+  "Frontend Engineer with 4+ years building enterprise web apps with Angular, React and TypeScript. Frontend architecture, performance and a security-first mindset.";
+
 const DEFAULT_SITE_URL = 'https://chenleiv.vercel.app';
 
 // An invalid or local override must never end up in social preview URLs.
@@ -59,10 +63,10 @@ function resolveSiteUrl(): URL {
 export const metadata: Metadata = {
   metadataBase: resolveSiteUrl(),
   title: SITE_TITLE,
-  description: 'Frontend Engineer with 4 years building scalable web applications with React, Angular, TypeScript & Node.js. Full-Stack · Security · AI Apps. Open to new opportunities.',
+  description: SITE_DESCRIPTION,
   openGraph: {
     title: 'Chen Leiv | Frontend Engineer',
-    description: 'Frontend Engineer with 4 years building scalable web applications with React, Angular, TypeScript & Node.js. Full-Stack · Security · AI Apps.',
+    description: SITE_DESCRIPTION,
     siteName: 'Chen Leiv Portfolio',
     images: [{ url: '/assets/og/og-image.png', width: 1200, height: 630, alt: 'Chen Leiv — Frontend Engineer' }],
     locale: 'en_US',
@@ -71,7 +75,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Chen Leiv | Frontend Engineer',
-    description: 'Frontend Engineer with 4 years building scalable web applications with React, Angular, TypeScript & Node.js. Full-Stack · Security · AI Apps.',
+    description: SITE_DESCRIPTION,
     images: ['/assets/og/og-image.png'],
   },
 };
