@@ -2,9 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { CONSOLE_TITLE, SITE_TITLE } from "../../content/titles";
 import { useTouchLayout } from "../../hooks/useTouchLayout";
+import { VIEW_BOX } from "../room/iso";
 import Room from "../room/Room";
 import { MODE_PATH, modeFromPath, type Mode } from "./mode";
 import ModeSwitch from "./ModeSwitch";
@@ -26,6 +27,9 @@ function TerminalLoading() {
 // Loaded only when Terminal is shown (or about to be). Client only: the
 // console reads browser APIs while rendering.
 const TerminalPanel = dynamic(loadTerminal, { ssr: false, loading: TerminalLoading });
+
+// The room's width-to-height ratio, so the terminal can take the same size as the room scene.
+const AREA_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
 const ANNOUNCE: Readonly<Record<Mode, string>> = {
   play: "Room shown",
@@ -108,7 +112,7 @@ export default function ModeArea() {
       <div
         ref={areaRef}
         className={`mode-area mode-area--${mode}${locked ? " mode-area--locked" : ""}`}
-        style={locked ? { height: lock.height } : undefined}
+        style={{ ...AREA_STYLE, ...(locked ? { height: lock.height } : {}) }}
       >
         {mode === "play" ? <Room /> : <TerminalPanel autoFocus={!touch} />}
       </div>
