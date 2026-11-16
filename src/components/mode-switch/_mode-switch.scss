@@ -74,6 +74,11 @@
     align-items: stretch;
     gap: 10px;
 
+    // In the /console top bar: take the row next to the theme toggle.
+    .app__topbar > & {
+      flex: 1 1 220px;
+    }
+
     .mode-switch__list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));

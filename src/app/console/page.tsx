@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { lazy, Suspense } from 'react';
 import { InteractiveConsole } from '../../components/about-console/InteractiveConsole';
 import ThemeToggle from '../../components/theme-toggle/ThemeToggle';
+import ModeSwitch from '../../components/mode-switch/ModeSwitch';
 const SkillsMatcher = lazy(() => import("../../components/skills/SkillsMatcher"));
 const LazyLoader = lazy(() => import("../../components/loader/LazyLoader"));
 
@@ -14,11 +14,8 @@ export default function ConsolePage() {
   return (
     <div className="app">
       <header className="app__topbar">
+        <ModeSwitch active="terminal" />
         <ThemeToggle />
-        <Link href="/" className="topbar-link">
-          <span aria-hidden="true">←</span>
-          Back to site
-        </Link>
       </header>
       <main className="app__main">
         <section className="app__section console-page">
