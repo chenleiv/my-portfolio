@@ -16,7 +16,8 @@ type Deps = {
 
   scrollToConsoleTop: () => void;
 
-  navigate: (href: string) => void;
+  // Back to the room on the same page.
+  goHome: () => void;
 };
 
 // "https://example.com/path/" -> "example.com/path"
@@ -205,7 +206,7 @@ export function createCommandRunner(deps: Deps) {
           ],
           raw,
         );
-        deps.navigate("/");
+        deps.goHome();
         break;
       }
 

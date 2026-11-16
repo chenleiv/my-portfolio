@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { AppProviders } from "../components/providers/AppProviders";
 import "./globals.scss";
+import { SITE_TITLE } from "../content/titles";
 
 // Self-hosted from Fontsource (latin subset), OFL 1.1; see src/fonts/*/OFL.txt.
 // Only weight 800 of the display font is used (h1 to h3).
@@ -57,7 +58,7 @@ function resolveSiteUrl(): URL {
 
 export const metadata: Metadata = {
   metadataBase: resolveSiteUrl(),
-  title: 'Chen Leiv | Frontend Engineer',
+  title: SITE_TITLE,
   description: 'Frontend Engineer with 4 years building scalable web applications with React, Angular, TypeScript & Node.js. Full-Stack · Security · AI Apps. Open to new opportunities.',
   openGraph: {
     title: 'Chen Leiv | Frontend Engineer',

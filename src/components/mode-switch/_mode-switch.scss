@@ -42,8 +42,12 @@
   }
 
   a.mode-switch__item {
-    &:hover {
+    &:not([aria-current]):hover {
       background: var(--ink-soft-2);
+    }
+
+    &[aria-current] {
+      cursor: default;
     }
 
     &:focus-visible {
@@ -74,11 +78,6 @@
     align-items: stretch;
     gap: 10px;
 
-    // In the /console top bar: take the row next to the theme toggle.
-    .app__topbar > & {
-      flex: 1 1 220px;
-    }
-
     .mode-switch__list {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -92,4 +91,26 @@
       display: block;
     }
   }
+}
+
+// The area under the switch that holds the room or the terminal. While the
+// terminal shows, ModeArea locks it to the room's last height (inline style),
+// so the page below does not move; the terminal then fills that height.
+.mode-area {
+  width: 100%;
+
+  &--locked {
+    .terminal-panel,
+    .terminal-panel .console-wrapper,
+    .terminal-panel .interactive-console,
+    .terminal-panel .console-placeholder {
+      height: 100%;
+    }
+  }
+}
+
+.terminal-panel {
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
