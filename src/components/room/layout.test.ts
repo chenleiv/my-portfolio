@@ -1,47 +1,9 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { project } from "./iso.ts";
-import {
-  AUTO_OPEN_DWELL_SECONDS,
-  BLOCKS,
-  BODY_RADIUS,
-  BOUNDS,
-  BUCKY_LAYOUT,
-  HUB,
-  OBJECT_AREAS,
-  OBJECT_BY_KEY,
-  ROOM_OBJECTS,
-  RUG,
-  SPOTS,
-  START,
-  SWITCH_MARGIN,
-  WALK_SPEED,
-  type ObjectKey,
-} from "./roomContent.ts";
-import { isBlocked, nearestObject, type WalkerConfig } from "./walker.ts";
-
-const cfg: WalkerConfig<ObjectKey> = {
-  spots: SPOTS,
-  hub: HUB,
-  blocks: BLOCKS,
-  bounds: BOUNDS,
-  bodyRadius: BODY_RADIUS,
-  areas: OBJECT_AREAS,
-  switchMargin: SWITCH_MARGIN,
-  speed: WALK_SPEED,
-  dwellSeconds: AUTO_OPEN_DWELL_SECONDS,
-};
-
-// Same pill size as labels.test.ts: about 9px per character plus 26px of
-// padding, 28px tall, plus the 7px pulse ring, at the smallest desktop room.
-const PX = 490 / 400;
-const RING = 7;
-function pill(name: string, x: number, y: number, z: number) {
-  const [cx, cy] = project(x, y, z);
-  const w = ((name.length * 9 + 26) * PX) / 2 + RING;
-  const h = (28 * PX) / 2 + RING;
-  return { x0: cx - w, x1: cx + w, y0: cy - h, y1: cy + h };
-}
+import { BUCKY_LAYOUT, OBJECT_BY_KEY, ROOM_OBJECTS, RUG, SPOTS, START } from "./roomContent.ts";
+import { isBlocked, nearestObject } from "./walker.ts";
+import { cfg, hull as convexHull, overlaps as convexOverlap, pill, type Pt } from "./testGeometry.ts";
 
 describe("label bubbles", () => {
   it("never overlap each other", () => {
@@ -74,39 +36,6 @@ describe("label bubbles", () => {
     assert.equal(convexOverlap(rect, convexHull(corners)), false);
   });
 });
-
-type Pt = readonly [number, number];
-
-function convexHull(points: Pt[]): Pt[] {
-  const p = [...points].sort((a, b) => a[0] - b[0] || a[1] - b[1]);
-  const cross = (o: Pt, a: Pt, b: Pt) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
-  const lower: Pt[] = [];
-  const upper: Pt[] = [];
-  for (const q of p) {
-    while (lower.length > 1 && cross(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop();
-    lower.push(q);
-  }
-  for (const q of [...p].reverse()) {
-    while (upper.length > 1 && cross(upper[upper.length - 2], upper[upper.length - 1], q) <= 0) upper.pop();
-    upper.push(q);
-  }
-  return [...lower.slice(0, -1), ...upper.slice(0, -1)];
-}
-
-// Separating axis test between two convex polygons.
-function convexOverlap(a: Pt[], b: Pt[]): boolean {
-  for (const poly of [a, b]) {
-    for (let i = 0; i < poly.length; i++) {
-      const [x1, y1] = poly[i];
-      const [x2, y2] = poly[(i + 1) % poly.length];
-      const n = [y2 - y1, x1 - x2];
-      const pa = a.map((p) => p[0] * n[0] + p[1] * n[1]);
-      const pb = b.map((p) => p[0] * n[0] + p[1] * n[1]);
-      if (Math.max(...pa) <= Math.min(...pb) || Math.max(...pb) <= Math.min(...pa)) return false;
-    }
-  }
-  return true;
-}
 
 // Every free floor point Chen can reach from her start by walking, on a fine grid.
 const STEP = 0.05;

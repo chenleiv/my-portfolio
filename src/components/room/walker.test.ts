@@ -2,15 +2,10 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import {
   AUTO_OPEN_DWELL_SECONDS,
-  BLOCKS,
   BODY_RADIUS,
-  BOUNDS,
   FOOTPRINT_BY_ID,
   HUB,
-  OBJECT_AREAS,
   SPOTS,
-  SWITCH_MARGIN,
-  WALK_SPEED,
   type ObjectKey,
 } from "./roomContent.ts";
 import {
@@ -26,18 +21,7 @@ import {
   type WalkerConfig,
   type WalkerState,
 } from "./walker.ts";
-
-const cfg: WalkerConfig<ObjectKey> = {
-  spots: SPOTS,
-  hub: HUB,
-  blocks: BLOCKS,
-  bounds: BOUNDS,
-  bodyRadius: BODY_RADIUS,
-  areas: OBJECT_AREAS,
-  switchMargin: SWITCH_MARGIN,
-  speed: WALK_SPEED,
-  dwellSeconds: AUTO_OPEN_DWELL_SECONDS,
-};
+import { cfg } from "./testGeometry.ts";
 
 const DT = 0.01;
 
@@ -62,7 +46,7 @@ function arriveAtDeskByKeys(): WalkerState<ObjectKey> {
 }
 
 describe("collision", () => {
-  it("keeps every spot, the hub and the start point walkable", () => {
+  it("keeps every spot and the hub walkable", () => {
     for (const [key, [x, y]] of Object.entries(SPOTS)) {
       assert.equal(isBlocked(x, y, cfg), false, `spot ${key} is blocked`);
     }
