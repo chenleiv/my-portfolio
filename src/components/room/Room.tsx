@@ -16,6 +16,7 @@ import { Window } from "./scene/Window";
 import { ContactBoard } from "./scene/ContactBoard";
 import { bubbleState } from "./bubbles";
 import { HowToPlay, PlacesList } from "./HowToPlay";
+import { useTouchLayout } from "../../hooks/useTouchLayout";
 import { useWalker, type ScreenBox } from "./useWalker";
 
 const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
@@ -45,6 +46,7 @@ const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) =
 const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
 const SCENE_LABEL = "Room. Use the arrow keys or WASD to walk. Stop next to an object to open it.";
+const SCENE_LABEL_TOUCH = "Room. Tap an object to open it, or use the Places buttons below the room.";
 
 function keyFromTarget(target: EventTarget | null): { key: ObjectKey; el: Element } | null {
   if (!(target instanceof Element)) return null;
@@ -77,6 +79,7 @@ export default function Room() {
   const [revealing, setRevealing] = useState(false);
   const touch = useNoHover();
   const tapTitleId = useId();
+  const touchLayout = useTouchLayout();
   // Control that opened the popup; null means the scene itself.
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -215,7 +218,7 @@ export default function Room() {
           style={STAGE_STYLE}
           tabIndex={0}
           role="application"
-          aria-label={SCENE_LABEL}
+          aria-label={touchLayout ? SCENE_LABEL_TOUCH : SCENE_LABEL}
           onClick={onSceneClick}
           onKeyDown={onSceneKeyDown}
           onPointerOver={onPointerOver}

@@ -1,6 +1,7 @@
 // Phones and touch devices (including tablets): no hover and a coarse pointer,
 // or a narrow window as a fallback. Hybrid laptops with a mouse or trackpad
 // report hover and a fine pointer, so they keep the desktop layout.
+// Keep in sync with TOUCH_LAYOUT_QUERY in src/hooks/useTouchLayout.ts.
 @mixin touch-layout {
   @media (hover: none) and (pointer: coarse), (max-width: 599px) {
     @content;
