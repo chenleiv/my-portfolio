@@ -137,9 +137,11 @@ $room-keys: desk, shelf, tv, bucky, contact;
         grid-column: 1;
         grid-row: 1;
         align-self: start;
+        // Starts level with the top of the back wall, not the top of the room's box.
+        margin-top: calc(var(--room-max-h) * var(--room-top, 0));
       }
 
-      // Top-aligned, so its top edge lines up with the panel's.
+      // Top-aligned; the panel's offset above lines it up with the back wall's top.
       .room__scene {
         grid-column: 2;
         grid-row: 1 / span 2;
