@@ -101,9 +101,10 @@ const LIGHT: ScenePalette = {
   books: ["#e8a5a0", "#8fbfb7", "#f2cf86", "#9db7d6", "#c9a6d6"],
 };
 
+// Dark room: calm night colors, no neon. The accent matches the site's dark accent.
 const DARK: ScenePalette = {
   isDark: true,
-  accent: "#35e0ff",
+  accent: "#ff8a6a",
   spineOnAccent: "#0a1020",
   boardText: "#f1ece0",
   wallL: "#222a4d",
@@ -115,18 +116,18 @@ const DARK: ScenePalette = {
   shelf: "#7e6a9a",
   cab: "#6f5a49",
   tv: "#0d0a1f",
-  screen: "#35e0ff",
+  screen: "#5e9fa8",
   sofa: "#3f8f86",
   rug: "#7a3f5c",
   rugB: "#c9a24e",
   frame: "#b8975a",
   paper: "#2a315c",
-  art1: "#35e0ff",
+  art1: "#6fa8b3",
   art2: "#ff8a5c",
-  sky: "#3b2f8a",
-  sea: "#2a5fd1",
-  sand: "#8a6ad1",
-  sun: "#ffe14a",
+  sky: "#3a3f78",
+  sea: "#3b5f9a",
+  sand: "#8a7aa8",
+  sun: "#f0c46a",
   curtain: "#7a2f45",
   brass: "#d9b45a",
   lampShade: "#f6d98a",
@@ -137,7 +138,7 @@ const DARK: ScenePalette = {
   chair: "#ff986e",
   mug: "#f4f1ea",
   steam: "#e8edf2",
-  books: ["#35e0ff", "#ff8a5c", "#ffe14a", "#8a6ad1", "#3fd69a"],
+  books: ["#6fa8b3", "#e0866a", "#e6c46e", "#8a7aa8", "#6aa888"],
 };
 
 export const PALETTES: Record<Theme, ScenePalette> = { light: LIGHT, dark: DARK };

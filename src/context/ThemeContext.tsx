@@ -16,7 +16,7 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 const STORAGE_KEY = "theme";
 
 // The inline script in app/layout.tsx sets data-theme before first paint
-// (saved choice, then system preference, then light). Read it back here.
+// (the saved choice, otherwise light). Read it back here.
 const getInitialTheme = (): Theme => {
     if (typeof document === "undefined") return "light";
     return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";

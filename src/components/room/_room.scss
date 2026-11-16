@@ -120,26 +120,35 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
 
     @media (min-width: 1100px) {
+      // Side by side the room may be larger: up to 78% of the window height.
+      --room-max-h: min(78vh, 680px);
+
+      @supports (height: 1svh) {
+        --room-max-h: min(78svh, 680px);
+      }
+
       grid-template-columns: 240px minmax(0, 1fr);
       column-gap: 28px;
 
       grid-template-rows: auto 1fr;
-      row-gap: 16px;
+      row-gap: 24px;
 
       .how-to-play {
         grid-column: 1;
         grid-row: 1;
         align-self: start;
+        // Starts level with the top of the back wall, not the top of the room's box.
+        margin-top: calc(var(--room-max-h) * var(--room-top, 0));
       }
 
-      // Top-aligned, so its top edge lines up with the panel's.
+      // Top-aligned; the panel's offset above lines it up with the back wall's top.
       .room__scene {
         grid-column: 2;
         grid-row: 1 / span 2;
         align-self: start;
       }
 
-      // Compact here, so the left column is about as tall as the room.
+      // Right under the How to play panel; any spare height stays below the list.
       .room-places {
         grid-column: 1;
         grid-row: 2;
@@ -148,8 +157,8 @@ $room-keys: desk, shelf, tv, bucky, contact;
 
         .room-places__list {
           flex-direction: column;
-          gap: 6px;
-          margin-top: 8px;
+          gap: 10px;
+          margin-top: 12px;
         }
 
         .room-places__button {
@@ -251,14 +260,26 @@ $room-keys: desk, shelf, tv, bucky, contact;
     display: inline;
   }
 
+  // Phones: two columns, and a last button left alone (Bucky) spans both, so
+  // no row is half empty.
   .room-places__list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    li:last-child:nth-child(odd) {
+      grid-column: 1 / -1;
+    }
+
+    // Tablets: all five in one row, each as wide as its label.
+    @media (min-width: 600px) {
+      display: flex;
+      flex-wrap: wrap;
+    }
   }
 
   .room-places__button {
-    min-height: 52px;
-    padding: 0 10px;
+    min-height: 44px;
+    padding: 0 12px;
   }
 }
 
@@ -451,7 +472,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
 
 // ─── How to play panel ──────────────────────────────────────────────────────
 // Site tokens only: ink on panel. Everything in the panel uses the pixel font:
-// the title, key caps, the instruction line and the status.
+// the title, the key caps and the instruction line.
 
 // Compact: title, two rows of key caps, one line of text, then the status block.
 .how-to-play {
@@ -465,9 +486,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
   color: var(--ink);
 
   // Mid-width screens, where the panel sits above the room: title on top,
-  // then key caps, text and status in one row, to keep the panel low.
+  // then the key caps and the text in one row, and only as wide as that content.
   @media (min-width: 600px) and (max-width: 1099px) {
-    grid-template-columns: auto minmax(0, 1fr) minmax(200px, 260px);
+    grid-template-columns: auto auto;
+    justify-self: start;
+    width: fit-content;
+    max-width: 100%;
     align-items: center;
     column-gap: 20px;
 
@@ -543,32 +567,5 @@ $room-keys: desk, shelf, tv, bucky, contact;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.02em;
-  }
-
-  &__status {
-    padding: 10px 12px;
-    border: 2px solid var(--ink);
-    border-radius: 8px;
-    background: var(--bg);
-    font-family: var(--font-pixel-stack);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  &__status-title {
-    font-size: 12px;
-    line-height: 16px;
-    color: var(--ink-muted);
-  }
-
-  // Always two lines tall, so "Next to: Contact & CV" and "Walk to an object"
-  // take the same space.
-  &__status-main {
-    height: 40px;
-    margin-top: 2px;
-    overflow: hidden;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
   }
 }

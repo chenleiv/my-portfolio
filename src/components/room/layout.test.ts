@@ -149,3 +149,11 @@ describe("the L-shaped sofa", () => {
     assert.ok(points.some(([x, y]) => Math.hypot(x - sx, y - sy) < STEP));
   });
 });
+
+describe("the start position", () => {
+  it("starts on open floor, next to no object", () => {
+    const [x, y] = START;
+    assert.equal(isBlocked(x, y, cfg), false);
+    assert.equal(nearestObject(x, y, null, cfg), null);
+  });
+});

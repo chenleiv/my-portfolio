@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { useTheme } from "../../context/ThemeContext";
-import { toViewPercent, VIEW_BOX } from "./iso";
+import { toViewPercent, VIEW_BOX, WALL_H } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
 import { FOOTPRINT_RECTS, OBJECT_BY_KEY, PLACES_ORDER, ROOM_OBJECTS, SCENE_FOOTPRINTS, type ObjectKey, type SceneItemId } from "./roomContent";
 import { RoomDialog } from "./RoomDialog";
@@ -43,10 +43,15 @@ const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) =
 
 // The stage keeps the viewBox ratio, so labels placed in percent stay on their
 // objects. Set on the layout so the Places row can share the room width.
-const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
+// --room-top: share of the room's height above the back wall's top corner (the
+// strip kept free for the highest bubble), so the left column can line up with it.
+const STAGE_STYLE = {
+  "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4),
+  "--room-top": (toViewPercent(0, 0, WALL_H).top / 100).toFixed(4),
+} as CSSProperties;
 
 const SCENE_LABEL = "Room. Use the arrow keys to walk. Stop next to an object to open it.";
-const SCENE_LABEL_TOUCH = "Room. Tap an object or its label to open it. Projects, Skills and Contact & CV are also below the room.";
+const SCENE_LABEL_TOUCH = "Room. Tap an object to open it, or use the Places buttons below the room.";
 
 function keyFromTarget(target: EventTarget | null): { key: ObjectKey; el: Element } | null {
   if (!(target instanceof Element)) return null;
@@ -214,7 +219,7 @@ export default function Room() {
     <section className="room" aria-label="Interactive room">
       {/* DOM order: panel, scene, Places. CSS keeps the same visual order at every width. */}
       <div className="room__layout" style={STAGE_STYLE}>
-        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} />
+        <HowToPlay />
         <div
           ref={sceneRef}
           className="room__scene"
