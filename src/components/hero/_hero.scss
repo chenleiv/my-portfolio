@@ -1,3 +1,5 @@
+@use "../../styles/media" as *;
+
 .hero {
   width: 100%;
   display: flex;
@@ -33,5 +35,39 @@
     line-height: 1.45;
     font-weight: 500;
     color: var(--ink);
+  }
+
+  &__more {
+    display: none;
+  }
+
+  @include touch-layout {
+    .hero__intro:not([data-expanded="true"]) {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      overflow: hidden;
+    }
+
+    .hero__more {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      margin-top: 4px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      font: 600 16px / 1.2 var(--font-body-stack);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+
+      &:focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 2px;
+      }
+    }
   }
 }
