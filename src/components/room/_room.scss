@@ -146,12 +146,11 @@ $room-keys: desk, shelf, tv, bucky, contact;
         align-self: start;
       }
 
-      // At the bottom of the column, so the last button lines up with the room's
-      // bottom edge; any spare height opens up between the panel and the heading.
+      // Right under the How to play panel; any spare height stays below the list.
       .room-places {
         grid-column: 1;
         grid-row: 2;
-        align-self: end;
+        align-self: start;
         width: 100%;
 
         .room-places__list {
