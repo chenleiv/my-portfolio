@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState, type CSSProperties, type FocusEvent, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { toViewPercent, VIEW_BOX } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
@@ -14,6 +14,7 @@ import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
 import { ContactBoard } from "./scene/ContactBoard";
+import { bubbleState } from "./bubbles";
 import { HowToPlay } from "./HowToPlay";
 import { useWalker, type ScreenBox } from "./useWalker";
 
@@ -52,6 +53,20 @@ function keyFromTarget(target: EventTarget | null): { key: ObjectKey; el: Elemen
   return el && key && Object.hasOwn(OBJECT_BY_KEY, key) ? { key: key as ObjectKey, el } : null;
 }
 
+// Touch screens without hover keep every bubble visible so it can be tapped.
+const NO_HOVER_QUERY = "(hover: none)";
+function subscribeNoHover(onChange: () => void) {
+  const mq = window.matchMedia(NO_HOVER_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+function useNoHover(): boolean {
+  return useSyncExternalStore(subscribeNoHover, () => window.matchMedia(NO_HOVER_QUERY).matches, () => false);
+}
+
+// How long every bubble shows the first time the room comes into view.
+const REVEAL_MS = 3000;
+
 export default function Room() {
   const { theme, mounted } = useTheme();
   const palette = PALETTES[theme];
@@ -59,6 +74,8 @@ export default function Room() {
   const [openKey, setOpenKey] = useState<ObjectKey | null>(null);
   const [nearKey, setNearKey] = useState<ObjectKey | null>(null);
   const [hoverKey, setHoverKey] = useState<ObjectKey | null>(null);
+  const [revealing, setRevealing] = useState(false);
+  const touch = useNoHover();
   // Control that opened the popup; null means the scene itself.
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -102,7 +119,7 @@ export default function Room() {
     onPose,
   });
 
-  // Click on an object, a label or a quick button: open now, Chen walks there in the background.
+  // Click on an object, its bubble or a Places button: open now, Chen walks there in the background.
   const openObject = useCallback(
     (key: ObjectKey, trigger: HTMLElement | null) => {
       returnFocusRef.current = trigger;
@@ -135,7 +152,8 @@ export default function Room() {
 
   const onSceneClick = (e: MouseEvent<HTMLDivElement>) => {
     const hit = keyFromTarget(e.target);
-    if (hit) openObject(hit.key, hit.el instanceof HTMLElement ? hit.el : null);
+    // Bubbles are not focusable, so focus returns to the scene after a click on the scene.
+    if (hit) openObject(hit.key, null);
     else sceneRef.current?.focus();
   };
 
@@ -148,7 +166,24 @@ export default function Room() {
   };
 
   const onPointerOver = (e: PointerEvent<HTMLDivElement>) => setHoverKey(keyFromTarget(e.target)?.key ?? null);
-  const onLabelFocus = (e: FocusEvent<HTMLDivElement>) => setHoverKey(keyFromTarget(e.target)?.key ?? null);
+
+  // Show every bubble briefly the first time the room scrolls into view.
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+    let timer = 0;
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      io.disconnect();
+      setRevealing(true);
+      timer = window.setTimeout(() => setRevealing(false), REVEAL_MS);
+    });
+    io.observe(scene);
+    return () => {
+      io.disconnect();
+      window.clearTimeout(timer);
+    };
+  }, [sceneRef]);
 
   const sceneItems = useMemo(
     // Back to front, in the same order as the footprints the walker uses for Chen's slot.
@@ -172,7 +207,7 @@ export default function Room() {
   return (
     <section className="room" aria-label="Interactive room">
       <div className="room__layout">
-        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} />
+        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} onOpen={openObject} />
         <div
           ref={sceneRef}
           className="room__scene"
@@ -184,8 +219,6 @@ export default function Room() {
           onKeyDown={onSceneKeyDown}
           onPointerOver={onPointerOver}
           onPointerLeave={() => setHoverKey(null)}
-          onFocus={onLabelFocus}
-          onBlur={() => setHoverKey(null)}
         >
           <div ref={stageRef} className="room__stage" data-active={activeKey ?? undefined}>
             {mounted && (
@@ -195,27 +228,28 @@ export default function Room() {
                 <g>{[...sceneItems.slice(0, slot), chen, ...sceneItems.slice(slot)]}</g>
               </svg>
             )}
-            {LABELS.map((l) => (
-              <button
-                key={l.key}
-                type="button"
-                className="room__label"
-                data-room-key={l.key}
-                style={{ left: l.left, top: l.top }}
-              >
-                {l.name}
-              </button>
-            ))}
+            {LABELS.map((l) => {
+              const bubble = bubbleState({ key: l.key, nearKey, hoverKey, revealing, touch });
+              return (
+                <button
+                  key={l.key}
+                  type="button"
+                  className="room__label"
+                  data-room-key={l.key}
+                  data-shown={bubble.shown}
+                  data-near={l.key === nearKey}
+                  tabIndex={bubble.tabIndex}
+                  aria-hidden={bubble.ariaHidden}
+                  // Keep focus on the scene so the keys keep working after a click.
+                  onMouseDown={(e) => e.preventDefault()}
+                  style={{ left: l.left, top: l.top }}
+                >
+                  {l.name}
+                </button>
+              );
+            })}
           </div>
         </div>
-      </div>
-
-      <div className="room__quick" role="group" aria-label="Open directly">
-        {ROOM_OBJECTS.map((o) => (
-          <button key={o.key} type="button" className="room__quick-btn" onClick={(e) => openObject(o.key, e.currentTarget)}>
-            {o.name}
-          </button>
-        ))}
       </div>
 
       <RoomDialog openKey={openKey} onClose={closeDialog} onClosed={restoreFocus} />

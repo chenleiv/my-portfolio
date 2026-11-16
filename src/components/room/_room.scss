@@ -63,7 +63,13 @@ $room-keys: desk, shelf, tv, bucky, contact;
     font: 600 14px / 1.2 var(--font-body-stack);
     white-space: nowrap;
     cursor: pointer;
-    transition: opacity 0.15s ease;
+    // Hidden until Chen is near, the mouse is over the object, the first reveal,
+    // or always on touch screens (data-shown, from bubbleState in bubbles.ts).
+    // Hidden bubbles take no clicks so the object under them stays clickable.
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0s linear 0.15s;
 
     // Pulse ring, drawn outside the pill.
     &::after {
@@ -76,15 +82,21 @@ $room-keys: desk, shelf, tv, bucky, contact;
       pointer-events: none;
     }
 
-    &:focus-visible {
-      outline: 3px solid var(--ink);
-      outline-offset: 3px;
+    &[data-shown="true"] {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.15s ease, visibility 0s;
     }
 
-    // While Chen stands under a label it fades so she stays visible. Hover and
-    // keyboard focus bring it back to full strength.
-    &.is-faded:not(:hover):not(:focus-visible) {
+    // While Chen stands under a shown bubble it fades so she stays visible; the
+    // bubble of the object she is next to stays readable. Hover restores it.
+    &[data-shown="true"].is-faded:not(:hover) {
       opacity: 0.25;
+    }
+
+    &[data-shown="true"][data-near="true"].is-faded:not(:hover) {
+      opacity: 0.6;
     }
   }
 
@@ -99,29 +111,6 @@ $room-keys: desk, shelf, tv, bucky, contact;
     @media (min-width: 1100px) {
       grid-template-columns: 240px minmax(0, 1fr);
       gap: 28px;
-    }
-  }
-
-  &__quick {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-  }
-
-  &__quick-btn {
-    min-height: 44px;
-    padding: 0 18px;
-    border: 2px solid var(--ink);
-    border-radius: 999px;
-    background: transparent;
-    color: var(--ink);
-    font: 600 15px / 1 var(--font-body-stack);
-    cursor: pointer;
-    transition: background-color var(--transition-fast);
-
-    &:hover {
-      background: var(--ink-soft-2);
     }
   }
 }
@@ -295,7 +284,9 @@ $room-keys: desk, shelf, tv, bucky, contact;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .room__label {
+  // Bubbles appear and disappear instantly, including the first reveal.
+  .room__label,
+  .room__label[data-shown="true"] {
     transition: none;
   }
 
@@ -330,6 +321,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
     column-gap: 24px;
 
     .how-to-play__title,
+    .how-to-play__places,
     .how-to-play__status {
       grid-column: 1 / -1;
     }
@@ -405,6 +397,49 @@ $room-keys: desk, shelf, tv, bucky, contact;
     padding-left: 18px;
     font-size: 15px;
     line-height: 1.35;
+  }
+
+  &__places-title {
+    font-family: var(--font-pixel-stack);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+  }
+
+  &__places-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 6px;
+    margin-top: 6px;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__place {
+    width: 100%;
+    height: 44px;
+    padding: 0 10px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    font: 700 15px / 20px var(--font-pixel-stack);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+
+    &:hover {
+      background: var(--ink-soft-2);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 2px;
+    }
   }
 
   &__status {

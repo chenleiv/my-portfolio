@@ -34,6 +34,10 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
+// Order of the Places buttons in the How to play panel. ROOM_OBJECTS keeps its
+// own order, which also breaks proximity ties.
+export const PLACES_ORDER: readonly ObjectKey[] = ["desk", "shelf", "contact", "tv", "bucky"];
+
 export const OBJECT_BY_KEY: Readonly<Record<ObjectKey, RoomObject>> = Object.fromEntries(
   ROOM_OBJECTS.map((o) => [o.key, o]),
 ) as Record<ObjectKey, RoomObject>;

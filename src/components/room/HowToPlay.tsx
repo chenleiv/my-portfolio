@@ -1,4 +1,5 @@
 import { useId } from "react";
+import { OBJECT_BY_KEY, PLACES_ORDER, type ObjectKey } from "./roomContent";
 
 // Key caps are drawn only; the first instruction line says the same in text.
 function KeyCaps() {
@@ -28,11 +29,19 @@ function KeyCaps() {
   );
 }
 
-// Game-style instructions and the live status line. The status text is written
-// in sentence case and shown in capitals by CSS, so screen readers read words,
-// not letters. It changes only when the nearest object changes.
-export function HowToPlay({ nearName }: { nearName: string | null }) {
+interface HowToPlayProps {
+  nearName: string | null;
+  // Opens an object as if it were clicked; focus returns to the button afterwards.
+  onOpen: (key: ObjectKey, trigger: HTMLElement) => void;
+}
+
+// Game-style instructions, the Places list and the live status line. The Places
+// buttons are the keyboard and screen reader way into the room. The status text
+// is written in sentence case and shown in capitals by CSS, so screen readers
+// read words, not letters. It changes only when the nearest object changes.
+export function HowToPlay({ nearName, onOpen }: HowToPlayProps) {
   const titleId = useId();
+  const placesId = useId();
   return (
     <aside className="how-to-play" aria-labelledby={titleId}>
       <h2 id={titleId} className="how-to-play__title">
@@ -42,8 +51,22 @@ export function HowToPlay({ nearName }: { nearName: string | null }) {
       <ul className="how-to-play__steps">
         <li>Walk with the arrow keys or WASD.</li>
         <li>Stop next to an object and it opens.</li>
-        <li>Or click any label.</li>
+        <li>Or click any object.</li>
       </ul>
+      <div className="how-to-play__places">
+        <p id={placesId} className="how-to-play__places-title">
+          Places
+        </p>
+        <ul className="how-to-play__places-list" aria-labelledby={placesId}>
+          {PLACES_ORDER.map((key) => (
+            <li key={key}>
+              <button type="button" className="how-to-play__place" onClick={(e) => onOpen(key, e.currentTarget)}>
+                {OBJECT_BY_KEY[key].name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
       <div className="how-to-play__status">
         <p className="how-to-play__status-title" aria-hidden="true">
           Status
