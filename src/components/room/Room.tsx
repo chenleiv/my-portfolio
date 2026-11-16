@@ -165,7 +165,8 @@ export default function Room() {
   const onSceneKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
     if (handleKeyDown(e)) return;
     const onScene = e.target === e.currentTarget;
-    if (e.key === "e" || e.key === "E" || (e.key === "Enter" && onScene)) {
+    // E by physical position, so it works in any keyboard layout.
+    if (e.code === "KeyE" || (e.key === "Enter" && onScene)) {
       if (openNearInPlace(onScene ? null : (e.target as HTMLElement))) e.preventDefault();
     }
   };

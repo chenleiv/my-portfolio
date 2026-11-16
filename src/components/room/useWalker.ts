@@ -44,19 +44,17 @@ const CONFIG: WalkerConfig<ObjectKey> = {
 // world origin (screen x = OX), so the flip must be around that x, not around 0.
 const MIRROR = `translate(${(2 * project(0, 0, 0)[0]).toFixed(1)},0) scale(-1,1)`;
 
+// Movement keys by physical position (KeyboardEvent.code), so W A S D work in
+// any keyboard layout, including Hebrew, where they type other letters.
 const KEYMAP: Readonly<Record<string, keyof HeldKeys>> = {
   ArrowUp: "up",
-  w: "up",
-  W: "up",
+  KeyW: "up",
   ArrowDown: "down",
-  s: "down",
-  S: "down",
+  KeyS: "down",
   ArrowLeft: "left",
-  a: "left",
-  A: "left",
+  KeyA: "left",
   ArrowRight: "right",
-  d: "right",
-  D: "right",
+  KeyD: "right",
 };
 
 const STRIDE = 0.14;
@@ -227,7 +225,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
   // Release held keys when they are let go anywhere, or when the page loses focus.
   useEffect(() => {
     const release = (e: globalThis.KeyboardEvent) => {
-      const dir = KEYMAP[e.key];
+      const dir = KEYMAP[e.code];
       if (dir) keysRef.current[dir] = false;
     };
     const releaseAll = () => {
@@ -266,7 +264,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
 
   // Returns true when the key was a movement key and has been handled.
   const handleKeyDown = useCallback((e: KeyboardEvent | globalThis.KeyboardEvent) => {
-    const dir = KEYMAP[e.key];
+    const dir = KEYMAP[e.code];
     if (!dir || e.metaKey || e.ctrlKey || e.altKey || dialogOpenRef.current) return false;
     e.preventDefault();
     keysRef.current[dir] = true;
@@ -288,7 +286,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
     io.observe(scene);
 
     const onKeyDown = (e: globalThis.KeyboardEvent) => {
-      if (!visible || e.defaultPrevented || !KEYMAP[e.key]) return;
+      if (!visible || e.defaultPrevented || !KEYMAP[e.code]) return;
       const active = document.activeElement;
       if (active && active !== document.body && active !== document.documentElement) return;
       if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
