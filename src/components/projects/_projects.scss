@@ -34,21 +34,21 @@
 
 // ─── Cards ───────────────────────────────────────────────────────────────────
 
-// Two cards side by side when each can be at least 340px wide, one otherwise.
-// Rows stretch, so cards side by side stay the same height.
+// One card per row at every width, so the screenshots can be large.
 .projects-featured {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(340px, 100%), 1fr));
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
 }
 
-// Compact card. No fixed height and no overflow clipping, so the tags and the
-// links always show in full.
+// Below 900px: the screenshot on top, the content under it. From 900px: two
+// equal columns, screenshot left, content right. No fixed height and no
+// overflow clipping on the card, so the tags and the links always show in full.
 .project-card {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
   padding: 20px;
   background: var(--panel);
   border: 2px solid var(--ink);
@@ -60,10 +60,11 @@
     box-shadow: 0 16px 40px var(--shadow);
   }
 
-  &__head {
-    display: flex;
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
     align-items: center;
-    gap: 14px;
+    gap: 28px;
+    padding: 24px;
   }
 
   &__heading {
@@ -75,20 +76,33 @@
   }
 }
 
-// Small screenshot beside the title.
-.project-thumb {
-  flex: 0 0 96px;
-  aspect-ratio: 16 / 9;
+// Large screenshot in a shared 16:10 frame (the images are about 1.57:1 and
+// 1.67:1). Cover, anchored at the top, keeps each app's header in view and
+// crops only a few percent at the bottom or the sides.
+.project-shot {
+  position: relative;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
   border: 2px solid var(--ink);
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--ink-soft);
 
   &__img {
-    display: block;
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    object-position: top center;
+  }
+}
+
+.project-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+
+  @media (min-width: 900px) {
+    .project-title {
+      font-size: 22px;
+    }
   }
 }
 
@@ -215,14 +229,10 @@
   }
 }
 
-// Phones: a slightly smaller thumbnail and padding, so the title keeps room beside it.
+// Phones: a little less padding.
 @media (max-width: 599px) {
   .project-card {
     padding: 16px;
-  }
-
-  .project-thumb {
-    flex-basis: 80px;
   }
 
   .project-title {
