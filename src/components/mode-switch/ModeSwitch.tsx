@@ -38,10 +38,7 @@ export default function ModeSwitch({ active, hint = false }: ModeSwitchProps) {
       {hint && (
         <>
           {/* CSS shows exactly one of these lines, so only one is read. */}
-          <p className="mode-switch__hint mode-switch__hint--wide">
-            Play walks around my room. Terminal opens a console: type commands like <code>contact()</code> or{" "}
-            <code>cv()</code>.
-          </p>
+          <p className="mode-switch__hint mode-switch__hint--wide">Explore my room, or type commands in the terminal.</p>
           <p className="mode-switch__hint mode-switch__hint--touch">
             Terminal: type commands like <code>contact()</code> or <code>cv()</code>.
           </p>
