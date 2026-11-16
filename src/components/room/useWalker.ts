@@ -99,7 +99,7 @@ interface UseWalkerOptions {
 }
 
 // Chen moves only while a movement key is held, or along a walk started by a
-// click on an object, a label or a quick button. Nothing else moves her.
+// click on an object, a label or a Places button. Nothing else moves her.
 export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseWalkerOptions) {
   const reducedMotion = usePrefersReducedMotion();
 
@@ -112,6 +112,8 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
   const sceneRef = useRef<HTMLDivElement>(null);
   const chenElRef = useRef<SVGGElement | null>(null);
   const limbsRef = useRef<Partial<Record<ChenPart, SVGGElement>>>({});
+  // The groups that turn Chen, and the facing last applied to them.
+  const viewRef = useRef<{ applied: string; flip?: SVGGElement; front?: SVGGElement; back?: SVGGElement }>({ applied: "" });
 
   const [slot, setSlot] = useState(() => drawSlot(START[0], START[1], footprints));
   const slotRef = useRef(slot);
@@ -134,6 +136,19 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
       const [lx, ly] = worldOffset(0, stride * SWING[part]);
       g.setAttribute("transform", `translate(${lx.toFixed(2)},${ly.toFixed(2)})`);
     }
+    // Facing: the drawing faces front-left. Mirroring turns front-left into
+    // front-right and the back view (facing back-right) into back-left.
+    const { front, right } = s.facing;
+    const key = `${front ? "f" : "b"}${right ? "r" : "l"}`;
+    const view = viewRef.current;
+    if (view.flip && key !== view.applied) {
+      view.applied = key;
+      const flip = front ? right : !right;
+      if (flip) view.flip.setAttribute("transform", "scale(-1,1)");
+      else view.flip.removeAttribute("transform");
+      view.front?.setAttribute("display", front ? "inline" : "none");
+      view.back?.setAttribute("display", front ? "none" : "inline");
+    }
     callbacksRef.current.onPose?.(chenScreenBox(s.x, s.y));
     const next = drawSlot(s.x, s.y, footprints);
     if (next !== slotRef.current) {
@@ -146,11 +161,18 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
     (el: SVGGElement | null) => {
       chenElRef.current = el;
       limbsRef.current = {};
+      viewRef.current = { applied: "" };
       if (!el) return;
       for (const part of CHEN_PARTS) {
         const g = el.querySelector<SVGGElement>(`[data-part="${part}"]`);
         if (g) limbsRef.current[part] = g;
       }
+      viewRef.current = {
+        applied: "",
+        flip: el.querySelector<SVGGElement>("[data-flip]") ?? undefined,
+        front: el.querySelector<SVGGElement>('[data-view="front"]') ?? undefined,
+        back: el.querySelector<SVGGElement>('[data-view="back"]') ?? undefined,
+      };
       applyPose();
     },
     [applyPose],

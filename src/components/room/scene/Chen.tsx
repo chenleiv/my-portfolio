@@ -45,6 +45,14 @@ const HEAD: Face[] = [
   ...box(-0.22, 0.1, 1.9, 0.44, 0.08, 0.06, c.features),
 ];
 
+// Seen from behind (walking away): hair covers the head and falls down her back
+// on the side the viewer sees, and there is no face.
+const HEAD_BACK: Face[] = [
+  ...box(-0.27, -0.23, 1.4, 0.54, 0.46, 0.54, c.hair),
+  ...box(-0.27, 0.17, 0.95, 0.54, 0.08, 0.6, c.hair),
+  ...box(0.24, -0.2, 0.95, 0.06, 0.4, 0.95, c.hair),
+];
+
 function Limb({ part }: { part: ChenPart }) {
   return (
     <g data-part={part}>
@@ -53,16 +61,26 @@ function Limb({ part }: { part: ChenPart }) {
   );
 }
 
+// Four ways to face: the drawing faces front-left (toward +y). useWalker mirrors
+// the [data-flip] group for the right-hand directions, which swaps world x and y
+// on screen, and shows the back view of the head when she walks away.
 function ChenFigure({ ref }: { ref: Ref<SVGGElement> }) {
   return (
     <g ref={ref} className="room-chen" aria-hidden="true">
-      <Faces faces={SHADOW} />
-      <Limb part="leg-left" />
-      <Limb part="leg-right" />
-      <Faces faces={TORSO} />
-      <Limb part="arm-left" />
-      <Limb part="arm-right" />
-      <Faces faces={HEAD} />
+      <g data-flip="">
+        <Faces faces={SHADOW} />
+        <Limb part="leg-left" />
+        <Limb part="leg-right" />
+        <Faces faces={TORSO} />
+        <Limb part="arm-left" />
+        <Limb part="arm-right" />
+        <g data-view="front">
+          <Faces faces={HEAD} />
+        </g>
+        <g data-view="back" display="none">
+          <Faces faces={HEAD_BACK} />
+        </g>
+      </g>
     </g>
   );
 }
