@@ -29,7 +29,7 @@ export interface RoomObject {
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
-  { key: "tv", name: "For fun", title: "Things I love to do", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
+  { key: "tv", name: "For fun", title: "Things I love to do", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 2.0 } },
   // Chen stands on the rug in front of the chaise. The label is a caption just
   // below the chaise's front edge, under Bucky's body and a little left of his
   // center, so it clears the sofa's front end: above him there is no room
@@ -115,9 +115,10 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "shelf", rect: { x0: 0, y0: 2.2, x1: 0.9, y1: 5.2 } },
   { id: "lamp", rect: { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 } },
   { id: "tv", rect: { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 } },
-  // Next to the TV, just past the cabinet's front end, clear of the PS5 and of
-  // the spot where Chen stands at the TV's front. Drawn after the TV.
-  { id: "plant", rect: { x0: 1.1, y0: 9.4, x1: 1.55, y1: 9.85 } },
+  // In the front-left corner of the floor, in front of the TV cabinet's end.
+  // Slim (0.3 wide) so the spot where Chen stands at the TV's front stays free.
+  // Drawn after the TV.
+  { id: "plant", rect: { x0: 0.0, y0: 9.5, x1: 0.3, y1: 9.95 } },
   // Runs along the back wall to its end (x = 10), with a landscape and a portrait monitor.
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 10.0, y1: 1.8 } },
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
