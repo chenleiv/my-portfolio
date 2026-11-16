@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useFocus } from "../../utils/useFocus";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 import { ABOUT_LINES, type ConsoleLine } from "./consoleTypes";
@@ -34,8 +33,6 @@ export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
   const consoleRef = useRef<HTMLDivElement>(null);
   const historyRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const { setConsoleInputRef } = useFocus();
 
   const auto = useStickyAutoScroll({
     historyRef,
@@ -99,10 +96,6 @@ export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
       scrollToConsoleTop,
     ],
   );
-
-  useEffect(() => {
-    setConsoleInputRef(inputRef.current);
-  }, [setConsoleInputRef]);
 
   // Only when the console first appears; preventScroll keeps the hero in view.
   const autoFocusRef = useRef(autoFocus);
