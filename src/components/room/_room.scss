@@ -124,7 +124,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
       column-gap: 28px;
 
       grid-template-rows: auto 1fr;
-      row-gap: 16px;
+      row-gap: 24px;
 
       .how-to-play {
         grid-column: 1;
@@ -139,17 +139,18 @@ $room-keys: desk, shelf, tv, bucky, contact;
         align-self: start;
       }
 
-      // Compact here, so the left column is about as tall as the room.
+      // At the bottom of the column, so the last button lines up with the room's
+      // bottom edge; any spare height opens up between the panel and the heading.
       .room-places {
         grid-column: 1;
         grid-row: 2;
-        align-self: start;
+        align-self: end;
         width: 100%;
 
         .room-places__list {
           flex-direction: column;
-          gap: 6px;
-          margin-top: 8px;
+          gap: 10px;
+          margin-top: 12px;
         }
 
         .room-places__button {
