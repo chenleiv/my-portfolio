@@ -2,13 +2,13 @@
 
 .projects-section {
   width: 100%;
-  padding: 80px 20px;
+  padding: 32px 20px 80px; // little on top: .app__main already spaces sections
 }
 
 .projects-container {
   display: flex;
   flex-direction: column;
-  gap: 56px;
+  gap: 40px;
   max-width: 1280px;
   margin: 0 auto;
   width: 100%;
@@ -201,23 +201,23 @@
 
 @media (max-width: 1024px) {
   .projects-section {
-    padding: 60px 16px;
+    padding: 24px 16px 60px;
   }
 }
 
 @media (max-width: 900px) {
   .projects-container {
-    gap: 48px;
+    gap: 40px;
   }
 }
 
 @media (max-width: 768px) {
   .projects-section {
-    padding: 50px 12px;
+    padding: 24px 12px 50px;
   }
 
   .projects-container {
-    gap: 40px;
+    gap: 32px;
   }
 
   .projects-featured {
