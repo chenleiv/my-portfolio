@@ -56,11 +56,13 @@
     }
   }
 
+  // Full ink, not muted: about 14:1 on --bg in light and 15:1 in dark.
   &__hint {
-    max-width: 460px;
-    font-size: 15px;
+    max-width: 520px;
+    font-size: 17px;
+    font-weight: 500;
     line-height: 1.45;
-    color: var(--ink-muted);
+    color: var(--ink);
 
     code {
       font-family: var(--font-mono-stack);
@@ -89,6 +91,7 @@
 
     .mode-switch__hint--touch {
       display: block;
+      font-size: 16px;
     }
   }
 }
