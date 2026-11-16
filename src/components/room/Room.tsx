@@ -7,9 +7,8 @@ import { PALETTES, type ScenePalette } from "./palettes";
 import { FOOTPRINT_RECTS, OBJECT_BY_KEY, ROOM_OBJECTS, SCENE_FOOTPRINTS, type ObjectKey, type SceneItemId } from "./roomContent";
 import { RoomDialog } from "./RoomDialog";
 import { Background } from "./scene/Background";
-import { Bucky } from "./scene/Bucky";
 import { Chen } from "./scene/Chen";
-import { Chair, CoffeeTable, Desk, Guitar, Lamp, Plant, Sofa, Tv } from "./scene/Furniture";
+import { Chair, CoffeeTable, Desk, Guitar, Lamp, Plant, Sofa, SofaFront, Tv } from "./scene/Furniture";
 import { Shelf } from "./scene/Shelf";
 import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
@@ -29,7 +28,7 @@ const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
   desk: (p) => <Desk p={p} />,
   chair: (p) => <Chair p={p} />,
   "coffee-table": (p) => <CoffeeTable p={p} />,
-  bucky: () => <Bucky />,
+  "sofa-front": (p) => <SofaFront p={p} />,
   sofa: (p) => <Sofa p={p} />,
   plant: (p) => <Plant p={p} />,
 };

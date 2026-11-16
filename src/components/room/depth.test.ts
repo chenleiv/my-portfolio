@@ -29,21 +29,21 @@ describe("scene order", () => {
 });
 
 describe("Chen's draw order", () => {
-  const bucky = FOOTPRINT_BY_ID.bucky;
+  const sofaFront = FOOTPRINT_BY_ID["sofa-front"];
   const sofa = FOOTPRINT_BY_ID.sofa;
   const chair = FOOTPRINT_BY_ID.chair;
   const gap = BODY_RADIUS + 0.05;
 
-  it("is in front of Bucky at his spot", () => {
+  it("is behind the front sofa section at Bucky's spot", () => {
     const [x, y] = SPOTS.bucky;
-    assert.ok(isInFront(x, y, bucky));
-    assert.ok(drawnInFrontOf(x, y, "bucky"));
+    assert.equal(isInFront(x, y, sofaFront), false);
+    assert.equal(drawnInFrontOf(x, y, "sofa-front"), false);
   });
 
-  it("is behind Bucky when standing on his far side", () => {
-    const x = (bucky.x0 + bucky.x1) / 2;
-    const y = bucky.y0 - gap;
-    assert.equal(drawnInFrontOf(x, y, "bucky"), false);
+  it("is in front of the front sofa section past its right end", () => {
+    const x = sofaFront.x1 + gap;
+    const y = (sofaFront.y0 + sofaFront.y1) / 2;
+    assert.ok(drawnInFrontOf(x, y, "sofa-front"));
   });
 
   it("is behind the sofa when standing on its left", () => {

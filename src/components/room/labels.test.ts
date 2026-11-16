@@ -24,18 +24,18 @@ const HEIGHT: Partial<Record<SceneItemId, number>> = {
   desk: 3.3,
   chair: 2.54,
   "coffee-table": 0.67,
-  bucky: 0.85,
   sofa: 1.7,
+  "sofa-front": 1.7,
   plant: 1.7,
 };
 
-// Items a label may sit on: its own object, except that the Bucky label must
-// stay clear of Bucky himself.
+// Items a label may sit on: its own object. Bucky lies on the front sofa
+// section, so his label may sit over it but must clear everything else.
 const OWN: Record<ObjectKey, readonly SceneItemId[]> = {
   desk: ["desk", "chair"],
   shelf: ["shelf"],
   tv: ["tv", "sofa"],
-  bucky: [],
+  bucky: ["sofa-front"],
   contact: [],
 };
 

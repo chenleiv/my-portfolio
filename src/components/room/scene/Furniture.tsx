@@ -1,6 +1,7 @@
 import { box, project, qx, qy, qz, shade, type Face } from "../iso";
 import type { ScenePalette } from "../palettes";
 import { FOOTPRINT_BY_ID } from "../roomContent";
+import { Bucky } from "./Bucky";
 import { Faces, SceneObject, ZText } from "./primitives";
 
 const PS5_WHITE = "#f2f2f2";
@@ -172,20 +173,54 @@ export function CoffeeTable({ p }: { p: ScenePalette }) {
   );
 }
 
+const SOFA_SEAT_Z = 0.8;
+const SOFA_BACK_DEPTH = 0.4;
+const SOFA_BACK_HEIGHT = 0.9;
+
+// The original section of the L: seat facing the TV (-x), backrest along its
+// +x side, an armrest at the back end. Its front end joins the front section.
 export function Sofa({ p }: { p: ScenePalette }) {
-  const { x0: x, y0: y } = FOOTPRINT_BY_ID.sofa;
+  const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID.sofa;
+  const back = shade(p.sofa, 0.9);
   return (
     <SceneObject objectKey="tv">
       <Faces
         faces={[
-          ...box(x, y, 0, 1.5, 3.0, 0.8, p.sofa),
-          ...box(x, y, 0.8, 1.1, 0.3, 0.4, p.sofa),
-          ...box(x, y + 2.7, 0.8, 1.1, 0.3, 0.4, p.sofa),
-          ...box(x + 1.1, y, 0.8, 0.4, 3.0, 0.9, shade(p.sofa, 0.9)),
-          ...box(x + 0.2, y + 2.0, 0.8, 0.5, 0.6, 0.35, p.rugB),
+          ...box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa),
+          ...box(x, y, SOFA_SEAT_Z, 1.1, 0.3, 0.4, p.sofa),
+          ...box(x1 - SOFA_BACK_DEPTH, y, SOFA_SEAT_Z, SOFA_BACK_DEPTH, y1 - y, SOFA_BACK_HEIGHT, back),
+          ...box(x + 0.2, y + 2.0, SOFA_SEAT_Z, 0.5, 0.6, 0.35, p.rugB),
         ]}
       />
     </SceneObject>
+  );
+}
+
+// The front section of the L, along the rug's front-left edge: seat facing the
+// rug (-y), backrest along its +y side, an armrest at the left end, and the
+// corner where it meets the original section. Bucky lies on the left end,
+// drawn after the seat and before the backrest that stands in front of him.
+export function SofaFront({ p }: { p: ScenePalette }) {
+  const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID["sofa-front"];
+  const back = shade(p.sofa, 0.9);
+  const backY = y1 - SOFA_BACK_DEPTH;
+  return (
+    <>
+      <SceneObject objectKey="tv">
+        <Faces
+          faces={[
+            ...box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa),
+            // Left armrest, then the corner backrest that continues the original section's.
+            ...box(x, y, SOFA_SEAT_Z, 0.3, backY - y, 0.4, p.sofa),
+            ...box(x1 - SOFA_BACK_DEPTH, y, SOFA_SEAT_Z, SOFA_BACK_DEPTH, backY - y, SOFA_BACK_HEIGHT, back),
+          ]}
+        />
+      </SceneObject>
+      <Bucky />
+      <SceneObject objectKey="tv">
+        <Faces faces={box(x, backY, SOFA_SEAT_Z, x1 - x, SOFA_BACK_DEPTH, SOFA_BACK_HEIGHT, back)} />
+      </SceneObject>
+    </>
   );
 }
 

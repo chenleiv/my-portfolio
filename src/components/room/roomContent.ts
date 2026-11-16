@@ -30,7 +30,8 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
   { key: "tv", name: "For fun", title: "For fun", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [3.6, 5.0], label: { x: 4.4, y: 9.4, z: 0.3 } },
+  // Chen stands on the rug in front of his end of the front sofa; the label floats above him.
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [3.7, 7.85], label: { x: 4.44, y: 9.0, z: 1.65 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
@@ -51,20 +52,28 @@ export const HUB: Vec2 = [3.6, 4.2];
 
 export const START: Vec2 = SPOTS.desk;
 
-// Bucky lies along world y on the rug, beside the coffee table on the TV side. RAW is the box his
-// drawing spans at scale 1; Bucky.tsx scales it about its center and moves
-// that center to CENTER.
+// The L-shaped sofa: the original section along the right of the rug, and a
+// front section along the rug's front-left edge that also takes the corner.
+// The front section's seat faces the rug (-y); its backrest is along y = 9.4 to 9.8.
+const SOFA_FRONT: Rect = { x0: 3.4, y0: 8.3, x1: 8.9, y1: 9.8 };
+
+// Bucky lies on the left end of the front section, tail toward the TV and
+// face toward +x, so his face shows on the side the camera sees. RAW is the
+// box his drawing spans at scale 1, drawn along y; Bucky.tsx turns it to lie
+// along x (head at +x), scales it about its center, moves that center to
+// CENTER and lifts it onto the seat.
 export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
-  scale: 1.1,
-  center: [2.74, 6.8],
+  scale: 1.0,
+  center: [5.05, 8.85],
+  lift: 0.8,
 } as const;
 
-function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
-  const hw = ((raw.x1 - raw.x0) * scale) / 2;
-  const hd = ((raw.y1 - raw.y0) * scale) / 2;
-  return { x0: center[0] - hw, y0: center[1] - hd, x1: center[0] + hw, y1: center[1] + hd };
-}
+// Proximity only (the sofa itself blocks): Bucky's end of the front section,
+// and the rest of it, which belongs to the For fun popup. The 0.3 gap between
+// them keeps the two popups apart.
+export const BUCKY_SEAT: Rect = { x0: SOFA_FRONT.x0, y0: SOFA_FRONT.y0, x1: 6.4, y1: SOFA_FRONT.y1 };
+export const SOFA_FRONT_REST: Rect = { x0: 6.7, y0: SOFA_FRONT.y0, x1: SOFA_FRONT.x1, y1: SOFA_FRONT.y1 };
 
 // The living-room rug, long side along world y, in front of the sofa. Floor decoration, not a block.
 export const RUG: Rect = { x0: 2.15, y0: 3.8, x1: 7.4, y1: 9.8 };
@@ -81,8 +90,8 @@ export type SceneItemId =
   | "desk"
   | "chair"
   | "coffee-table"
-  | "bucky"
   | "sofa"
+  | "sofa-front"
   | "plant";
 
 export interface SceneFootprint {
@@ -104,13 +113,14 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   // Runs along the back wall to its end (x = 10), with a landscape and a portrait monitor.
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 10.0, y1: 1.8 } },
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
-  { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
-  // In front of Bucky (larger x), so it is drawn after him.
   { id: "coffee-table", rect: { x0: 4.28, y0: 5.7, x1: 5.28, y1: 7.3 } },
   // On the right edge beside the sofa's back end, against it. Behind the sofa
   // along y and in front of the chair along x, so it is drawn between them.
   { id: "plant", rect: { x0: 9.2, y0: 4.85, x1: 9.65, y1: 5.3 } },
   { id: "sofa", rect: { x0: 7.4, y0: 5.3, x1: 8.9, y1: 8.3 } },
+  // Starts where the first section ends along y, so it is always drawn after it,
+  // and after everything on the rug. Bucky is drawn as part of it.
+  { id: "sofa-front", rect: SOFA_FRONT },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
@@ -159,9 +169,9 @@ export const OBJECT_AREAS: readonly ObjectArea[] = ROOM_OBJECTS.map((o) => {
     case "shelf":
       return { key: o.key, rects: [f.shelf], margin: NEAR_MARGIN };
     case "tv":
-      return { key: o.key, rects: [f.tv, f.sofa], margin: NEAR_MARGIN };
+      return { key: o.key, rects: [f.tv, f.sofa, SOFA_FRONT_REST], margin: NEAR_MARGIN };
     case "bucky":
-      return { key: o.key, rects: [f.bucky], margin: NEAR_MARGIN };
+      return { key: o.key, rects: [BUCKY_SEAT], margin: NEAR_MARGIN };
     case "contact":
       return { key: o.key, rects: [CONTACT_WALL], margin: BOARD_NEAR_MARGIN };
   }

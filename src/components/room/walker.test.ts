@@ -5,9 +5,11 @@ import {
   BLOCKS,
   BODY_RADIUS,
   BOUNDS,
+  BUCKY_SEAT,
   FOOTPRINT_BY_ID,
   HUB,
   OBJECT_AREAS,
+  SOFA_FRONT_REST,
   SPOTS,
   SWITCH_MARGIN,
   WALK_SPEED,
@@ -72,7 +74,7 @@ describe("collision", () => {
   it("blocks points outside the room and inside padded furniture", () => {
     assert.equal(isBlocked(0.2, 5, cfg), true);
     assert.equal(isBlocked(5, 9.9, cfg), true);
-    assert.equal(isBlocked(3.3, 8.0, cfg), true); // coffee table
+    assert.equal(isBlocked(4.8, 6.5, cfg), true); // coffee table
     const table = FOOTPRINT_BY_ID["coffee-table"];
     assert.equal(isBlocked(table.x0 - BODY_RADIUS + 0.01, (table.y0 + table.y1) / 2, cfg), true); // padded edge
   });
@@ -112,7 +114,6 @@ describe("keys and proximity", () => {
     const cases: [ObjectKey, (typeof f)[keyof typeof f]][] = [
       ["tv", f.tv],
       ["tv", f.sofa],
-      ["bucky", f.bucky],
       ["shelf", f.shelf],
       ["desk", f.chair],
     ];
@@ -142,14 +143,12 @@ describe("keys and proximity", () => {
   });
 
   it("keeps the current object until another is clearly closer", () => {
-    // In the passage between the TV cabinet and Bucky.
-    const y = 7.0;
-    const tv = FOOTPRINT_BY_ID.tv;
-    const bucky = FOOTPRINT_BY_ID.bucky;
-    const x = (tv.x1 + bucky.x0) / 2 + 0.03; // Bucky slightly closer, by less than the switch margin
+    // On the rug in front of the gap on the front sofa between Bucky's end and the For fun part.
+    const y = 7.9;
+    const x = (BUCKY_SEAT.x1 + SOFA_FRONT_REST.x0) / 2 - 0.03; // Bucky slightly closer, by less than the switch margin
     assert.equal(nearestObject(x, y, null, cfg), "bucky");
     assert.equal(nearestObject(x, y, "tv", cfg), "tv");
-    assert.equal(nearestObject(bucky.x0 - BODY_RADIUS - 0.05, y, "tv", cfg), "bucky");
+    assert.equal(nearestObject(BUCKY_SEAT.x1 - 0.5, y, "tv", cfg), "bucky");
   });
 });
 
