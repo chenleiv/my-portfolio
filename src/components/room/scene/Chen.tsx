@@ -21,8 +21,8 @@ const c = CHEN;
 const SHADOW: Face[] = [qz(0.02, -0.4, 0.4, -0.3, 0.3, "rgba(0,0,0,.16)")];
 
 const LIMBS: Record<ChenPart, Face[]> = {
-  "leg-left": [...box(-0.22, -0.12, 0, 0.18, 0.22, 0.64, c.jeans), ...box(-0.23, -0.1, 0, 0.2, 0.3, 0.1, c.shoes)],
-  "leg-right": [...box(0.04, -0.12, 0, 0.18, 0.22, 0.64, c.jeans), ...box(0.03, -0.1, 0, 0.2, 0.3, 0.1, c.shoes)],
+  "leg-left": [...box(-0.22, -0.12, 0, 0.18, 0.22, 0.64, c.jeans)],
+  "leg-right": [...box(0.04, -0.12, 0, 0.18, 0.22, 0.64, c.jeans)],
   "arm-left": [...box(-0.4, -0.12, 0.7, 0.12, 0.24, 0.6, c.shirt), ...box(-0.4, -0.12, 0.62, 0.12, 0.24, 0.1, c.skin)],
   "arm-right": [...box(0.28, -0.12, 0.7, 0.12, 0.24, 0.6, c.shirt), ...box(0.28, -0.12, 0.62, 0.12, 0.24, 0.1, c.skin)],
 };
@@ -53,17 +53,37 @@ const HEAD_BACK: Face[] = [
   ...box(0.24, -0.2, 0.95, 0.06, 0.4, 0.95, c.hair),
 ];
 
+// Shoes point the way she faces: toes toward the viewer in the front view, away
+// from it in the back view (only the heel shows behind the leg).
+const SHOE_X: Partial<Record<ChenPart, number>> = { "leg-left": -0.23, "leg-right": 0.03 };
+const shoe = (x: number, front: boolean): Face[] => box(x, front ? -0.1 : -0.26, 0, 0.2, 0.36, 0.1, c.shoes);
+
+// Front of the shirt: a neckline, so the body shows which way she faces too.
+const TORSO_FRONT: Face[] = [qy(0.201, -0.1, 0.1, 1.26, 1.4, c.skin)];
+
 function Limb({ part }: { part: ChenPart }) {
+  const sx = SHOE_X[part];
   return (
     <g data-part={part}>
       <Faces faces={LIMBS[part]} />
+      {sx !== undefined && (
+        <>
+          <g data-view="front">
+            <Faces faces={shoe(sx, true)} />
+          </g>
+          <g data-view="back" display="none">
+            <Faces faces={shoe(sx, false)} />
+          </g>
+        </>
+      )}
     </g>
   );
 }
 
 // Four ways to face: the drawing faces front-left (toward +y). useWalker mirrors
 // the [data-flip] group for the right-hand directions, which swaps world x and y
-// on screen, and shows the back view of the head when she walks away.
+// on screen, and swaps every [data-view] part (head, shoes, neckline) between
+// the front and back views when she walks toward or away from the viewer.
 function ChenFigure({ ref }: { ref: Ref<SVGGElement> }) {
   return (
     <g ref={ref} className="room-chen" aria-hidden="true">
@@ -72,6 +92,9 @@ function ChenFigure({ ref }: { ref: Ref<SVGGElement> }) {
         <Limb part="leg-left" />
         <Limb part="leg-right" />
         <Faces faces={TORSO} />
+        <g data-view="front">
+          <Faces faces={TORSO_FRONT} />
+        </g>
         <Limb part="arm-left" />
         <Limb part="arm-right" />
         <g data-view="front">

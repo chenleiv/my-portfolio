@@ -117,7 +117,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
   const chenElRef = useRef<SVGGElement | null>(null);
   const limbsRef = useRef<Partial<Record<ChenPart, SVGGElement>>>({});
   // The groups that turn Chen, and the facing last applied to them.
-  const viewRef = useRef<{ applied: string; flip?: SVGGElement; front?: SVGGElement; back?: SVGGElement }>({ applied: "" });
+  const viewRef = useRef<{ applied: string; flip?: SVGGElement; front: SVGGElement[]; back: SVGGElement[] }>({ applied: "", front: [], back: [] });
 
   const [slot, setSlot] = useState(() => drawSlot(START[0], START[1], footprints));
   const slotRef = useRef(slot);
@@ -150,8 +150,8 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
       const flip = front ? right : !right;
       if (flip) view.flip.setAttribute("transform", MIRROR);
       else view.flip.removeAttribute("transform");
-      view.front?.setAttribute("display", front ? "inline" : "none");
-      view.back?.setAttribute("display", front ? "none" : "inline");
+      for (const g of view.front) g.setAttribute("display", front ? "inline" : "none");
+      for (const g of view.back) g.setAttribute("display", front ? "none" : "inline");
     }
     callbacksRef.current.onPose?.(chenScreenBox(s.x, s.y));
     const next = drawSlot(s.x, s.y, footprints);
@@ -165,7 +165,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
     (el: SVGGElement | null) => {
       chenElRef.current = el;
       limbsRef.current = {};
-      viewRef.current = { applied: "" };
+      viewRef.current = { applied: "", front: [], back: [] };
       if (!el) return;
       for (const part of CHEN_PARTS) {
         const g = el.querySelector<SVGGElement>(`[data-part="${part}"]`);
@@ -174,8 +174,8 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
       viewRef.current = {
         applied: "",
         flip: el.querySelector<SVGGElement>("[data-flip]") ?? undefined,
-        front: el.querySelector<SVGGElement>('[data-view="front"]') ?? undefined,
-        back: el.querySelector<SVGGElement>('[data-view="back"]') ?? undefined,
+        front: Array.from(el.querySelectorAll<SVGGElement>('[data-view="front"]')),
+        back: Array.from(el.querySelectorAll<SVGGElement>('[data-view="back"]')),
       };
       applyPose();
     },
