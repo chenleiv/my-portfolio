@@ -21,7 +21,7 @@ const HEIGHT: Partial<Record<SceneItemId, number>> = {
   shelf: 3.6,
   lamp: 3.4,
   tv: 2.3,
-  desk: 2.6,
+  desk: 3.3,
   chair: 2.54,
   "coffee-table": 0.67,
   bucky: 0.85,

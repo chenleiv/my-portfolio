@@ -22,16 +22,21 @@ export function Tv({ p }: { p: ScenePalette }) {
 }
 
 export function Desk({ p }: { p: ScenePalette }) {
+  const { x0, y0, x1, y1 } = FOOTPRINT_BY_ID.desk;
   const faces: Face[] = [
-    // Desk top, leg and drawer unit.
-    ...box(5.6, 0.3, 1.4, 3.4, 1.5, 0.2, p.wood),
-    ...box(5.7, 1.5, 0, 0.2, 0.2, 1.4, shade(p.wood, 0.8)),
-    ...box(8.0, 0.4, 0, 0.95, 1.35, 1.4, shade(p.wood, 0.9)),
-    // Monitor and keyboard.
-    ...box(7.2, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
-    ...box(6.6, 0.6, 1.6, 1.6, 0.14, 1.0, p.tv),
-    qy(0.74, 6.7, 8.1, 1.7, 2.5, p.screen),
-    ...box(6.7, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
+    // Desk top running to the end of the back wall, a front leg and a drawer unit at the far end.
+    ...box(x0, y0, 1.4, x1 - x0, y1 - y0, 0.2, p.wood),
+    ...box(x0 + 0.1, y1 - 0.3, 0, 0.2, 0.2, 1.4, shade(p.wood, 0.8)),
+    ...box(9.0, 0.4, 0, 0.95, 1.35, 1.4, shade(p.wood, 0.9)),
+    // Landscape monitor with its keyboard. Its top stays under the window sill.
+    ...box(7.65, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
+    ...box(7.0, 0.6, 1.6, 1.6, 0.14, 1.0, p.tv),
+    qy(0.74, 7.1, 8.5, 1.7, 2.5, p.screen),
+    ...box(7.2, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
+    // Portrait monitor at the far end, right of the window's curtain.
+    ...box(9.35, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
+    ...box(9.15, 0.6, 1.6, 0.7, 0.14, 1.6, p.tv),
+    qy(0.74, 9.22, 9.78, 1.7, 3.1, p.screen),
     // Desk plant.
     ...box(5.9, 0.5, 1.6, 0.3, 0.3, 0.05, p.brass),
     ...box(6.0, 0.6, 1.65, 0.05, 0.05, 0.4, p.brass),
