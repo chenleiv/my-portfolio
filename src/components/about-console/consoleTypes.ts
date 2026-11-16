@@ -27,7 +27,7 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "c1",
     type: "cmd",
-    text: "showProjects() | recruiterMode() | portfolioCode() | cv() | linkedin() | contact() | clear()",
+    text: "showProjects() | recruiterMode() | portfolioCode() | cv() | linkedin() | contact() | security() | clear()",
   },
   {
     id: "hint1",

@@ -3,6 +3,7 @@ import type { ConsoleLine } from "../consoleTypes";
 import { uid } from "../../../utils/uid";
 import { contact } from "../../../content/contact";
 import { PROJECTS } from "../../projects/projectData";
+import { SECURITY_MEASURES } from "../../../content/security";
 
 type Deps = {
   initialLines: ConsoleLine[];
@@ -53,6 +54,27 @@ const projectLines = (): ConsoleLine[] => {
     }
   });
 
+  return lines;
+};
+
+// Real measures from each project's README (see content/security.ts).
+const securityLines = (): ConsoleLine[] => {
+  const lines: ConsoleLine[] = [{ id: uid(), type: "system", text: "🛡️ Security built into my projects" }];
+  PROJECTS.forEach((project) => {
+    const measures = SECURITY_MEASURES[project.label];
+    if (!measures) return;
+    lines.push({ id: uid(), type: "commandsTitle", text: project.header });
+    measures.forEach((m) => lines.push({ id: uid(), type: "desc", text: `• ${m}` }));
+    if (!project.hideGithub) {
+      lines.push({
+        id: uid(),
+        type: "link",
+        text: "💻 Read more in the README",
+        href: project.github,
+        label: toDisplayUrl(project.github),
+      });
+    }
+  });
   return lines;
 };
 
@@ -180,6 +202,11 @@ export function createCommandRunner(deps: Deps) {
 
       case "contact": {
         deps.pushHistory([{ ...echo }, ...contactLines()], raw);
+        break;
+      }
+
+      case "security": {
+        deps.pushHistory([{ ...echo }, ...securityLines()], raw);
         break;
       }
 

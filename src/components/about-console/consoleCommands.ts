@@ -5,7 +5,8 @@ export type CanonicalCommand =
   | "recruiterMode"
   | "portfolioCode"
   | "cv"
-  | "linkedin";
+  | "linkedin"
+  | "security";
 
 export type PaletteItem = {
   id: CanonicalCommand;
@@ -40,6 +41,7 @@ export const PALETTE_ITEMS: PaletteItem[] = [
     label: "Open LinkedIn",
     keywords: ["linkedin", "linkedin()"],
   },
+  { id: "security", label: "Security in my projects", keywords: ["security", "appsec", "csp", "owasp"] },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
 ];
 
@@ -89,6 +91,10 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
     case "match":
     case "skills":
       return "recruiterMode";
+
+    case "security":
+    case "appsec":
+      return "security";
 
     default:
       return null;
