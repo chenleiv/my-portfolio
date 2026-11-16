@@ -142,17 +142,20 @@ function ScriptPages({ x, y }: { x: number; y: number }) {
 
 // Decoration only; the CV now hangs on the contact board. Loose script pages lie on top.
 export function CoffeeTable({ p }: { p: ScenePalette }) {
-  const { x0: x, y0: y } = FOOTPRINT_BY_ID["coffee-table"];
-  const legs: [number, number][] = [[x + 0.05, y + 0.05], [x + 1.25, y + 0.05], [x + 0.05, y + 1.45], [x + 1.25, y + 1.45]];
+  const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID["coffee-table"];
+  const w = x1 - x;
+  const d = y1 - y;
+  const legs: [number, number][] = [[x + 0.05, y + 0.05], [x + w - 0.15, y + 0.05], [x + 0.05, y + d - 0.15], [x + w - 0.15, y + d - 0.15]];
   return (
     <>
       <Faces
         faces={[
-          ...box(x, y, 0.5, 1.4, 1.6, 0.12, p.wood),
+          ...box(x, y, 0.5, w, d, 0.12, p.wood),
           ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
         ]}
       />
-      <ScriptPages x={x + 0.3} y={y + 0.35} />
+      {/* The stack spans x - 0.04 to x + 0.86 and y to y + 1.08, centered on the table. */}
+      <ScriptPages x={x + (w - 0.82) / 2 + 0.04} y={y + (d - 1.08) / 2} />
     </>
   );
 }

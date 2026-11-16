@@ -27,10 +27,10 @@ export interface RoomObject {
 
 // Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
-  { key: "desk", name: "Projects", title: "Projects", spot: [6.3, 3.75], label: { x: 7.2, y: 1.1, z: 2.0 } },
+  { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
-  { key: "tv", name: "Off duty", title: "Off duty", spot: [1.55, 6.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [4.4, 9.3], label: { x: 5.1, y: 7.4, z: 2.6 } },
+  { key: "tv", name: "Off duty", title: "Off duty", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [3.6, 5.0], label: { x: 4.4, y: 9.4, z: 0.3 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
@@ -47,13 +47,13 @@ export const HUB: Vec2 = [3.6, 4.2];
 
 export const START: Vec2 = SPOTS.desk;
 
-// Bucky lies along world y on the middle of the rug. RAW is the box his
+// Bucky lies along world y on the rug, beside the coffee table on the TV side. RAW is the box his
 // drawing spans at scale 1; Bucky.tsx scales it about its center and moves
 // that center to CENTER.
 export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
   scale: 1.1,
-  center: [5.1, 7.4],
+  center: [2.74, 6.8],
 } as const;
 
 function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
@@ -62,8 +62,8 @@ function scaledFootprint({ raw, scale, center }: typeof BUCKY_LAYOUT): Rect {
   return { x0: center[0] - hw, y0: center[1] - hd, x1: center[0] + hw, y1: center[1] + hd };
 }
 
-// The living-room rug, long side along world x. Floor decoration, not a block.
-export const RUG: Rect = { x0: 2.0, y0: 5.3, x1: 9.4, y1: 9.9 };
+// The living-room rug, long side along world y, in front of the sofa. Floor decoration, not a block.
+export const RUG: Rect = { x0: 2.15, y0: 3.8, x1: 7.4, y1: 9.8 };
 
 // Items mounted on a wall: no floor footprint, always behind Chen.
 export type WallItemId = "contact-board" | "window";
@@ -100,12 +100,13 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "tv", rect: { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 } },
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 9.0, y1: 1.8 } },
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
-  { id: "coffee-table", rect: { x0: 2.3, y0: 7.2, x1: 3.7, y1: 8.8 } },
   { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
-  // Food bowl and bone on the rug beside Bucky.
-  { id: "bucky-bowl", rect: { x0: 5.7, y0: 8.4, x1: 6.1, y1: 9.05 } },
-  { id: "sofa", rect: { x0: 7.0, y0: 6.0, x1: 8.5, y1: 9.0 } },
-  { id: "plant", rect: { x0: 9.2, y0: 4.8, x1: 9.65, y1: 5.25 } },
+  // Food bowl and bone on the rug beside Bucky's head.
+  { id: "bucky-bowl", rect: { x0: 3.3, y0: 8.5, x1: 3.7, y1: 9.15 } },
+  // In front of Bucky and the bowl (larger x), so it is drawn after them.
+  { id: "coffee-table", rect: { x0: 4.28, y0: 6.0, x1: 5.28, y1: 7.6 } },
+  { id: "sofa", rect: { x0: 7.4, y0: 5.3, x1: 8.9, y1: 8.3 } },
+  { id: "plant", rect: { x0: 9.2, y0: 3.6, x1: 9.65, y1: 4.05 } },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);

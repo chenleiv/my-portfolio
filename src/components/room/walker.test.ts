@@ -56,8 +56,8 @@ const hold = (k: Partial<HeldKeys>): HeldKeys => ({ ...noKeys(), ...k });
 // Walks the user away from the desk spot and back with the keys, so userMoved is set as in real use.
 function arriveAtDeskByKeys(): WalkerState<ObjectKey> {
   const state = createWalkerState<ObjectKey>(SPOTS.desk);
-  run(state, hold({ up: true }), 1);
-  run(state, hold({ down: true }), 1);
+  run(state, hold({ left: true }), 1);
+  run(state, hold({ right: true }), 1);
   return state;
 }
 
@@ -142,14 +142,14 @@ describe("keys and proximity", () => {
   });
 
   it("keeps the current object until another is clearly closer", () => {
-    // Between Bucky and the sofa, which belongs to the Off duty object.
-    const y = 7.4;
+    // In the passage between the TV cabinet and Bucky.
+    const y = 7.0;
+    const tv = FOOTPRINT_BY_ID.tv;
     const bucky = FOOTPRINT_BY_ID.bucky;
-    const sofa = FOOTPRINT_BY_ID.sofa;
-    const x = (bucky.x1 + sofa.x0) / 2 + 0.03; // sofa slightly closer, by less than the switch margin
-    assert.equal(nearestObject(x, y, null, cfg), "tv");
-    assert.equal(nearestObject(x, y, "bucky", cfg), "bucky");
-    assert.equal(nearestObject(sofa.x0 - BODY_RADIUS - 0.05, y, "bucky", cfg), "tv");
+    const x = (tv.x1 + bucky.x0) / 2 + 0.03; // Bucky slightly closer, by less than the switch margin
+    assert.equal(nearestObject(x, y, null, cfg), "bucky");
+    assert.equal(nearestObject(x, y, "tv", cfg), "tv");
+    assert.equal(nearestObject(bucky.x0 - BODY_RADIUS - 0.05, y, "tv", cfg), "bucky");
   });
 });
 
@@ -168,14 +168,14 @@ describe("auto-open", () => {
     assert.deepEqual(run(state, noKeys(), 2), []);
 
     // A small step that stays next to the desk does not clear the suppression.
-    run(state, hold({ right: true }), 0.1);
+    run(state, hold({ down: true }), 0.1);
     assert.equal(state.near, "desk");
     assert.deepEqual(run(state, noKeys(), 1), []);
 
     // Walk away, then back.
-    run(state, hold({ up: true }), 1);
+    run(state, hold({ left: true }), 1.2);
     assert.equal(state.near, null);
-    run(state, hold({ down: true }), 1);
+    run(state, hold({ right: true }), 1.2);
     assert.equal(state.near, "desk");
     assert.deepEqual(run(state, noKeys(), 1), ["desk"]);
   });
