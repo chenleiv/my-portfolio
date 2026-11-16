@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
 import { ABOUT_LINES, type ConsoleLine } from "./consoleTypes";
@@ -22,10 +22,15 @@ interface InteractiveConsoleProps {
   autoFocus: boolean;
 }
 
+// The platform never changes, so there is nothing to subscribe to. On the
+// server the label falls back to Ctrl+K.
+const noSubscribe = () => () => {};
+const readShortcutLabel = () => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K");
+
 export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
   const isMobile = useIsMobile(768);
   const initialLines = useMemo(() => ABOUT_LINES, []);
-  const shortcutLabel = useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"), []);
+  const shortcutLabel = useSyncExternalStore(noSubscribe, readShortcutLabel, () => "Ctrl+K");
 
   const [history, setHistory] = useState<ConsoleLine[]>(initialLines);
   const [sheetOpen, setSheetOpen] = useState(false);

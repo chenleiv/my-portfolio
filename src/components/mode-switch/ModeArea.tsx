@@ -24,8 +24,8 @@ function TerminalLoading() {
   );
 }
 
-// Loaded only when Terminal is shown (or about to be). Client only: the
-// console reads browser APIs while rendering.
+// Loaded only when Terminal is shown (or about to be). Client only, so its code
+// stays out of the first load and the HTML shows the loading placeholder.
 const TerminalPanel = dynamic(loadTerminal, { ssr: false, loading: TerminalLoading });
 
 // The room's width-to-height ratio, so the terminal can take the same size as the room scene.
