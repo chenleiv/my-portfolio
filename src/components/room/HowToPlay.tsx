@@ -44,17 +44,10 @@ export function HowToPlay({ nearName }: HowToPlayProps) {
         <p className="how-to-play__status-title" aria-hidden="true">
           Status
         </p>
-        {/* Same structure in both states so the panel never changes size:
-            the options keep their space and are hidden while nothing is near.
-            Hidden options are left out of the announcement too. */}
-        <div aria-live="polite" aria-atomic="true">
-          <p className="how-to-play__status-main">{nearName ? `Next to: ${nearName}` : "Walk to an object"}</p>
-          <ul className={`how-to-play__options${nearName ? "" : " how-to-play__options--idle"}`}>
-            <li>Stay a moment</li>
-            <li>Press E</li>
-            <li>Click</li>
-          </ul>
-        </div>
+        {/* Always two lines tall, so the panel never changes size. */}
+        <p className="how-to-play__status-main" aria-live="polite" aria-atomic="true">
+          {nearName ? `Next to: ${nearName}` : "Walk to an object"}
+        </p>
       </div>
     </aside>
   );

@@ -450,8 +450,8 @@ $room-keys: desk, shelf, tv, bucky, contact;
 }
 
 // ─── How to play panel ──────────────────────────────────────────────────────
-// Site tokens only: ink on panel. The pixel font is used for the title, key
-// caps and status; the instruction lines keep the body font for readability.
+// Site tokens only: ink on panel. Everything in the panel uses the pixel font:
+// the title, key caps, the instruction line and the status.
 
 // Compact: title, two rows of key caps, one line of text, then the status block.
 .how-to-play {
@@ -537,9 +537,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
   }
 
+  // Pixel font like the rest of the panel, in sentence case so it stays easy to read.
   &__steps {
-    font-size: 15px;
-    line-height: 1.35;
+    font-family: var(--font-pixel-stack);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.02em;
   }
 
   &__status {
@@ -567,33 +570,5 @@ $room-keys: desk, shelf, tv, bucky, contact;
     font-weight: 700;
     font-size: 16px;
     line-height: 20px;
-  }
-
-  // "Stay a moment · Press E · Click", wrapping onto two lines at most, in a
-  // fixed height so the panel never changes size.
-  &__options {
-    display: flex;
-    flex-wrap: wrap;
-    height: 32px;
-    overflow: hidden;
-    margin-top: 4px;
-    padding: 0;
-    list-style: none;
-    font-size: 12px;
-    line-height: 16px;
-
-    li {
-      white-space: nowrap;
-    }
-
-    li + li::before {
-      content: " · ";
-      white-space: pre;
-    }
-
-    // Nothing near: the options keep their space but are not shown or announced.
-    &--idle {
-      visibility: hidden;
-    }
   }
 }
