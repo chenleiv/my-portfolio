@@ -33,6 +33,8 @@ export function Desk({ p }: { p: ScenePalette }) {
     ...box(7.0, 0.6, 1.6, 1.6, 0.14, 1.0, p.tv),
     qy(0.74, 7.1, 8.5, 1.7, 2.5, p.screen),
     ...box(7.2, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
+    // Mouse to the right of the keyboard.
+    ...box(8.55, 1.05, 1.6, 0.17, 0.23, 0.06, p.tv),
     // Portrait monitor at the far end, right of the window's curtain.
     ...box(9.35, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
     ...box(9.15, 0.6, 1.6, 0.7, 0.14, 1.6, p.tv),
