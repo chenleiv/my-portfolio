@@ -12,7 +12,6 @@ export interface Project {
   readonly skills: readonly string[];
   readonly web?: string;
   readonly github: string;
-  readonly swagger?: string;
   readonly hideWeb?: boolean;
   readonly hideGithub?: boolean;
 }
@@ -62,6 +61,5 @@ export const PROJECTS: readonly Project[] = [
     ],
     web: "https://signalforge-api-ah1q.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
-    swagger: "https://signalforge-api-ah1q.onrender.com/docs",
   },
 ] as const;
