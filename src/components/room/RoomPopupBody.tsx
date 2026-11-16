@@ -80,6 +80,11 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
               <li key={s}>{s}</li>
             ))}
           </ul>
+          {/* Each measure is stated in the InsightDesk README. */}
+          <p>
+            Security built into my projects: a CSP with no inline scripts, HttpOnly session cookies, hardened file
+            uploads with isolated parsing, and CodeQL in CI.
+          </p>
         </>
       );
     case "contact":
