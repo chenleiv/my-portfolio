@@ -1,4 +1,4 @@
-export type ConsoleLineType =
+type ConsoleLineType =
   | "desc"
   | "hint"
   | "commandsTitle"

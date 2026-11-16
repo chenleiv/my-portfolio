@@ -7,7 +7,7 @@ const TOUCH_LAYOUT_QUERY = "(hover: none) and (pointer: coarse), (max-width: 599
 const SIDE_BY_SIDE_QUERY = "(min-width: 1100px) and (not ((hover: none) and (pointer: coarse)))";
 
 // True while the media query matches. The server render assumes false.
-export function useMatchMedia(query: string): boolean {
+function useMatchMedia(query: string): boolean {
   return useSyncExternalStore(
     (onChange) => {
       const mq = window.matchMedia(query);

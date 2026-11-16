@@ -46,14 +46,14 @@ export interface WalkerState<K extends string> {
 
 // Front is toward the viewer (down the screen), back is away from it; left and
 // right are on screen.
-export interface Facing {
+interface Facing {
   readonly front: boolean;
   readonly right: boolean;
 }
 
 // Facing after a step of (dx, dy) in world space. A step straight down or up the
 // screen keeps the left or right side; a step straight across keeps front or back.
-export function facingAfter(prev: Facing, dx: number, dy: number): Facing {
+function facingAfter(prev: Facing, dx: number, dy: number): Facing {
   const sx = dx - dy; // screen x
   const sy = dx + dy; // screen y, positive toward the viewer
   const EPS = 1e-9;
@@ -97,7 +97,7 @@ export function isBlocked<K extends string>(x: number, y: number, cfg: WalkerCon
 }
 
 // Distance from a point to a rectangle; 0 inside it.
-export function distanceToRect(x: number, y: number, r: Rect): number {
+function distanceToRect(x: number, y: number, r: Rect): number {
   const dx = Math.max(r.x0 - x, 0, x - r.x1);
   const dy = Math.max(r.y0 - y, 0, y - r.y1);
   return Math.hypot(dx, dy);
