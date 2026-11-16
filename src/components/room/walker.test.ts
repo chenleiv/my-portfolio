@@ -5,11 +5,9 @@ import {
   BLOCKS,
   BODY_RADIUS,
   BOUNDS,
-  BUCKY_SEAT,
   FOOTPRINT_BY_ID,
   HUB,
   OBJECT_AREAS,
-  SOFA_FRONT_REST,
   SPOTS,
   SWITCH_MARGIN,
   WALK_SPEED,
@@ -143,12 +141,13 @@ describe("keys and proximity", () => {
   });
 
   it("keeps the current object until another is clearly closer", () => {
-    // On the rug in front of the gap on the front sofa between Bucky's end and the For fun part.
+    // On the rug in front of the join between the chaise (Bucky) and the sofa (For fun).
+    // Here the chaise is 0.4 away and the sofa is 7.4 - x away.
     const y = 7.9;
-    const x = (BUCKY_SEAT.x1 + SOFA_FRONT_REST.x0) / 2 - 0.03; // Bucky slightly closer, by less than the switch margin
+    const x = 6.97; // Bucky slightly closer (0.40 vs 0.43), by less than the switch margin
     assert.equal(nearestObject(x, y, null, cfg), "bucky");
     assert.equal(nearestObject(x, y, "tv", cfg), "tv");
-    assert.equal(nearestObject(BUCKY_SEAT.x1 - 0.5, y, "tv", cfg), "bucky");
+    assert.equal(nearestObject(6.5, y, "tv", cfg), "bucky");
   });
 });
 
