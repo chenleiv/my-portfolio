@@ -34,7 +34,7 @@ export const ROOM_OBJECTS: readonly RoomObject[] = [
   // below the chaise's front edge, under Bucky's body and a little left of his
   // center, so it clears the sofa's front end: above him there is no room
   // clear of the TV, the coffee table and Bucky himself.
-  { key: "bucky", name: "Bucky", title: "Bucky", spot: [5.7, 7.85], label: { x: 7.1, y: 10.0, z: -0.75 } },
+  { key: "bucky", name: "Bucky", title: "Bucky", spot: [5.7, 8.35], label: { x: 7.1, y: 10.5, z: -0.75 } },
   { key: "contact", name: "Contact & CV", title: "Get in touch", spot: [2.75, 1.5], label: { x: 2.75, y: 0.0, z: 4.9 } },
 ];
 
@@ -56,12 +56,12 @@ export const HUB: Vec2 = [3.6, 4.2];
 
 export const START: Vec2 = SPOTS.desk;
 
-// The L-shaped sofa: the original section against the right wall, which
-// also holds the corner, and a chaise (no backrest, no armrest) along the
-// rug's front-left edge that meets the sofa's seat side at x = 8.5, at the
-// same seat height, so the two read as one continuous seat.
-const SOFA: Rect = { x0: 8.5, y0: 5.3, x1: 10.0, y1: 9.5 };
-const SOFA_FRONT: Rect = { x0: 5.5, y0: 8.3, x1: SOFA.x0, y1: SOFA.y1 };
+// The L-shaped sofa, against the right wall and the front edge of the floor:
+// the original section, which also holds the corner, and a chaise (no
+// backrest, no armrest) along the front edge that meets the sofa's seat side
+// at x = 8.5, at the same seat height, so the two read as one continuous seat.
+const SOFA: Rect = { x0: 8.5, y0: 5.8, x1: 10.0, y1: 10.0 };
+const SOFA_FRONT: Rect = { x0: 5.5, y0: 8.8, x1: SOFA.x0, y1: SOFA.y1 };
 export const SOFA_SEAT_HEIGHT = 0.8;
 
 // Bucky lies along the chaise, which is about his length, tail toward the TV and
@@ -72,7 +72,7 @@ export const SOFA_SEAT_HEIGHT = 0.8;
 export const BUCKY_LAYOUT = {
   raw: { x0: 4.05, y0: 4.9, x1: 4.85, y1: 7.5 },
   scale: 1.0,
-  center: [6.85, 8.9],
+  center: [6.85, 9.4],
   lift: SOFA_SEAT_HEIGHT,
 } as const;
 
