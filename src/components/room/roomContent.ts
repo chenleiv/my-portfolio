@@ -120,12 +120,12 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
   // In the open middle of the rug inside the L, with a walkway to the chaise and the sofa.
   { id: "coffee-table", rect: { x0: 4.8, y0: 5.0, x1: 5.8, y1: 6.6 } },
-  // On the right edge beside the sofa's back end, against it. Behind the sofa
-  // along y and in front of the chair along x, so it is drawn between them.
-  { id: "plant", rect: { x0: 9.2, y0: 4.85, x1: 9.65, y1: 5.3 } },
   // The chaise ends where the sofa starts along x, so it is drawn before the sofa.
   { id: "sofa-front", rect: SOFA_FRONT },
   { id: "sofa", rect: SOFA },
+  // On the right edge, one step in from the sofa's back end, beside its
+  // backrest. Past the sofa along x, so it is drawn after it.
+  { id: "plant", rect: { x0: 9.2, y0: 5.4, x1: 9.65, y1: 5.85 } },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
