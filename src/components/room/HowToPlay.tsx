@@ -1,7 +1,7 @@
 import { useId } from "react";
 import { OBJECT_BY_KEY, PLACES_ORDER, type ObjectKey } from "./roomContent";
 
-// Key caps are drawn only; the first instruction line says the same in text.
+// Key caps are drawn only; the scene's aria-label names the keys for screen readers.
 function KeyCaps() {
   return (
     <div className="how-to-play__keys" aria-hidden="true">
@@ -69,11 +69,7 @@ export function HowToPlay({ nearName, onOpen }: HowToPlayProps) {
         How to play
       </h2>
       <KeyCaps />
-      <ul className="how-to-play__steps">
-        <li>Walk with the arrow keys or WASD.</li>
-        <li>Stop next to an object and it opens.</li>
-        <li>Or click any object.</li>
-      </ul>
+      <p className="how-to-play__steps">Walk to an object and it opens, or click it.</p>
       <div className="how-to-play__places">
         <p id={placesId} className="how-to-play__places-title">
           Places
