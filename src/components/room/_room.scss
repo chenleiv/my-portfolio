@@ -415,24 +415,25 @@ $room-keys: desk, shelf, tv, bucky, contact;
 // Site tokens only: ink on panel. The pixel font is used for the title, key
 // caps and status; the instruction lines keep the body font for readability.
 
+// Compact: title, two rows of key caps, one line of text, then the status block.
 .how-to-play {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 14px;
-  padding: 16px 18px;
+  gap: 12px;
+  padding: 14px 16px;
   border: 2px solid var(--ink);
   border-radius: 14px;
   background: var(--panel);
   color: var(--ink);
 
-  // Mid-width screens: key caps beside the steps, title and status full width.
+  // Mid-width screens, where the panel sits above the room: title on top,
+  // then key caps, text and status in one row, to keep the panel low.
   @media (min-width: 600px) and (max-width: 1099px) {
-    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-columns: auto minmax(0, 1fr) minmax(200px, 260px);
     align-items: center;
-    column-gap: 24px;
+    column-gap: 20px;
 
-    .how-to-play__title,
-    .how-to-play__status {
+    .how-to-play__title {
       grid-column: 1 / -1;
     }
   }
@@ -449,16 +450,14 @@ $room-keys: desk, shelf, tv, bucky, contact;
     text-transform: uppercase;
   }
 
+  // Two rows of four square keys; the bottom gap leaves room for the shadow.
   &__keys {
-    display: flex;
-    gap: 16px;
-  }
-
-  &__cluster {
     display: grid;
-    grid-template-columns: repeat(3, 30px);
-    grid-template-rows: repeat(2, 30px);
-    gap: 4px;
+    grid-template-columns: repeat(4, 28px);
+    grid-auto-rows: 28px;
+    gap: 6px 5px;
+    justify-content: start;
+    padding-bottom: 2px;
   }
 
   &__key {
@@ -466,15 +465,11 @@ $room-keys: desk, shelf, tv, bucky, contact;
     align-items: center;
     justify-content: center;
     border: 2px solid var(--ink);
-    border-radius: 6px;
+    border-radius: 5px;
     background: var(--bg);
-    box-shadow: 0 3px 0 var(--ink);
+    box-shadow: 0 2px 0 var(--ink);
     color: var(--ink);
-    font: 700 14px / 1 var(--font-pixel-stack);
-
-    &--up {
-      grid-column: 2;
-    }
+    font: 700 13px / 1 var(--font-pixel-stack);
   }
 
   // Arrow heads drawn with borders, so they do not depend on font glyphs.

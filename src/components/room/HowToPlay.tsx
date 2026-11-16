@@ -1,29 +1,24 @@
 import { useId } from "react";
 
-// Key caps are drawn only; the scene's aria-label names the keys for screen readers.
+// Same order in both rows, so each column pairs an arrow with its letter.
+const ARROWS = ["up", "left", "down", "right"] as const;
+const LETTERS = ["W", "A", "S", "D"] as const;
+
+// Key caps are drawn only; the scene's aria-label names the keys for screen
+// readers. Two tight rows: the arrows, then W A S D.
 function KeyCaps() {
   return (
     <div className="how-to-play__keys" aria-hidden="true">
-      <div className="how-to-play__cluster">
-        <kbd className="how-to-play__key how-to-play__key--up">
-          <span className="how-to-play__arrow how-to-play__arrow--up" />
+      {ARROWS.map((dir) => (
+        <kbd key={dir} className="how-to-play__key">
+          <span className={`how-to-play__arrow how-to-play__arrow--${dir}`} />
         </kbd>
-        <kbd className="how-to-play__key">
-          <span className="how-to-play__arrow how-to-play__arrow--left" />
+      ))}
+      {LETTERS.map((letter) => (
+        <kbd key={letter} className="how-to-play__key">
+          {letter}
         </kbd>
-        <kbd className="how-to-play__key">
-          <span className="how-to-play__arrow how-to-play__arrow--down" />
-        </kbd>
-        <kbd className="how-to-play__key">
-          <span className="how-to-play__arrow how-to-play__arrow--right" />
-        </kbd>
-      </div>
-      <div className="how-to-play__cluster">
-        <kbd className="how-to-play__key how-to-play__key--up">W</kbd>
-        <kbd className="how-to-play__key">A</kbd>
-        <kbd className="how-to-play__key">S</kbd>
-        <kbd className="how-to-play__key">D</kbd>
-      </div>
+      ))}
     </div>
   );
 }
