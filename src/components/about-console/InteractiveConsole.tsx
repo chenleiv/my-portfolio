@@ -21,11 +21,9 @@ interface InteractiveConsoleProps {
   // Focus the input when the console appears. Off on touch devices, so no
   // on-screen keyboard opens by itself.
   autoFocus: boolean;
-  // home(): back to the room on the same page.
-  onHome: () => void;
 }
 
-export const InteractiveConsole = ({ autoFocus, onHome }: InteractiveConsoleProps) => {
+export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
   const isMobile = useIsMobile(768);
   const initialLines = useMemo(() => ABOUT_LINES, []);
   const shortcutLabel = useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"), []);
@@ -88,7 +86,6 @@ export const InteractiveConsole = ({ autoFocus, onHome }: InteractiveConsoleProp
 
         scrollToConsoleTop,
 
-        goHome: onHome,
       });
 
       runCommand(rawCmd);
@@ -98,7 +95,6 @@ export const InteractiveConsole = ({ autoFocus, onHome }: InteractiveConsoleProp
       ac.setInput,
       cmdHistory.pushCommand,
       initialLines,
-      onHome,
       pushHistory,
       scrollToConsoleTop,
     ],

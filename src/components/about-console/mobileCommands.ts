@@ -56,11 +56,4 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
     group: "Actions",
     keywords: ["reset"],
   },
-  {
-    id: "home",
-    label: "Back to the room",
-    hint: "Show the room again",
-    group: "Links",
-    keywords: ["home", "back", "exit"],
-  },
 ];

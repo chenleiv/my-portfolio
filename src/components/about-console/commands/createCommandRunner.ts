@@ -15,9 +15,6 @@ type Deps = {
   setCommandHistoryRaw: (rawCmd: string) => void;
 
   scrollToConsoleTop: () => void;
-
-  // Back to the room on the same page.
-  goHome: () => void;
 };
 
 // "https://example.com/path/" -> "example.com/path"
@@ -195,18 +192,6 @@ export function createCommandRunner(deps: Deps) {
           raw,
         );
         window.openSkillMatcher?.();
-        break;
-      }
-
-      case "home": {
-        deps.pushHistory(
-          [
-            { ...echo },
-            { id: uid(), type: "system", text: "↩ Back to the room…" },
-          ],
-          raw,
-        );
-        deps.goHome();
         break;
       }
 

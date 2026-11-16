@@ -63,15 +63,6 @@ export default function ModeArea() {
     switchRef.current?.querySelector<HTMLElement>(`[data-mode="${m}"]`)?.focus({ preventScroll: true });
   }, []);
 
-  // home() in the console: back to the room, focus on the Play link.
-  const goHome = useCallback(() => {
-    select("play");
-    requestAnimationFrame(() => {
-      focusModeLink("play");
-      switchRef.current?.scrollIntoView({ block: "nearest", behavior: "smooth" });
-    });
-  }, [select, focusModeLink]);
-
   // While Play shows, remember the room area's height for the terminal.
   useEffect(() => {
     if (mode !== "play") return;
@@ -96,7 +87,7 @@ export default function ModeArea() {
     return () => window.removeEventListener("resize", onResize);
   }, [mode, lock]);
 
-  // After a mode change (click, home() or Back / Forward): title, announcement,
+  // After a mode change (click or Back / Forward): title, announcement,
   // and focus back on the switch if it was lost with the content that unmounted.
   useEffect(() => {
     if (prevModeRef.current === mode) return;
@@ -119,7 +110,7 @@ export default function ModeArea() {
         className={`mode-area mode-area--${mode}${locked ? " mode-area--locked" : ""}`}
         style={locked ? { height: lock.height } : undefined}
       >
-        {mode === "play" ? <Room /> : <TerminalPanel autoFocus={!touch} onHome={goHome} />}
+        {mode === "play" ? <Room /> : <TerminalPanel autoFocus={!touch} />}
       </div>
     </>
   );
