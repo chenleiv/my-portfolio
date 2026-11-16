@@ -1,9 +1,6 @@
-import { profile } from "../../content/profile";
-
 export type ConsoleLineType =
   | "desc"
   | "hint"
-  | "recruiterMode"
   | "commandsTitle"
   | "cmd"
   | "input"
@@ -23,15 +20,9 @@ export type ConsoleLine = {
   download?: string;
 };
 
-// The console sits under the hero, so it starts at the stack line instead of
-// repeating the name, title, tagline and intro.
+// The console sits under the hero, so it starts at the command list instead of
+// repeating the name, title, tagline, intro and stack.
 export const ABOUT_LINES: ConsoleLine[] = [
-  {
-    id: "s1",
-    type: "recruiterMode",
-    text: profile.stack,
-  },
-
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
   {
     id: "c1",

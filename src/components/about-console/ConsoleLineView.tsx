@@ -76,8 +76,6 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
             return <div className="console-hint">{line.text}</div>;
         case "desc":
             return <div className="console-desc">{line.text}</div>;
-        case "recruiterMode":
-            return <div className="console-skills">{line.text}</div>;
         case "commandsTitle":
             return <div className="console-commands-title">{line.text}</div>;
         case "cmd":
