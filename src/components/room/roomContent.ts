@@ -54,7 +54,9 @@ export const SPOTS: Readonly<Record<ObjectKey, Vec2>> = Object.fromEntries(
 // Clicked walks go through this open floor point so they never cut through furniture.
 export const HUB: Vec2 = [3.6, 4.2];
 
-export const START: Vec2 = SPOTS.desk;
+// Chen starts on the rug left of the coffee table: in plain view, and next to
+// no object, so nothing opens until she walks to something.
+export const START: Vec2 = [3.4, 5.8];
 
 // The L-shaped sofa: the original section along the right of the rug, which
 // also holds the corner, and a chaise (no backrest, no armrest) along the
