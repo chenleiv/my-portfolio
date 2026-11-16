@@ -6,7 +6,7 @@ import {
     useState,
     type MouseEvent,
 } from "react";
-import { SKILL_GROUPS, SkillGroup } from "./skillsData";
+import { Skills } from "./Skills";
 
 type Props = {
     exposeGlobalOpener?: boolean;
@@ -113,27 +113,7 @@ export default function SkillsMatcher({
                                 tabIndex={0}
                             >
                                 <div className="skills-section-container" id="skills">
-                                    <div className="skills-groups-container">
-                                        {SKILL_GROUPS.map((group: SkillGroup) => (
-                                            <div
-                                                key={group.id}
-                                                className="skills-group"
-                                                data-group-id={group.id}
-                                            >
-                                                <h3 className="skills-group__title">
-                                                    <span className="skills-group__icon">{group.icon}</span>
-                                                    {group.title}
-                                                </h3>
-                                                <div className="skills-list">
-                                                    {group.skills.map((skill: string) => (
-                                                        <span key={skill} className="skill-item">
-                                                            {skill}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                    <Skills variant="groups" />
                                 </div>
                             </div>
                         </motion.div>

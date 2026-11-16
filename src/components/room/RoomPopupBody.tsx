@@ -1,6 +1,6 @@
 import { contact } from "../../content/contact";
 import { PROJECTS } from "../projects/projectData";
-import { SKILL_GROUPS } from "../skills/skillsData";
+import { Skills } from "../skills/Skills";
 import { BUCKY_TEXT, CONTACT_TEXT, FOR_FUN_TEXT } from "../../content/room";
 import type { ObjectKey } from "./roomContent";
 
@@ -14,22 +14,6 @@ interface PopupLink {
 
 const LINKEDIN: PopupLink = { label: "LinkedIn", href: contact.linkedin, external: true };
 const GITHUB: PopupLink = { label: "GitHub", href: contact.github, external: true };
-
-// Chips shown in the Skills popup, picked by name from skillsData.ts.
-const SKILL_CHIPS = [
-  "TypeScript",
-  "React",
-  "Angular",
-  "Next.js",
-  "SCSS",
-  "Node.js",
-  "MongoDB",
-  "RAG/LLM apps",
-  "Application Security",
-  "OWASP Top 10",
-];
-const ALL_SKILLS = new Set(SKILL_GROUPS.flatMap((g) => g.skills));
-const SKILLS = SKILL_CHIPS.filter((s) => ALL_SKILLS.has(s));
 
 function Links({ links }: { links: readonly PopupLink[] }) {
   return (
@@ -73,21 +57,7 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
     case "desk":
       return <ProjectsBody />;
     case "shelf":
-      return (
-        <>
-          <p>Angular, React and TypeScript, plus application security.</p>
-          <ul className="room-dialog__chips">
-            {SKILLS.map((s) => (
-              <li key={s}>{s}</li>
-            ))}
-          </ul>
-          {/* Each measure is stated in the InsightDesk README. */}
-          <p>
-            Security built into my projects: a CSP with no inline scripts, HttpOnly session cookies, hardened file
-            uploads with isolated parsing, and CodeQL in CI.
-          </p>
-        </>
-      );
+      return <Skills variant="chips" chipsClassName="room-dialog__chips" />;
     case "contact":
       return (
         <>
