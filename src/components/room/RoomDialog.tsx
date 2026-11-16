@@ -75,7 +75,7 @@ export function RoomDialog({ openKey, onClose, onClosed }: RoomDialogProps) {
       onKeyDown={handleKeyDown}
     >
       {object && (
-        <div className="room-dialog__card">
+        <div className={`room-dialog__card${openKey === "shelf" ? " room-dialog__card--wide" : ""}`}>
           <button ref={closeRef} type="button" className="room-dialog__close" aria-label="Close" onClick={onClose}>
             ×
           </button>

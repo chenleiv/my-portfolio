@@ -113,7 +113,7 @@ export default function SkillsMatcher({
                                 tabIndex={0}
                             >
                                 <div className="skills-section-container" id="skills">
-                                    <Skills variant="groups" />
+                                    <Skills />
                                 </div>
                             </div>
                         </motion.div>

@@ -387,20 +387,22 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
   }
 
-  &__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 16px;
-    padding: 0;
-    list-style: none;
+  // Skills popup only: as wide as the skills() modal, and its own width (not
+  // the viewport) decides the columns: two from 600px, one below.
+  &__card--wide {
+    max-width: 820px;
+    container-type: inline-size;
+  }
 
-    li {
-      padding: 4px 14px;
-      border: 2px solid var(--ink);
-      border-radius: 999px;
-      font-size: 15px;
-      font-weight: 600;
+  &__skills {
+    margin-top: 16px;
+
+    .skills-groups-container {
+      grid-template-columns: minmax(0, 1fr);
+
+      @container (min-width: 600px) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
     }
   }
 }

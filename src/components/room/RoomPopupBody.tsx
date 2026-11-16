@@ -57,7 +57,11 @@ export function RoomPopupBody({ objectKey }: { objectKey: ObjectKey }) {
     case "desk":
       return <ProjectsBody />;
     case "shelf":
-      return <Skills variant="chips" chipsClassName="room-dialog__chips" />;
+      return (
+        <div className="room-dialog__skills">
+          <Skills />
+        </div>
+      );
     case "contact":
       return (
         <>
