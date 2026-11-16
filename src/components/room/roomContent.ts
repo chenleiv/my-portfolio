@@ -115,6 +115,9 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "shelf", rect: { x0: 0, y0: 2.2, x1: 0.9, y1: 5.2 } },
   { id: "lamp", rect: { x0: 0.2, y0: 5.35, x1: 0.6, y1: 5.75 } },
   { id: "tv", rect: { x0: 0, y0: 6.2, x1: 1.2, y1: 9.2 } },
+  // Next to the TV, just past the cabinet's front end, clear of the PS5 and of
+  // the spot where Chen stands at the TV's front. Drawn after the TV.
+  { id: "plant", rect: { x0: 1.1, y0: 9.4, x1: 1.55, y1: 9.85 } },
   // Runs along the back wall to its end (x = 10), with a landscape and a portrait monitor.
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 10.0, y1: 1.8 } },
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
@@ -123,9 +126,6 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   // The chaise ends where the sofa starts along x, so it is drawn before the sofa.
   { id: "sofa-front", rect: SOFA_FRONT },
   { id: "sofa", rect: SOFA },
-  // In line with the sofa, at its front end, on the floor before the front edge.
-  // In front of the sofa and the chaise along y, so it is drawn after them.
-  { id: "plant", rect: { x0: 8.45, y0: 9.5, x1: 8.9, y1: 9.95 } },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
