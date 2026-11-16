@@ -123,7 +123,9 @@ $room-keys: desk, shelf, tv, bucky, contact;
       grid-template-columns: 240px minmax(0, 1fr);
       column-gap: 28px;
 
-      grid-template-rows: auto 1fr;
+      // The second row may shrink below its content, so the column is never
+      // taller than the room; the Places buttons share whatever height is left.
+      grid-template-rows: auto minmax(0, 1fr);
       row-gap: 24px;
 
       .how-to-play {
@@ -140,7 +142,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
       }
 
       // Fills the rest of the column, so the last button lines up with the room's
-      // bottom edge. Spare height goes into the buttons (38px to 52px each);
+      // bottom edge. The buttons share the height left (32px to 52px each);
       // only beyond that does it open up between the panel and the heading.
       .room-places {
         grid-column: 1;
@@ -150,6 +152,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
         flex-direction: column;
         justify-content: flex-end;
         width: 100%;
+        min-height: 0;
 
         .room-places__list {
           flex: 1 1 auto;
@@ -158,16 +161,18 @@ $room-keys: desk, shelf, tv, bucky, contact;
           justify-content: flex-end;
           gap: 10px;
           margin-top: 12px;
+          min-height: 0;
 
           li {
-            flex: 1 1 38px;
+            flex: 1 1 0;
+            min-height: 32px;
             max-height: 52px;
             display: flex;
           }
         }
 
         .room-places__button {
-          min-height: 38px;
+          min-height: 0;
           height: 100%;
         }
       }
