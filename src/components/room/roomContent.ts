@@ -188,5 +188,5 @@ export const WALK_SPEED = 2.6;
 // How long Chen must stand still next to an object before its popup opens.
 export const AUTO_OPEN_DWELL_SECONDS = 0.2;
 
-export const OFF_DUTY_TEXT = "Off the clock: TV, PS5, tech and pets.";
+export const OFF_DUTY_TEXT = "Things I love: music, TV shows, PS5, tech and innovation, and pets.";
 export const BUCKY_TEXT = "Waiting for a snack.";
