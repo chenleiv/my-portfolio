@@ -123,9 +123,9 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   // The chaise ends where the sofa starts along x, so it is drawn before the sofa.
   { id: "sofa-front", rect: SOFA_FRONT },
   { id: "sofa", rect: SOFA },
-  // On the right edge, one step in from the sofa's back end, beside its
-  // backrest. Past the sofa along x, so it is drawn after it.
-  { id: "plant", rect: { x0: 9.2, y0: 5.4, x1: 9.65, y1: 5.85 } },
+  // In line with the sofa, at its front end, on the floor before the front edge.
+  // In front of the sofa and the chaise along y, so it is drawn after them.
+  { id: "plant", rect: { x0: 8.45, y0: 9.5, x1: 8.9, y1: 9.95 } },
 ];
 
 export const FOOTPRINT_RECTS: readonly (Rect | null)[] = SCENE_FOOTPRINTS.map((f) => f.rect);
