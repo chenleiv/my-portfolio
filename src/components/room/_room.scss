@@ -146,36 +146,22 @@ $room-keys: desk, shelf, tv, bucky, contact;
         align-self: start;
       }
 
-      // Fills the rest of the column, so the last button lines up with the room's
-      // bottom edge. Spare height goes into the buttons (38px to 52px each);
-      // only beyond that does it open up between the panel and the heading.
+      // At the bottom of the column, so the last button lines up with the room's
+      // bottom edge; any spare height opens up between the panel and the heading.
       .room-places {
         grid-column: 1;
         grid-row: 2;
-        align-self: stretch;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
+        align-self: end;
         width: 100%;
 
         .room-places__list {
-          flex: 1 1 auto;
           flex-direction: column;
-          flex-wrap: nowrap;
-          justify-content: flex-end;
           gap: 10px;
           margin-top: 12px;
-
-          li {
-            flex: 1 1 38px;
-            max-height: 52px;
-            display: flex;
-          }
         }
 
         .room-places__button {
           min-height: 38px;
-          height: 100%;
         }
       }
     }
