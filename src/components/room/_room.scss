@@ -124,7 +124,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
       column-gap: 28px;
 
       grid-template-rows: auto 1fr;
-      row-gap: 20px;
+      row-gap: 16px;
 
       .how-to-play {
         grid-column: 1;
@@ -132,11 +132,14 @@ $room-keys: desk, shelf, tv, bucky, contact;
         align-self: start;
       }
 
+      // Top-aligned, so its top edge lines up with the panel's.
       .room__scene {
         grid-column: 2;
         grid-row: 1 / span 2;
+        align-self: start;
       }
 
+      // Compact here, so the left column is about as tall as the room.
       .room-places {
         grid-column: 1;
         grid-row: 2;
@@ -145,6 +148,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
 
         .room-places__list {
           flex-direction: column;
+          gap: 6px;
+          margin-top: 8px;
+        }
+
+        .room-places__button {
+          min-height: 38px;
         }
       }
     }
@@ -448,8 +457,8 @@ $room-keys: desk, shelf, tv, bucky, contact;
 .how-to-play {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 12px;
-  padding: 14px 16px;
+  gap: 10px;
+  padding: 12px 14px;
   border: 2px solid var(--ink);
   border-radius: 14px;
   background: var(--panel);
@@ -560,18 +569,26 @@ $room-keys: desk, shelf, tv, bucky, contact;
     line-height: 20px;
   }
 
+  // "Stay a moment · Press E · Click", wrapping onto two lines at most, in a
+  // fixed height so the panel never changes size.
   &__options {
-    display: grid;
-    gap: 2px;
-    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    height: 32px;
+    overflow: hidden;
+    margin-top: 4px;
     padding: 0;
     list-style: none;
-    font-size: 14px;
-    line-height: 18px;
-    white-space: nowrap;
+    font-size: 12px;
+    line-height: 16px;
 
-    li::before {
-      content: "› ";
+    li {
+      white-space: nowrap;
+    }
+
+    li + li::before {
+      content: " · ";
+      white-space: pre;
     }
 
     // Nothing near: the options keep their space but are not shown or announced.
