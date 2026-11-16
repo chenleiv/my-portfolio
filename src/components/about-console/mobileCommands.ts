@@ -15,13 +15,6 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
     keywords: ["projects"],
   },
   {
-    id: "security",
-    label: "Security",
-    hint: "Security built into my projects",
-    group: "Actions",
-    keywords: ["security", "appsec"],
-  },
-  {
     id: "portfolioCode",
     label: "Portfolio Code",
     hint: "GitHub repo",
