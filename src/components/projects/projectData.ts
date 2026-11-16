@@ -60,7 +60,7 @@ export const PROJECTS: readonly Project[] = [
       "FastAPI",
       "Groq",
     ],
-    web: "https://signal-forge-tane.onrender.com/",
+    web: "https://signalforge-api-ah1q.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
     swagger: "https://signalforge-api-ah1q.onrender.com/docs",
   },
