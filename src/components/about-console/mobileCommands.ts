@@ -58,8 +58,8 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
   },
   {
     id: "home",
-    label: "Back to site",
-    hint: "Go to the home page",
+    label: "Back to the room",
+    hint: "Show the room again",
     group: "Links",
     keywords: ["home", "back", "exit"],
   },

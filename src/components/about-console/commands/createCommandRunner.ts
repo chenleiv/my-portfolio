@@ -202,7 +202,7 @@ export function createCommandRunner(deps: Deps) {
         deps.pushHistory(
           [
             { ...echo },
-            { id: uid(), type: "system", text: "↩ Back to site…" },
+            { id: uid(), type: "system", text: "↩ Back to the room…" },
           ],
           raw,
         );

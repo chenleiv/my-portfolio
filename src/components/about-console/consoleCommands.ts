@@ -42,7 +42,7 @@ export const PALETTE_ITEMS: PaletteItem[] = [
     keywords: ["linkedin", "linkedin()"],
   },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
-  { id: "home", label: "Back to site", keywords: ["home", "back", "exit", "site"] },
+  { id: "home", label: "Back to the room", keywords: ["home", "back", "exit", "room", "play"] },
 ];
 
 export const normalizeCommand = (raw: string): CanonicalCommand | null => {
