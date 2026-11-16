@@ -67,6 +67,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Chen Leiv | Frontend Engineer',
     description: SITE_DESCRIPTION,
+    // Canonical page URL, resolved against metadataBase.
+    url: '/',
     siteName: 'Chen Leiv Portfolio',
     images: [{ url: '/assets/og/og-image.png', width: 1200, height: 630, alt: 'Chen Leiv — Frontend Engineer' }],
     locale: 'en_US',
