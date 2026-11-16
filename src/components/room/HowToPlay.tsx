@@ -31,6 +31,27 @@ function KeyCaps() {
   );
 }
 
+interface PlacesListProps {
+  labelledBy: string;
+  onOpen: (key: ObjectKey, trigger: HTMLElement) => void;
+  className?: string;
+}
+
+// One button per place. Used in the panel and, on touch screens, under the room.
+export function PlacesList({ labelledBy, onOpen, className }: PlacesListProps) {
+  return (
+    <ul className={`how-to-play__places-list${className ? ` ${className}` : ""}`} aria-labelledby={labelledBy}>
+      {PLACES_ORDER.map((key) => (
+        <li key={key}>
+          <button type="button" className="how-to-play__place" onClick={(e) => onOpen(key, e.currentTarget)}>
+            {OBJECT_BY_KEY[key].name}
+          </button>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 interface HowToPlayProps {
   nearName: string | null;
   // Opens an object as if it were clicked; focus returns to the button afterwards.
@@ -59,15 +80,7 @@ export function HowToPlay({ nearName, onOpen }: HowToPlayProps) {
         <p id={placesId} className="how-to-play__places-title">
           Places
         </p>
-        <ul className="how-to-play__places-list" aria-labelledby={placesId}>
-          {PLACES_ORDER.map((key) => (
-            <li key={key}>
-              <button type="button" className="how-to-play__place" onClick={(e) => onOpen(key, e.currentTarget)}>
-                {OBJECT_BY_KEY[key].name}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <PlacesList labelledBy={placesId} onOpen={onOpen} />
       </div>
       <div className="how-to-play__status">
         <p className="how-to-play__status-title" aria-hidden="true">

@@ -1,6 +1,8 @@
 // Interactive room. Scene colors come from palettes.ts; everything here uses
 // the site tokens. The accent is only ever a background under --on-accent text.
 
+@use "../../styles/media" as *;
+
 $room-keys: desk, shelf, tv, bucky, contact;
 
 .room {
@@ -111,6 +113,48 @@ $room-keys: desk, shelf, tv, bucky, contact;
     @media (min-width: 1100px) {
       grid-template-columns: 240px minmax(0, 1fr);
       gap: 28px;
+    }
+  }
+
+  // Places under the room, shown only on touch screens (see below).
+  &__tap {
+    display: none;
+    margin-top: 20px;
+  }
+
+  &__tap-title {
+    font: 700 18px / 24px var(--font-pixel-stack);
+    letter-spacing: 0.03em;
+  }
+
+  &__tap-list.how-to-play__places-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 10px;
+
+    .how-to-play__place {
+      height: auto;
+      min-height: 52px;
+    }
+  }
+}
+
+// Phones and touch devices: no keyboard instructions. The How to play panel
+// (key caps, steps, status, terminal card) is hidden; the room comes first,
+// then the Places buttons under it. The mode switch is the only Terminal entry.
+@include touch-layout {
+  // Scoped to .room so it beats the panel's own display rule further down.
+  .room .how-to-play {
+    display: none;
+  }
+
+  .room__tap {
+    display: block;
+  }
+
+  .room__layout {
+    @media (min-width: 1100px) {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 }

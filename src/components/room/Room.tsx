@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type KeyboardEvent, type MouseEvent, type PointerEvent, type ReactNode } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { toViewPercent, VIEW_BOX } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
@@ -15,7 +15,7 @@ import { WallPictures } from "./scene/WallPictures";
 import { Window } from "./scene/Window";
 import { ContactBoard } from "./scene/ContactBoard";
 import { bubbleState } from "./bubbles";
-import { HowToPlay } from "./HowToPlay";
+import { HowToPlay, PlacesList } from "./HowToPlay";
 import { useWalker, type ScreenBox } from "./useWalker";
 
 const RENDER: Readonly<Record<SceneItemId, (p: ScenePalette) => ReactNode>> = {
@@ -76,6 +76,7 @@ export default function Room() {
   const [hoverKey, setHoverKey] = useState<ObjectKey | null>(null);
   const [revealing, setRevealing] = useState(false);
   const touch = useNoHover();
+  const tapTitleId = useId();
   // Control that opened the popup; null means the scene itself.
   const returnFocusRef = useRef<HTMLElement | null>(null);
   const stageRef = useRef<HTMLDivElement>(null);
@@ -250,6 +251,15 @@ export default function Room() {
             })}
           </div>
         </div>
+      </div>
+
+      {/* Touch screens: CSS hides the How to play panel and shows this list
+          under the room instead, so only one Places list is ever in use. */}
+      <div className="room__tap">
+        <h2 id={tapTitleId} className="room__tap-title">
+          Tap the place you want to visit
+        </h2>
+        <PlacesList labelledBy={tapTitleId} onOpen={openObject} className="room__tap-list" />
       </div>
 
       <RoomDialog openKey={openKey} onClose={closeDialog} onClosed={restoreFocus} />
