@@ -132,14 +132,15 @@ function reachable(): [number, number][] {
 const onRug = ([x, y]: [number, number]) => x >= RUG.x0 && x <= RUG.x1 && y >= RUG.y0 && y <= RUG.y1;
 
 describe("the L-shaped sofa", () => {
-  const points = reachable().filter(onRug);
+  const floor = reachable();
+  const points = floor.filter(onRug);
 
   it("lets Chen reach Bucky from the rug", () => {
     assert.ok(points.some(([x, y]) => nearestObject(x, y, null, cfg) === "bucky"));
   });
 
-  it("lets Chen reach the For fun sofa from the rug", () => {
-    assert.ok(points.some(([x, y]) => nearestObject(x, y, null, cfg) === "tv"));
+  it("lets Chen reach the TV", () => {
+    assert.ok(floor.some(([x, y]) => nearestObject(x, y, null, cfg) === "tv"));
   });
 
   it("puts Bucky's spot on reachable rug floor", () => {

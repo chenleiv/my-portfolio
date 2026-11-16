@@ -111,7 +111,6 @@ describe("keys and proximity", () => {
     const f = FOOTPRINT_BY_ID;
     const cases: [ObjectKey, (typeof f)[keyof typeof f]][] = [
       ["tv", f.tv],
-      ["tv", f.sofa],
       ["shelf", f.shelf],
       ["desk", f.chair],
     ];
@@ -141,13 +140,12 @@ describe("keys and proximity", () => {
   });
 
   it("keeps the current object until another is clearly closer", () => {
-    // On the rug in front of the join between the chaise (Bucky) and the sofa (For fun).
-    // Here the chaise is 0.4 away and the sofa is 7.4 - x away.
-    const y = 7.9;
-    const x = 6.97; // Bucky slightly closer (0.40 vs 0.43), by less than the switch margin
-    assert.equal(nearestObject(x, y, null, cfg), "bucky");
-    assert.equal(nearestObject(x, y, "tv", cfg), "tv");
-    assert.equal(nearestObject(6.5, y, "tv", cfg), "bucky");
+    // In the passage between the Skills shelf and the TV cabinet.
+    const x = 1.3;
+    const y = 5.7; // TV slightly closer (0.51 vs 0.64), by less than the switch margin
+    assert.equal(nearestObject(x, y, null, cfg), "tv");
+    assert.equal(nearestObject(x, y, "shelf", cfg), "shelf");
+    assert.equal(nearestObject(x, 5.76, "shelf", cfg), "tv"); // TV clearly closer (0.45 vs 0.69)
   });
 });
 

@@ -75,9 +75,8 @@ export const BUCKY_LAYOUT = {
   lift: SOFA_SEAT_HEIGHT,
 } as const;
 
-// Proximity only (the chaise itself blocks): the whole chaise is Bucky's. It
-// meets the sofa, which belongs to the For fun popup, at x = 7.4; the switch
-// margin keeps the two popups from fighting there.
+// Proximity only (the chaise itself blocks): the whole chaise is Bucky's. The
+// sofa it meets is decoration only; For fun belongs to the TV alone.
 export const BUCKY_SEAT: Rect = SOFA_FRONT;
 
 // The living-room rug, long side along world y, in front of the sofa. Floor decoration, not a block.
@@ -174,7 +173,7 @@ export const OBJECT_AREAS: readonly ObjectArea[] = ROOM_OBJECTS.map((o) => {
     case "shelf":
       return { key: o.key, rects: [f.shelf], margin: NEAR_MARGIN };
     case "tv":
-      return { key: o.key, rects: [f.tv, f.sofa], margin: NEAR_MARGIN };
+      return { key: o.key, rects: [f.tv], margin: NEAR_MARGIN };
     case "bucky":
       return { key: o.key, rects: [BUCKY_SEAT], margin: NEAR_MARGIN };
     case "contact":

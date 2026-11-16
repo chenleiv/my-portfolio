@@ -193,31 +193,31 @@ const SOFA_BACK_HEIGHT = 0.9;
 // The original section of the L, which also holds the corner: seat facing the
 // TV (-x), backrest along its whole +x side, an armrest at the back end. The
 // chaise meets its seat side near the front end, at the same seat height.
+// Decoration only: not clickable, and it opens no popup.
 export function Sofa({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID.sofa;
   const back = shade(p.sofa, 0.9);
   return (
-    <SceneObject objectKey="tv">
-      <Faces
-        faces={[
-          ...box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa),
-          ...box(x, y, SOFA_SEAT_Z, 1.1, 0.3, 0.4, p.sofa),
-          ...box(x1 - SOFA_BACK_DEPTH, y, SOFA_SEAT_Z, SOFA_BACK_DEPTH, y1 - y, SOFA_BACK_HEIGHT, back),
-          ...box(x + 0.2, y + 2.0, SOFA_SEAT_Z, 0.5, 0.6, 0.35, p.rugB),
-        ]}
-      />
-    </SceneObject>
+    <Faces
+      faces={[
+        ...box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa),
+        ...box(x, y, SOFA_SEAT_Z, 1.1, 0.3, 0.4, p.sofa),
+        ...box(x1 - SOFA_BACK_DEPTH, y, SOFA_SEAT_Z, SOFA_BACK_DEPTH, y1 - y, SOFA_BACK_HEIGHT, back),
+        ...box(x + 0.2, y + 2.0, SOFA_SEAT_Z, 0.5, 0.6, 0.35, p.rugB),
+      ]}
+    />
   );
 }
 
 // The front part of the L: a chaise along the rug's front-left edge, one block
 // at the sofa's seat height and color, with no backrest or armrest, so it
-// continues the sofa seat. Bucky lies on its left end, fully in view.
+// continues the sofa seat. Bucky lies on its left end, fully in view. The
+// chaise is his: a click on it opens his popup, like a click on him.
 export function SofaFront({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y, x1, y1 } = FOOTPRINT_BY_ID["sofa-front"];
   return (
     <>
-      <SceneObject objectKey="tv">
+      <SceneObject objectKey="bucky">
         <Faces faces={box(x, y, 0, x1 - x, y1 - y, SOFA_SEAT_Z, p.sofa)} />
       </SceneObject>
       <Bucky />
