@@ -106,7 +106,7 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
   { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
   // In front of Bucky (larger x), so it is drawn after him.
-  { id: "coffee-table", rect: { x0: 4.28, y0: 6.0, x1: 5.28, y1: 7.6 } },
+  { id: "coffee-table", rect: { x0: 4.28, y0: 5.7, x1: 5.28, y1: 7.3 } },
   { id: "sofa", rect: { x0: 7.4, y0: 5.3, x1: 8.9, y1: 8.3 } },
   // On the floor just past the sofa's left end, toward the front-left edge.
   // In front of the sofa along y, so it is drawn after it.
