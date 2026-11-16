@@ -19,6 +19,12 @@
     }
   }
 
+  // The name above the title, larger now that the top bar has no logo.
+  &__name {
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 700;
+  }
+
   &__title {
     margin-top: 8px;
     font-size: clamp(48px, 9vw, 112px);
