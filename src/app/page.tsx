@@ -3,6 +3,7 @@ import { lazy, Suspense } from 'react';
 import ThemeToggle from '../components/theme-toggle/ThemeToggle';
 import Hero from '../components/hero/Hero';
 import Room from '../components/room/Room';
+import ModeSwitch from '../components/mode-switch/ModeSwitch';
 const Projects = lazy(() => import('../components/projects/Projects'));
 const Footer = lazy(() => import('../components/footer/Footer'));
 
@@ -12,13 +13,14 @@ export default function Page() {
       <header className="app__topbar">
         <a className="app__logo" href="#top">Chen Leiv</a>
         <div className="app__topbar-actions">
-          <a className="app__skip" href="#projects">Skip to the plain page</a>
+          <a className="app__skip" href="#projects">Skip to projects</a>
           <ThemeToggle />
         </div>
       </header>
       <main className="app__main">
         <section id="about" className="app__section app__section--intro">
           <Hero />
+          <ModeSwitch active="play" hint />
           <Room />
         </section>
 

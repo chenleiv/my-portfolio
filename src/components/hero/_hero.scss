@@ -34,16 +34,4 @@
     font-weight: 500;
     color: var(--ink);
   }
-
-  &__link {
-    margin-top: 16px;
-    font-weight: 600;
-    color: var(--ink);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-
-    &:hover {
-      text-decoration-thickness: 2px;
-    }
-  }
 }
