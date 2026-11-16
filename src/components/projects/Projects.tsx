@@ -22,7 +22,6 @@ export default function Projects() {
 
   return (
     <motion.section
-      id="projects"
       ref={ref}
       className="projects-section"
       initial="hidden"

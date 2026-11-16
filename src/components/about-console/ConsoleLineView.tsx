@@ -72,18 +72,10 @@ const hasUrl = (text: string): boolean => {
 
 export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: ConsoleLine }) {
     switch (line.type) {
-        case "heroName":
-            return <div className="console-name">{line.text}</div>;
-        case "heroTitle":
-            return <div className="console-title">{line.text}</div>;
-        case "openToWork":
-            return <div className="console-open-to-work">{line.text}</div>;
         case "hint":
             return <div className="console-hint">{line.text}</div>;
         case "desc":
             return <div className="console-desc">{line.text}</div>;
-        case "recruiterMode":
-            return <div className="console-skills">{line.text}</div>;
         case "commandsTitle":
             return <div className="console-commands-title">{line.text}</div>;
         case "cmd":
@@ -121,7 +113,7 @@ export const ConsoleLineView = memo(function ConsoleLineView({ line }: { line: C
                         rel={opensInNewTab ? "noopener noreferrer" : undefined}
                         className="console-link"
                     >
-                        {line.download}
+                        {line.label}
                     </a>
                 </div>
             );

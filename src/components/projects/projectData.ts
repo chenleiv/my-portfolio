@@ -22,7 +22,7 @@ export const PROJECTS: readonly Project[] = [
     label: 1,
     header: "InsightDesk — AI Document Workspace",
     summary:
-      "A document workspace whose chat answers from your documents, cites its sources and drops any citation that does not match the retrieved text.",
+      "A full-stack document workspace with an AI assistant that answers from your own documents and verifies every citation. Try the live demo, no sign-up needed.",
     subHeader:
       "My flagship project: a full-stack document workspace with an AI assistant (RAG) that answers from your own documents and verifies every citation. Built end to end with a React frontend, Node.js backend and MongoDB, local embeddings for retrieval, automated tests, CI with CodeQL, and an evaluation suite. Security built in: CSP and secure cookies, hardened file uploads with isolated parsing, server-side session revocation, rate limits and daily question limits. Live demo, no sign-up needed.",
     img: aiWorkerSpaceImg,
@@ -31,6 +31,7 @@ export const PROJECTS: readonly Project[] = [
       "React",
       "TypeScript",
       "Node.js",
+      "Express",
       "MongoDB",
       "RAG",
       "CodeQL",
@@ -45,7 +46,7 @@ export const PROJECTS: readonly Project[] = [
     label: 2,
     header: "SignalForge — Security Operations Platform",
     summary:
-      "A SOC dashboard that streams simulated security events built around real blacklisted IPs, for triaging alerts and investigating incidents, with role-based access and AI-assisted IP analysis.",
+      "A real-time SOC dashboard: watch simulated attacks built on real blacklisted IPs, triage alerts and investigate incidents, with role-based access and AI-assisted IP analysis.",
     subHeader:
       "Full-stack project: a real-time Security Operations Center (SOC) dashboard. Streams simulated security events built around real blacklisted IPs from AbuseIPDB, with animated attack maps, analytics, incident management, detection rules, and IP enrichment via AbuseIPDB and geolocation via ipinfo.",
     img: signalForge,
@@ -55,10 +56,11 @@ export const PROJECTS: readonly Project[] = [
       "Python",
       "PostgreSQL",
       "WebSockets",
+      "D3.js",
       "FastAPI",
       "Groq",
     ],
-    web: "https://signal-forge-tane.onrender.com/",
+    web: "https://signalforge-api-ah1q.onrender.com/",
     github: "https://github.com/chenleiv/signal-forge",
     swagger: "https://signalforge-api-ah1q.onrender.com/docs",
   },

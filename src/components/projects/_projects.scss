@@ -32,92 +32,82 @@
   line-height: 1.1;
 }
 
-// ─── Featured card ───────────────────────────────────────────────────────────
+// ─── Cards ───────────────────────────────────────────────────────────────────
 
+// One card per row at every width, so the screenshots can be large.
 .projects-featured {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
 }
 
-.project-card--featured {
-  display: flex;
-  flex-direction: row;
-  height: 160px;
-  border-radius: 20px;
-
-  .project-image-wrap {
-    flex: 0 0 52%;
-    overflow: hidden;
-  }
-
-  .project-info {
-    flex: 1;
-    padding: 20px 28px;
-    justify-content: space-between;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .project-title {
-    font-size: 20px;
-    margin: 0 0 6px 0;
-  }
-
-  .project-description {
-    font-size: 13px;
-    line-height: 1.5;
-    margin: 0;
-  }
-}
-
-// ─── Card base ───────────────────────────────────────────────────────────────
-
+// Below 900px: the screenshot on top, the content under it. From 900px: two
+// equal columns, screenshot left, content right. No fixed height and no
+// overflow clipping on the card, so the tags and the links always show in full.
 .project-card {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+  padding: 20px;
   background: var(--panel);
   border: 2px solid var(--ink);
   border-radius: 16px;
-  overflow: hidden;
   box-shadow: 0 4px 16px var(--shadow);
   transition: box-shadow 0.3s ease;
 
   &:hover {
     box-shadow: 0 16px 40px var(--shadow);
   }
-}
 
-// ─── Image ───────────────────────────────────────────────────────────────────
+  @media (min-width: 900px) {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 28px;
+    padding: 24px;
+  }
 
-.project-image-wrap {
-  position: relative;
-  overflow: hidden;
-  aspect-ratio: 16 / 9;
-  background: var(--ink-soft);
-}
-
-.project-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  display: block;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .project-card:hover .project-image {
-    transform: scale(1.05);
+  &__heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    min-width: 0;
   }
 }
 
-.project-featured-badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  padding: 6px 14px;
+// Large screenshot in a shared 16:10 frame (the images are about 1.57:1 and
+// 1.67:1). Cover, anchored at the top, keeps each app's header in view and
+// crops only a few percent at the bottom or the sides.
+.project-shot {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--ink-soft);
+
+  &__img {
+    object-fit: cover;
+    object-position: top center;
+  }
+}
+
+.project-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+
+  @media (min-width: 900px) {
+    .project-title {
+      font-size: 22px;
+    }
+  }
+}
+
+.project-featured-chip {
+  padding: 3px 10px;
   border-radius: 999px;
   font-size: 11px;
   font-weight: 600;
@@ -127,34 +117,17 @@
   background: var(--accent);
 }
 
-// ─── Info ─────────────────────────────────────────────────────────────────────
-
-.project-info {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 20px 20px 18px;
-  flex: 1;
-}
-
-.project-info__top {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  flex: 1;
-}
-
 .project-title {
   margin: 0;
-  font-size: 17px;
+  font-size: 18px;
   color: var(--ink);
   line-height: 1.3;
 }
 
 .project-description {
   margin: 0;
-  font-size: 13px;
-  line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--ink-muted);
 }
 
@@ -162,7 +135,7 @@
 
 .project-stack {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
   gap: 6px;
 }
@@ -186,7 +159,7 @@
   gap: 8px;
   flex-wrap: wrap;
   margin-top: auto;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .project-link {
@@ -227,10 +200,6 @@
 // ─── Mobile ──────────────────────────────────────────────────────────────────
 
 @media (max-width: 1024px) {
-  .projects-featured {
-    grid-template-columns: 1fr;
-  }
-
   .projects-section {
     padding: 60px 16px;
   }
@@ -252,31 +221,21 @@
   }
 
   .projects-featured {
-    grid-template-columns: 1fr;
     gap: 18px;
-  }
-
-  .project-card--featured {
-    height: auto;
-    flex-direction: column;
-    min-height: unset;
-
-    .project-image-wrap {
-      flex: unset;
-      aspect-ratio: 16 / 9;
-      width: 100%;
-    }
-
-    .project-info {
-      padding: 16px 16px 14px;
-    }
-
-    .project-title {
-      font-size: 17px;
-    }
   }
 
   .project-card {
     border-radius: 12px;
+  }
+}
+
+// Phones: a little less padding.
+@media (max-width: 599px) {
+  .project-card {
+    padding: 16px;
+  }
+
+  .project-title {
+    font-size: 17px;
   }
 }

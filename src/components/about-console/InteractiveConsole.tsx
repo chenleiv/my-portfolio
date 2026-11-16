@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useFocus } from "../../utils/useFocus";
 import { useIsMobile } from "../../hooks/useIsMobile";
 
@@ -18,9 +17,14 @@ import { createCommandRunner } from "./commands/createCommandRunner";
 import { MOBILE_COMMANDS } from "./mobileCommands";
 import { toDisplayCommand, type PaletteItem } from "./consoleCommands";
 
-export const InteractiveConsole = () => {
+interface InteractiveConsoleProps {
+  // Focus the input when the console appears. Off on touch devices, so no
+  // on-screen keyboard opens by itself.
+  autoFocus: boolean;
+}
+
+export const InteractiveConsole = ({ autoFocus }: InteractiveConsoleProps) => {
   const isMobile = useIsMobile(768);
-  const router = useRouter();
   const initialLines = useMemo(() => ABOUT_LINES, []);
   const shortcutLabel = useMemo(() => (/mac/i.test(navigator.platform) ? "⌘K" : "Ctrl+K"), []);
 
@@ -82,7 +86,6 @@ export const InteractiveConsole = () => {
 
         scrollToConsoleTop,
 
-        navigate: router.push,
       });
 
       runCommand(rawCmd);
@@ -93,15 +96,21 @@ export const InteractiveConsole = () => {
       cmdHistory.pushCommand,
       initialLines,
       pushHistory,
-      router.push,
       scrollToConsoleTop,
     ],
   );
 
   useEffect(() => {
     setConsoleInputRef(inputRef.current);
-    if (!isMobile) window.setTimeout(() => inputRef.current?.focus(), 0);
-  }, [setConsoleInputRef, isMobile]);
+  }, [setConsoleInputRef]);
+
+  // Only when the console first appears; preventScroll keeps the hero in view.
+  const autoFocusRef = useRef(autoFocus);
+  useEffect(() => {
+    if (!autoFocusRef.current) return;
+    const id = window.setTimeout(() => inputRef.current?.focus({ preventScroll: true }), 0);
+    return () => window.clearTimeout(id);
+  }, []);
 
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();

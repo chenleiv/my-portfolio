@@ -6,7 +6,7 @@ import {
     useState,
     type MouseEvent,
 } from "react";
-import { SKILL_GROUPS, SkillGroup } from "./skillsData";
+import { Skills } from "./Skills";
 
 type Props = {
     exposeGlobalOpener?: boolean;
@@ -60,17 +60,8 @@ export default function SkillsMatcher({
     }, [isModalOpen]);
 
     return (
+        // Opened only through window.openSkillMatcher, from the skills() console command.
         <div className="skills-root">
-            <button
-                type="button"
-                className="skills-fab"
-                onClick={openModal}
-                aria-label="Recruiter mode"
-                title="Recruiter mode"
-            >
-                🎯 Recruiter mode
-            </button>
-
             <AnimatePresence>
                 {isModalOpen && (
                     <motion.div
@@ -90,7 +81,7 @@ export default function SkillsMatcher({
                             onKeyDown={(e) => trapFocus(e, modalRef.current)}
                             role="dialog"
                             aria-modal="true"
-                            aria-label="Recruiter mode"
+                            aria-label="Skills"
                             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
@@ -99,7 +90,7 @@ export default function SkillsMatcher({
                             <div className="skills-modal__header">
                                 <div>
                                     <h2 className="skills-modal__title">
-                                        Recruiter Mode
+                                        Skills
                                         <span className="skills-modal__title-emoji">🎯</span>
                                     </h2>
                                     <p className="skills-modal__sub">The skills I bring</p>
@@ -122,27 +113,7 @@ export default function SkillsMatcher({
                                 tabIndex={0}
                             >
                                 <div className="skills-section-container" id="skills">
-                                    <div className="skills-groups-container">
-                                        {SKILL_GROUPS.map((group: SkillGroup) => (
-                                            <div
-                                                key={group.id}
-                                                className="skills-group"
-                                                data-group-id={group.id}
-                                            >
-                                                <h3 className="skills-group__title">
-                                                    <span className="skills-group__icon">{group.icon}</span>
-                                                    {group.title}
-                                                </h3>
-                                                <div className="skills-list">
-                                                    {group.skills.map((skill: string) => (
-                                                        <span key={skill} className="skill-item">
-                                                            {skill}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
+                                    <Skills />
                                 </div>
                             </div>
                         </motion.div>

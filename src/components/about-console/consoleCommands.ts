@@ -2,11 +2,10 @@ export type CanonicalCommand =
   | "showProjects"
   | "contact"
   | "clear"
-  | "recruiterMode"
+  | "skills"
   | "portfolioCode"
   | "cv"
-  | "linkedin"
-  | "home";
+  | "linkedin";
 
 export type PaletteItem = {
   id: CanonicalCommand;
@@ -22,9 +21,9 @@ export const PALETTE_ITEMS: PaletteItem[] = [
   },
   { id: "contact", label: "Contact", keywords: ["contact", "email", "info"] },
   {
-    id: "recruiterMode",
-    label: "Recruiter mode",
-    keywords: ["mode", "recruitermode", "skills"],
+    id: "skills",
+    label: "Skills",
+    keywords: ["skills"],
   },
   {
     id: "portfolioCode",
@@ -42,7 +41,6 @@ export const PALETTE_ITEMS: PaletteItem[] = [
     keywords: ["linkedin", "linkedin()"],
   },
   { id: "clear", label: "Clear Console", keywords: ["clear", "reset"] },
-  { id: "home", label: "Back to site", keywords: ["home", "back", "exit", "site"] },
 ];
 
 export const normalizeCommand = (raw: string): CanonicalCommand | null => {
@@ -60,6 +58,7 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
 
     case "contact":
     case "contactinfo":
+    case "email":
       return "contact";
 
     case "clear":
@@ -85,16 +84,8 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
     case "linkedin()":
       return "linkedin";
 
-    case "recruitermode":
-    case "recruiter":
-    case "match":
     case "skills":
-      return "recruiterMode";
-
-    case "home":
-    case "back":
-    case "exit":
-      return "home";
+      return "skills";
 
     default:
       return null;

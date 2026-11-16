@@ -1,12 +1,6 @@
-import { profile } from "../../content/profile";
-
 export type ConsoleLineType =
-  | "heroName"
-  | "heroTitle"
-  | "openToWork"
   | "desc"
   | "hint"
-  | "recruiterMode"
   | "commandsTitle"
   | "cmd"
   | "input"
@@ -20,34 +14,24 @@ export type ConsoleLine = {
   type: ConsoleLineType;
   text: string;
   href?: string;
+  // Visible text of a "link" line.
+  label?: string;
+  // File name for a "download" line; also shown as its link text.
   download?: string;
 };
 
+// The console sits under the hero, so it starts at the command list instead of
+// repeating the name, title, tagline, intro and stack.
 export const ABOUT_LINES: ConsoleLine[] = [
-  { id: "h1", type: "heroName", text: profile.name },
-  { id: "h2", type: "heroTitle", text: profile.title },
-  { id: "h3", type: "openToWork", text: profile.tagline },
-
-  {
-    id: "d1",
-    type: "desc",
-    text: profile.intro,
-  },
-  {
-    id: "s1",
-    type: "recruiterMode",
-    text: profile.stack,
-  },
-
   { id: "c0", type: "commandsTitle", text: "# Available commands:" },
   {
     id: "c1",
     type: "cmd",
-    text: "showProjects() | portfolioCode() | cv() | linkedin() | contact() | clear() | home()",
+    text: "showProjects() | skills() | portfolioCode() | cv() | linkedin() | contact() | clear()",
   },
   {
     id: "hint1",
     type: "hint",
-    text: "// 💡 Try recruiterMode() — find out if my skills are a match",
+    text: "// 💡 Try skills() — see the skills I bring, grouped by area",
   },
 ];

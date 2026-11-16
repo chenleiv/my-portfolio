@@ -27,7 +27,6 @@ export const SKILL_GROUPS: SkillGroup[] = [
     icon: "🤖",
     skills: [
       "Node.js",
-      "MongoDB",
       "REST API",
       "RAG/LLM apps",
       "Claude Code",
@@ -40,10 +39,15 @@ export const SKILL_GROUPS: SkillGroup[] = [
     title: "Security",
     icon: "🔒",
     skills: [
-      "Application Security",
       "OWASP Top 10",
       "Burp Suite",
       "Linux",
+      "CSP",
+      "Secure sessions",
+      "Input validation",
+      "Rate limiting",
+      "CodeQL",
+      "MITRE ATT&CK",
     ],
   },
   {

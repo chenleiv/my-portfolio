@@ -15,8 +15,6 @@ type Deps = {
   setCommandHistoryRaw: (rawCmd: string) => void;
 
   scrollToConsoleTop: () => void;
-
-  navigate: (href: string) => void;
 };
 
 // "https://example.com/path/" -> "example.com/path"
@@ -40,7 +38,7 @@ const projectLines = (): ConsoleLine[] => {
         type: "link",
         text: "🌐 Live demo",
         href: project.web,
-        download: toDisplayUrl(project.web),
+        label: toDisplayUrl(project.web),
       });
     }
 
@@ -50,13 +48,14 @@ const projectLines = (): ConsoleLine[] => {
         type: "link",
         text: "💻 GitHub",
         href: project.github,
-        download: toDisplayUrl(project.github),
+        label: toDisplayUrl(project.github),
       });
     }
   });
 
   return lines;
 };
+
 
 const contactLines = (): ConsoleLine[] => [
   { id: uid(), type: "system", text: "📬 Contact" },
@@ -65,28 +64,28 @@ const contactLines = (): ConsoleLine[] => [
     type: "link",
     text: "✉️ Email",
     href: `mailto:${contact.email}`,
-    download: contact.email,
+    label: contact.email,
   },
   {
     id: uid(),
     type: "link",
     text: "📱 Phone",
     href: `tel:${contact.phone}`,
-    download: contact.phone,
+    label: contact.phone,
   },
   {
     id: uid(),
     type: "link",
     text: "🔗 LinkedIn",
     href: contact.linkedin,
-    download: "linkedin/chen-leiv",
+    label: "linkedin/chen-leiv",
   },
   {
     id: uid(),
     type: "link",
     text: "💻 GitHub",
     href: contact.github,
-    download: toDisplayUrl(contact.github),
+    label: toDisplayUrl(contact.github),
   },
   {
     id: uid(),
@@ -108,7 +107,7 @@ export function createCommandRunner(deps: Deps) {
           {
             id: uid(),
             type: "error",
-            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / recruiterMode / clear`,
+            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / skills / clear`,
           },
         ],
         raw,
@@ -132,7 +131,7 @@ export function createCommandRunner(deps: Deps) {
               id: uid(),
               type: "link",
               text: "💻 Open portfolio source code",
-              download: toDisplayUrl(contact.portfolioRepo),
+              label: toDisplayUrl(contact.portfolioRepo),
               href: contact.portfolioRepo,
             },
           ],
@@ -166,7 +165,7 @@ export function createCommandRunner(deps: Deps) {
               id: uid(),
               type: "link",
               text: "Open LinkedIn profile",
-              download: "linkedin/chen-leiv",
+              label: "linkedin/chen-leiv",
               href: contact.linkedin,
             },
           ],
@@ -185,27 +184,16 @@ export function createCommandRunner(deps: Deps) {
         break;
       }
 
-      case "recruiterMode": {
+
+      case "skills": {
         deps.pushHistory(
           [
             { ...echo },
-            { id: uid(), type: "system", text: "🧩 Recruiter mode opened." },
+            { id: uid(), type: "system", text: "🧩 Skills opened." },
           ],
           raw,
         );
         window.openSkillMatcher?.();
-        break;
-      }
-
-      case "home": {
-        deps.pushHistory(
-          [
-            { ...echo },
-            { id: uid(), type: "system", text: "↩ Back to site…" },
-          ],
-          raw,
-        );
-        deps.navigate("/");
         break;
       }
 

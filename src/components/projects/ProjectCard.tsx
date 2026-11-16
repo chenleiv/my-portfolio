@@ -1,6 +1,6 @@
 import { motion, type Variants } from "framer-motion";
 import { FaGithub } from "react-icons/fa";
-import { ExternalLink, SwatchBook } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import type { Project } from "./projectData";
 import Image from "next/image";
 
@@ -11,32 +11,35 @@ type Props = {
     isFeatured?: boolean;
 };
 
+// One card per row: a large screenshot beside the content from 900px up, on
+// top of it below that. All text comes from projectData.ts; the long subHeader
+// stays in the data but is not shown here. The card has no fixed height, so
+// nothing is clipped at any width.
 export function ProjectCard({ project, itemVariants, shouldReduceMotion, isFeatured }: Props) {
     return (
         <motion.article
-            className={`project-card${isFeatured ? " project-card--featured" : ""}`}
+            className="project-card"
             variants={itemVariants}
             whileHover={!shouldReduceMotion ? { y: -6, transition: { duration: 0.22, ease: "easeOut" } } : undefined}
         >
-            <div className="project-image-wrap">
+            <div className="project-shot">
                 <Image
                     src={project.img}
                     alt={project.imgAlt ?? project.header}
-                    className="project-image"
+                    className="project-shot__img"
                     loading="lazy"
-                    width={640}
-                    height={360}
+                    fill
+                    sizes="(min-width: 900px) 640px, 100vw"
                 />
-                {isFeatured && (
-                    <span className="project-featured-badge">✦ Featured</span>
-                )}
             </div>
 
-            <div className="project-info">
-                <div className="project-info__top">
+            <div className="project-body">
+                <div className="project-card__heading">
+                    {isFeatured && <span className="project-featured-chip">✦ Featured</span>}
                     <h3 className="project-title">{project.header}</h3>
-                    <p className="project-description">{project.subHeader}</p>
                 </div>
+
+                <p className="project-description">{project.summary}</p>
 
                 <div className="project-stack">
                     {project.skills.map((skill) => (
@@ -69,18 +72,6 @@ export function ProjectCard({ project, itemVariants, shouldReduceMotion, isFeatu
                         >
                             <FaGithub size={14} />
                             GitHub
-                        </a>
-                    )}
-                    {project.swagger && (
-                        <a
-                            href={project.swagger}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="project-link project-link--secondary"
-                            aria-label={`API documentation: ${project.header}`}
-                        >
-                            <SwatchBook size={14} />
-                            API Docs 
                         </a>
                     )}
                 </div>

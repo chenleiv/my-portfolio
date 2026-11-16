@@ -36,11 +36,11 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
     keywords: ["profile"],
   },
   {
-    id: "recruiterMode",
-    label: "Recruiter mode",
-    hint: "Open recruiter mode",
+    id: "skills",
+    label: "Skills",
+    hint: "The skills I bring",
     group: "Actions",
-    keywords: ["recruiter", "mode"],
+    keywords: ["skills"],
   },
   {
     id: "contact",
@@ -55,12 +55,5 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
     hint: "Clear console",
     group: "Actions",
     keywords: ["reset"],
-  },
-  {
-    id: "home",
-    label: "Back to site",
-    hint: "Go to the home page",
-    group: "Links",
-    keywords: ["home", "back", "exit"],
   },
 ];

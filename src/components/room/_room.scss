@@ -1,0 +1,574 @@
+// Interactive room. Scene colors come from palettes.ts; everything here uses
+// the site tokens. The accent is only ever a background under --on-accent text.
+
+@use "../../styles/media" as *;
+
+$room-keys: desk, shelf, tv, bucky, contact;
+
+.room {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  // The room never gets taller than min(65svh, 600px); its width follows from
+  // the viewBox ratio (--room-ratio, set inline on the layout by Room.tsx).
+  // The Places row under it uses the same width.
+  &__scene {
+    width: var(--room-w);
+    margin: 0 auto;
+    border-radius: 12px;
+
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 4px;
+    }
+  }
+
+  &__stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: var(--room-ratio, 1.45);
+
+    @each $key in $room-keys {
+      &[data-active="#{$key}"] {
+        .room-obj[data-room-key="#{$key}"] {
+          filter: brightness(1.12) drop-shadow(0 0 7px var(--accent));
+        }
+
+        .room__label[data-room-key="#{$key}"] {
+          box-shadow: 0 0 0 3px var(--ink);
+        }
+      }
+    }
+  }
+
+  &__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  &__label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    min-height: 28px;
+    padding: 2px 13px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--on-accent);
+    font: 600 14px / 1.2 var(--font-body-stack);
+    white-space: nowrap;
+    cursor: pointer;
+    // Hidden until Chen is near, the mouse is over the object, the first reveal,
+    // or always on touch screens (data-shown, from bubbleState in bubbles.ts).
+    // Hidden bubbles take no clicks so the object under them stays clickable.
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, visibility 0s linear 0.15s;
+
+    // Pulse ring, drawn outside the pill.
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      box-shadow: 0 0 0 0 var(--accent);
+      animation: room-ring 2.4s ease-out infinite;
+      pointer-events: none;
+    }
+
+    &[data-shown="true"] {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+      transition: opacity 0.15s ease, visibility 0s;
+    }
+
+    // Bubbles that are real buttons (touch, unlisted objects) need a focus ring.
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
+    // While Chen stands under a shown bubble it fades so she stays visible; the
+    // bubble of the object she is next to stays readable. Hover restores it.
+    &[data-shown="true"].is-faded:not(:hover) {
+      opacity: 0.25;
+    }
+
+    &[data-shown="true"][data-near="true"].is-faded:not(:hover) {
+      opacity: 0.6;
+    }
+  }
+
+  // Narrow screens: panel, room and Places stacked. Wide screens: a left column
+  // with the panel and then the Places, in the space the height-capped room
+  // leaves free, and the room on the right. DOM order is panel, scene, Places.
+  &__layout {
+    --room-max-h: min(65vh, 600px);
+    --room-w: min(100%, calc(var(--room-max-h) * var(--room-ratio, 1.45)));
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    align-items: center;
+
+    @supports (height: 1svh) {
+      --room-max-h: min(65svh, 600px);
+    }
+
+    @media (min-width: 1100px) {
+      grid-template-columns: 240px minmax(0, 1fr);
+      column-gap: 28px;
+
+      grid-template-rows: auto 1fr;
+      row-gap: 16px;
+
+      .how-to-play {
+        grid-column: 1;
+        grid-row: 1;
+        align-self: start;
+      }
+
+      // Top-aligned, so its top edge lines up with the panel's.
+      .room__scene {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+        align-self: start;
+      }
+
+      // Compact here, so the left column is about as tall as the room.
+      .room-places {
+        grid-column: 1;
+        grid-row: 2;
+        align-self: start;
+        width: 100%;
+
+        .room-places__list {
+          flex-direction: column;
+          gap: 6px;
+          margin-top: 8px;
+        }
+
+        .room-places__button {
+          min-height: 38px;
+        }
+      }
+    }
+  }
+}
+
+// ─── Places under the room ──────────────────────────────────────────────────
+// One list on every screen. Desktop: a wrapping row as wide as the room, each
+// button as wide as its label, so no name is cut. Touch: a 2-column grid of
+// 52px buttons.
+
+.room-places {
+  width: var(--room-w);
+  margin: 0 auto;
+
+  &__title {
+    font: 700 18px / 24px var(--font-pixel-stack);
+    letter-spacing: 0.03em;
+    color: var(--ink);
+  }
+
+  &__title-touch {
+    display: none;
+  }
+
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      flex: 1 1 auto;
+    }
+  }
+
+  &__button {
+    width: 100%;
+    min-height: 44px;
+    padding: 0 16px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--bg);
+    color: var(--ink);
+    font: 700 15px / 20px var(--font-pixel-stack);
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+
+    &:hover {
+      background: var(--ink-soft-2);
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 2px;
+    }
+  }
+}
+
+// Phones and touch devices: no keyboard instructions. The How to play panel
+// is hidden; the room comes first, then the Places buttons under it. The mode
+// switch is the only Terminal entry.
+@include touch-layout {
+  // Scoped to .room so it beats the panel's own display rule further down.
+  .room .how-to-play {
+    display: none;
+  }
+
+  .room__layout {
+    // Wide touch screens (iPad landscape): room, then Places under it.
+    @media (min-width: 1100px) {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+
+      .room__scene,
+      .room-places {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .room-places {
+        width: var(--room-w);
+      }
+    }
+  }
+
+  .room-places__title-wide {
+    display: none;
+  }
+
+  .room-places__title-touch {
+    display: inline;
+  }
+
+  .room-places__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .room-places__button {
+    min-height: 52px;
+    padding: 0 10px;
+  }
+}
+
+.room-obj {
+  cursor: pointer;
+  transition: filter var(--transition-fast);
+}
+
+.room-chen {
+  pointer-events: none;
+}
+
+.room-svg-text {
+  font-family: var(--font-body-stack);
+  font-weight: 700;
+  pointer-events: none;
+}
+@keyframes room-ring {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent);
+    opacity: 0.9;
+  }
+
+  100% {
+    box-shadow: 0 0 0 7px var(--accent);
+    opacity: 0;
+  }
+}
+
+// The dialog element fills the viewport and acts as the overlay; the card sits inside.
+.room-dialog {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 20px;
+  border: 0;
+  background: var(--overlay);
+  color: var(--ink);
+
+  &[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &::backdrop {
+    background: transparent;
+  }
+
+  &__card {
+    position: relative;
+    width: 100%;
+    max-width: 580px;
+    max-height: 86vh;
+    overflow: auto;
+    padding: 30px 28px 28px;
+    border: 2px solid var(--ink);
+    border-radius: 22px;
+    background: var(--panel);
+    color: var(--ink);
+
+    p {
+      margin-top: 12px;
+      font-size: 17px;
+    }
+  }
+
+  &__title {
+    padding-right: 52px;
+    font-size: 34px;
+    line-height: 1.05;
+  }
+
+  &__close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    border: 2px solid var(--ink);
+    border-radius: 50%;
+    background: transparent;
+    color: var(--ink);
+    font-size: 26px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  &__project {
+    margin-top: 14px;
+    padding: 22px 24px;
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    background: var(--panel);
+
+    h3 {
+      font-size: 28px;
+      line-height: 1.1;
+    }
+
+    p {
+      margin-top: 8px;
+      font-size: 16px;
+    }
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 2px solid var(--ink);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+
+    &--primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--on-accent);
+    }
+  }
+
+  // Skills popup only: as wide as the skills() modal, and its own width (not
+  // the viewport) decides the columns: two from 600px, one below.
+  &__card--wide {
+    max-width: 820px;
+    container-type: inline-size;
+  }
+
+  &__skills {
+    margin-top: 16px;
+
+    .skills-groups-container {
+      grid-template-columns: minmax(0, 1fr);
+
+      @container (min-width: 600px) {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .room__label {
+    min-height: 24px;
+    padding: 2px 9px;
+    font-size: 12px;
+  }
+
+  .room-dialog__card {
+    padding: 24px 20px 20px;
+  }
+
+  .room-dialog__title {
+    font-size: 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  // Bubbles appear and disappear instantly, including the first reveal.
+  .room__label,
+  .room__label[data-shown="true"] {
+    transition: none;
+  }
+
+  .room__label::after {
+    animation: none;
+    opacity: 0;
+  }
+
+  .room-obj {
+    transition: none;
+  }
+}
+
+// ─── How to play panel ──────────────────────────────────────────────────────
+// Site tokens only: ink on panel. Everything in the panel uses the pixel font:
+// the title, key caps, the instruction line and the status.
+
+// Compact: title, two rows of key caps, one line of text, then the status block.
+.how-to-play {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  padding: 12px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--ink);
+
+  // Mid-width screens, where the panel sits above the room: title on top,
+  // then key caps, text and status in one row, to keep the panel low.
+  @media (min-width: 600px) and (max-width: 1099px) {
+    grid-template-columns: auto minmax(0, 1fr) minmax(200px, 260px);
+    align-items: center;
+    column-gap: 20px;
+
+    .how-to-play__title {
+      grid-column: 1 / -1;
+    }
+  }
+
+  // Fixed px line heights and no wrapping for every pixel-font line, so the
+  // panel keeps one size while Chen walks and when the font finishes loading.
+  &__title {
+    font-family: var(--font-pixel-stack);
+    font-weight: 700;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    line-height: 24px;
+    white-space: nowrap;
+    text-transform: uppercase;
+  }
+
+  // One row of four square arrow keys; the bottom padding leaves room for the shadow.
+  &__keys {
+    display: grid;
+    grid-template-columns: repeat(4, 28px);
+    grid-auto-rows: 28px;
+    gap: 6px 5px;
+    justify-content: start;
+    padding-bottom: 2px;
+  }
+
+  &__key {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--ink);
+    border-radius: 5px;
+    background: var(--bg);
+    box-shadow: 0 2px 0 var(--ink);
+    color: var(--ink);
+    font: 700 13px / 1 var(--font-pixel-stack);
+  }
+
+  // Arrow heads drawn with borders, so they do not depend on font glyphs.
+  &__arrow {
+    width: 0;
+    height: 0;
+    border: 6px solid transparent;
+
+    &--up {
+      border-bottom-color: var(--ink);
+      margin-top: -6px;
+    }
+
+    &--down {
+      border-top-color: var(--ink);
+      margin-bottom: -6px;
+    }
+
+    &--left {
+      border-right-color: var(--ink);
+      margin-left: -6px;
+    }
+
+    &--right {
+      border-left-color: var(--ink);
+      margin-right: -6px;
+    }
+  }
+
+  // Pixel font like the rest of the panel, in sentence case so it stays easy to read.
+  &__steps {
+    font-family: var(--font-pixel-stack);
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  &__status {
+    padding: 10px 12px;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    background: var(--bg);
+    font-family: var(--font-pixel-stack);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  &__status-title {
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--ink-muted);
+  }
+
+  // Always two lines tall, so "Next to: Contact & CV" and "Walk to an object"
+  // take the same space.
+  &__status-main {
+    height: 40px;
+    margin-top: 2px;
+    overflow: hidden;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+  }
+}

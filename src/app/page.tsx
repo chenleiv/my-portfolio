@@ -1,37 +1,6 @@
+import HomePage from '../components/home/HomePage';
 
-import { lazy, Suspense } from 'react';
-import ThemeToggle from '../components/theme-toggle/ThemeToggle';
-import TempHero from '../components/hero/TempHero';
-const Projects = lazy(() => import('../components/projects/Projects'));
-const Footer = lazy(() => import('../components/footer/Footer'));
-
+// Play mode: the room under the hero.
 export default function Page() {
-  return (
-    <div className="app">
-      <header className="app__topbar">
-        <ThemeToggle />
-      </header>
-      <main className="app__main">
-        <section id="about" className="app__section">
-          <TempHero />
-        </section>
-
-        <section id="projects" className="app__section">
-          <Suspense fallback={null}>
-            <Projects />
-          </Suspense>
-        </section>
-      </main>
-      <div className="app__footer-text">
-        <p>
-          &copy; {new Date().getFullYear()} Chen Leiv. Built with React, TypeScript, and Next.js.
-        </p>
-      </div>
-      <footer className="app__footer">
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
-      </footer>
-    </div>
-  );
+  return <HomePage />;
 }
