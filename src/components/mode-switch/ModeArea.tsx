@@ -109,7 +109,7 @@ export default function ModeArea() {
 
   return (
     <>
-      <div ref={switchRef}>
+      <div ref={switchRef} className="mode-switch-slot">
         <ModeSwitch active={mode} onSelect={select} onPrefetch={prefetch} />
       </div>
       <p ref={liveRef} className="visually-hidden" aria-live="polite" />
