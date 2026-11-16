@@ -24,15 +24,16 @@ const bodyFont = localFont({
   adjustFontFallback: 'Arial',
 });
 
-// Pixel font for the room's How to play panel (title, key caps, status), OFL 1.1;
-// see src/fonts/pixelify-sans/OFL.txt. Only used on the home page, so not preloaded.
+// Pixel font for the Play | Terminal switch and the room's How to play panel,
+// OFL 1.1; see src/fonts/pixelify-sans/OFL.txt. The switch is above the fold
+// on every page, so both files (about 8 KB each) are preloaded everywhere.
 const pixelFont = localFont({
   src: [
     { path: '../fonts/pixelify-sans/pixelify-sans-latin-400-normal.woff2', weight: '400', style: 'normal' },
     { path: '../fonts/pixelify-sans/pixelify-sans-latin-700-normal.woff2', weight: '700', style: 'normal' },
   ],
   display: 'swap',
-  preload: false,
+  preload: true,
   variable: '--font-pixel',
   fallback: ['ui-monospace', 'monospace'],
 });
