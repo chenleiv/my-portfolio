@@ -62,9 +62,7 @@ export default function ModeSwitch({ active, onSelect, onPrefetch }: ModeSwitchP
         </>
       ) : (
         <>
-          <p className="mode-switch__hint mode-switch__hint--wide">
-            Type commands like <code>contact()</code> or <code>cv()</code>, or switch to Play to explore the room.
-          </p>
+          <p className="mode-switch__hint mode-switch__hint--wide">Type commands, or switch to Play to explore the room.</p>
           <p className="mode-switch__hint mode-switch__hint--touch">Play: explore the room and tap objects to open them.</p>
         </>
       )}
