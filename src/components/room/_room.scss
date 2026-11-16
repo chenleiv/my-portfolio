@@ -488,7 +488,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
     text-transform: uppercase;
   }
 
-  // Two rows of four square keys; the bottom gap leaves room for the shadow.
+  // One row of four square arrow keys; the bottom padding leaves room for the shadow.
   &__keys {
     display: grid;
     grid-template-columns: repeat(4, 28px);

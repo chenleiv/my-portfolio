@@ -1,22 +1,15 @@
 import { useId } from "react";
 
-// Same order in both rows, so each column pairs an arrow with its letter.
 const ARROWS = ["up", "left", "down", "right"] as const;
-const LETTERS = ["W", "A", "S", "D"] as const;
 
 // Key caps are drawn only; the scene's aria-label names the keys for screen
-// readers. Two tight rows: the arrows, then W A S D.
+// readers. Only the arrows are shown; W A S D also work (see useWalker.ts).
 function KeyCaps() {
   return (
     <div className="how-to-play__keys" aria-hidden="true">
       {ARROWS.map((dir) => (
         <kbd key={dir} className="how-to-play__key">
           <span className={`how-to-play__arrow how-to-play__arrow--${dir}`} />
-        </kbd>
-      ))}
-      {LETTERS.map((letter) => (
-        <kbd key={letter} className="how-to-play__key">
-          {letter}
         </kbd>
       ))}
     </div>

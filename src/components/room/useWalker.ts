@@ -45,7 +45,8 @@ const CONFIG: WalkerConfig<ObjectKey> = {
 const MIRROR = `translate(${(2 * project(0, 0, 0)[0]).toFixed(1)},0) scale(-1,1)`;
 
 // Movement keys by physical position (KeyboardEvent.code), so W A S D work in
-// any keyboard layout, including Hebrew, where they type other letters.
+// any keyboard layout, including Hebrew, where they type other letters. Only
+// the arrows are shown in the How to play panel; W A S D work quietly too.
 const KEYMAP: Readonly<Record<string, keyof HeldKeys>> = {
   ArrowUp: "up",
   KeyW: "up",

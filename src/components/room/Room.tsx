@@ -45,7 +45,7 @@ const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) =
 // objects. Set on the layout so the Places row can share the room width.
 const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
-const SCENE_LABEL = "Room. Use the arrow keys or WASD to walk. Stop next to an object to open it.";
+const SCENE_LABEL = "Room. Use the arrow keys to walk. Stop next to an object to open it.";
 const SCENE_LABEL_TOUCH = "Room. Tap an object or its label to open it. Projects, Skills and Contact & CV are also below the room.";
 
 function keyFromTarget(target: EventTarget | null): { key: ObjectKey; el: Element } | null {
