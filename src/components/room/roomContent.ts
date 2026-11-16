@@ -15,7 +15,7 @@ export interface Rect {
 
 export interface RoomObject {
   readonly key: ObjectKey;
-  // Short name on the scene label and the quick button.
+  // Short name on the scene label and the Places button.
   readonly name: string;
   // Popup heading.
   readonly title: string;
@@ -25,7 +25,6 @@ export interface RoomObject {
   readonly label: { readonly x: number; readonly y: number; readonly z: number };
 }
 
-// Order matches the quick buttons under the scene.
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },

@@ -4,7 +4,8 @@ import { useCallback, useEffect, useRef } from "react";
 
 type Params = {
   historyRef: React.RefObject<HTMLDivElement | null>;
-  deps: unknown[]; // pass [history] from parent
+  // When any of these change, scrolls to the bottom if the view is already near it.
+  deps: unknown[];
   skipRef?: React.MutableRefObject<boolean>;
   threshold?: number;
 };
