@@ -22,24 +22,37 @@ export function Tv({ p }: { p: ScenePalette }) {
   );
 }
 
+const DESK_TOP_Z = 1.4;
+// Where the drawer pedestal starts; it runs to the desk's right end.
+const PEDESTAL_X = 9.0;
+
 export function Desk({ p }: { p: ScenePalette }) {
   const { x0, y0, x1, y1 } = FOOTPRINT_BY_ID.desk;
+  const body = shade(p.wood, 0.9);
+  const seam = shade(p.wood, 0.6);
   const faces: Face[] = [
-    // Desk top running to the end of the back wall, a front leg and a drawer unit at the far end.
-    ...box(x0, y0, 1.4, x1 - x0, y1 - y0, 0.2, p.wood),
-    ...box(x0 + 0.1, y1 - 0.3, 0, 0.2, 0.2, 1.4, shade(p.wood, 0.8)),
-    ...box(9.0, 0.4, 0, 0.95, 1.35, 1.4, shade(p.wood, 0.9)),
-    // Landscape monitor with its keyboard. Its top stays under the window sill.
-    ...box(7.65, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
-    ...box(7.0, 0.6, 1.6, 1.6, 0.14, 1.0, p.tv),
-    qy(0.74, 7.1, 8.5, 1.7, 2.5, p.screen),
-    ...box(7.2, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
-    // Mouse to the right of the keyboard.
-    ...box(8.55, 1.05, 1.6, 0.17, 0.23, 0.06, p.tv),
-    // Portrait monitor at the far end, right of the window's curtain.
-    ...box(9.35, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
-    ...box(9.15, 0.6, 1.6, 0.7, 0.14, 1.6, p.tv),
-    qy(0.74, 9.22, 9.78, 1.7, 3.1, p.screen),
+    // One unit, drawn back to front and base before top, so no part paints
+    // over the desk top: a back panel, a full-depth side panel at the left end
+    // and a drawer pedestal flush with the top's right end and front edge.
+    ...box(x0 + 0.15, y0, 0.5, PEDESTAL_X - x0 - 0.15, 0.1, 0.9, shade(p.wood, 0.75)),
+    ...box(x0, y0, 0, 0.15, y1 - y0, DESK_TOP_Z, body),
+    ...box(PEDESTAL_X, y0, 0, x1 - PEDESTAL_X, y1 - y0, DESK_TOP_Z, body),
+    // Three drawers: two seams and a brass handle on each front.
+    ...[0.47, 0.94].map((z) => qy(y1 + 0.001, PEDESTAL_X + 0.05, x1 - 0.05, z - 0.015, z + 0.015, seam)),
+    ...[0.22, 0.69, 1.16].map((z) => qy(y1 + 0.002, PEDESTAL_X + 0.4, PEDESTAL_X + 0.6, z, z + 0.04, p.brass)),
+    // Desk top running to the end of the back wall.
+    ...box(x0, y0, DESK_TOP_Z, x1 - x0, y1 - y0, 0.2, p.wood),
+    // Dual monitors side by side, centered over the chair: a landscape screen
+    // under the window sill and a portrait screen between the two curtains.
+    ...box(7.05, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
+    ...box(6.4, 0.6, 1.6, 1.6, 0.14, 1.0, p.tv),
+    qy(0.74, 6.5, 7.9, 1.7, 2.5, p.screen),
+    ...box(8.35, 0.5, 1.6, 0.3, 0.3, 0.15, p.tv),
+    ...box(8.15, 0.6, 1.6, 0.7, 0.14, 1.6, p.tv),
+    qy(0.74, 8.22, 8.78, 1.7, 3.1, p.screen),
+    // Keyboard under the landscape screen, mouse to its right.
+    ...box(6.6, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
+    ...box(7.95, 1.05, 1.6, 0.17, 0.23, 0.06, p.tv),
     // Desk plant.
     ...box(5.9, 0.5, 1.6, 0.3, 0.3, 0.05, p.brass),
     ...box(6.0, 0.6, 1.65, 0.05, 0.05, 0.4, p.brass),
