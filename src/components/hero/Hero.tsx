@@ -6,7 +6,11 @@ export default function Hero() {
     <div className="hero">
       <p className="hero__eyebrow hero__name">{profile.name}</p>
       <h1 className="hero__title">{profile.title}</h1>
-      <p className="hero__eyebrow">{profile.tagline}</p>
+      {/* CSS shows one version: the short one on phones. Only the visible one is read. */}
+      <p className="hero__eyebrow">
+        <span className="hero__tagline-full">{profile.tagline}</span>
+        <span className="hero__tagline-short">{profile.taglineShort}</span>
+      </p>
       <HeroIntro text={profile.intro} />
     </div>
   );
