@@ -42,7 +42,6 @@ const HEAD: Face[] = [
   qy(0.215, -0.14, -0.08, 1.6, 1.68, c.features),
   qy(0.215, 0.08, 0.14, 1.6, 1.68, c.features),
   qy(0.215, -0.06, 0.06, 1.5, 1.53, c.mouth),
-  ...box(-0.22, 0.1, 1.9, 0.44, 0.08, 0.06, c.features),
 ];
 
 // Seen from behind (walking away): hair covers the head and falls down her back
