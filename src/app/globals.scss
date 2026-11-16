@@ -110,60 +110,6 @@ a {
       margin: 0 auto;
       align-items: stretch;
       gap: 44px;
-
-      // Large screens without touch: the Play | Terminal switch sits beside the
-      // intro paragraph, in the space its 720px width leaves, and the room
-      // follows under both. The hero's own parts join this grid (display:
-      // contents); DOM order stays hero, switch, room.
-      @media (min-width: 1280px) and (not ((hover: none) and (pointer: coarse))) {
-        display: grid;
-        grid-template-columns: minmax(0, 720px) minmax(0, 1fr);
-        column-gap: 56px;
-        row-gap: 0;
-        align-items: start;
-
-        .hero {
-          display: contents;
-        }
-
-        .hero__name {
-          grid-row: 1;
-          grid-column: 1 / -1;
-        }
-
-        .hero__title {
-          grid-row: 2;
-          grid-column: 1 / -1;
-        }
-
-        .hero__tagline {
-          grid-row: 3;
-          grid-column: 1 / -1;
-        }
-
-        .hero__intro {
-          grid-row: 4;
-          grid-column: 1;
-        }
-
-        .mode-switch-slot {
-          grid-row: 4;
-          grid-column: 2;
-          align-self: center;
-
-          .mode-switch {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 12px;
-          }
-        }
-
-        .mode-area {
-          grid-row: 5;
-          grid-column: 1 / -1;
-          margin-top: 44px;
-        }
-      }
     }
   }
 
