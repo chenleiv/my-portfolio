@@ -27,11 +27,11 @@ export const ABOUT_LINES: ConsoleLine[] = [
   {
     id: "c1",
     type: "cmd",
-    text: "showProjects() | recruiterMode() | portfolioCode() | cv() | linkedin() | contact() | clear()",
+    text: "showProjects() | skills() | portfolioCode() | cv() | linkedin() | contact() | clear()",
   },
   {
     id: "hint1",
     type: "hint",
-    text: "// 💡 Try recruiterMode() — find out if my skills are a match",
+    text: "// 💡 Try skills() — see the skills I bring, grouped by area",
   },
 ];

@@ -60,7 +60,7 @@ export default function SkillsMatcher({
     }, [isModalOpen]);
 
     return (
-        // Opened only through window.openSkillMatcher, from the recruiterMode() console command.
+        // Opened only through window.openSkillMatcher, from the skills() console command.
         <div className="skills-root">
             <AnimatePresence>
                 {isModalOpen && (
@@ -81,7 +81,7 @@ export default function SkillsMatcher({
                             onKeyDown={(e) => trapFocus(e, modalRef.current)}
                             role="dialog"
                             aria-modal="true"
-                            aria-label="Recruiter mode"
+                            aria-label="Skills"
                             initial={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: shouldReduceMotion ? 0 : 24, scale: shouldReduceMotion ? 1 : 0.97 }}
@@ -90,7 +90,7 @@ export default function SkillsMatcher({
                             <div className="skills-modal__header">
                                 <div>
                                     <h2 className="skills-modal__title">
-                                        Recruiter Mode
+                                        Skills
                                         <span className="skills-modal__title-emoji">🎯</span>
                                     </h2>
                                     <p className="skills-modal__sub">The skills I bring</p>

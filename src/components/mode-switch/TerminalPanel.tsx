@@ -8,7 +8,7 @@ interface TerminalPanelProps {
 }
 
 // Everything Terminal mode needs, in one chunk that ModeArea loads on demand.
-// SkillsMatcher renders nothing until the recruiterMode() command opens it.
+// SkillsMatcher renders nothing until the skills() command opens it.
 export default function TerminalPanel({ autoFocus }: TerminalPanelProps) {
   return (
     <div className="terminal-panel">

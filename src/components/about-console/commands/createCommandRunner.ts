@@ -107,7 +107,7 @@ export function createCommandRunner(deps: Deps) {
           {
             id: uid(),
             type: "error",
-            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / recruiterMode / clear`,
+            text: `❌ Unknown command: '${raw}'. Try: showProjects / contact / skills / clear`,
           },
         ],
         raw,
@@ -185,11 +185,11 @@ export function createCommandRunner(deps: Deps) {
       }
 
 
-      case "recruiterMode": {
+      case "skills": {
         deps.pushHistory(
           [
             { ...echo },
-            { id: uid(), type: "system", text: "🧩 Recruiter mode opened." },
+            { id: uid(), type: "system", text: "🧩 Skills opened." },
           ],
           raw,
         );

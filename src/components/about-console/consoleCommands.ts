@@ -2,7 +2,7 @@ export type CanonicalCommand =
   | "showProjects"
   | "contact"
   | "clear"
-  | "recruiterMode"
+  | "skills"
   | "portfolioCode"
   | "cv"
   | "linkedin";
@@ -21,9 +21,9 @@ export const PALETTE_ITEMS: PaletteItem[] = [
   },
   { id: "contact", label: "Contact", keywords: ["contact", "email", "info"] },
   {
-    id: "recruiterMode",
-    label: "Recruiter mode",
-    keywords: ["mode", "recruitermode", "skills"],
+    id: "skills",
+    label: "Skills",
+    keywords: ["skills"],
   },
   {
     id: "portfolioCode",
@@ -84,11 +84,8 @@ export const normalizeCommand = (raw: string): CanonicalCommand | null => {
     case "linkedin()":
       return "linkedin";
 
-    case "recruitermode":
-    case "recruiter":
-    case "match":
     case "skills":
-      return "recruiterMode";
+      return "skills";
 
     default:
       return null;
