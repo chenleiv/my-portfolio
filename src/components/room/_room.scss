@@ -87,6 +87,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
       transition: opacity 0.15s ease, visibility 0s;
     }
 
+    // Bubbles that are real buttons (touch, unlisted objects) need a focus ring.
+    &:focus-visible {
+      outline: 3px solid var(--ink);
+      outline-offset: 3px;
+    }
+
     // While Chen stands under a shown bubble it fades so she stays visible; the
     // bubble of the object she is next to stays readable. Hover restores it.
     &[data-shown="true"].is-faded:not(:hover) {
@@ -98,9 +104,9 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
   }
 
-  // Narrow screens: panel, room and Places stacked. Wide screens: the panel in
-  // a left column next to the room and the Places row under it, in the space
-  // the height-capped room leaves free. DOM order is panel, scene, Places.
+  // Narrow screens: panel, room and Places stacked. Wide screens: a left column
+  // with the panel and then the Places, in the space the height-capped room
+  // leaves free, and the room on the right. DOM order is panel, scene, Places.
   &__layout {
     --room-max-h: min(65vh, 600px);
     --room-w: min(100%, calc(var(--room-max-h) * var(--room-ratio, 1.45)));
@@ -117,15 +123,29 @@ $room-keys: desk, shelf, tv, bucky, contact;
       grid-template-columns: 240px minmax(0, 1fr);
       column-gap: 28px;
 
+      grid-template-rows: auto 1fr;
+      row-gap: 20px;
+
       .how-to-play {
         grid-column: 1;
-        grid-row: 1 / span 2;
+        grid-row: 1;
         align-self: start;
       }
 
-      .room__scene,
-      .room-places {
+      .room__scene {
         grid-column: 2;
+        grid-row: 1 / span 2;
+      }
+
+      .room-places {
+        grid-column: 1;
+        grid-row: 2;
+        align-self: start;
+        width: 100%;
+
+        .room-places__list {
+          flex-direction: column;
+        }
       }
     }
   }
@@ -197,12 +217,19 @@ $room-keys: desk, shelf, tv, bucky, contact;
   }
 
   .room__layout {
+    // Wide touch screens (iPad landscape): room, then Places under it.
     @media (min-width: 1100px) {
       grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
 
       .room__scene,
       .room-places {
         grid-column: 1;
+        grid-row: auto;
+      }
+
+      .room-places {
+        width: var(--room-w);
       }
     }
   }

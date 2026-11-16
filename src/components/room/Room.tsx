@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore
 import { useTheme } from "../../context/ThemeContext";
 import { toViewPercent, VIEW_BOX } from "./iso";
 import { PALETTES, type ScenePalette } from "./palettes";
-import { FOOTPRINT_RECTS, OBJECT_BY_KEY, ROOM_OBJECTS, SCENE_FOOTPRINTS, type ObjectKey, type SceneItemId } from "./roomContent";
+import { FOOTPRINT_RECTS, OBJECT_BY_KEY, PLACES_ORDER, ROOM_OBJECTS, SCENE_FOOTPRINTS, type ObjectKey, type SceneItemId } from "./roomContent";
 import { RoomDialog } from "./RoomDialog";
 import { Background } from "./scene/Background";
 import { Chen } from "./scene/Chen";
@@ -46,7 +46,7 @@ const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) =
 const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
 const SCENE_LABEL = "Room. Use the arrow keys or WASD to walk. Stop next to an object to open it.";
-const SCENE_LABEL_TOUCH = "Room. Tap an object to open it, or use the Places buttons below the room.";
+const SCENE_LABEL_TOUCH = "Room. Tap an object or its label to open it. Projects, Skills and Contact & CV are also below the room.";
 
 function keyFromTarget(target: EventTarget | null): { key: ObjectKey; el: Element } | null {
   if (!(target instanceof Element)) return null;
@@ -155,8 +155,10 @@ export default function Room() {
 
   const onSceneClick = (e: MouseEvent<HTMLDivElement>) => {
     const hit = keyFromTarget(e.target);
-    // Bubbles are not focusable, so focus returns to the scene after a click on the scene.
-    if (hit) openObject(hit.key, null);
+    // Focus returns to a bubble that is a real button (touch, unlisted objects);
+    // otherwise to the scene.
+    const trigger = hit && hit.el instanceof HTMLElement && hit.el.tabIndex >= 0 ? hit.el : null;
+    if (hit) openObject(hit.key, trigger);
     else sceneRef.current?.focus();
   };
 
@@ -232,7 +234,7 @@ export default function Room() {
               </svg>
             )}
             {LABELS.map((l) => {
-              const bubble = bubbleState({ key: l.key, nearKey, hoverKey, revealing, touch });
+              const bubble = bubbleState({ key: l.key, nearKey, hoverKey, revealing, touch, listed: PLACES_ORDER.includes(l.key) });
               return (
                 <button
                   key={l.key}
@@ -242,7 +244,7 @@ export default function Room() {
                   data-shown={bubble.shown}
                   data-near={l.key === nearKey}
                   tabIndex={bubble.tabIndex}
-                  aria-hidden={bubble.ariaHidden}
+                  aria-hidden={bubble.ariaHidden || undefined}
                   // Keep focus on the scene so the keys keep working after a click.
                   onMouseDown={(e) => e.preventDefault()}
                   style={{ left: l.left, top: l.top }}

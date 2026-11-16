@@ -6,7 +6,7 @@ interface RoomPlacesProps {
   onOpen: (key: ObjectKey, trigger: HTMLElement) => void;
 }
 
-// The one Places list, under the room on every screen. The buttons are the
+// The one Places list: under the How to play panel on desktop, under the room elsewhere. The buttons are the
 // keyboard and screen reader way into the room. The heading holds one text per
 // layout and CSS shows exactly one, so screen readers hear only the visible one.
 export function RoomPlaces({ onOpen }: RoomPlacesProps) {
