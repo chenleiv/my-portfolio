@@ -31,7 +31,7 @@ export default function HomePage() {
       </main>
       <div className="app__footer-text">
         <p>
-          &copy; {new Date().getFullYear()} Chen Leiv. Built with React, TypeScript, and Next.js.
+          &copy; {new Date().getFullYear()} Chen Leiv. Built with React, TypeScript and Next.js, with help from Claude Code.
         </p>
       </div>
       <footer className="app__footer">
