@@ -46,7 +46,7 @@ const VIEW_BOX_ATTR = [VIEW_BOX.x, VIEW_BOX.y, VIEW_BOX.w, VIEW_BOX.h].map((n) =
 const STAGE_STYLE = { "--room-ratio": (VIEW_BOX.w / VIEW_BOX.h).toFixed(4) } as CSSProperties;
 
 const SCENE_LABEL = "Room. Use the arrow keys to walk. Stop next to an object to open it.";
-const SCENE_LABEL_TOUCH = "Room. Tap an object or its label to open it. Projects, Skills and Contact & CV are also below the room.";
+const SCENE_LABEL_TOUCH = "Room. Tap an object to open it, or use the Places buttons below the room.";
 
 function keyFromTarget(target: EventTarget | null): { key: ObjectKey; el: Element } | null {
   if (!(target instanceof Element)) return null;
@@ -214,7 +214,7 @@ export default function Room() {
     <section className="room" aria-label="Interactive room">
       {/* DOM order: panel, scene, Places. CSS keeps the same visual order at every width. */}
       <div className="room__layout" style={STAGE_STYLE}>
-        <HowToPlay nearName={nearKey ? OBJECT_BY_KEY[nearKey].name : null} />
+        <HowToPlay />
         <div
           ref={sceneRef}
           className="room__scene"

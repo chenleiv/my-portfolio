@@ -451,7 +451,7 @@ $room-keys: desk, shelf, tv, bucky, contact;
 
 // ─── How to play panel ──────────────────────────────────────────────────────
 // Site tokens only: ink on panel. Everything in the panel uses the pixel font:
-// the title, key caps, the instruction line and the status.
+// the title, the key caps and the instruction line.
 
 // Compact: title, two rows of key caps, one line of text, then the status block.
 .how-to-play {
@@ -543,32 +543,5 @@ $room-keys: desk, shelf, tv, bucky, contact;
     font-size: 14px;
     line-height: 20px;
     letter-spacing: 0.02em;
-  }
-
-  &__status {
-    padding: 10px 12px;
-    border: 2px solid var(--ink);
-    border-radius: 8px;
-    background: var(--bg);
-    font-family: var(--font-pixel-stack);
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  &__status-title {
-    font-size: 12px;
-    line-height: 16px;
-    color: var(--ink-muted);
-  }
-
-  // Always two lines tall, so "Next to: Contact & CV" and "Walk to an object"
-  // take the same space.
-  &__status-main {
-    height: 40px;
-    margin-top: 2px;
-    overflow: hidden;
-    font-weight: 700;
-    font-size: 16px;
-    line-height: 20px;
   }
 }
