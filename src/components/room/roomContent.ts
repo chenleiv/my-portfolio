@@ -29,7 +29,7 @@ export interface RoomObject {
 export const ROOM_OBJECTS: readonly RoomObject[] = [
   { key: "desk", name: "Projects", title: "Projects", spot: [8.0, 3.7], label: { x: 7.2, y: 1.1, z: 2.0 } },
   { key: "shelf", name: "Skills", title: "Skills", spot: [1.5, 3.7], label: { x: 0.45, y: 3.7, z: 4.1 } },
-  { key: "tv", name: "For fun", title: "For fun", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
+  { key: "tv", name: "For fun", title: "Things I love to do", spot: [1.5, 9.0], label: { x: 0.35, y: 7.95, z: 1.6 } },
   // Chen stands on the rug in front of the chaise. The label is a caption just
   // below the chaise's front edge, under Bucky's body and a little left of his
   // center, so it clears the sofa's front end: above him there is no room
@@ -187,5 +187,5 @@ export const WALK_SPEED = 2.6;
 // How long Chen must stand still next to an object before its popup opens.
 export const AUTO_OPEN_DWELL_SECONDS = 0.2;
 
-export const OFF_DUTY_TEXT = "Things I love: music, TV shows, PS5, tech and innovation, and pets.";
+export const OFF_DUTY_TEXT = "Watch TV shows, play PS5, learn about tech and innovation, and spend time with pets.";
 export const BUCKY_TEXT = "Waiting for a snack.";
