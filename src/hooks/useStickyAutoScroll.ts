@@ -6,14 +6,12 @@ type Params = {
   historyRef: React.RefObject<HTMLDivElement | null>;
   // When any of these change, scrolls to the bottom if the view is already near it.
   deps: unknown[];
-  skipRef?: React.MutableRefObject<boolean>;
   threshold?: number;
 };
 
 export function useStickyAutoScroll({
   historyRef,
   deps,
-  skipRef,
   threshold = 80,
 }: Params) {
   const stickyRef = useRef(true);
@@ -47,15 +45,11 @@ export function useStickyAutoScroll({
   }, [historyRef, threshold]);
 
   useEffect(() => {
-    if (skipRef?.current) {
-      skipRef.current = false;
-      return;
-    }
     if (!stickyRef.current) return;
 
     scrollToBottom("smooth");
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 
-  return { scrollToBottom, stickyRef };
+  return { scrollToBottom };
 }
