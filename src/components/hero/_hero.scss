@@ -56,6 +56,12 @@
     line-height: 1.45;
     font-weight: 500;
     color: var(--ink);
+
+    // Large screens: as wide as the title above it (which scales with the
+    // screen, about 83vw, up to about 1030px at its largest size).
+    @media (min-width: 1100px) {
+      max-width: min(83vw, 1030px);
+    }
   }
 
   &__more {
