@@ -35,7 +35,7 @@
   --bg: #121528;
   --ink: #f1ece0;
   --ink-muted: #b3b0ac;
-  --accent: #35e0ff;
+  --accent: #ff8a6a; // warm coral, the light theme's accent family, calmer than neon
   --on-accent: #0a1020;
   --panel: #1c2140;
 
@@ -48,10 +48,10 @@
   --scrollbar-thumb: rgba(241, 236, 224, 0.3);
   --scrollbar-thumb-hover: rgba(241, 236, 224, 0.5);
 
-  --console-cmd: #8fe3b0;
-  --console-heading: #c9b6ff;
+  --console-cmd: #8cc9a6;
+  --console-heading: #b8a9e6;
   --console-error: #ff9b85;
-  --console-prompt: #b5e48c;
+  --console-prompt: #a9cf8a;
 }
 
 :root {
