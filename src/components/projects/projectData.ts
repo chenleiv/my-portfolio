@@ -22,9 +22,9 @@ export const PROJECTS: readonly Project[] = [
     label: 1,
     header: "InsightDesk — AI Document Workspace",
     summary:
-      "A full-stack document workspace with an AI assistant that answers from your own documents and verifies every citation. Try the live demo, no sign-up needed.",
+      "A full-stack document workspace with an AI assistant that answers from your own documents and verifies every citation. Try the live demo.",
     subHeader:
-      "My flagship project: a full-stack document workspace with an AI assistant (RAG) that answers from your own documents and verifies every citation. Built end to end with a React frontend, Node.js backend and MongoDB, local embeddings for retrieval, automated tests, CI with CodeQL, and an evaluation suite. Security built in: CSP and secure cookies, hardened file uploads with isolated parsing, server-side session revocation, rate limits and daily question limits. Live demo, no sign-up needed.",
+      "My flagship project: a full-stack document workspace with an AI assistant (RAG) that answers from your own documents and verifies every citation. Built end to end with a React frontend, Node.js backend and MongoDB, local embeddings for retrieval, automated tests, CI with CodeQL, and an evaluation suite. Security built in: CSP and secure cookies, hardened file uploads with isolated parsing, server-side session revocation, rate limits and daily question limits. Live demo.",
     img: aiWorkerSpaceImg,
     imgAlt: "InsightDesk chat answer with a cited source",
     skills: [
