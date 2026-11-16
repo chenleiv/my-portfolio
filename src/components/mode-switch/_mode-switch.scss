@@ -123,6 +123,8 @@
   .console-wrapper {
     width: min(100%, calc(var(--room-max-h) * var(--room-ratio, 1.45)));
     max-width: none;
+    // Top-aligned under the hint line; any spare height is only ever below it.
+    align-self: flex-start;
     aspect-ratio: var(--room-ratio, 1.45);
     overflow: hidden;
   }
@@ -134,7 +136,7 @@
 }
 
 // Touch screens: the room scene is too short for a console at phone width, so
-// the terminal fills the locked area (room plus Places), capped by the viewport.
+// the terminal gets its own height, capped by the viewport. No height lock here.
 @include touch-layout {
   .terminal-panel .console-wrapper {
     width: 100%;
@@ -143,14 +145,6 @@
 
     @supports (height: 1svh) {
       height: min(520px, calc(100svh - 140px));
-    }
-  }
-
-  .mode-area--locked .terminal-panel .console-wrapper {
-    height: min(100%, calc(100vh - 140px));
-
-    @supports (height: 1svh) {
-      height: min(100%, calc(100svh - 140px));
     }
   }
 }

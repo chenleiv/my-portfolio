@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import { CONSOLE_TITLE, SITE_TITLE } from "../../content/titles";
-import { useTouchLayout } from "../../hooks/useTouchLayout";
+import { useSideBySide, useTouchLayout } from "../../hooks/useTouchLayout";
 import { VIEW_BOX } from "../room/iso";
 import Room from "../room/Room";
 import { MODE_PATH, modeFromPath, type Mode } from "./mode";
@@ -47,6 +47,7 @@ type Lock = { height: number; width: number };
 export default function ModeArea() {
   const mode = modeFromPath(usePathname());
   const touch = useTouchLayout();
+  const sideBySide = useSideBySide();
   const switchRef = useRef<HTMLDivElement>(null);
   const areaRef = useRef<HTMLDivElement>(null);
   const prevModeRef = useRef<Mode>(mode);
@@ -101,7 +102,10 @@ export default function ModeArea() {
     if (document.activeElement === document.body || document.activeElement === null) focusModeLink(mode);
   }, [mode, focusModeLink]);
 
-  const locked = mode === "terminal" && lock !== null;
+  // Only side by side: there the room area is about the console's own height, so
+  // locking it keeps the page still. Stacked, the area also holds the panel and
+  // Places, so the console takes its own height and the content below moves once.
+  const locked = mode === "terminal" && sideBySide && lock !== null;
 
   return (
     <>
