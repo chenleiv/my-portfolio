@@ -327,12 +327,15 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
   }
 
+  // Fixed px line heights and no wrapping for every pixel-font line, so the
+  // panel keeps one size while Chen walks and when the font finishes loading.
   &__title {
     font-family: var(--font-pixel-stack);
     font-weight: 700;
     font-size: 20px;
     letter-spacing: 0.04em;
-    line-height: 1.1;
+    line-height: 24px;
+    white-space: nowrap;
     text-transform: uppercase;
   }
 
@@ -454,13 +457,19 @@ $room-keys: desk, shelf, tv, bucky, contact;
 
   &__status-title {
     font-size: 12px;
+    line-height: 16px;
     color: var(--ink-muted);
   }
 
+  // Always two lines tall, so "Next to: Contact & CV" and "Walk to an object"
+  // take the same space.
   &__status-main {
+    height: 40px;
     margin-top: 2px;
+    overflow: hidden;
     font-weight: 700;
     font-size: 16px;
+    line-height: 20px;
   }
 
   &__options {
@@ -470,9 +479,16 @@ $room-keys: desk, shelf, tv, bucky, contact;
     padding: 0;
     list-style: none;
     font-size: 14px;
+    line-height: 18px;
+    white-space: nowrap;
 
     li::before {
       content: "› ";
+    }
+
+    // Nothing near: the options keep their space but are not shown or announced.
+    &--idle {
+      visibility: hidden;
     }
   }
 }
