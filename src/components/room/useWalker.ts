@@ -40,6 +40,10 @@ const CONFIG: WalkerConfig<ObjectKey> = {
   dwellSeconds: AUTO_OPEN_DWELL_SECONDS,
 };
 
+// Mirrors Chen around her own vertical axis. Her drawing sits at the projected
+// world origin (screen x = OX), so the flip must be around that x, not around 0.
+const MIRROR = `translate(${(2 * project(0, 0, 0)[0]).toFixed(1)},0) scale(-1,1)`;
+
 const KEYMAP: Readonly<Record<string, keyof HeldKeys>> = {
   ArrowUp: "up",
   w: "up",
@@ -144,7 +148,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
     if (view.flip && key !== view.applied) {
       view.applied = key;
       const flip = front ? right : !right;
-      if (flip) view.flip.setAttribute("transform", "scale(-1,1)");
+      if (flip) view.flip.setAttribute("transform", MIRROR);
       else view.flip.removeAttribute("transform");
       view.front?.setAttribute("display", front ? "inline" : "none");
       view.back?.setAttribute("display", front ? "none" : "inline");
