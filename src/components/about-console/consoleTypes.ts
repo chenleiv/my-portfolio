@@ -1,9 +1,6 @@
 import { profile } from "../../content/profile";
 
 export type ConsoleLineType =
-  | "heroName"
-  | "heroTitle"
-  | "openToWork"
   | "desc"
   | "hint"
   | "recruiterMode"
@@ -26,16 +23,9 @@ export type ConsoleLine = {
   download?: string;
 };
 
+// The console sits under the hero, so it starts at the stack line instead of
+// repeating the name, title, tagline and intro.
 export const ABOUT_LINES: ConsoleLine[] = [
-  { id: "h1", type: "heroName", text: profile.name },
-  { id: "h2", type: "heroTitle", text: profile.title },
-  { id: "h3", type: "openToWork", text: profile.tagline },
-
-  {
-    id: "d1",
-    type: "desc",
-    text: profile.intro,
-  },
   {
     id: "s1",
     type: "recruiterMode",

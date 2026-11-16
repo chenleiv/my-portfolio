@@ -79,27 +79,6 @@
   font-weight: 800;
 }
 
-.console-name {
-  font-size: 28.8px;
-  letter-spacing: 0.12em;
-  font-weight: 600;
-  color: var(--ink);
-}
-
-.console-title {
-  font-size: 20.8px;
-  color: var(--console-heading);
-  margin-bottom: 4px;
-}
-
-.console-open-to-work {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--console-heading);
-  margin-bottom: 12px;
-  letter-spacing: 0.03em;
-}
-
 .console-hint {
   margin-top: 8px;
   color: var(--ink-muted);
@@ -460,15 +439,6 @@
 }
 
 @media (max-width: 820px) {
-  .console-name {
-    font-size: 22px;
-    letter-spacing: 0.06em;
-  }
-
-  .console-title {
-    font-size: 17px;
-  }
-
   .interactive-console,
   .console-placeholder {
     height: 460px;
