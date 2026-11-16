@@ -25,7 +25,6 @@ const HEIGHT: Partial<Record<SceneItemId, number>> = {
   chair: 2.54,
   "coffee-table": 0.67,
   bucky: 0.85,
-  "bucky-bowl": 0.15,
   sofa: 1.7,
   plant: 1.7,
 };
@@ -36,7 +35,7 @@ const OWN: Record<ObjectKey, readonly SceneItemId[]> = {
   desk: ["desk", "chair"],
   shelf: ["shelf"],
   tv: ["tv", "sofa"],
-  bucky: ["bucky-bowl"],
+  bucky: [],
   contact: [],
 };
 

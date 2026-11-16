@@ -82,7 +82,6 @@ export type SceneItemId =
   | "chair"
   | "coffee-table"
   | "bucky"
-  | "bucky-bowl"
   | "sofa"
   | "plant";
 
@@ -105,9 +104,7 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 9.0, y1: 1.8 } },
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
   { id: "bucky", rect: scaledFootprint(BUCKY_LAYOUT) },
-  // Food bowl and bone on the rug beside Bucky's head.
-  { id: "bucky-bowl", rect: { x0: 3.3, y0: 8.5, x1: 3.7, y1: 9.15 } },
-  // In front of Bucky and the bowl (larger x), so it is drawn after them.
+  // In front of Bucky (larger x), so it is drawn after him.
   { id: "coffee-table", rect: { x0: 4.28, y0: 6.0, x1: 5.28, y1: 7.6 } },
   { id: "sofa", rect: { x0: 7.4, y0: 5.3, x1: 8.9, y1: 8.3 } },
   { id: "plant", rect: { x0: 9.2, y0: 3.6, x1: 9.65, y1: 4.05 } },
@@ -161,7 +158,7 @@ export const OBJECT_AREAS: readonly ObjectArea[] = ROOM_OBJECTS.map((o) => {
     case "tv":
       return { key: o.key, rects: [f.tv, f.sofa], margin: NEAR_MARGIN };
     case "bucky":
-      return { key: o.key, rects: [f.bucky, f["bucky-bowl"]], margin: NEAR_MARGIN };
+      return { key: o.key, rects: [f.bucky], margin: NEAR_MARGIN };
     case "contact":
       return { key: o.key, rects: [CONTACT_WALL], margin: BOARD_NEAR_MARGIN };
   }
