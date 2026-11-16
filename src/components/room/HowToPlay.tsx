@@ -1,5 +1,3 @@
-import { SquareTerminal } from "lucide-react";
-import Link from "next/link";
 import { useId } from "react";
 import { OBJECT_BY_KEY, PLACES_ORDER, type ObjectKey } from "./roomContent";
 
@@ -97,18 +95,6 @@ export function HowToPlay({ nearName, onOpen }: HowToPlayProps) {
             <li>Click</li>
           </ul>
         </div>
-      </div>
-      <div className="how-to-play__terminal">
-        <p className="how-to-play__terminal-title">
-          <SquareTerminal className="how-to-play__terminal-icon" size={18} aria-hidden="true" focusable="false" />
-          Prefer a terminal?
-        </p>
-        <p className="how-to-play__terminal-text">
-          Type commands like <code>contact()</code> or <code>cv()</code>.
-        </p>
-        <Link href="/console" className="how-to-play__terminal-link">
-          Open the console
-        </Link>
       </div>
     </aside>
   );
