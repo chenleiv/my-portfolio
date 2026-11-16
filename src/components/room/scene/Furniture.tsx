@@ -227,15 +227,16 @@ export function Guitar({ p }: { p: ScenePalette }) {
   );
 }
 
+// 1.4 high, so on screen its top stays clear of the gaming chair behind it.
 export function Plant({ p }: { p: ScenePalette }) {
   const { x0: x, y0: y } = FOOTPRINT_BY_ID.plant;
   return (
     <Faces
       faces={[
-        ...box(x, y, 0, 0.45, 0.45, 0.5, p.pot),
-        ...box(x + 0.05, y + 0.05, 0.5, 0.35, 0.35, 0.5, p.leaf),
-        ...box(x, y, 0.95, 0.45, 0.45, 0.45, shade(p.leaf, 1.15)),
-        ...box(x + 0.08, y + 0.08, 1.35, 0.3, 0.3, 0.35, p.leaf),
+        ...box(x, y, 0, 0.45, 0.45, 0.45, p.pot),
+        ...box(x + 0.05, y + 0.05, 0.45, 0.35, 0.35, 0.4, p.leaf),
+        ...box(x, y, 0.8, 0.45, 0.45, 0.35, shade(p.leaf, 1.15)),
+        ...box(x + 0.08, y + 0.08, 1.12, 0.3, 0.3, 0.28, p.leaf),
       ]}
     />
   );
