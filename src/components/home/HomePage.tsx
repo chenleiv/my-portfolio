@@ -1,9 +1,9 @@
 import { lazy, Suspense } from "react";
 import Hero from "../hero/Hero";
 import ModeArea from "../mode-switch/ModeArea";
+import Footer from "../footer/Footer";
 import ThemeToggle from "../theme-toggle/ThemeToggle";
 const Projects = lazy(() => import("../projects/Projects"));
-const Footer = lazy(() => import("../footer/Footer"));
 
 // The one page behind both "/" (Play) and "/console" (Terminal). ModeArea reads
 // the URL and shows the room or the terminal under the hero.
@@ -33,9 +33,7 @@ export default function HomePage() {
         </p>
       </div>
       <footer className="app__footer">
-        <Suspense fallback={null}>
-          <Footer />
-        </Suspense>
+        <Footer />
       </footer>
     </div>
   );
