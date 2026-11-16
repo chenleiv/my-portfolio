@@ -120,27 +120,32 @@ const PAGE_LINE = "#b8b2a7";
 // Lengths of the text lines under the title, as a share of the usable width.
 const SCRIPT_LINES = [0.9, 0.75, 0.85, 0.6];
 
-// A small stack of loose script pages. Lower pages are offset and slightly
-// darker so the stack reads as several sheets.
+// Page size: L from the page's top edge to its bottom (along world x), W across
+// the reading direction (along world y).
+const PAGE_L = 0.9;
+const PAGE_W = 0.7;
+
+// A small stack of loose script pages, turned to be read from the sofa (at +x):
+// the page top is toward -x and the text reads along -y. Lower pages are
+// offset and slightly darker so the stack reads as several sheets.
 function ScriptPages({ x, y }: { x: number; y: number }) {
-  const w = 0.8;
-  const d = 1.0;
   const top = 0.64;
   const pad = 0.05;
+  const right = y + PAGE_W - pad; // Where each line starts, as seen from the sofa.
   return (
     <>
       <Faces
         faces={[
-          qz(0.625, x + 0.06, x + 0.06 + w, y + 0.06, y + 0.06 + d, shade(PAGE_WHITE, 0.86)),
-          qz(0.632, x - 0.04, x - 0.04 + w, y + 0.08, y + 0.08 + d, shade(PAGE_WHITE, 0.93)),
-          qz(top, x, x + w, y, y + d, PAGE_WHITE),
+          qz(0.625, x + 0.04, x + 0.04 + PAGE_L, y + 0.06, y + 0.06 + PAGE_W, shade(PAGE_WHITE, 0.86)),
+          qz(0.632, x - 0.03, x - 0.03 + PAGE_L, y - 0.05, y - 0.05 + PAGE_W, shade(PAGE_WHITE, 0.93)),
+          qz(top, x, x + PAGE_L, y, y + PAGE_W, PAGE_WHITE),
           ...SCRIPT_LINES.map((share, i) => {
-            const ly = y + 0.4 + i * 0.13;
-            return qz(top + 0.001, x + pad, x + pad + (w - pad * 2) * share, ly, ly + 0.04, PAGE_LINE);
+            const lx = x + 0.36 + i * 0.13;
+            return qz(top + 0.001, lx, lx + 0.04, right - (PAGE_W - pad * 2) * share, right, PAGE_LINE);
           }),
         ]}
       />
-      <ZText x={x + w / 2} y={y + 0.27} z={top + 0.002} h={0.13} fill={PAGE_INK}>
+      <ZText x={x + 0.24} y={y + PAGE_W / 2} z={top + 0.002} h={0.11} fill={PAGE_INK} reads="-y">
         SCRIPT
       </ZText>
     </>
@@ -161,8 +166,8 @@ export function CoffeeTable({ p }: { p: ScenePalette }) {
           ...legs.flatMap(([lx, ly]) => box(lx, ly, 0, 0.1, 0.1, 0.5, shade(p.wood, 0.8))),
         ]}
       />
-      {/* The stack spans x - 0.04 to x + 0.86 and y to y + 1.08, centered on the table. */}
-      <ScriptPages x={x + (w - 0.82) / 2 + 0.04} y={y + (d - 1.08) / 2} />
+      {/* The stack spans x - 0.03 to x + L + 0.04 and y - 0.05 to y + W + 0.06, centered on the table. */}
+      <ScriptPages x={x + (w - PAGE_L - 0.01) / 2} y={y + (d - PAGE_W - 0.01) / 2} />
     </>
   );
 }

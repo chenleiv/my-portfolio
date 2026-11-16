@@ -34,12 +34,30 @@ export function YText({ x, z, h, fill, children }: { x: number; z: number; h: nu
   );
 }
 
-// Text lying flat on a horizontal surface at height z, reading along world +x,
-// with letters `h` world units long in the y direction.
-export function ZText({ x, y, z, h, fill, children }: { x: number; y: number; z: number; h: number; fill: string; children: string }) {
+// Text lying flat on a horizontal surface at height z, `h` world units tall.
+// "x": reads along world +x, letter tops toward -y (for a reader at +y).
+// "-y": reads along world -y, letter tops toward -x (for a reader at +x).
+export function ZText({
+  x,
+  y,
+  z,
+  h,
+  fill,
+  reads = "x",
+  children,
+}: {
+  x: number;
+  y: number;
+  z: number;
+  h: number;
+  fill: string;
+  reads?: "x" | "-y";
+  children: string;
+}) {
   const [sx, sy] = project(x, y, z);
   const k = h / 70;
-  const m = [k * U, k * V, -k * U, k * V].map((v) => v.toFixed(4)).join(",");
+  const basis = reads === "x" ? [k * U, k * V, -k * U, k * V] : [k * U, -k * V, k * U, k * V];
+  const m = basis.map((v) => v.toFixed(4)).join(",");
   return (
     <text className="room-svg-text" transform={`matrix(${m},${sx.toFixed(1)},${sy.toFixed(1)})`} textAnchor="middle" fontSize="100" fill={fill}>
       {children}
