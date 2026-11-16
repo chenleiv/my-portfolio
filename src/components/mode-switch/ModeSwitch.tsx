@@ -52,7 +52,7 @@ export default function ModeSwitch({ active, onSelect, onPrefetch }: ModeSwitchP
         </ul>
       </nav>
       {/* CSS shows exactly one of these lines, so only one is read. */}
-      <p className="mode-switch__hint mode-switch__hint--wide">Explore my room, or type commands in the terminal.</p>
+      <p className="mode-switch__hint mode-switch__hint--wide">Choose Play to explore the room, or Terminal to type commands.</p>
       <p className="mode-switch__hint mode-switch__hint--touch">
         Terminal: type commands like <code>contact()</code> or <code>cv()</code>.
       </p>
