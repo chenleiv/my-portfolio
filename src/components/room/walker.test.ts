@@ -208,3 +208,30 @@ describe("scripted walks", () => {
     assert.equal(state.near, "bucky");
   });
 });
+
+describe("facing", () => {
+  it("faces the direction of the last move and keeps it when stopping", () => {
+    // Start on open floor at the hub, facing front-left.
+    const state = createWalkerState<ObjectKey>(HUB);
+    assert.deepEqual(state.facing, { front: true, right: false });
+
+    run(state, hold({ right: true }), 0.1);
+    assert.deepEqual(state.facing, { front: true, right: true }); // across: keeps front
+
+    run(state, hold({ up: true }), 0.1);
+    assert.deepEqual(state.facing, { front: false, right: true }); // up: back, keeps right
+
+    run(state, hold({ left: true }), 0.1);
+    assert.deepEqual(state.facing, { front: false, right: false });
+
+    run(state, noKeys(), 0.5);
+    assert.deepEqual(state.facing, { front: false, right: false }); // standing still keeps it
+  });
+
+  it("faces the way a clicked walk goes", () => {
+    const state = createWalkerState<ObjectKey>(HUB);
+    state.path = [[HUB[0] + 1, HUB[1] - 2]]; // up the screen and to the right
+    run(state, noKeys(), 0.1);
+    assert.deepEqual(state.facing, { front: false, right: true });
+  });
+});

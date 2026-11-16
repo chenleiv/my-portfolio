@@ -40,6 +40,27 @@ export interface WalkerState<K extends string> {
   dwell: number;
   // True once the user has walked with the keys since the last auto-open or close.
   userMoved: boolean;
+  // Way Chen faces, from her last move. Kept while she stands still.
+  facing: Facing;
+}
+
+// Front is toward the viewer (down the screen), back is away from it; left and
+// right are on screen.
+export interface Facing {
+  readonly front: boolean;
+  readonly right: boolean;
+}
+
+// Facing after a step of (dx, dy) in world space. A step straight down or up the
+// screen keeps the left or right side; a step straight across keeps front or back.
+export function facingAfter(prev: Facing, dx: number, dy: number): Facing {
+  const sx = dx - dy; // screen x
+  const sy = dx + dy; // screen y, positive toward the viewer
+  const EPS = 1e-9;
+  return {
+    front: sy > EPS ? true : sy < -EPS ? false : prev.front,
+    right: sx > EPS ? true : sx < -EPS ? false : prev.right,
+  };
 }
 
 export interface TickResult<K extends string> {
@@ -65,6 +86,7 @@ export function createWalkerState<K extends string>(start: Vec2): WalkerState<K>
     suppress: null,
     dwell: 0,
     userMoved: false,
+    facing: { front: true, right: false },
   };
 }
 
@@ -163,6 +185,7 @@ export function tick<K extends string>(
     const dx = tx - state.x;
     const dy = ty - state.y;
     const dist = Math.hypot(dx, dy);
+    if (dist > 0) state.facing = facingAfter(state.facing, dx, dy);
     if (dist <= step) {
       state.x = tx;
       state.y = ty;
@@ -186,6 +209,8 @@ export function tick<K extends string>(
 
   const dir = dialogOpen ? null : keysToWorld(keys);
   if (dir) {
+    // She turns to the keys' direction even when furniture stops her.
+    state.facing = facingAfter(state.facing, dir[0], dir[1]);
     // Move each axis on its own so Chen slides along furniture edges.
     const nx = state.x + dir[0] * step;
     const ny = state.y + dir[1] * step;
