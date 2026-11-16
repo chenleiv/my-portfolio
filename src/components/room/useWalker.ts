@@ -261,7 +261,7 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
   );
 
   // Returns true when the key was a movement key and has been handled.
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+  const handleKeyDown = useCallback((e: KeyboardEvent | globalThis.KeyboardEvent) => {
     const dir = KEYMAP[e.key];
     if (!dir || e.metaKey || e.ctrlKey || e.altKey || dialogOpenRef.current) return false;
     e.preventDefault();
@@ -269,6 +269,34 @@ export function useWalker({ footprints, onAutoOpen, onNearChange, onPose }: UseW
     stateRef.current.path = [];
     return true;
   }, []);
+
+  // No click needed to start: a movement key pressed while nothing on the page
+  // has focus and the room is at least half on screen moves focus to the room
+  // (without scrolling) and walks on that same press. Otherwise the keys keep
+  // their normal job, such as scrolling the page. Not on touch screens.
+  useEffect(() => {
+    const scene = sceneRef.current;
+    if (!scene) return;
+    let visible = false;
+    const io = new IntersectionObserver(([entry]) => {
+      visible = entry.intersectionRatio >= 0.5;
+    }, { threshold: [0, 0.5, 1] });
+    io.observe(scene);
+
+    const onKeyDown = (e: globalThis.KeyboardEvent) => {
+      if (!visible || e.defaultPrevented || !KEYMAP[e.key]) return;
+      const active = document.activeElement;
+      if (active && active !== document.body && active !== document.documentElement) return;
+      if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
+      if (!handleKeyDown(e)) return;
+      scene.focus({ preventScroll: true });
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      io.disconnect();
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [handleKeyDown]);
 
   const markDialogClosed = useCallback(() => {
     dialogOpenRef.current = false;
