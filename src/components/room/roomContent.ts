@@ -118,7 +118,8 @@ export const SCENE_FOOTPRINTS: readonly SceneFootprint[] = [
   // Runs along the back wall to its end (x = 10), with a landscape and a portrait monitor.
   { id: "desk", rect: { x0: 5.6, y0: 0.3, x1: 10.0, y1: 1.8 } },
   { id: "chair", rect: { x0: 6.9, y0: 2.35, x1: 7.9, y1: 3.37 } },
-  { id: "coffee-table", rect: { x0: 4.28, y0: 5.7, x1: 5.28, y1: 7.3 } },
+  // In the open middle of the rug inside the L, with a walkway to the chaise and the sofa.
+  { id: "coffee-table", rect: { x0: 4.8, y0: 5.0, x1: 5.8, y1: 6.6 } },
   // On the right edge beside the sofa's back end, against it. Behind the sofa
   // along y and in front of the chair along x, so it is drawn between them.
   { id: "plant", rect: { x0: 9.2, y0: 4.85, x1: 9.65, y1: 5.3 } },
