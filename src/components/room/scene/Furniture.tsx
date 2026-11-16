@@ -52,12 +52,12 @@ export function Desk({ p }: { p: ScenePalette }) {
     // Keyboard under the landscape screen, mouse to its right.
     ...box(6.6, 1.0, 1.6, 1.2, 0.35, 0.05, shade(p.tv, 1.6)),
     ...box(7.95, 1.05, 1.6, 0.17, 0.23, 0.06, p.tv),
-    // Small potted plant to the right of the portrait monitor, the same pot and
-    // leaf colors as the floor plant; its top stays under the window.
-    ...box(9.1, 0.55, 1.6, 0.32, 0.32, 0.26, p.pot),
-    ...box(9.13, 0.58, 1.86, 0.26, 0.26, 0.2, p.leaf),
-    ...box(9.09, 0.54, 2.02, 0.34, 0.34, 0.16, shade(p.leaf, 1.15)),
-    ...box(9.16, 0.61, 2.18, 0.2, 0.2, 0.12, p.leaf),
+    // Small potted plant in the desk's back-right corner, where the two walls
+    // meet; the same pot and leaf colors as the floor plant.
+    ...box(9.62, 0.34, 1.6, 0.32, 0.32, 0.26, p.pot),
+    ...box(9.65, 0.37, 1.86, 0.26, 0.26, 0.2, p.leaf),
+    ...box(9.61, 0.33, 2.02, 0.34, 0.34, 0.16, shade(p.leaf, 1.15)),
+    ...box(9.68, 0.4, 2.18, 0.2, 0.2, 0.12, p.leaf),
     // Mug at the front-left corner of the desk, where its steam clears the Projects label.
     ...box(MUG.x, MUG.y, 1.6, 0.2, 0.2, 0.22, p.mug),
     ...box(MUG.x + 0.2, MUG.y + 0.07, 1.65, 0.05, 0.06, 0.12, p.mug),
