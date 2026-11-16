@@ -35,9 +35,11 @@
     white-space: nowrap;
     transition: background-color var(--transition-fast);
 
+    // Ink with page-colored text: dark plum on cream in light, inverted to
+    // cream on navy in dark.
     &[aria-current="page"] {
-      background: var(--accent);
-      color: var(--on-accent);
+      background: var(--ink);
+      color: var(--bg);
     }
   }
 
