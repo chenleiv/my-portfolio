@@ -22,20 +22,6 @@ export const MOBILE_COMMANDS: readonly CommandItem[] = [
     keywords: ["github"],
   },
   {
-    id: "cv",
-    label: "Download CV",
-    hint: "PDF file",
-    group: "Actions",
-    keywords: ["resume"],
-  },
-  {
-    id: "linkedin",
-    label: "LinkedIn",
-    hint: "Open profile",
-    group: "Links",
-    keywords: ["profile"],
-  },
-  {
     id: "skills",
     label: "Skills",
     hint: "The skills I bring",
