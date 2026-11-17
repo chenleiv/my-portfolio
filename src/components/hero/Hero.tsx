@@ -1,5 +1,4 @@
 import { profile } from "../../content/profile";
-import { HeroIntro } from "./HeroIntro";
 
 export default function Hero() {
   return (
@@ -11,7 +10,7 @@ export default function Hero() {
         <span className="hero__tagline-full">{profile.tagline}</span>
         <span className="hero__tagline-short">{profile.taglineShort}</span>
       </p>
-      <HeroIntro text={profile.intro} />
+      <p className="hero__intro">{profile.intro}</p>
     </div>
   );
 }
