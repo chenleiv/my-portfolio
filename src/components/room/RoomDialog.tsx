@@ -76,13 +76,18 @@ export function RoomDialog({ openKey, onClose, onClosed }: RoomDialogProps) {
     >
       {object && (
         <div className={`room-dialog__card${openKey === "shelf" ? " room-dialog__card--wide" : ""}`}>
-          <button ref={closeRef} type="button" className="room-dialog__close" aria-label="Close" onClick={onClose}>
-            ×
-          </button>
-          <h2 id={titleId} className="room-dialog__title">
-            {object.title}
-          </h2>
-          <RoomPopupBody objectKey={object.key} />
+          {/* The header stays put; only the body scrolls, so the close button is always visible. */}
+          <div className="room-dialog__header">
+            <h2 id={titleId} className="room-dialog__title">
+              {object.title}
+            </h2>
+            <button ref={closeRef} type="button" className="room-dialog__close" aria-label="Close" onClick={onClose}>
+              ×
+            </button>
+          </div>
+          <div className="room-dialog__body">
+            <RoomPopupBody objectKey={object.key} />
+          </div>
         </div>
       )}
     </dialog>

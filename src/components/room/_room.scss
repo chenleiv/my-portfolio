@@ -333,13 +333,18 @@ $room-keys: desk, shelf, tv, bucky, contact;
     background: transparent;
   }
 
+  // The card itself does not scroll: the header (title and close button) stays
+  // in place and only the body scrolls, so the close button is always visible.
+  // dvh follows the phone's browser bars; vh is the fallback.
   &__card {
     position: relative;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     max-width: 580px;
     max-height: 86vh;
-    overflow: auto;
-    padding: 30px 28px 28px;
+    max-height: 86dvh;
+    overflow: hidden;
     border: 2px solid var(--ink);
     border-radius: 22px;
     background: var(--panel);
@@ -351,16 +356,31 @@ $room-keys: desk, shelf, tv, bucky, contact;
     }
   }
 
+  &__header {
+    display: flex;
+    flex-shrink: 0;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 18px 12px 0 28px;
+  }
+
   &__title {
-    padding-right: 52px;
+    padding-top: 12px;
     font-size: 34px;
     line-height: 1.05;
   }
 
+  &__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    padding: 0 28px 28px;
+  }
+
   &__close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    flex-shrink: 0;
     width: 44px;
     height: 44px;
     border: 2px solid var(--ink);
@@ -444,8 +464,12 @@ $room-keys: desk, shelf, tv, bucky, contact;
     font-size: 12px;
   }
 
-  .room-dialog__card {
-    padding: 24px 20px 20px;
+  .room-dialog__header {
+    padding: 12px 10px 0 20px;
+  }
+
+  .room-dialog__body {
+    padding: 0 20px 20px;
   }
 
   .room-dialog__title {

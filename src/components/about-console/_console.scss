@@ -347,6 +347,7 @@
   overflow: hidden;
 
   max-height: min(74vh, 600px);
+  max-height: min(74dvh, 600px);
   display: flex;
   flex-direction: column;
   touch-action: pan-y;
@@ -373,12 +374,17 @@
   color: var(--ink);
 }
 
+// 44px tap target, like the room dialog's close button.
 .cmdsheet__close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
   border: 0;
   background: transparent;
   color: var(--ink-muted);
   font-size: 18px;
-  padding: 8px;
+  padding: 0;
   border-radius: 12px;
 }
 
