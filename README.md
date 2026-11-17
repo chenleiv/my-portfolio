@@ -5,7 +5,7 @@ My personal portfolio as a frontend engineer: an isometric room you can walk aro
 **Live:** https://chenleiv.vercel.app
 **Source:** https://github.com/chenleiv/my-portfolio
 
-![Portfolio home page in the light theme: hero, Play | Terminal switch and the isometric room](docs/screenshots/hero-light.png)
+![Play mode in the light theme: the isometric room with the How to play panel and the Places buttons](docs/screenshots/room-light.png)
 
 ## What's inside
 
@@ -15,9 +15,7 @@ My personal portfolio as a frontend engineer: an isometric room you can walk aro
 - **Projects.** Cards for InsightDesk (AI document workspace) and SignalForge (security operations dashboard), with links to the live demos and the code.
 - **Light and dark themes.** Light is the default. Your choice is saved and applied before first paint. Animations respect `prefers-reduced-motion`.
 
-| Dark room | Terminal | Mobile |
-|---|---|---|
-| ![Room in the dark theme](docs/screenshots/room-dark.png) | ![Terminal mode after the projects command](docs/screenshots/terminal-light.png) | ![Home page on a phone](docs/screenshots/mobile-light.png) |
+![Terminal mode in the light theme, listing the available commands](docs/screenshots/terminal-light.png)
 
 ## Tech stack
 
@@ -25,7 +23,7 @@ Next.js 16 (App Router), React 19, TypeScript (strict), SCSS, ESLint 9. Tests ru
 
 ## Run locally
 
-Requires Node.js 26+.
+Developed on Node.js 26.
 
 ```bash
 npm install
