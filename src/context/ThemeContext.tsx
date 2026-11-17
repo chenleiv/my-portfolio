@@ -46,8 +46,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         }
     }, [theme, mounted]);
 
-    // Only an explicit choice is saved, so first-time visitors keep following
-    // their system preference.
+    // Only an explicit choice is saved. Without one, the page starts in light
+    // (see app/layout.tsx); the system preference is not used.
     const setTheme = useCallback((next: Theme) => {
         setThemeState(next);
         saveTheme(next);
