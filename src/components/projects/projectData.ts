@@ -45,7 +45,7 @@ export const PROJECTS: readonly Project[] = [
     label: 2,
     header: "SignalForge — Security Operations Platform",
     summary:
-      "A real-time SOC dashboard: watch simulated attacks built on real blacklisted IPs, triage alerts and investigate incidents, with role-based access and AI-assisted IP analysis.",
+      "SOC dashboard demo, SIEM-inspired: alerts, incidents, threat hunting and IP enrichment on simulated data, with a documented security review.",
     subHeader:
       "Full-stack project: a real-time Security Operations Center (SOC) dashboard. Streams simulated security events built around real blacklisted IPs from AbuseIPDB, with animated attack maps, analytics, incident management, detection rules, and IP enrichment via AbuseIPDB and geolocation via ipinfo.",
     img: signalForge,
